@@ -146,7 +146,7 @@
             true,
             "attribute",
             [
-                "fuse",
+                "fuse", "cm",
                 ""
             ],
             "camelCase"
@@ -156,7 +156,7 @@
             "element",
             "attribute",
             [
-                "fuse",
+                "fuse", "cm",
                 ""
             ],
             [

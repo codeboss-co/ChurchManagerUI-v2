@@ -16,7 +16,12 @@
         "lib": [
             "es2018",
             "dom"
-        ]
+        ],
+        "paths": {
+            "@fuse/*": ["@fuse/*"],
+            "@shared/*": ["@shared/*"],
+            "@core/*": ["@core/*"]
+        }
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false

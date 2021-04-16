@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { from, Observable, of, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { AuthService } from 'app/core/auth/auth.service';
-import { AuthUtils } from 'app/core/auth/auth.utils';
+import { AuthService } from '@core/auth/auth.service';
+import { AuthUtils } from '@core/auth/auth.utils';
 import { Auth } from 'aws-amplify';
 
 export const InterceptorSkipHeader = 'X-Skip-Interceptor';

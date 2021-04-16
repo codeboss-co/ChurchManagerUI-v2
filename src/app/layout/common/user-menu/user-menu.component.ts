@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { User } from 'app/core/user/user.model';
-import { UserService } from 'app/core/user/user.service';
+import { User } from '@core/user/user.model';
+import { UserService } from '@core/user/user.service';
 
 @Component({
     selector       : 'user-menu',

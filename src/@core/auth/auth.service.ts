@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
+import { AuthUtils } from '@core/auth/auth.utils';
+import { UserService } from '@core/user/user.service';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import Amplify, { Auth } from 'aws-amplify';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { Router } from '@angular/router';
 

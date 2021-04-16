@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, first, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { User } from 'app/core/user/user.model';
+import { User } from '@core/user/user.model';
 import { AuthService } from '../auth/auth.service';
 
 export interface UserDetails {

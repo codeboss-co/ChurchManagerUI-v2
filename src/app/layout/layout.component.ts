@@ -8,7 +8,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseTailwindService } from '@fuse/services/tailwind/tailwind.service';
 import { FUSE_VERSION } from '@fuse/version';
 import { Layout } from 'app/layout/layout.types';
-import { AppConfig, Scheme, Theme } from 'app/core/config/app.config';
+import { AppConfig, Scheme, Theme } from '@core/config/app.config';
 
 @Component({
     selector     : 'layout',

@@ -6,7 +6,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "fuse": {
+        "church-manager-ui": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -20,7 +20,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/fuse",
+                        "outputPath": "dist/church-manager-ui",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -31,7 +31,11 @@
                             "highlight.js",
                             "crypto-js/enc-utf8",
                             "crypto-js/hmac-sha256",
-                            "crypto-js/enc-base64"
+                            "crypto-js/enc-base64",
+                            "buffer", "uuid", "@aws-crypto/sha256-browser", "@aws-crypto", "crypto",
+                            "@aws-amplify/core", "ulid", "@aws-crypto/sha256-js", "lodash/isEqual", "lodash/isEmpty",
+                            "lodash/get", "crypto-js/hmac-sha256", "crypto-js/lib-typedarrays", "zen-observable",
+                            "axios", "js-cookie", "isomorphic-unfetch", "@aws-crypto/crc32", "fast-xml-parser", "utils"
                         ],
                         "assets": [
                             "src/favicon-16x16.png",
@@ -86,18 +90,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "fuse:build"
+                        "browserTarget": "church-manager-ui:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "fuse:build:production"
+                            "browserTarget": "church-manager-ui:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "fuse:build"
+                        "browserTarget": "church-manager-ui:build"
                     }
                 },
                 "test": {
@@ -135,16 +139,16 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "fuse:serve"
+                        "devServerTarget": "church-manager-ui:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "fuse:serve:production"
+                            "devServerTarget": "church-manager-ui:serve:production"
                         }
                     }
                 }
             }
         }
     },
-    "defaultProject": "fuse"
+    "defaultProject": "church-manager-ui"
 }
