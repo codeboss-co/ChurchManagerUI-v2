@@ -1,19 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InitialData } from 'app/app.types';
+import { ENV } from '@shared/constants';
+import { Environment } from '@shared/environment.model';
+import { UserDetails } from '@shared/shared.models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class InitialDataResolver implements Resolve<any>
 {
+    private _apiUrl = this._environment.baseUrls.apiUrl;
+
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
+    constructor(private _httpClient: HttpClient, @Inject(ENV) private _environment: Environment)
     {
     }
 
@@ -35,7 +40,20 @@ export class InitialDataResolver implements Resolve<any>
             this._httpClient.get<any>('api/common/navigation'),
             this._httpClient.get<any>('api/common/notifications'),
             this._httpClient.get<any>('api/common/shortcuts'),
-            this._httpClient.get<any>('api/common/user')
+            this._httpClient.get<any>(`${this._apiUrl}/v1/userdetails/current-user`)
+                .pipe(
+                    map(response => {
+                        const userDetails = response.data as UserDetails;
+                        console.log( 'UserDetails', userDetails, 'InitialDataResolver' );
+
+                        return  {
+                            id: userDetails.userLoginId,
+                            email: userDetails.email,
+                            name: `${userDetails.firstName} ${userDetails.lastName}`,
+                            avatar: userDetails.photoUrl || 'assets/images/avatars/profile-blank.jpg',
+                            status: 'online'
+                        };
+                    }))
         ]).pipe(
             map(([messages, navigation, notifications, shortcuts, user]) => ({
                     messages,

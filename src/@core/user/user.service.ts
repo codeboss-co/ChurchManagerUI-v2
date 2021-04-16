@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
-import { first, map, shareReplay, tap } from 'rxjs/operators';
+import { first, map, shareReplay } from 'rxjs/operators';
 import { User } from '@core/user/user.model';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
@@ -22,7 +22,7 @@ export class UserService
      */
     constructor(private _httpClient: HttpClient, @Inject(ENV) private _environment: Environment)
     {
-        this.fetchUserData();
+        //this.fetchUserData();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -47,26 +47,24 @@ export class UserService
     /**
      * Fetches, maps and stores the user details
      */
-    fetchUserData(): void {
-        this._httpClient.get<any>(`${this._apiUrl}/v1/userdetails/current-user`)
+    getUserData$(): Observable<User> {
+        return this._httpClient.get<any>(`${this._apiUrl}/v1/userdetails/current-user`)
             .pipe(
                 first(),
                 shareReplay(1),
-                tap(response => {
+                map(response => {
                     const userDetails = response.data as UserDetails;
                     console.log( 'userDetails', userDetails, '' );
 
-                    const user = {
+                    return  {
                         id: userDetails.userLoginId,
                         email: userDetails.email,
                         name: `${userDetails.firstName} ${userDetails.lastName}`,
                         avatar: userDetails.photoUrl || 'assets/images/avatars/profile-blank.jpg',
                         status: 'online'
                     };
-
-                    this._user.next(user);
                 })
-            ).subscribe();
+            );
     }
 
 }

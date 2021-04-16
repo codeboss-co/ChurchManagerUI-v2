@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Observable, Subject } from 'rxjs';
@@ -9,6 +17,7 @@ import { UserService } from '@core/user/user.service';
     selector       : 'user-menu',
     templateUrl    : './user-menu.component.html',
     encapsulation  : ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'userMenu'
 })
 export class UserMenuComponent implements OnInit, OnDestroy
@@ -16,8 +25,9 @@ export class UserMenuComponent implements OnInit, OnDestroy
     static ngAcceptInputType_showAvatar: BooleanInput;
 
     @Input() showAvatar: boolean = true;
+    @Input() user: User;
 
-    user$: Observable<User> = this._userService.user$;
+    //user$: Observable<User> = this._userService.user$;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -27,7 +37,7 @@ export class UserMenuComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        //private _userService: UserService
     )
     {
     }
