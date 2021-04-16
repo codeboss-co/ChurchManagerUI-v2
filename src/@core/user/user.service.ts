@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, first, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { User } from '@core/user/user.model';
 import { AuthService } from '../auth/auth.service';
+import { ENV } from '@shared/constants';
+import { Environment } from '@shared/environment.model';
 
 export interface UserDetails {
     username?: string;
@@ -20,33 +22,16 @@ export interface UserDetails {
 export class UserService
 {
     private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
+    user$ = this._user.asObservable();
+
+    private _apiUrl = this._environment.baseUrls.apiUrl;
 
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
+    constructor(private _httpClient: HttpClient, @Inject(ENV) private _environment: Environment)
     {
-        //this.fetchUserData();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for user
-     *
-     * @param value
-     */
-    set user(value: User)
-    {
-        // Store the value
-        this._user.next(value);
-    }
-
-    get user$(): Observable<User>
-    {
-        return this._user.asObservable();
+        this.fetchUserData();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -71,39 +56,26 @@ export class UserService
     /**
      * Fetches, maps and stores the user details
      */
-    fetchUserData$(): Observable<User> {
-        return this._httpClient.get<any>(`http://localhost:5001/api/v1/userdetails/current-user`)
+    fetchUserData(): void {
+        this._httpClient.get<any>(`${this._apiUrl}/v1/userdetails/current-user`)
             .pipe(
                 first(),
                 shareReplay(1),
-                map(response => {
+                tap(response => {
                     const userDetails = response.data as UserDetails;
                     console.log( 'userDetails', userDetails, '' );
 
-                    return {
+                    const user = {
                         id: userDetails.userLoginId,
                         email: userDetails.email,
                         name: `${userDetails.firstName} ${userDetails.lastName}`,
-                        avatar: userDetails.photoUrl || ''
+                        avatar: userDetails.photoUrl || '',
+                        status: 'online'
                     };
+
+                    this._user.next(user);
                 })
-            );
-
-        /*this._httpClient.get<any>(`http://localhost:5001/api/v1/userdetails/userLogin/${userLoginId}`)
-            .pipe(
-                first(),
-                shareReplay(1)
-            ).subscribe(response => {
-                const userDetails = response.data as UserDetails;
-                console.log( 'userDetails', userDetails, '' );
-
-                this.user = {
-                    id: userLoginId,
-                    email: userDetails.email,
-                    name: `${userDetails.firstName} ${userDetails.lastName}`,
-                    avatar: userDetails.photoUrl || ''
-                };
-            });*/
+            ).subscribe();
     }
 
 }

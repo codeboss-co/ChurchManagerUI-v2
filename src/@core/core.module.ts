@@ -4,12 +4,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { AuthService } from '@core/auth/auth.service';
 import { AuthInterceptor } from '@core/auth/auth.interceptor';
+import { environment } from '../environments/environment';
+import { ENV } from '@shared/constants';
 
 @NgModule({
     imports  : [
         HttpClientModule
     ],
     providers: [
+        {provide: ENV, useValue: environment},
         {
             provide : HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
