@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SnackbarNotificationsService } from '@core/notifications/snackbar-notifications.service';
 
 @Component({
     selector   : 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent
     /**
      * Constructor
      */
-    constructor()
+    constructor(private _notifier: SnackbarNotificationsService)
     {
     }
 }

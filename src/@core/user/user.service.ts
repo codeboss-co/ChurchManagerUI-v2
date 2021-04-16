@@ -1,20 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
-import { filter, first, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { first, map, shareReplay, tap } from 'rxjs/operators';
 import { User } from '@core/user/user.model';
-import { AuthService } from '../auth/auth.service';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-
-export interface UserDetails {
-    username?: string;
-    userLoginId?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    photoUrl?: string;
-}
+import { UserDetails } from '@shared/shared.models';
 
 @Injectable({
     providedIn: 'root'
@@ -69,7 +60,7 @@ export class UserService
                         id: userDetails.userLoginId,
                         email: userDetails.email,
                         name: `${userDetails.firstName} ${userDetails.lastName}`,
-                        avatar: userDetails.photoUrl || '',
+                        avatar: userDetails.photoUrl || 'assets/images/avatars/profile-blank.jpg',
                         status: 'online'
                     };
 

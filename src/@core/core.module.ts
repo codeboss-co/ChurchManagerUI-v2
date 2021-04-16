@@ -1,23 +1,22 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { AuthService } from '@core/auth/auth.service';
-import { AuthInterceptor } from '@core/auth/auth.interceptor';
 import { environment } from '../environments/environment';
 import { ENV } from '@shared/constants';
+import { httpInterceptorProviders } from '@core/interceptors';
+import { notificationToastrProvider } from '@core/notifications';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     imports  : [
-        HttpClientModule
+        HttpClientModule,
+        MatSnackBarModule
     ],
     providers: [
         {provide: ENV, useValue: environment},
-        {
-            provide : HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi   : true
-        }
+        httpInterceptorProviders,
+        notificationToastrProvider
     ]
 })
 export class CoreModule
