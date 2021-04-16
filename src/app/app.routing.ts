@@ -73,7 +73,16 @@ export const appRoutes: Route[] = [
             initialData: InitialDataResolver,
         },
         children   : [
+            // Example
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+
+            // Pages
+            {path: 'pages', children: [
+
+                    // Profile
+                {path: 'profile', loadChildren: () => import('app/modules/admin/pages/profile/profile.module').then(m => m.ProfileModule)},
+
+            ]},
         ]
     }
 ];

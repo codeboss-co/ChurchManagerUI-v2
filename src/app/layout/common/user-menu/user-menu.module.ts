@@ -5,12 +5,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserMenuComponent } from 'app/layout/common/user-menu/user-menu.component';
 import { SharedModule } from '@shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
         UserMenuComponent
     ],
     imports     : [
+        RouterModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule,

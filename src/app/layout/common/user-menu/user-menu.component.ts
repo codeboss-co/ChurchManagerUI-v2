@@ -9,9 +9,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { User } from '@core/user/user.model';
-import { UserService } from '@core/user/user.service';
 
 @Component({
     selector       : 'user-menu',
