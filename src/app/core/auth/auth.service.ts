@@ -15,8 +15,6 @@ import { Router } from '@angular/router';
 })
 export class AuthService
 {
-    private _authenticated: boolean = false;
-
     private _authState: Subject<CognitoUser> = new Subject<CognitoUser>();
     authState: Observable<CognitoUser> = this._authState.asObservable();
 
@@ -29,23 +27,6 @@ export class AuthService
     )
     {
         Amplify.configure(environment.amplify);
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for access token
-     */
-    set accessToken(token: string)
-    {
-        localStorage.setItem('access_token', token);
-    }
-
-    get accessToken(): string
-    {
-        return localStorage.getItem('access_token') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,45 +65,6 @@ export class AuthService
                 .then(cognitoUser => this._authState.next(cognitoUser) )
                 .catch(error =>  this._authState.next(null) )
             );
-
-       /* // Throw error, if the user is already logged in
-        if ( this._authenticated )
-        {
-            return throwError('User is already logged in.');
-        }
-
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            switchMap((response: any) => {
-
-                // Store the access token in the local storage
-                this.accessToken = response.access_token;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                this._userService.user = response.user;
-
-                // Return a new observable with the response
-                return of(response);
-            })
-        );*/
-    }
-
-    /** get authenticat state */
-    public currentAuthenticatedUser$(): Observable<CognitoUser> {
-        return fromPromise(Auth.currentAuthenticatedUser())
-            .pipe(
-                map((cognitoUser: CognitoUser) => {
-                    console.log('CognitoUser', cognitoUser);
-                    this._authState.next(cognitoUser);
-                    return cognitoUser;
-                }),
-                catchError(error => {
-                    this._authState.next(null);
-                    return of(null);
-                })
-            );
     }
 
     /** get authenticate state */
@@ -132,37 +74,6 @@ export class AuthService
                 map(result => true),
                 catchError(error => of(false))
             );
-    }
-
-    /**
-     * Sign in using the access token
-     */
-    signInUsingToken(): Observable<any>
-    {
-        // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
-            access_token: this.accessToken
-        }).pipe(
-            catchError(() => {
-
-                // Return false
-                return of(false);
-            }),
-            switchMap((response: any) => {
-
-                // Store the access token in the local storage
-                this.accessToken = response.access_token;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                // this._userService.user = response.user;
-
-                // Return true
-                return of(true);
-            })
-        );
     }
 
     /**
@@ -178,15 +89,6 @@ export class AuthService
                 },
                 error => console.log(error)
             );
-
-        /*// Remove the access token from the local storage
-        localStorage.removeItem('access_token');
-
-        // Set the authenticated flag to false
-        this._authenticated = false;
-
-        // Return the observable
-        return of(true);*/
     }
 
     /**
@@ -207,33 +109,6 @@ export class AuthService
     unlockSession(credentials: { email: string, password: string }): Observable<any>
     {
         return this._httpClient.post('api/auth/unlock-session', credentials);
-    }
-
-    /**
-     * Check the authentication status
-     */
-    check(): Observable<boolean>
-    {
-        // Check if the user is logged in
-        if ( this._authenticated )
-        {
-            return of(true);
-        }
-
-        // Check the access token availability
-        if ( !this.accessToken )
-        {
-            return of(false);
-        }
-
-        // Check the access token expire date
-        if ( AuthUtils.isTokenExpired(this.accessToken) )
-        {
-            return of(false);
-        }
-
-        // If the access token exists and it didn't expire, sign in using it
-        return this.signInUsingToken();
     }
 
     /*

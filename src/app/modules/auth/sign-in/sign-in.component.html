@@ -8,13 +8,13 @@
 
             <!-- Title -->
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
-            <div class="flex items-baseline mt-0.5 font-medium">
+           <!-- <div class="flex items-baseline mt-0.5 font-medium">
                 <div>Don't have an account?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
                     [routerLink]="['/sign-up']">Sign up
                 </a>
-            </div>
+            </div>-->
 
             <!-- Alert -->
             <fuse-alert
@@ -35,7 +35,7 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Username</mat-label>
                     <input
                         id="email"
                         matInput
@@ -83,10 +83,10 @@
                         [formControlName]="'rememberMe'">
                         Remember me
                     </mat-checkbox>
-                    <a
+<!--                    <a
                         class="text-md font-medium text-primary-500 hover:underline"
                         [routerLink]="['/forgot-password']">Forgot password?
-                    </a>
+                    </a>-->
                 </div>
 
                 <!-- Submit button -->
@@ -136,7 +136,7 @@
                 <div>Church Manager</div>
             </div>
             <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
-               Sponsored by grace
+               Sponsored by grace <mat-icon color="warn" svgIcon="heroicons_solid:heart"></mat-icon>
             </div>
         </div>
     </div>
