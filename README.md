@@ -1,25 +1,34 @@
-# Fuse - Admin template and Starter project for Angular
+# ChurchManagerUI - Angular
 
-## Development server
+Church Manager frontend based on Angular Material
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## AWS
 
-## Code scaffolding
+Edit user attributes in AWS Cognito User Pool for specific user.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+aws cognito-idp admin-update-user-attributes --user-pool-id us-east-1_i6pWJxu8q --username dillan --user-attributes Name="custom:picture",Value="https://secure.gravatar.com/avatar/6fdc48b6ec4d95f2fd682fc2982eb01b" --profile personal
+```
 
-## Build
+## Running
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Docker
 
-## Running unit tests
+> docker build -t church-manager-ui:prod .
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+> docker run -p 4200:80 --name church-manager-ui  church-manager-ui:prod
 
-## Running end-to-end tests
+```
+You are able to pass in the docker environment variable ANGULAR_ENVIRONMENT if needed when its not Production
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Documentation
 
-## Further help
+### FlexLayout
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[basics](https://www.angularjswiki.com/flexlayout/basics/)
+
+[responsive-app-angular](https://codinglatte.com/posts/angular/responsive-app-angular-flex-layout/)
+
+### Forms
+[Form Arrays](https://www.concretepage.com/angular/angular-formarray-validation#:~:text=FormArray%20tracks%20the%20value%20and,FormControl%20or%20FormGroup%20are%20validated.)

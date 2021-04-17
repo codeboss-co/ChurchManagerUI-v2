@@ -20,7 +20,8 @@
         "paths": {
             "@fuse/*": ["@fuse/*"],
             "@shared/*": ["@shared/*"],
-            "@core/*": ["@core/*"]
+            "@core/*": ["@core/*"],
+            "@apps/*": ["app/modules/admin/apps/*"]
         }
     },
     "angularCompilerOptions": {
