@@ -1,10 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { Profile, ProfileModel } from './profile.model';
+import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
+import { Group } from '@apps/groups';
+import { GroupsQuery } from './tabs/groups/groups.component';
 
 @Injectable()
 export class ProfileService
@@ -64,24 +67,24 @@ export class ProfileService
     }
 
     /**
-     * Testing: pagination requests
+     * Paging groups
      */
-    /*pageGroups( request: PagedRequest<IGroup>, query: GroupsQuery ): Observable<PagedResult<IGroup>> {
+    pageGroups( request: PagedRequest<Group>, query: GroupsQuery ): Observable<PagedResult<Group>> {
         console.log('page called', request, query);
-        return this.browseGroupsApi(request.page, request.size, query.search, query.personId)
+        return this._browseGroupsApi(request.page, request.size, query.search, query.personId)
             .pipe(
-                map((pagedResult: PagedResult<IGroup>) => {
+                map((pagedResult: PagedResult<Group>) => {
                     return pagedResult;
                 })
             );
-    }*/
+    }
 
 
     /**
      * This is where you call your server,
      * you can pass your start page and end page
      */
-    browseGroupsApi( page: number, size: number, search: string, personId?: number ): Observable<any> {
+    private _browseGroupsApi( page: number, size: number, search: string, personId?: number ): Observable<any> {
         const groupsUrl = personId === undefined
             ? `${this._apiUrl}/v1/groups/browse/current-user`  // Current User
             : `${this._apiUrl}/v1/groups/browse/person/${personId}`;  // Person Id
