@@ -1,18 +1,23 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ProfileService } from './profile.service';
+import { Observable } from 'rxjs';
+import { Profile } from './profile.model';
 
 @Component({
     selector       : 'profile',
     templateUrl    : './profile.component.html',
     styleUrls: ['./profile.component.scss'],
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    encapsulation  : ViewEncapsulation.None
 })
 export class ProfileComponent
 {
+    profile$: Observable<Profile>;
+
     /**
      * Constructor
      */
-    constructor()
+    constructor(private _profileService: ProfileService)
     {
+        this.profile$ = _profileService.profile$;
     }
 }
