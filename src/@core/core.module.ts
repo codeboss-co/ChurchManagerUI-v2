@@ -7,16 +7,22 @@ import { ENV } from '@shared/constants';
 import { httpInterceptorProviders } from '@core/interceptors';
 import { notificationToastrProvider } from '@core/notifications';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     imports  : [
         HttpClientModule,
-        MatSnackBarModule
+
+        // Material Core Modules
+        MatSnackBarModule,
+        MatMomentDateModule
     ],
     providers: [
-        {provide: ENV, useValue: environment},
+        { provide: ENV, useValue: environment },
         httpInterceptorProviders,
-        notificationToastrProvider
+        notificationToastrProvider,
+        // Change the default behaviour to parse dates as UTC
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
     ]
 })
 export class CoreModule
