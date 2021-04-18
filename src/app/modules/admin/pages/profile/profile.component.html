@@ -195,8 +195,65 @@
         <main class="md:col-span-2">
                 <div>
                     <!-- cards go here -->
-                    <fuse-card class="p-8 m-8">
-                        <div class="text-2xl font-semibold leading-tight">General</div>
+                    <fuse-card class="flex flex-col p-8 m-8 ">
+
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-semibold leading-tight">General</div>
+                            <div class="-mr-3">
+                                <button
+                                    mat-icon-button
+                                    [matMenuTriggerFor]="generalActionsMenu">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #generalActionsMenu="matMenu">
+                                    <button mat-menu-item>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="text-gray-700">
+                            <div class="grid md:grid-cols-2">
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">First Name</div>
+                                    <div class="px-4 py-2">Jane</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Last Name</div>
+                                    <div class="px-4 py-2">Doe</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Gender</div>
+                                    <div class="px-4 py-2">Female</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Contact No.</div>
+                                    <div class="px-4 py-2">+11 998001001</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Current Address</div>
+                                    <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Permanant Address</div>
+                                    <div class="px-4 py-2">Arlington Heights, IL, Illinois</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Email.</div>
+                                    <div class="px-4 py-2">
+                                        <a class="text-blue-800" href="mailto:jane@example.com">jane@example.com</a>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Birthday</div>
+                                    <div class="px-4 py-2">Feb 06, 1998</div>
+                                </div>
+                            </div>
+                            </div>
                     </fuse-card>
 
                     <fuse-card class="p-8 m-8">
