@@ -95,7 +95,7 @@
                         </mat-menu>
                     </div>
                 </div>
-                <div class="mt-4 ">
+                <div class="mt-4">
                     <div class="flex flex-col">
                     <div class="flex items-center">
                         <mat-icon
@@ -120,6 +120,41 @@
                             [svgIcon]="'heroicons_solid:cake'"></mat-icon>
                         <span class="leading-none">{{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}</span>
                     </div>
+                    <hr class="w-full border-t my-6">
+
+                        <!-- Phone -->
+                    <ng-container *ngIf="profile.phoneNumbers.length">
+                        <div class="flex">
+                            <mat-icon [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                            <div class="min-w-0 ml-6 space-y-1">
+                                <ng-container *ngFor="let phoneNumber of profile.phoneNumbers">
+                                    <div class="flex items-center leading-6">
+                                        <div class="sm:ml-3 font-mono">{{phoneNumber.countryCode}}</div>
+                                        <div class="ml-2.5 font-mono">{{phoneNumber.number}}</div>
+                                        <div
+                                            class="text-md truncate text-secondary"
+                                            *ngIf="phoneNumber.description">
+                                            <span class="mx-2">&bull;</span>
+                                            <span class="font-medium">{{phoneNumber.description}}</span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Emails -->
+                    <ng-container *ngIf="profile.email">
+                            <div class="flex mt-4">
+                                <mat-icon [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                <div class="min-w-0 ml-6 space-y-1">
+                                    <div class="flex items-center leading-6">
+                                        <a class="text-blue-800" [href]="'mailto:' + profile.email?.address">{{profile.email?.address}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
                 </div>
                 </div>
             </fuse-card>
@@ -194,12 +229,6 @@
                                 <div class="grid grid-cols-2">
                                     <div class="px-4 py-2 font-semibold">Age Classification</div>
                                     <div class="px-4 py-2">{{profile.ageClassification}}</div>
-                                </div>
-                                <div class="grid grid-cols-2">
-                                    <div class="px-4 py-2 font-semibold">Email</div>
-                                    <div class="px-4 py-2">
-                                        <a class="text-blue-800" [href]="'mailto:' + profile.email?.address">{{profile.email?.address}}</a>
-                                    </div>
                                 </div>
                             </div>
                             </div>

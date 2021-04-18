@@ -25,7 +25,9 @@ interface Baptism {
 
 interface PhoneNumber {
     countryCode: string;
-    number: boolean;
+    description?: string;
+    number: string;
+    isMessagingEnabled?: boolean;
 }
 
 interface FamilyMember {
