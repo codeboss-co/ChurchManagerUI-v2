@@ -7,7 +7,7 @@
         <div>
             <img
                 class="h-40 lg:h-80 object-cover"
-                src="assets/images/backgrounds/dark-material-bg.jpg"
+                src="assets/images/pages/profile/profile-mountain.jpg"
                 alt="Cover image">
         </div>
 
@@ -18,14 +18,14 @@
             <div class="-mt-26 lg:-mt-22 rounded-full">
                 <img
                     class="w-32 h-32 rounded-full ring-4 ring-bg-card"
-                    src="assets/images/avatars/brian-hughes.jpg"
+                    [src]="profile.photoUrl"
                     alt="User avatar">
             </div>
 
             <!-- Details -->
             <div class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8">
-                <div class="text-lg font-bold leading-none">Brian Hughes</div>
-                <div class="text-secondary">London, UK</div>
+                <div class="text-lg font-bold leading-none">{{profile.fullName.firstName}} {{profile.fullName.middleName}} {{profile.fullName.lastName}}</div>
+                <div class="text-secondary">{{profile.ageClassification}}, {{profile.gender}}</div>
             </div>
 
             <!-- Separator -->
@@ -34,12 +34,12 @@
             <!-- Stats -->
             <div class="flex items-center mt-6 lg:mt-0 space-x-6">
                 <div class="flex flex-col items-center">
-                    <span class="font-bold">200k</span>
-                    <span class="text-sm font-medium text-secondary">FOLLOWERS</span>
+                    <span class="font-bold">Status</span>
+                    <span class="text-sm font-medium text-secondary">{{profile.connectionStatus}}</span>
                 </div>
                 <div class="flex flex-col items-center">
-                    <span class="font-bold">1.2k</span>
-                    <span class="text-sm font-medium text-secondary">FOLLOWING</span>
+                    <span class="font-bold">Church</span>
+                    <span class="text-sm font-medium text-secondary">{{profile.church.name}}</span>
                 </div>
             </div>
 
@@ -77,57 +77,53 @@
         <!-- Column 1 -->
         <div class="md:col-span-1">
             <fuse-card class="flex flex-col max-w-80 w-full p-8 m-8">
-                <div class="text-2xl font-semibold leading-tight">General</div>
-
-                <div class="mt-4">
-                    <mat-icon
-                        class="icon-size-5 mr-3"
-                        [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
-                    <span class="leading-none">ACME Corp. Lead UX Designer</span>
+                <div class="flex items-center justify-between">
+                    <div class="text-2xl font-semibold leading-tight">General</div>
+                    <div class="-mr-3">
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="generalActionsMenu">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                        </button>
+                        <mat-menu #generalActionsMenu="matMenu">
+                            <button mat-menu-item>
+                                <mat-icon>edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
-
-                <hr class="w-full border-t my-6">
-                <div class="flex flex-col">
+                <div class="mt-4 ">
+                    <div class="flex flex-col">
                     <div class="flex items-center">
                         <mat-icon
                             class="icon-size-5 mr-3"
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                        <span class="leading-none">London, UK</span>
+                            [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        <span class="leading-none">{{profile.occupation}}</span>
                     </div>
-                    <div class="flex items-center mt-4">
+                    <div *ngIf="profile.maritalStatus" class="flex items-center mt-4">
                         <mat-icon
                             class="icon-size-5 mr-3"
-                            [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
-                        <span class="leading-none">ACME Corp. Lead UX Designer</span>
+                            [svgIcon]="'heroicons_solid:users'"></mat-icon>
+                        <span class="leading-none">{{profile.maritalStatus}}
+                            <span class="mat-caption" *ngIf="profile.maritalStatus === 'Married' && profile.anniversaryDate">
+                                ({{profile.anniversaryDate | date}})
+                            </span>
+                        </span>
+
                     </div>
                     <div class="flex items-center mt-4">
                         <mat-icon
                             class="icon-size-5 mr-3"
                             [svgIcon]="'heroicons_solid:cake'"></mat-icon>
-                        <span class="leading-none">April, 24</span>
+                        <span class="leading-none">{{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}</span>
                     </div>
                 </div>
-
-                <!-- ACTIONS -->
-                <div class="flex justify-end">
-                    <button
-                        class="px-3"
-                        mat-button
-                        [color]="'primary'"
-                        [routerLink]="['./']">
-                        Follow
-                    </button>
-                    <button
-                        class="px-3"
-                        mat-button
-                        [color]="'primary'"
-                        [routerLink]="['./']">
-                        Action
-                    </button>
                 </div>
-                <!-- ACTIONS -->
-
             </fuse-card>
+
             <fuse-card class="flex flex-col max-w-80 w-full mt-8 px-8 pt-6 m-8">
                 <div class="flex items-center justify-between">
                     <div class="text-2xl font-semibold leading-tight">Family</div>
@@ -216,7 +212,7 @@
 
     </div>
     <!-- Main -->
-    
+
 </div>
 
 
