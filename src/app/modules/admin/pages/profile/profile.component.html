@@ -124,68 +124,29 @@
                 </div>
             </fuse-card>
 
-            <fuse-card class="flex flex-col max-w-80 w-full mt-8 px-8 pt-6 m-8">
+            <fuse-card class="flex flex-col max-w-80 w-full mt-8 p-8 pt-6 m-8">
                 <div class="flex items-center justify-between">
                     <div class="text-2xl font-semibold leading-tight">Family</div>
                     <div class="-mr-3">
                         <button
                             mat-icon-button
-                            [matMenuTriggerFor]="listCard08Menu">
+                            [matMenuTriggerFor]="familyActionMenu">
                             <mat-icon
                                 class="icon-size-5"
                                 [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                         </button>
-                        <mat-menu #listCard08Menu="matMenu">
-                            <button mat-menu-item>Update Family</button>
+                        <mat-menu #familyActionMenu="matMenu">
+                            <button mat-menu-item>Edit</button>
                         </mat-menu>
                     </div>
                 </div>
                 <div class="flex flex-col">
                     <div class="flex justify-between mt-6">
-                        <img
+                        <img *ngFor="let member of profile.familyMembers"
                             class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/female-01.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/male-01.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/male-02.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/female-02.jpg"
+                            [src]="member.photoUrl"
                             alt="Card cover image">
                     </div>
-                    <div class="flex justify-between mt-3">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/female-03.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/female-04.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/male-03.jpg"
-                            alt="Card cover image">
-                        <img
-                            class="w-14 h-14 rounded-full"
-                            src="assets/images/avatars/male-04.jpg"
-                            alt="Card cover image">
-                    </div>
-                </div>
-                <div class="flex items-center mt-6 -mx-3">
-                    <button
-                        class="px-3"
-                        mat-button
-                        [color]="'primary'"
-                        [routerLink]="['./']">
-                        See all followers
-                    </button>
                 </div>
             </fuse-card>
         </div>
@@ -194,7 +155,7 @@
         <!-- Column 2 -->
         <main class="md:col-span-2">
                 <div>
-                    <!-- cards go here -->
+                    <!-- General info -->
                     <fuse-card class="flex flex-col p-8 m-8 ">
 
                         <div class="flex items-center justify-between">
@@ -208,6 +169,102 @@
                                         [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                                 </button>
                                 <mat-menu #generalActionsMenu="matMenu">
+                                    <button mat-menu-item>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="text-gray-700">
+                            <div class="grid md:grid-cols-2">
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">First Name</div>
+                                    <div class="px-4 py-2">{{profile.fullName.firstName}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Last Name</div>
+                                    <div class="px-4 py-2">{{profile.fullName.lastName}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Gender</div>
+                                    <div class="px-4 py-2">{{profile.gender}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Age Classification</div>
+                                    <div class="px-4 py-2">{{profile.ageClassification}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Email</div>
+                                    <div class="px-4 py-2">
+                                        <a class="text-blue-800" [href]="'mailto:' + profile.email?.address">{{profile.email?.address}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </fuse-card>
+                    <!-- General info -->
+
+                    <!-- Connection info -->
+                    <fuse-card class="flex flex-col p-8 m-8 ">
+
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-semibold leading-tight">Connection</div>
+                            <div class="-mr-3">
+                                <button
+                                    mat-icon-button
+                                    [matMenuTriggerFor]="connectionActionsMenu">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #connectionActionsMenu="matMenu">
+                                    <button mat-menu-item>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+
+                        <div class="text-gray-700">
+                            <div class="grid md:grid-cols-2">
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Church</div>
+                                    <div class="px-4 py-2">{{profile.church.name}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Connection Status</div>
+                                    <div class="px-4 py-2">{{profile.connectionStatus}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">Source</div>
+                                    <div class="px-4 py-2">{{profile.source}}</div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div class="px-4 py-2 font-semibold">First Visit Date</div>
+                                    <div class="px-4 py-2">{{profile.firstVisitDate | date: 'dd/MM/yyyy'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </fuse-card>
+                    <!-- Connection info -->
+
+                    <!-- Discipleship info -->
+                    <fuse-card class="flex flex-col p-8 m-8 ">
+
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-semibold leading-tight">Discipleship</div>
+                            <div class="-mr-3">
+                                <button
+                                    mat-icon-button
+                                    [matMenuTriggerFor]="discipleshipActionsMenu">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #discipleshipActionsMenu="matMenu">
                                     <button mat-menu-item>
                                         <mat-icon>edit</mat-icon>
                                         <span>Edit</span>
@@ -253,16 +310,10 @@
                                     <div class="px-4 py-2">Feb 06, 1998</div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </fuse-card>
+                    <!-- Discipleship info -->
 
-                    <fuse-card class="p-8 m-8">
-                        <div class="text-2xl font-semibold leading-tight">General</div>
-                    </fuse-card>
-
-                    <fuse-card class="p-8 m-8">
-                        <div class="text-2xl font-semibold leading-tight">General</div>
-                    </fuse-card>
                 </div>
         </main>
         <!-- Column 2 -->
