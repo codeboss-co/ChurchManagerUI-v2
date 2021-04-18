@@ -1,4 +1,4 @@
-import { Layout } from 'app/layout/layout.types';
+import { Layout } from 'app/ui/layout/layout.types';
 
 // Types
 export type Scheme = 'auto' | 'dark' | 'light';

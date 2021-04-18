@@ -1,4 +1,4 @@
-import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
+import { Shortcut } from 'app/ui/layout/common/shortcuts/shortcuts.types';
 
 /* tslint:disable:max-line-length */
 export const shortcuts: Shortcut[] = [

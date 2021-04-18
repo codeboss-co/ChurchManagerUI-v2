@@ -1,0 +1,96 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+    <div class="mat-title">
+        My Groups
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-card">
+        <mat-table #table class="groups-table"
+                   [dataSource]="dataSource"
+                   [@zoomIn]="dataSource.loading$">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <p class="text-truncate font-weight-600">{{row.name}}</p>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <p class="text-truncate">{{row.description}}</p>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="membersCount">
+                <mat-header-cell *matHeaderCellDef>Members</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <p class="text-truncate">{{row.membersCount}}</p>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Buttons Column -->
+            <ng-container matColumnDef="buttons">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let group">
+                    <div fxFlex="row" fxLayoutAlign="end center">
+                        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                (click)="$event.stopPropagation();">
+                            <mat-icon class="secondary-text">more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #moreMenu="matMenu">
+                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="attendance" (click)="takeAttendance(group)">
+                                <mat-icon>check_box</mat-icon>
+                                <span>Take attendance</span>
+                            </button>
+                            <button mat-menu-item aria-label="remove" (click)="delete(group)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Remove</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"
+                     class="group"
+                     [@fadeIn]="displayedColumns">
+            </mat-row>
+        </mat-table>
+    </div>
+    <!-- CONTENT -->
+    <mat-paginator *ngIf="dataSource.page$ | async as page"
+                   [length]="page.totalResults"
+                   [pageSize]="10"
+                   [pageIndex]="0"
+                   (page)="dataSource.fetch($event.pageIndex)">
+    </mat-paginator>
+
+</div>
+
+
+
+<!-- / CONTENT -->
+
+
+<!-- SEARCH -->
+<!--<div class="search-wrapper mt-16 mt-sm-0">
+    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>search</mat-icon>
+        <input [formControl]="searchInput" placeholder="Search for a contact">
+    </div>
+</div>-->
+<!-- / SEARCH -->
+
+<!---->
+
+

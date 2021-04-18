@@ -1,0 +1,170 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Attendance Record</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <div class="contact-name mt-8">{{group.name}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="form">
+
+            <!--Meeting Date-->
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex="60">
+                    <mat-label>Attendance Date</mat-label>
+                    <input matInput [matDatepicker]="meetingDatePicker" name="date" formControlName="attendanceDate">
+                    <mat-datepicker-toggle matSuffix [for]="meetingDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #meetingDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-checkbox class="text-right" formControlName="didNotOccur" fxFlex="40">
+                    Did Not Occur
+                </mat-checkbox>
+            </div>
+
+            <div *ngIf="(didNotOccur$ | async) !== true">
+                <!--Attendance-->
+                <mat-accordion class="group-attendance">
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Members Attendance</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ng-container formArrayName="members">
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-right">Did Attend</th>
+                                    <th class="text-right">New Convert</th>
+                                    <th class="text-right">Holy Spirit</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let service of groupMembersFormArray.controls; index as i">
+                                    <ng-container [formGroupName]="i">
+                                        <td>
+                                            <input formControlName="groupMemberName" readonly />
+                                        </td>
+                                        <td class="text-right">
+                                            <mat-checkbox formControlName="groupMemberDidAttend"></mat-checkbox>
+                                        </td>
+                                        <td class="text-right">
+                                            <mat-checkbox formControlName="newConvert"></mat-checkbox>
+                                        </td>
+                                        <td class="text-right">
+                                            <mat-checkbox formControlName="receivedHolySpirit"></mat-checkbox>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </ng-container>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>First Timers</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- ADD FIRST TIMER BUTTON -->
+                        <button mat-mini-fab class="accent" id="add-contact-button"
+                                (click)="addFirstTimerControl()"
+                                aria-label="add first timer"
+                                [disabled]="!firstTimersFormArray.valid"
+                                [@fadeIn]="firstTimersFormArray.valid">
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                        <!-- / ADD FIRST TIMER BUTTON -->
+
+                        <ng-container formArrayName="firstTimers">
+
+                            <table *ngIf="firstTimersFormArray?.controls?.length">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th class="text-right">Phone</th>
+                                    <th class="text-right">New Convert</th>
+                                    <th class="text-right">Holy Spirit</th>
+                                    <th class="text-right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let _ of firstTimersFormArray.controls; index as i">
+                                    <ng-container [formGroupName]="i">
+                                        <td>
+                                            <div fxLayout="row" fxLayoutAlign="start center">
+                                                <input matInput formControlName="firstName" placeholder="First Name" fxFlex="37" required>
+                                                <input matInput formControlName="lastName" placeholder="Last Name" fxFlex="37" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <cm-gender-field formControlName="gender" [showLabel]="false"></cm-gender-field>
+                                        </td>
+                                        <td class="text-right">
+                                            <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
+                                            <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
+                                                Please enter valid phone number
+                                            </mat-error>
+                                        </td>
+                                        <td class="text-right">
+                                            <mat-checkbox formControlName="newConvert"></mat-checkbox>
+                                        </td>
+                                        <td class="text-right">
+                                            <mat-checkbox formControlName="receivedHolySpirit"></mat-checkbox>
+                                        </td>
+                                        <td>
+                                            <button mat-button (click)="removeFirstTimerControl(i)">
+                                                <mat-icon class="s-20" color="accent">delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </ng-container>
+
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+
+                <!--Notes-->
+                <div fxLayout="row" class="mt-24" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Note (Testimonies etc)</mat-label>
+                        <textarea name="notes" formControlName="note" matInput type="text" max-rows="4"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </form>
+
+        <!--{{form.value | json}}-->
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+        <button
+            mat-button
+            class="save-button"
+            [disabled]="!form.valid"
+            (click)="save()"
+            aria-label="SAVE">
+            SAVE ATTENDANCE
+        </button>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { AuthGuard } from '@core/auth/guards/auth.guard';
 import { NoAuthGuard } from '@core/auth/guards/noAuth.guard';
-import { LayoutComponent } from 'app/layout/layout.component';
+import { LayoutComponent } from 'app/ui/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 
 // @formatter:off
@@ -28,11 +28,11 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.module').then(m => m.AuthConfirmationRequiredModule)},
-            {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule)},
-            {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
-            {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
-            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)}
+            {path: 'confirmation-required', loadChildren: () => import('app/features/auth/confirmation-required/confirmation-required.module').then( m => m.AuthConfirmationRequiredModule)},
+            {path: 'forgot-password', loadChildren: () => import('app/features/auth/forgot-password/forgot-password.module').then( m => m.AuthForgotPasswordModule)},
+            {path: 'reset-password', loadChildren: () => import('app/features/auth/reset-password/reset-password.module').then( m => m.AuthResetPasswordModule)},
+            {path: 'sign-in', loadChildren: () => import('app/features/auth/sign-in/sign-in.module').then( m => m.AuthSignInModule)},
+            {path: 'sign-up', loadChildren: () => import('app/features/auth/sign-up/sign-up.module').then( m => m.AuthSignUpModule)}
         ]
     },
 
@@ -46,8 +46,8 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
-            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)}
+            {path: 'sign-out', loadChildren: () => import('app/features/auth/sign-out/sign-out.module').then( m => m.AuthSignOutModule)},
+            {path: 'unlock-session', loadChildren: () => import('app/features/auth/unlock-session/unlock-session.module').then( m => m.AuthUnlockSessionModule)}
         ]
     },
 
@@ -59,7 +59,7 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children   : [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            {path: 'home', loadChildren: () => import('app/features/landing/home/home.module').then( m => m.LandingHomeModule)},
         ]
     },
 
@@ -74,18 +74,18 @@ export const appRoutes: Route[] = [
         },
         children   : [
             // Example
-            {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+            {path: 'example', loadChildren: () => import('app/features/admin/example/example.module').then( m => m.ExampleModule)},
 
             // Apps
             {path: 'apps', children: [
-                {path: 'people', loadChildren: () => import('app/modules/admin/apps/people/contacts.module').then(m => m.ContactsModule)},
+                {path: 'people', loadChildren: () => import('app/features/admin/people/contacts.module').then( m => m.ContactsModule)},
             ]},
 
             // Pages
             {path: 'pages', children: [
 
                     // Profile
-                {path: 'profile', loadChildren: () => import('app/modules/admin/pages/profile/profile.module').then(m => m.ProfileModule)},
+                {path: 'profile', loadChildren: () => import('app/pages/profile/profile.module').then( m => m.ProfileModule)},
 
             ]},
         ]

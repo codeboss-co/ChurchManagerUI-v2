@@ -21,7 +21,8 @@
             "@fuse/*": ["@fuse/*"],
             "@shared/*": ["@shared/*"],
             "@core/*": ["@core/*"],
-            "@apps/*": ["app/modules/admin/apps/*"]
+            "@features/*": ["app/features/*"],
+            "@ui/*": ["app/ui/*"]
         }
     },
     "angularCompilerOptions": {
