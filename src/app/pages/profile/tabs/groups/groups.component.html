@@ -1,12 +1,8 @@
-<div class="page-layout blank p-24" fusePerfectScrollbar>
-
-    <div class="mat-title">
-        My Groups
-    </div>
+<div class="md:p-8  flex-1" fuseScrollbar>
 
     <!-- CONTENT -->
-    <div class="content-card">
-        <mat-table #table class="groups-table"
+    <div>
+        <mat-table
                    [dataSource]="dataSource"
                    [@zoomIn]="dataSource.loading$">
 

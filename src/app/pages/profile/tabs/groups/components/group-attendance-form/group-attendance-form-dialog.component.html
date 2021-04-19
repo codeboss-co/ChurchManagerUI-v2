@@ -89,31 +89,32 @@
                         <!-- / ADD FIRST TIMER BUTTON -->
 
                         <ng-container class="flex flex-col" formArrayName="firstTimers">
-
-                            <div *ngIf="firstTimersFormArray?.controls?.length" >
                                 <div *ngFor="let _ of firstTimersFormArray.controls; index as i">
-                                    <div class="mx-3 flex mt-4">
-                                        <input matInput formControlName="firstName" placeholder="First Name" required>
-                                        <input matInput formControlName="lastName" placeholder="Last Name" required>
-                                        <mat-checkbox formControlName="newConvert">New Convert</mat-checkbox>
-                                        <mat-checkbox formControlName="newConvert">Holy Spirit</mat-checkbox>
-                                    </div>
+                                    <ng-container [formGroupName]="i">
+                                        <div class="mx-3 flex mt-4">
+                                            <input matInput formControlName="firstName" placeholder="First Name" required>
+                                            <input matInput formControlName="lastName" placeholder="Last Name" required>
+                                            <mat-checkbox formControlName="newConvert">New Convert</mat-checkbox>
+                                            <mat-checkbox formControlName="newConvert">Holy Spirit</mat-checkbox>
+                                        </div>
 
-                                    <div class="mx-3 flex items-center">
-                                        <cm-gender-field formControlName="gender" [appearance]="'standard'" [showLabel]="true"></cm-gender-field>
+                                        <div class="mx-3 flex items-center">
+                                            <cm-gender-field formControlName="gender" [showLabel]="true"></cm-gender-field>
 
-                                        <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
-                                        <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
-                                            Please enter valid phone number
-                                        </mat-error>
+                                            <mat-form-field appearance="standard">
+                                                <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
+                                                <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
+                                                    Please enter valid phone number
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
 
+                                        <!-- Delete First Timer -->
                                         <button mat-button (click)="removeFirstTimerControl(i)">
                                             <mat-icon class="s-20" color="bg-primary">delete</mat-icon>
                                         </button>
-                                    </div>
-
+                                    </ng-container>
                                 </div>
-                            </div>
 
                         </ng-container>
 
@@ -122,10 +123,16 @@
                 </mat-accordion>
 
                 <!--Notes-->
-                <div fxLayout="row" class="mt-24" fxLayoutAlign="start start">
-                    <mat-form-field appearance="outline" fxFlex>
-                        <mat-label>Note (Testimonies etc)</mat-label>
-                        <textarea name="notes" formControlName="note" matInput type="text" max-rows="4"></textarea>
+                <!-- Notes -->
+                <div class="mt-8">
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                        <mat-label>Notes</mat-label>
+                        <textarea
+                            class="leading-relaxed"
+                            matInput
+                            fuseAutogrow
+                            formControlName="note"
+                            [spellcheck]="false"></textarea>
                     </mat-form-field>
                 </div>
             </div>
@@ -136,7 +143,7 @@
 
     </div>
 
-    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+    <div mat-dialog-actions class="pb-8">
         <button
             mat-button
             class="save-button"
