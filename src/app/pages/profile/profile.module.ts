@@ -26,6 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { GroupsDataService } from '@features/admin/groups';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 
 
 @NgModule({
@@ -56,10 +57,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
         // Fuse
         FuseCardModule,
+        FuseScrollbarModule,
         SharedModule,
 
         // UI Controls
-        GenderControlModule
+        GenderControlModule,
+
+
     ],
     providers: [ProfileResolver, ProfileService, GroupsDataService]
 })

@@ -1,31 +1,31 @@
 <div class="dialog-content-wrapper">
-    <mat-toolbar matDialogTitle class="mat-accent m-0">
-        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title">Attendance Record</span>
-            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-toolbar-row>
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg">Attendance Record ({{group.name}})</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
 
-        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <div class="contact-name mt-8">{{group.name}}</div>
-        </mat-toolbar-row>
-    </mat-toolbar>
-
-    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+    <div mat-dialog-content class="p-24 pb-0 m-0" fuseScrollbar>
 
         <form [formGroup]="form">
 
             <!--Meeting Date-->
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex="60">
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
                     <mat-label>Attendance Date</mat-label>
                     <input matInput [matDatepicker]="meetingDatePicker" name="date" formControlName="attendanceDate">
                     <mat-datepicker-toggle matSuffix [for]="meetingDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #meetingDatePicker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-checkbox class="text-right" formControlName="didNotOccur" fxFlex="40">
+                <mat-checkbox formControlName="didNotOccur">
                     Did Not Occur
                 </mat-checkbox>
             </div>

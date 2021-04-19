@@ -12,6 +12,7 @@ import { Group, GroupMemberSimple, GroupsDataService } from '@features/admin/gro
 @Component({
     selector     : 'profile-groups-attendance-form-dialog',
     templateUrl  : './group-attendance-form-dialog.component.html',
+    styleUrls    : ['./group-attendance-form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : FuseAnimations
 })
