@@ -122,7 +122,6 @@
 
                 </mat-accordion>
 
-                <!--Notes-->
                 <!-- Notes -->
                 <div class="mt-8">
                     <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
@@ -143,14 +142,27 @@
 
     </div>
 
-    <div mat-dialog-actions class="pb-8">
+
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+        <!-- Cancel -->
         <button
+            class="ml-auto"
             mat-button
-            class="save-button"
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
+        </button>
+        <!-- Save -->
+        <button
+            class="ml-2"
+            mat-flat-button
+            [color]="'primary'"
             [disabled]="!form.valid"
-            (click)="save()"
-            aria-label="SAVE">
-            SAVE ATTENDANCE
+            [matTooltip]="'Save'"
+            (click)="save()">
+            Save
         </button>
     </div>
+
 </div>
