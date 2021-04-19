@@ -111,7 +111,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit {
         return this._formBuilder.group({
             firstName: [null, Validators.required],
             lastName: [null, Validators.required],
-            gender: [null, Validators.required],
+            gender: [null ,Validators.required],
             phoneNumber: [null, [Validators.required, Validators.pattern(this._phoneNumberPattern)]],
             receivedHolySpirit   : [false],
             newConvert   : [false]

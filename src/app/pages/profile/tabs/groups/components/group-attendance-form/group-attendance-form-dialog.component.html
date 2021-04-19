@@ -13,7 +13,7 @@
         </button>
     </div>
 
-    <div mat-dialog-content class="p-24 pb-0 m-0" fuseScrollbar>
+    <div mat-dialog-content class="p-24 pb-0 m-0">
 
         <form [formGroup]="form">
 
@@ -83,59 +83,37 @@
                                 (click)="addFirstTimerControl()"
                                 aria-label="add first timer"
                                 [disabled]="!firstTimersFormArray.valid"
-                                [@fadeIn]="firstTimersFormArray.valid">
+                                [@fadeIn]="true">
                             <mat-icon>person_add</mat-icon>
                         </button>
                         <!-- / ADD FIRST TIMER BUTTON -->
 
-                        <ng-container formArrayName="firstTimers">
+                        <ng-container class="flex flex-col" formArrayName="firstTimers">
 
-                            <table *ngIf="firstTimersFormArray?.controls?.length">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th class="text-right">Phone</th>
-                                    <th class="text-right">New Convert</th>
-                                    <th class="text-right">Holy Spirit</th>
-                                    <th class="text-right"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr *ngFor="let _ of firstTimersFormArray.controls; index as i">
-                                    <ng-container [formGroupName]="i">
-                                        <td>
-                                            <div class="flex flex-row items-start justify-center">
-                                                <input matInput formControlName="firstName" placeholder="First Name" fxFlex="37" required>
-                                                <input matInput formControlName="lastName" placeholder="Last Name" fxFlex="37" required>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <cm-gender-field formControlName="gender" [showLabel]="false"></cm-gender-field>
-                                        </td>
-                                        <td class="text-right">
-                                            <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
-                                            <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
-                                                Please enter valid phone number
-                                            </mat-error>
-                                        </td>
-                                        <td class="text-right">
-                                            <mat-checkbox formControlName="newConvert"></mat-checkbox>
-                                        </td>
-                                        <td class="text-right">
-                                            <mat-checkbox formControlName="receivedHolySpirit"></mat-checkbox>
-                                        </td>
-                                        <td>
-                                            <button mat-button (click)="removeFirstTimerControl(i)">
-                                                <mat-icon class="s-20" color="bg-primary">delete</mat-icon>
-                                            </button>
-                                        </td>
-                                    </ng-container>
+                            <div *ngIf="firstTimersFormArray?.controls?.length" >
+                                <div *ngFor="let _ of firstTimersFormArray.controls; index as i">
+                                    <div class="mx-3 flex mt-4">
+                                        <input matInput formControlName="firstName" placeholder="First Name" required>
+                                        <input matInput formControlName="lastName" placeholder="Last Name" required>
+                                        <mat-checkbox formControlName="newConvert">New Convert</mat-checkbox>
+                                        <mat-checkbox formControlName="newConvert">Holy Spirit</mat-checkbox>
+                                    </div>
 
+                                    <div class="mx-3 flex items-center">
+                                        <cm-gender-field formControlName="gender" [appearance]="'standard'" [showLabel]="true"></cm-gender-field>
 
-                                </tr>
-                                </tbody>
-                            </table>
+                                        <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
+                                        <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
+                                            Please enter valid phone number
+                                        </mat-error>
+
+                                        <button mat-button (click)="removeFirstTimerControl(i)">
+                                            <mat-icon class="s-20" color="bg-primary">delete</mat-icon>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
 
                         </ng-container>
 
