@@ -1,7 +1,8 @@
 <div class="dialog-content-wrapper">
     <!-- Header -->
-    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg">Attendance Record ({{group.name}})</div>
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">Attendance Record</div>
+        <div class="text-sm"> {{group.name}}</div>
         <button
             mat-icon-button
             (click)="matDialogRef.close()"
@@ -78,7 +79,7 @@
                         </mat-expansion-panel-header>
 
                         <!-- ADD FIRST TIMER BUTTON -->
-                        <button mat-mini-fab class="accent" id="add-contact-button"
+                        <button mat-mini-fab class="bg-primary" id="add-contact-button"
                                 (click)="addFirstTimerControl()"
                                 aria-label="add first timer"
                                 [disabled]="!firstTimersFormArray.valid"
@@ -104,7 +105,7 @@
                                 <tr *ngFor="let _ of firstTimersFormArray.controls; index as i">
                                     <ng-container [formGroupName]="i">
                                         <td>
-                                            <div fxLayout="row" fxLayoutAlign="start center">
+                                            <div class="flex flex-row items-start justify-center">
                                                 <input matInput formControlName="firstName" placeholder="First Name" fxFlex="37" required>
                                                 <input matInput formControlName="lastName" placeholder="Last Name" fxFlex="37" required>
                                             </div>
@@ -126,7 +127,7 @@
                                         </td>
                                         <td>
                                             <button mat-button (click)="removeFirstTimerControl(i)">
-                                                <mat-icon class="s-20" color="accent">delete</mat-icon>
+                                                <mat-icon class="s-20" color="bg-primary">delete</mat-icon>
                                             </button>
                                         </td>
                                     </ng-container>
