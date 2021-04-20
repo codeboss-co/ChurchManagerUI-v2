@@ -16,7 +16,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { SharedModule } from '@shared/shared.module';
 
@@ -51,7 +50,6 @@ const routes: Routes = [
         MatTabsModule,
         MatTableModule,
 
-        NgxChartsModule,
 
         // Controls
         ChurchGroupsSelectControlModule
