@@ -32,6 +32,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddressEditorControlModule } from '@ui/controls/address-editor-control/address-editor-control.module';
 import { PersonEditorControlModule } from '@ui/controls/person-editor-control/person-editor-control.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 
 @NgModule({
     declarations: [
@@ -49,6 +51,7 @@ import { PersonEditorControlModule } from '@ui/controls/person-editor-control/pe
         MatButtonModule,
         MatCheckboxModule,
         MatDatepickerModule,
+        MatDialogModule,
         MatDividerModule,
         MatFormFieldModule,
         MatIconModule,
@@ -67,6 +70,7 @@ import { PersonEditorControlModule } from '@ui/controls/person-editor-control/pe
 
         // Fuse
         FuseAutogrowModule,
+        FuseScrollbarModule,
         FuseFindByKeyPipeModule,
         SharedModule,
 
