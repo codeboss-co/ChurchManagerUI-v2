@@ -77,41 +77,34 @@
                 </div>
             </div>
 
-            <cm-person-editor class="m-4" formControlName="person"></cm-person-editor>
+            <cm-person-editor formControlName="person"></cm-person-editor>
 
         </form>
 
 
     </div>
 
-    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="mr-8"
-                (click)="matDialogRef.close(['delete',form])"
-                aria-label="Delete"
-                matTooltip="Delete">
-            DELETE
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
         </button>
-
-        <button *ngIf="action !== 'edit'"
-                mat-button
-                class="save-button"
-                (click)="addPerson()"
-                [disabled]="form.invalid"
-                aria-label="SAVE">
-            ADD
+        <!-- Save -->
+        <button
+            class="ml-2"
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="form.invalid"
+            [matTooltip]="'Save'"
+            (click)="addPerson()">
+            Add
         </button>
-
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(['save',form])"
-                [disabled]="form.invalid"
-                aria-label="SAVE">
-            SAVE
-        </button>
-
     </div>
 </div>

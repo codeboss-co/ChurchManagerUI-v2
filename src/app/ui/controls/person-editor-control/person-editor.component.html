@@ -1,4 +1,4 @@
-<form class="flex flex-col" name="form" [formGroup]="form">
+<form class="flex flex-col px-4" name="form" [formGroup]="form">
 
     <div class="font-medium">Personal</div>
 
@@ -26,14 +26,12 @@
 
     </div>
 
-    <div class="md:flex flex-0 items-baseline justify-evenly">
+    <div class="md:flex flex-0 items-baseline">
 
-        <div class="mr-8">
-            <cm-gender-field
-                [appearance]="'outline'"
-                formControlName="gender">
-            </cm-gender-field>
-        </div>
+        <cm-gender-field
+            [appearance]="'outline'"
+            formControlName="gender">
+        </cm-gender-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Age Classification</mat-label>
@@ -62,18 +60,18 @@
     <cm-birthdate-control formControlName="birthDate"></cm-birthdate-control>
 
     <!--CONTACT INFO-->
-    <div class="h4 mb-8">Contact</div>
+    <div class="font-medium">Contact</div>
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex="1 0 auto">
+    <div class="md:flex flex-0">
 
-        <mat-form-field appearance="outline" fxFlex="50">
+        <mat-form-field appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput formControlName="phoneNumber" placeholder="082xxxxxxx" required autocomplete="tel">
             <mat-icon matSuffix class="secondary-text">phone</mat-icon>
             <mat-error>Phone number is required and ensure format is valid</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" fxFlex="50">
+        <mat-form-field appearance="outline">
             <mat-label>Email Address</mat-label>
             <input matInput formControlName="emailAddress" autocomplete="email">
             <mat-icon matSuffix class="secondary-text">email</mat-icon>

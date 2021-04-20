@@ -59,8 +59,13 @@
 
                             <div class="ml-4">
                                 <!-- ADD PERSON BUTTON -->
-                                <button mat-mini-fab color="primary" id="add-person-button" (click)="newPerson()" aria-label="add person"
-                                        [@zoomIn]="true">
+                                <button
+                                    mat-mini-fab
+                                    color="primary"
+                                    id="add-person-button"
+                                    (click)="newPerson()"
+                                    aria-label="add person"
+                                    [@zoomIn]="true">
                                     <mat-icon>person_add</mat-icon>
                                 </button>
                                 <!-- / ADD PERSON BUTTON -->
@@ -74,8 +79,12 @@
                             <button class="mr-8" mat-button matStepperPrevious type="button">
                                 Previous
                             </button>
-                            <button [disabled]="!familyFormStep2.valid"
-                                    mat-raised-button type="button" color="accent" (click)="saveFamily()">
+                            <button
+                                [disabled]="!familyFormStep2.valid"
+                                mat-raised-button
+                                type="button"
+                                color="primary"
+                                (click)="saveFamily()">
                                 Save
                             </button>
                         </div>

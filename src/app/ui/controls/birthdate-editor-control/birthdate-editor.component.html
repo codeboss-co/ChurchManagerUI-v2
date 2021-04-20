@@ -1,23 +1,23 @@
-<div class="h4 mb-8">Date of Birth</div>
+<div class="font-medium">Date of Birth</div>
 
 <form [formGroup]="form">
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div class="md:flex flex-0">
 
-        <mat-form-field appearance="outline" fxFlex="33">
+        <mat-form-field appearance="outline">
             <mat-label>Day</mat-label>
             <input matInput formControlName="day" maxlength="2"  autocomplete="bday-day">
             <mat-icon matSuffix class="secondary-text">calendar_today</mat-icon>
             <mat-error>Please enter valid day 1-31</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+        <mat-form-field appearance="outline">
             <mat-label>Month</mat-label>
             <input matInput formControlName="month" maxlength="2" autocomplete="bday-month">
             <mat-icon matSuffix class="secondary-text">calendar_today</mat-icon>
             <mat-error>Please enter valid month 1-12</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" fxFlex="33">
+        <mat-form-field appearance="outline">
             <mat-label>Year</mat-label>
             <input matInput #postalCode value="1980"   formControlName="year" maxlength="4" autocomplete="bday-year">
             <mat-icon matSuffix class="secondary-text">calendar_today</mat-icon>
