@@ -53,10 +53,25 @@ export const compactNavigation: FuseNavigationItem[] = [
             {
                 id      : 'groups.cell-ministry',
                 title   : 'Cell Ministry',
-                type    : 'basic',
+                type    : 'collapsable',
                 icon    : 'heroicons_outline:view-boards',
-                link    : '/apps/groups/cell-ministry',
-                exactMatch: true
+                link : '/apps/groups/cell-ministry',
+                children: [
+                    {
+                        id   : 'groups.cell-ministry.dashboard',
+                        title: 'Dashboard',
+                        type : 'basic',
+                        link : '/apps/groups/cell-ministry',
+                        exactMatch: true,
+                    },
+                    {
+                        id   : 'groups.cell-ministry.attendance-reports',
+                        title: 'Cell Attendance Records',
+                        type : 'basic',
+                        link : '/apps/groups/cell-ministry/attendance-reports',
+                        exactMatch: true,
+                    }
+                ]
             }
         ]
     },
