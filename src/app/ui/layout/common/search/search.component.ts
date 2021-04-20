@@ -1,9 +1,30 @@
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+    SimpleChanges,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, debounceTime, filter, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseAnimations } from '@fuse/animations/public-api';
+import { tap } from 'rxjs/internal/operators/tap';
+import { PersonAutocompletes } from '@ui/layout/common/search/search-bar.models';
+import { Observable } from 'rxjs/internal/Observable';
+import { ApiResponse } from '@shared/shared.models';
+import { ENV } from '@shared/constants';
+import { Environment } from '@shared/environment.model';
 
 @Component({
     selector     : 'search',
@@ -20,7 +41,8 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
     @Output() search: EventEmitter<any> = new EventEmitter<any>();
 
     opened: boolean = false;
-    results: any[];
+    isSearching: boolean = false;
+    results: PersonAutocompletes;
     searchControl: FormControl = new FormControl();
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -30,7 +52,8 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
     constructor(
         private _elementRef: ElementRef,
         private _httpClient: HttpClient,
-        private _renderer2: Renderer2
+        private _renderer2: Renderer2,
+        @Inject(ENV) private environment: Environment,
     )
     {
     }
@@ -116,22 +139,23 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
                     return value;
                 }),
                 filter((value) => {
-
                     // Filter out undefined/null/false statements and also
                     // filter out the values that are smaller than minLength
                     return value && value.length >= this.minLength;
-                })
+                }),
+                tap(() => this.isSearching = true),
+                // use switch map so as to cancel previous subscribed events, before creating new once
+                switchMap(value =>  this.lookup(value)
+                    .pipe(
+                        finalize(() => this.isSearching = false)
+                    )
+                )
             )
-            .subscribe((value) => {
-                this._httpClient.post('api/common/search', {query: value})
-                    .subscribe((response: any) => {
-
-                        // Store the results
-                        this.results = response.results;
-
-                        // Execute the event
-                        this.search.next(this.results);
-                    });
+            .subscribe((response: PersonAutocompletes) => {
+                // Store the results
+                this.results = response;
+                // Execute the event
+                this.search.next(this.results);
             });
     }
 
@@ -202,5 +226,21 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
 
         // Close the search
         this.opened = false;
+    }
+
+    lookup(value: string): Observable<PersonAutocompletes> {
+        return this.searchApi(value.toLowerCase()).pipe(
+            // map the date property of the api results
+            map(response => response.data.map(person => person)),
+            // catch errors
+            catchError(_ => {
+                return of(null);
+            })
+        );
+    }
+
+    searchApi(query: string): Observable<ApiResponse> {
+        const url = `${this.environment.baseUrls.apiUrl}/v1/people/autocomplete?searchTerm=${query}`;
+        return this._httpClient.get<ApiResponse>(url);
     }
 }

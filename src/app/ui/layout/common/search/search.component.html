@@ -34,7 +34,7 @@
             <mat-option
                 class="group relative h-14 px-6 py-0 sm:px-8 text-md"
                 *ngFor="let result of results"
-                [routerLink]="result.link">
+                [routerLink]="['/pages', 'profile', result.id]">
                 <ng-container
                     [ngTemplateOutlet]="searchResult"
                     [ngTemplateOutletContext]="{$implicit: result}"></ng-container>
@@ -92,35 +92,20 @@
     <div class="absolute inset-y-0 left-0 hidden w-1 bg-primary group-hover:flex"></div>
 
     <!-- Contact result -->
-    <ng-container *ngIf="result.resultType === 'contact'">
+    <ng-container>
         <div class="flex items-center">
-            <div class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-indigo-50 bg-indigo-600">Contact</div>
+            <div class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-indigo-50 bg-indigo-600">{{result.connectionStatus}}</div>
             <div class="overflow-hidden overflow-ellipsis">
-                <span [innerHTML]="result.title"></span>
+                <span [innerHTML]="result.label"></span>
             </div>
             <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
                 <img
-                    *ngIf="result.avatar"
-                    [src]="result.avatar">
+                    *ngIf="result.photoUrl"
+                    [src]="result.photoUrl">
                 <mat-icon
                     class="m-0 icon-size-5 text-primary"
-                    *ngIf="!result.avatar"
+                    *ngIf="!result.photoUrl"
                     [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-            </div>
-        </div>
-    </ng-container>
-
-    <!-- Page result -->
-    <ng-container *ngIf="result.resultType === 'page'">
-        <div class="flex items-center">
-            <div class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-teal-50 bg-teal-600">Page</div>
-            <div class="flex flex-col overflow-hidden overflow-ellipsis">
-                <span
-                    class="overflow-hidden overflow-ellipsis whitespace-nowrap leading-normal"
-                    [innerHTML]="result.title"></span>
-                <span
-                    class="mt-1 text-secondary overflow-hidden overflow-ellipsis whitespace-nowrap leading-normal text-sm no-underline"
-                    [routerLink]="result.link">{{result.link}}</span>
             </div>
         </div>
     </ng-container>
