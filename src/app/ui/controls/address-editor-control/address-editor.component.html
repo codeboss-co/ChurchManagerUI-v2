@@ -1,13 +1,11 @@
-<form class="shadow-md rounded-lg p-8 flex flex-col items-start" name="form" [formGroup]="addressForm">
+<form class="shadow-md rounded-lg md:p-8 flex flex-col items-start" name="form" [formGroup]="addressForm">
 
     <div class="flex">
-
         <mat-form-field appearance="outline">
             <mat-label>Address</mat-label>
             <textarea matInput formControlName="street" required  autocomplete="street-address"></textarea>
             <mat-error>Address is required!</mat-error>
         </mat-form-field>
-
     </div>
 
     <div class="md:flex md:justify-between">
