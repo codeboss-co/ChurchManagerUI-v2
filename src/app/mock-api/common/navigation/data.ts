@@ -45,6 +45,22 @@ export const compactNavigation: FuseNavigationItem[] = [
         ] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
     },
     {
+        id      : 'apps.groups',
+        title   : 'Groups',
+        type    : 'aside',
+        icon    : 'heroicons_outline:view-grid',
+        children: [
+            {
+                id      : 'groups.cell-ministry',
+                title   : 'Cell Ministry',
+                type    : 'basic',
+                icon    : 'heroicons_outline:user-group',
+                link    : '/apps/groups/cell-ministry',
+                exactMatch: true
+            }
+        ]
+    },
+    {
         id   : 'example',
         title: 'Example',
         type : 'basic',
