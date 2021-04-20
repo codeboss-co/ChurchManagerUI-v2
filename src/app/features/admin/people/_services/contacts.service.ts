@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { Contact, Country, Tag } from './contacts.types';
+import { Contact, Country, Tag } from '../contacts.types';
 
 @Injectable({
     providedIn: 'root'

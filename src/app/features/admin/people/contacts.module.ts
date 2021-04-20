@@ -24,12 +24,25 @@ import { contactsRoutes } from './contacts.routing';
 import { ContactsComponent } from './contacts.component';
 import { ContactsDetailsComponent } from './details/details.component';
 import { ContactsListComponent } from './list/list.component';
+import { PersonFormDialogComponent } from '@features/admin/people/new-family-form/person-form/person-form-dialog.component';
+import { NewFamilyFormComponent } from '@features/admin/people/new-family-form/new-family-form.component';
+import { FamilyMembersListComponent } from '@features/admin/people/new-family-form/family-members-list/family-members-list.component';
+import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { AddressEditorControlModule } from '@ui/controls/address-editor-control/address-editor-control.module';
+import { PersonEditorControlModule } from '@ui/controls/person-editor-control/person-editor-control.module';
 
 @NgModule({
     declarations: [
         ContactsComponent,
         ContactsListComponent,
-        ContactsDetailsComponent
+        ContactsDetailsComponent,
+
+        // People
+        NewFamilyFormComponent,
+        PersonFormDialogComponent,
+        FamilyMembersListComponent
     ],
     imports     : [
         RouterModule.forChild(contactsRoutes),
@@ -47,11 +60,19 @@ import { ContactsListComponent } from './list/list.component';
         MatRippleModule,
         MatSelectModule,
         MatSidenavModule,
+        MatStepperModule,
         MatTableModule,
+        MatToolbarModule,
         MatTooltipModule,
+
+        // Fuse
         FuseAutogrowModule,
         FuseFindByKeyPipeModule,
-        SharedModule
+        SharedModule,
+
+        // Controls
+        AddressEditorControlModule,
+        PersonEditorControlModule
     ],
     providers   : [
         {
@@ -67,7 +88,8 @@ import { ContactsListComponent } from './list/list.component';
                     monthYearA11yLabel: 'MMMM YYYY'
                 }
             }
-        }
+        },
+        PeopleDataService
     ]
 })
 export class ContactsModule

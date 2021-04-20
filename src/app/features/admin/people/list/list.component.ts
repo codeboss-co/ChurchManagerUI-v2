@@ -7,7 +7,7 @@ import { fromEvent, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Contact, Country } from '../contacts.types';
-import { ContactsService } from '../contacts.service';
+import { ContactsService } from '../_services/contacts.service';
 
 @Component({
     selector       : 'contacts-list',

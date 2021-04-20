@@ -1,0 +1,14 @@
+:host {
+
+    .content {
+
+        form {
+            width: 100%;
+            max-width: 800px !important;
+        }
+
+        .form-errors-model {
+            flex: 1;
+        }
+    }
+}

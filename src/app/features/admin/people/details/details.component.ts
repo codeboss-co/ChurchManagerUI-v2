@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Contact, Country, Tag } from '../contacts.types';
 import { ContactsListComponent } from '../list/list.component';
-import { ContactsService } from '../contacts.service';
+import { ContactsService } from '../_services/contacts.service';
 
 @Component({
     selector       : 'contacts-details',

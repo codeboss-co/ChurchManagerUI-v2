@@ -30,7 +30,8 @@ export const compactNavigation: FuseNavigationItem[] = [
                 subtitle: 'Add a new family',
                 type    : 'basic',
                 icon    : 'heroicons_outline:user-group',
-                link    : '/apps/people/new-family'
+                link    : '/apps/people/new-family',
+                exactMatch: true
             },
             {
                 id   : 'people.contacts',
@@ -38,7 +39,8 @@ export const compactNavigation: FuseNavigationItem[] = [
                 subtitle: 'People directory',
                 type : 'basic',
                 icon : 'heroicons_outline:users',
-                link : '/apps/people'
+                link : '/apps/people',
+                exactMatch: true
             },
         ] // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
     },

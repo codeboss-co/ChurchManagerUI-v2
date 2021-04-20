@@ -115,3 +115,26 @@ export interface Church
 }
 
 
+/**
+ * Update profile models
+ */
+export interface ProfileConnectionInfo
+{
+    churchId: number;
+    connectionStatus: string;
+    firstVisitDate: Date | null;
+    source: string;
+}
+
+export interface ProfileGeneralInfo
+{
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    gender: string;
+    ageClassification: string;
+    maritalStatus: string;
+    birthDate?: { day?: number, month?: number, year?: number };
+}
+
+
