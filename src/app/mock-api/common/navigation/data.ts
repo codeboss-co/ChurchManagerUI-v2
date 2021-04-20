@@ -54,7 +54,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 id      : 'groups.cell-ministry',
                 title   : 'Cell Ministry',
                 type    : 'basic',
-                icon    : 'heroicons_outline:user-group',
+                icon    : 'heroicons_outline:view-boards',
                 link    : '/apps/groups/cell-ministry',
                 exactMatch: true
             }

@@ -1,0 +1,20 @@
+<form [formGroup]="form">
+    <!--<div fxLayout="row" fxLayoutAlign="start center">-->
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Church</mat-label>
+            <mat-select formControlName="churchId" required>
+                <mat-option *ngFor="let church of churches$ | async" [value]="church.id">{{church.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Group</mat-label>
+            <mat-select formControlName="groupId" required>
+                <mat-option value="0">-- All Groups --</mat-option>
+                <mat-option *ngFor="let group of groups$ | async" [value]="group.id">{{group.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+<!--    </div>-->
+</form>
