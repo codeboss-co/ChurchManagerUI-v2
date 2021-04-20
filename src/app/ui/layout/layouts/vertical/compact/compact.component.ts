@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService } from '@fuse/components/navigation';
 import { InitialData } from 'app/app.types';
+import { BuildInfoService } from '@core/build-info/build-info.service';
 
 @Component({
     selector     : 'compact-layout',
@@ -24,7 +25,8 @@ export class CompactLayoutComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        public  buildInfo: BuildInfoService
     )
     {
     }
