@@ -18,6 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { SharedModule } from '@shared/shared.module';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const routes: Routes = [
     {
@@ -49,7 +50,7 @@ const routes: Routes = [
         MatSlideToggleModule,
         MatTabsModule,
         MatTableModule,
-
+        NgApexchartsModule,
 
         // Controls
         ChurchGroupsSelectControlModule

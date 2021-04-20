@@ -3,6 +3,7 @@ import { FuseAnimations } from '@fuse/animations';
 import { CellMinistryDataService } from '../cell-ministry-data.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { ApexOptions } from 'ng-apexcharts';
 
 @Component({
     selector     : 'cell-ministry',
@@ -12,6 +13,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class CellMinistryComponent implements OnDestroy
 {
+    chartGithubIssues: ApexOptions = {};
+
     totalAttendance$ = new BehaviorSubject(0);
     totalFirstTimers$ = new BehaviorSubject(0);
     totalNewConverts$ = new BehaviorSubject(0);
@@ -103,5 +106,20 @@ export class CellMinistryComponent implements OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
     }
 }
