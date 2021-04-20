@@ -80,8 +80,9 @@ export class ProfileGroupsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Extract PersonId from URL
-        this._route.params
+        // Extract PersonId from parent URL
+        // https://ultimatecourses.com/blog/angular-parent-routing-params
+        this._route.parent.params
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(tap(({personId})  => this._personId = personId ))
             .subscribe();

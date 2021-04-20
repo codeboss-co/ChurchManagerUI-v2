@@ -21,6 +21,10 @@ export const profileRoutes: Route[] = [
         component: ProfileComponent,
         resolve: {
             profile: ProfileResolver
-        }
+        },
+        children: [
+            {path: '', component: ProfileAboutComponent },
+            {path: 'groups', component: ProfileGroupsComponent },
+        ]
     }
 ];
