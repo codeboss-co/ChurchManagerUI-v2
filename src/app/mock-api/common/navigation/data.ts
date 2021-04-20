@@ -55,19 +55,20 @@ export const compactNavigation: FuseNavigationItem[] = [
                 title   : 'Cell Ministry',
                 type    : 'collapsable',
                 icon    : 'heroicons_outline:view-boards',
-                link : '/apps/groups/cell-ministry',
                 children: [
                     {
                         id   : 'groups.cell-ministry.dashboard',
                         title: 'Dashboard',
                         type : 'basic',
+                        icon : 'heroicons_outline:home',
                         link : '/apps/groups/cell-ministry',
                         exactMatch: true,
                     },
                     {
                         id   : 'groups.cell-ministry.attendance-reports',
-                        title: 'Cell Attendance Records',
+                        title: 'Attendance Records',
                         type : 'basic',
+                        icon    : 'heroicons_outline:clipboard-check',
                         link : '/apps/groups/cell-ministry/attendance-reports',
                         exactMatch: true,
                     }
