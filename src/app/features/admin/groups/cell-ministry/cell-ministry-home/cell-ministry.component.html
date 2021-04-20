@@ -1,138 +1,56 @@
-<div id="cell-ministry" class="page-layout simple">
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
 
-    <!-- HEADER -->
-    <div class="header accent p-24 h-160" fxLayout="row" fxLayoutAlign="space-between center">
-
-        <div fxLayout="column" fxLayoutAlign="center start">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <mat-icon class="secondary-text s-18">home</mat-icon>
-                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Cell Ministry</span>
-            </div>
-            <div class="h2 mt-16">Dashboard</div>
-        </div>
-
-    </div>
-    <!-- / HEADER -->
-
-    <!-- CONTENT -->
-    <div class="content">
-
-        <div class="p-8"  fxLayout="row" fxLayoutAlign="space-around start">
-            <div class="fuse-card">
-
-                <div class="p-16">
-                    <div class="h5 secondary-text">Last 4 Weeks - Attendance</div>
-                    <div class="font-size-54 font-weight-300 line-height-1 mt-8">{{totalAttendance$ | async}}</div>
-                </div>
-
-                <!--<div class="p-16 pt-0">
-                    <span class="green-fg">{{attendancePercentageChange$ | async}}%</span>
-                    week change
-                </div>-->
-
-                <div class="h-80">
-                    <ngx-charts-bar-vertical
-                        [scheme]="attendanceChart.scheme"
-                        [results]="attendanceChart.data">
-                    </ngx-charts-bar-vertical>
-                </div>
-
-            </div>
-            <div class="fuse-card">
-
-                <div class="p-16">
-                    <div class="h5 secondary-text">Last 4 Weeks - First Timers</div>
-                    <div class="font-size-54 font-weight-300 line-height-1 mt-8">{{totalFirstTimers$ | async}}</div>
-                </div>
-
-              <!--  <div class="p-16 pt-0">
-                    <span class="green-fg">+22%</span>
-                    of target
-                </div>-->
-
-                <div class="h-80">
-                    <ngx-charts-bar-vertical
-                        [scheme]="firstTimerChart.scheme"
-                        [results]="firstTimerChart.data">
-                    </ngx-charts-bar-vertical>
-                </div>
-
-            </div>
-            <div class="fuse-card">
-
-                <div class="p-16">
-                    <div class="h5 secondary-text">Last 4 Weeks - New Converts</div>
-                    <div class="font-size-54 font-weight-300 line-height-1 mt-8">{{totalNewConverts$ | async}}</div>
-                </div>
-
-                <!--<div class="p-16 pt-0">
-                    <span class="green-fg">+22%</span>
-                    of target
-                </div>-->
-
-                <div class="h-80">
-                    <ngx-charts-bar-vertical
-                        [scheme]="newConvertChart.scheme"
-                        [results]="newConvertChart.data">
-                    </ngx-charts-bar-vertical>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- CENTER -->
-        <div class="center p-8" fusePerfectScrollbar>
-
-            <!-- CONTENT -->
-            <div class="content p-8">
-                <div class="cards">
-
-
-                    <!-- CARD 1 -->
-                    <div class="card">
-
-                        <!-- PREVIEW -->
-                        <div class="card-preview">
-
-                            <div class="fuse-card">
-
-                                <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
-
-                                    <div class="pr-16">
-                                        <div class="h1">Attendance Reports</div>
-                                        <div class="h4 secondary-text">Cell attendance records submitted.</div>
-                                    </div>
-
-                                    <div class="w-80 h-80">
-                                        <img src="assets/images/cards/card2-small.jpg">
-                                    </div>
-
-                                </div>
-
-                                <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
-                                    <button mat-button color="accent" [routerLink]="'attendance-reports'">VIEW</button>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <!-- / PREVIEW -->
-
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Groups</a>
                     </div>
-                    <!-- / CARD 1 -->
-
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <a class="ml-1 text-primary-500">Cell Ministry</a>
+                    </div>
 
                 </div>
-
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'./..'">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
             </div>
-            <!-- / CONTENT -->
-
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Dashboard
+                </h2>
+            </div>
         </div>
-        <!-- / CENTER -->
 
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                class="ml-3"
+                mat-flat-button
+                [routerLink]="'./attendance-reports'"
+                [color]="'accent'">
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:clipboard-check'"></mat-icon>
+                View Attendance Reports
+            </button>
+        </div>
     </div>
-    <!-- / CONTENT -->
+
 
 </div>
 

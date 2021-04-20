@@ -7,7 +7,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 @Component({
     selector     : 'cell-ministry',
     templateUrl  : './cell-ministry.component.html',
-    styleUrls    : ['./cell-ministry.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : FuseAnimations
 })
