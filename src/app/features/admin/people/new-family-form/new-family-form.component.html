@@ -33,6 +33,7 @@
 
                     <cm-address-editor formControlName="address"></cm-address-editor>
 
+                    <!-- Actions -->
                     <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
                         <button class="px-8 mt-4" mat-raised-button matStepperNext type="button" color="primary">
                             Next
@@ -45,24 +46,20 @@
 
             <mat-step [stepControl]="familyFormStep2">
 
-                <form fxLayout="column" [formGroup]="familyFormStep2">
+                <form class="flex flex-col" [formGroup]="familyFormStep2">
 
                     <ng-template matStepLabel>Family Members</ng-template>
 
-                    <div class="mat-card p-24 mr-24">
-
-                        <div class="h2 mb-24">Family Members</div>
-
-                        <div fxLayout="row" fxLayoutAlign="space-around center">
-                            <mat-form-field appearance="outline" fxFlex="50">
+                        <div class="flex items-baseline">
+                            <mat-form-field appearance="outline">
                                 <mat-label>Family Name</mat-label>
                                 <input matInput formControlName="familyName">
                                 <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                             </mat-form-field>
 
-                            <div fxFlexOffset="20" fxFlex="50">
+                            <div class="ml-4">
                                 <!-- ADD PERSON BUTTON -->
-                                <button mat-fab class="accent" id="add-person-button" (click)="newPerson()" aria-label="add person"
+                                <button mat-mini-fab color="primary" id="add-person-button" (click)="newPerson()" aria-label="add person"
                                         [@zoomIn]="true">
                                     <mat-icon>person_add</mat-icon>
                                 </button>
@@ -72,18 +69,16 @@
 
                         <people-family-members-list [familyMembers]="familyMembers$ | async"></people-family-members-list>
 
-                    </div>
-
-                    <div class="mt-16" fxLayout="row" fxLayoutAlign="center center">
-                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
-                            Previous
-                        </button>
-                        <button [disabled]="!familyFormStep2.valid"
-                                mat-raised-button type="button" color="accent" (click)="saveFamily()">
-                            Save
-                        </button>
-                    </div>
-
+                        <!-- Actions -->
+                        <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <button class="mr-8" mat-button matStepperPrevious type="button">
+                                Previous
+                            </button>
+                            <button [disabled]="!familyFormStep2.valid"
+                                    mat-raised-button type="button" color="accent" (click)="saveFamily()">
+                                Save
+                            </button>
+                        </div>
                 </form>
 
             </mat-step>
