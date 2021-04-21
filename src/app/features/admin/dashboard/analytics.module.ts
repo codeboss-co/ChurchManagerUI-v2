@@ -13,6 +13,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from '@shared/shared.module';
 import { AnalyticsComponent } from './analytics.component';
 import { analyticsRoutes } from './analytics.routing';
+import { DashboardDataService } from './dashboard-data.service';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { analyticsRoutes } from './analytics.routing';
         MatTooltipModule,
         NgApexchartsModule,
         SharedModule
-    ]
+    ],
+    providers: [DashboardDataService]
 })
 export class AnalyticsModule
 {

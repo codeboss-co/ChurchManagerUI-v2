@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col flex-auto h-80">
-                    <apx-chart
+                    <apx-chart *ngIf="chartVisitors$ | async as chartVisitors"
                         class="flex-auto w-full h-full"
                         [chart]="chartVisitors.chart"
                         [colors]="chartVisitors.colors"
