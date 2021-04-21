@@ -1584,8 +1584,8 @@ export const analytics = {
         uniqueVisitors: 46085,
         series        : [35, 65],
         labels        : [
-            'Under 30',
-            'Over 30'
+            'Adults',
+            'Children'
         ]
     },
     language           : {
