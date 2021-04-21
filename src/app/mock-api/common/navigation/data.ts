@@ -12,11 +12,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
-        id      : 'dashboards',
-        title   : 'Dashboards',
-        type    : 'aside',
+        id      : 'dashboard',
+        title   : 'Dashboard',
+        type    : 'basic',
         icon    : 'heroicons_outline:home',
-        children: []
+        link : '/dashboard',
     },
     {
         id      : 'apps.people',
