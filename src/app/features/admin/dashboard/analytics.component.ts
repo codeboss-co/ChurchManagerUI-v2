@@ -6,6 +6,7 @@ import { ApexOptions } from 'ng-apexcharts';
 import { AnalyticsService } from './analytics.service';
 import { DashboardDataService } from '@features/admin/dashboard/dashboard-data.service';
 import { ApexAxisChartSeries } from 'ng-apexcharts/lib/model/apex-types';
+import moment from 'moment';
 
 @Component({
     selector       : 'analytics',
@@ -95,7 +96,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                         tempDatasets[record.year] = [
                             {
                                 name: 'Attendance',
-                                data: record.data.map( value => ({x: value.month, y: value.totalAttendance})  ).reverse(),
+                                data: record.data.map( value => ({x: moment().month(value.month - 1).format('MMM'), y: value.totalAttendance})  ).reverse(),
                             }
                         ];
 
@@ -197,7 +198,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                             tooltip   : {
                                 enabled: false
                             },
-                            type      : 'datetime'
+                            type      : 'categories',
+                            categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
                         },
                         yaxis     : {
                             axisTicks : {
