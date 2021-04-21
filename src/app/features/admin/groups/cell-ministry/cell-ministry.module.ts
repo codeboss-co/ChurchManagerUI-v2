@@ -21,6 +21,8 @@ import { SharedModule } from '@shared/shared.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-ministry/attendance-report-feedback/attendance-report-feedback';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
 
 const routes: Routes = [
     {
@@ -29,7 +31,8 @@ const routes: Routes = [
         children : [
             {
                 path         : ':id',
-                component    : AttendanceReportFeedbackComponent
+                component    : AttendanceReportFeedbackComponent,
+                canDeactivate: [CanDeactivateAttendanceReportFeedback]
             }
         ]
     },
@@ -63,6 +66,7 @@ const routes: Routes = [
         MatSlideToggleModule,
         MatTabsModule,
         MatTableModule,
+        MatTooltipModule,
         NgApexchartsModule,
 
         // Controls

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { FuseAnimations } from '@fuse/animations';
 import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,18 +18,21 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
 import { ChurchGroup } from '@ui/controls/church-groups-select-control/church-group.model';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     selector     : 'cell-ministry-attendance-reports',
     templateUrl  : './cell-attendance-reports.component.html',
-    styleUrls    : ['./cell-attendance-reports.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations   : FuseAnimations
 })
 export class CellAttendanceReportsComponent implements OnInit
 {
+    @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+
+
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
     drawerMode: 'over' | 'side';
@@ -40,6 +50,7 @@ export class CellAttendanceReportsComponent implements OnInit
      */
     constructor(
         private _formBuilder: FormBuilder,
+        private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
         private _data: CellMinistryDataService,
         private _router: Router,
@@ -150,7 +161,17 @@ export class CellAttendanceReportsComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     onBackdropClicked(): void {
-        console.log('onBackdropClicked');
+        // Get the current activated route
+        let route = this._activatedRoute;
+        while ( route.firstChild )
+        {
+            route = route.firstChild;
+        }
+        // Go to contact
+        this._router.navigate(['../'], {relativeTo: route});
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
     }
 
     /**
