@@ -146,9 +146,9 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                             borderColor: '#334155',
                             padding    : {
                                 top   : 10,
-                                bottom: -40,
-                                left  : 0,
-                                right : 0
+                                bottom: -20,
+                                left  : 20,
+                                right : 20
                             },
                             position   : 'back',
                             xaxis      : {
@@ -159,14 +159,11 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                         },
                         series    : tempDatasets,
                         stroke    : {
-                            width: 2
+                            width: 3
                         },
                         tooltip   : {
                             followCursor: true,
                             theme       : 'dark',
-                            x           : {
-                                format: 'MMM' // MMM dd, yyyy
-                            },
                             y           : {
                                 formatter(value: number): string
                                 {
@@ -189,7 +186,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                                 }
                             },
                             labels    : {
-                                offsetY: -20,
+                                offsetY: -5,
                                 style  : {
                                     colors: '#CBD5E1'
                                 }
@@ -198,7 +195,6 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                             tooltip   : {
                                 enabled: false
                             },
-                            type      : 'categories',
                             categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
                         },
                         yaxis     : {
@@ -215,11 +211,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                         }
                     };
 
-                    console.log( 'chartVisitors', this.data.visitors.series );
-                    console.log( 'tempDatasets', tempDatasets );
-
                     this.chartVisitors$.next( chartVisitors );
-
                 }
             );
     }
