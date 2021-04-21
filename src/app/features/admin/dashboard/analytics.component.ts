@@ -127,6 +127,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy
      */
     private _prepareChartData(): void
     {
+        console.log( 'this.data.visitors.series', this.data.visitors.series, '' );
+
         // Visitors
         this.chartVisitors = {
             chart     : {
