@@ -1,5 +1,6 @@
 export interface GroupAttendanceRecord {
-    groupName: string,
+    id: number;
+    groupName: string;
     attendanceDate: Date;
     didNotOccur?: boolean;
     attendanceCount?: number;

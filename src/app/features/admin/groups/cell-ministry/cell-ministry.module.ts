@@ -19,11 +19,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { SharedModule } from '@shared/shared.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-ministry/attendance-report-feedback/attendance-report-feedback';
 
 const routes: Routes = [
     {
         path     : 'attendance-reports',
-        component: CellAttendanceReportsComponent
+        component: CellAttendanceReportsComponent,
+        children : [
+            {
+                path         : ':id',
+                component    : AttendanceReportFeedbackComponent
+            }
+        ]
     },
     {
         path     : '**',
@@ -32,7 +40,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [CellMinistryComponent, CellAttendanceReportsComponent],
+    declarations: [
+        CellMinistryComponent,
+        CellAttendanceReportsComponent,
+        AttendanceReportFeedbackComponent
+    ],
     imports: [
         RouterModule.forChild(routes),
         SharedModule,
@@ -47,6 +59,7 @@ const routes: Routes = [
         MatMenuModule,
         MatPaginatorModule,
         MatSelectModule,
+        MatSidenavModule,
         MatSlideToggleModule,
         MatTabsModule,
         MatTableModule,
