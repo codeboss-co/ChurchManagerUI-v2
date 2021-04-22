@@ -4,9 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { GroupAttendanceRecordDetail, GroupAttendee, GroupAttendees } from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { map, pluck } from 'rxjs/operators';
+import { GroupAttendanceRecordDetail, GroupAttendee } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { combineLatest } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -21,6 +24,10 @@ export class AttendanceReportFeedbackComponent implements OnInit
     tableColumns: string[] = ['firstName', 'lastName', 'didAttend', 'isFirstTime', 'isNewConvert', 'receivedHolySpirit'];
 
     feedbackControl: FormControl = new FormControl();
+
+    submitBtnClicked = new Subject();
+
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
@@ -38,8 +45,21 @@ export class AttendanceReportFeedbackComponent implements OnInit
     {
         // Open the drawer
         this.component.matDrawer.open();
+
         // Set the attendance record
-        this.attendanceRecord$ = this._data.attendanceRecord$;
+        this.attendanceRecord$ = this._data.attendanceRecord$
+            .pipe(
+                tap(({attendanceReview}) => this.feedbackControl.patchValue(attendanceReview?.feedback) )
+            );
+
+        // Update attendance record
+        combineLatest([this.submitBtnClicked, this._activatedRoute.params])
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap(([_, { id }]) => {
+                    return this._data.updateAttendanceFeedback$(id, this.feedbackControl.value);
+                } )
+            ).subscribe();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -65,8 +85,11 @@ export class AttendanceReportFeedbackComponent implements OnInit
         return this.component.matDrawer.close();
     }
 
+    /**
+     * Trigger update of attendance
+     */
     updateAttendance(): void
     {
-
+        this.submitBtnClicked.next();
     }
 }

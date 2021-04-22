@@ -98,4 +98,9 @@ export class CellMinistryDataService extends HttpBaseService
                 tap(record => this._attendanceRecord.next(record))
             );
     }
+
+    updateAttendanceFeedback$( attendanceId: number, feedback: string ): Observable<any> {
+        const body = { attendanceId, feedback };
+        return super.post<GroupAttendanceRecordDetail>(`${this._apiUrl}/v1/cellministry/attendance/feedback`, body);
+    }
 }

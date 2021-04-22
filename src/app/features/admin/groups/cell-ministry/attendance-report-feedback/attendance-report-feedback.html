@@ -36,7 +36,8 @@
                         <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-amber-200 dark:text-gray-300 dark:bg-gray-700">
                             <span class="text-sm font-medium whitespace-nowrap">{{record.attendanceDate | date}}</span>
                         </div>
-                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-blue-200 dark:text-gray-300 dark:bg-gray-700">
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700"
+                             [ngClass]="{'bg-blue-200': record.attendanceReviewed, 'bg-red-200': !record.attendanceReviewed}">
                             <span class="text-sm font-medium whitespace-nowrap">{{record.attendanceReviewed ? 'Reviewed' : 'Not Reviewed'}}</span>
                         </div>
                         <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-indigo-200 dark:text-gray-300 dark:bg-gray-700">

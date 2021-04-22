@@ -18,6 +18,7 @@ export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
     attendanceRate: number;
     attendanceReviewed: boolean;
     attendees?: GroupAttendees;
+    attendanceReview: AttendanceReview;
 }
 
 export type GroupAttendees = GroupAttendee[];
@@ -30,6 +31,12 @@ export interface GroupAttendee {
     receivedHolySpirit: boolean;
     note?: any;
     groupMember: GroupMemberPerson;
+}
+
+interface AttendanceReview {
+    isReviewed?: boolean;
+    feedback?: string;
+    reviewedBy?: string;
 }
 
 interface GroupMemberPerson {
