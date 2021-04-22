@@ -11,6 +11,15 @@ export interface GroupAttendanceRecord {
     photoUrls: string[];
 }
 
+export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
+    didAttendCount: number;
+    attendanceCount: number;
+    attendanceEntered: boolean;
+    attendanceRate: number;
+    attendanceReviewed: boolean;
+    attendees?: any[];
+}
+
 export interface GroupAttendanceQuery {
     churchId: number;
     groupId?: number;

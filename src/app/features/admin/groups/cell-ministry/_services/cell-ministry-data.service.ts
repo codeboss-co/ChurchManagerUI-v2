@@ -4,8 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, share } from 'rxjs/operators';
-import { CellGroupsWeeklyBreakdown, GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
+import { map, shareReplay } from 'rxjs/operators';
+import {
+    CellGroupsWeeklyBreakdown,
+    GroupAttendanceQuery,
+    GroupAttendanceRecord,
+    GroupAttendanceRecordDetail
+} from '../cell-ministry.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { ApiResponse } from '@shared/shared.models';
 import { BehaviorSubject } from 'rxjs';
@@ -17,7 +22,7 @@ export class CellMinistryDataService extends HttpBaseService
     // Private
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
-    private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecord>(null);
+    private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecordDetail>(null);
     private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
     constructor(
@@ -34,7 +39,7 @@ export class CellMinistryDataService extends HttpBaseService
     /**
      * Getter for attendance record
      */
-    get attendanceRecord$(): Observable<GroupAttendanceRecord>
+    get attendanceRecord$(): Observable<GroupAttendanceRecordDetail>
     {
         return this._attendanceRecord.asObservable();
     }
@@ -78,7 +83,7 @@ export class CellMinistryDataService extends HttpBaseService
     {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/cellministry/charts`)
             .pipe(
-                share(),
+                shareReplay(1),
                 map(response => response.data),
                 tap(chartData => this._weeklyChartData.next(chartData))
             );
@@ -87,8 +92,8 @@ export class CellMinistryDataService extends HttpBaseService
     /**
      * Fetch single attendance record
      */
-    getAttendanceRecordById$( attendanceId: number ): Observable<GroupAttendanceRecord> {
-        return super.get<GroupAttendanceRecord>(`${this._apiUrl}/v1/cellministry/attendance/${attendanceId}`)
+    getAttendanceRecordById$( attendanceId: number ): Observable<GroupAttendanceRecordDetail> {
+        return super.get<GroupAttendanceRecordDetail>(`${this._apiUrl}/v1/cellministry/attendance/${attendanceId}`)
             .pipe(
                 tap(record => this._attendanceRecord.next(record))
             );
