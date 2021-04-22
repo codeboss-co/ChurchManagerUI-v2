@@ -31,6 +31,8 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { ProfileGeneralInfoFormDialogComponent } from './tabs/about/components/general-info-form/general-info-form-dialog.component';
 import { ProfileConnectionInfoFormDialogComponent } from './tabs/about/components/connection-info-form/connection-info-form-dialog.component';
 import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
+import { ProfilePersonalInfoFormDialogComponent } from './tabs/about/components/personal-info-form/personal-info-form-dialog.component';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/bir
         GroupAttendanceFormDialogComponent,
         // Edit Dialogs
         ProfileGeneralInfoFormDialogComponent,
-        ProfileConnectionInfoFormDialogComponent
+        ProfileConnectionInfoFormDialogComponent,
+        ProfilePersonalInfoFormDialogComponent
     ],
     imports     : [
         RouterModule.forChild(profileRoutes),
@@ -70,7 +73,8 @@ import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/bir
 
         // UI Controls
         GenderControlModule,
-        BirthDateEditorModule
+        BirthDateEditorModule,
+        ChurchesSelectControlModule
     ],
     providers: [ProfileResolver, ProfileService, GroupsDataService]
 })

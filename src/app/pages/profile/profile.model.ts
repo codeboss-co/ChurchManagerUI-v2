@@ -136,14 +136,21 @@ export interface ProfileConnectionInfo
     source: string;
 }
 
-export interface ProfileGeneralInfo
+export interface ProfilePersonalInfo
 {
     firstName: string;
     middleName?: string;
     lastName: string;
     gender: string;
     ageClassification: string;
-    maritalStatus: string;
+}
+
+export interface ProfileGeneralInfo
+{
+    occupation?: string;
+    phoneNumber: string;
+    email?: string;
+    maritalStatus?: string;
     birthDate?: { day?: number, month?: number, year?: number };
 }
 

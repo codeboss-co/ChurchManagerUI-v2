@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, first, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -7,9 +8,11 @@ import { FuseAnimations } from '@fuse/animations';
 
 import { Profile } from '../../profile.model';
 import { ProfileService } from '../../profile.service';
-import { ProfileConnectionInfoFormDialogComponent } from './components/connection-info-form/connection-info-form-dialog.component';
-import { FormGroup } from '@angular/forms';
-import { ProfileGeneralInfoFormDialogComponent } from './components/general-info-form/general-info-form-dialog.component';
+import {
+    ProfileConnectionInfoFormDialogComponent,
+    ProfileGeneralInfoFormDialogComponent,
+    ProfilePersonalInfoFormDialogComponent
+} from './components';
 
 @Component({
     selector       : 'profile-main',
@@ -90,6 +93,75 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                          * Save
                          */
                         case 'save':
+                            return this._profileService.editGeneralInfo$(profile.personId, formData.getRawValue());
+                    }
+                })
+            );
+
+        afterClosed$.subscribe(
+            value => {},
+            error => {},
+            () => console.log('GeneralInfo completed')
+        );
+    }
+
+    onEditPersonalInfo(): void
+    {
+        this.dialogRef = this._matDialog.open(ProfilePersonalInfoFormDialogComponent, {
+            panelClass: 'personal-info-form-form-dialog',
+            data : {
+                action: 'edit',
+                profile: this.profile$.getValue()
+            }
+        });
+
+        const afterClosed$ = combineLatest([this.dialogRef.afterClosed(), this.profile$])
+            .pipe(
+                filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
+                first(), // <-- completes the observable and unsubscribes,
+                switchMap(([response, profile]) => {
+                    const actionType: string = response[0];
+                    const formData: FormGroup = response[1];
+                    switch ( actionType )
+                    {
+                        /**
+                         * Save
+                         */
+                        case 'save':
+                            return this._profileService.editPersonalInfo$(profile.personId, formData.getRawValue());
+                    }
+                })
+            );
+
+        afterClosed$.subscribe(
+            value => {},
+            error => {},
+            () => console.log('PersonalInfo completed')
+        );
+    }
+
+    onEditConnectionsInfo(): void {
+        this.dialogRef = this._matDialog.open(ProfileConnectionInfoFormDialogComponent, {
+            panelClass: 'connection-info-form-form-dialog',
+            data : {
+                action: 'edit',
+                profile: this.profile$.getValue()
+            }
+        });
+
+        const afterClosed$ = combineLatest([this.dialogRef.afterClosed(), this.profile$])
+            .pipe(
+                filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
+                first(), // <-- completes the observable and unsubscribes,
+                switchMap(([response, profile]) => {
+                    const actionType: string = response[0];
+                    const formData: FormGroup = response[1];
+                    switch ( actionType )
+                    {
+                        /**
+                         * Save
+                         */
+                        case 'save':
                             return this._profileService.editConnectionInfo$(profile.personId, formData.getRawValue());
                     }
                 })
@@ -98,7 +170,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
         afterClosed$.subscribe(
             value => {},
             error => {},
-            () => console.log('completed')
+            () => console.log('ConnectionInfo completed')
         );
     }
 }

@@ -127,13 +127,13 @@
                         <div class="-mr-3">
                             <button
                                 mat-icon-button
-                                [matMenuTriggerFor]="generalActionsMenu">
+                                [matMenuTriggerFor]="personalActionsMenu">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
-                            <mat-menu #generalActionsMenu="matMenu">
-                                <button mat-menu-item>
+                            <mat-menu #personalActionsMenu="matMenu">
+                                <button mat-menu-item (click)="onEditPersonalInfo()">
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>
@@ -178,7 +178,7 @@
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #connectionActionsMenu="matMenu">
-                                <button mat-menu-item>
+                                <button mat-menu-item (click)="onEditConnectionsInfo()">
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>

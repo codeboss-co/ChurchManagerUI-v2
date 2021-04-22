@@ -4,12 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Profile } from '../../../../profile.model';
 
 @Component({
-    selector     : 'profile-general-info-form-dialog',
-    templateUrl  : './general-info-form-dialog.component.html',
-    styleUrls    : ['./general-info-form-dialog.component.scss'],
+    selector     : 'profile-personal-info-form-dialog',
+    templateUrl  : './personal-info-form-dialog.component.html',
+    styleUrls    : ['./personal-info-form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ProfileGeneralInfoFormDialogComponent implements OnInit
+export class ProfilePersonalInfoFormDialogComponent implements OnInit
 {
     action: string;
     form: FormGroup;
@@ -21,7 +21,7 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
      *
      */
     constructor(
-        public matDialogRef: MatDialogRef<ProfileGeneralInfoFormDialogComponent>,
+        public matDialogRef: MatDialogRef<ProfilePersonalInfoFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: { action: string, profile: Profile },
         private _formBuilder: FormBuilder
     )
@@ -54,16 +54,11 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
     createForm(): FormGroup
     {
         return this._formBuilder.group({
-            occupation: [this.profile.occupation],
-            phoneNumber: [this.profile.phoneNumbers.length ? this.profile.phoneNumbers[0].number : null],
-            email: [this.profile.email?.address, [Validators.email]],
-            maritalStatus: [this.profile.maritalStatus],
-            birthDate: [
-                {
-                    day: this.profile.birthDate.birthDay,
-                    month: this.profile.birthDate.birthMonth,
-                    year: this.profile.birthDate.birthYear,
-                }]
+            firstName: [this.profile.fullName.firstName, [Validators.required]],
+            middleName: [this.profile.fullName.middleName],
+            lastName: [this.profile.fullName.lastName, [Validators.required]],
+            ageClassification: [this.profile.ageClassification],
+            gender: [this.profile.gender]
         });
     }
 }

@@ -1,23 +1,27 @@
 <div class="dialog-content-wrapper">
-    <mat-toolbar matDialogTitle class="mat-accent m-0">
-        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title">{{dialogTitle}}</span>
-            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-toolbar-row>
-    </mat-toolbar>
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">{{dialogTitle}}</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
 
-    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+    <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
 
         <form [formGroup]="form">
 
-            <div fxLayout="row" fxLayoutAlign="start start">
+            <div class="flex flex-row items-start justify-start space-x-4">
                 <churches-select-control formControlName="churchId"></churches-select-control>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
                     <mat-label>Connection Status</mat-label>
                     <mat-select formControlName="connectionStatus" required>
                         <mat-option [value]="'New Convert'">
@@ -33,9 +37,9 @@
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start"  fxLayoutGap="5px">
+            <div class="flex flex-row items-start justify-start space-x-4">
 
-                <mat-form-field appearance="outline" fxFlex>
+                <mat-form-field appearance="outline">
                     <mat-label>Source</mat-label>
                     <mat-select formControlName="source" required>
                         <mat-option [value]="'Church'">
@@ -50,7 +54,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" fxFlex>
+                <mat-form-field appearance="outline">
                     <mat-label>First Visit Date</mat-label>
                     <input matInput [matDatepicker]="firstVisitDatePicker" name="firstVisitDate" formControlName="firstVisitDate">
                     <mat-datepicker-toggle matSuffix [for]="firstVisitDatePicker"></mat-datepicker-toggle>
@@ -59,21 +63,30 @@
             </div>
 
         </form>
-
-        {{form.value | json}}
-
+        
     </div>
 
-    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
-
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(['save',form])"
-                [disabled]="form.invalid || !form.touched"
-                aria-label="SAVE">
-            SAVE
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
         </button>
-
+        <!-- Save -->
+        <button *ngIf="action === 'edit'"
+                class="ml-2"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="form.invalid || !form.touched"
+                [matTooltip]="'Save'"
+                aria-label="Save"
+                (click)="matDialogRef.close(['save',form])">
+            Save
+        </button>
     </div>
+
 </div>
