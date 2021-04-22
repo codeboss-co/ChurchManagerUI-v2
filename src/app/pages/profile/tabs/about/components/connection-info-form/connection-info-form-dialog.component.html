@@ -1,0 +1,79 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="form">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <churches-select-control formControlName="churchId"></churches-select-control>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Connection Status</mat-label>
+                    <mat-select formControlName="connectionStatus" required>
+                        <mat-option [value]="'New Convert'">
+                            New Convert
+                        </mat-option>
+                        <mat-option [value]="'First Timer'">
+                            First Timer
+                        </mat-option>
+                        <mat-option [value]="'Member'">
+                            Member
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start"  fxLayoutGap="5px">
+
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Source</mat-label>
+                    <mat-select formControlName="source" required>
+                        <mat-option [value]="'Church'">
+                            Church
+                        </mat-option>
+                        <mat-option [value]="'Outreach'">
+                            Outreach
+                        </mat-option>
+                        <mat-option [value]="'Cell'">
+                            Cell
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>First Visit Date</mat-label>
+                    <input matInput [matDatepicker]="firstVisitDatePicker" name="firstVisitDate" formControlName="firstVisitDate">
+                    <mat-datepicker-toggle matSuffix [for]="firstVisitDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #firstVisitDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+        {{form.value | json}}
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="matDialogRef.close(['save',form])"
+                [disabled]="form.invalid || !form.touched"
+                aria-label="SAVE">
+            SAVE
+        </button>
+
+    </div>
+</div>

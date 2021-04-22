@@ -1,0 +1,116 @@
+<div class="dialog-content-wrapper">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">{{dialogTitle}}</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
+
+        <form [formGroup]="form">
+
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Age Classification</mat-label>
+                    <mat-select formControlName="ageClassification" required>
+                        <mat-option [value]="'Adult'">
+                            Adult
+                        </mat-option>
+                        <mat-option [value]="'Child'">
+                            Child
+                        </mat-option>
+                        <mat-option [value]="'Unknown'">
+                            Unknown
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <cm-gender-field [appearance]="'outline'" formControlName="gender"></cm-gender-field>
+            </div>
+
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="firstName" formControlName="firstName" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="middleName" formControlName="middleName" matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="lastName" formControlName="lastName" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-row items-start justify-start space-x-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Marital Status</mat-label>
+                    <mat-select formControlName="maritalStatus">
+                        <mat-option [value]="'Single'">
+                            Single
+                        </mat-option>
+                        <mat-option [value]="'Married'">
+                            Married
+                        </mat-option>
+                        <mat-option [value]="'Divorced'">
+                            Divorced
+                        </mat-option>
+                        <mat-option [value]="'Widow'">
+                            Widow/Widower
+                        </mat-option>
+                        <mat-option [value]="'Unknown'">
+                            Unknown
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <cm-birthdate-control formControlName="birthDate"></cm-birthdate-control>
+
+        </form>
+
+    </div>
+
+
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
+        </button>
+        <!-- Save -->
+        <button *ngIf="action === 'edit'"
+                class="ml-2"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="form.invalid || !form.touched"
+                [matTooltip]="'Save'"
+                aria-label="Save"
+                (click)="matDialogRef.close(['save',form])">
+            Save
+        </button>
+    </div>
+
+
+</div>

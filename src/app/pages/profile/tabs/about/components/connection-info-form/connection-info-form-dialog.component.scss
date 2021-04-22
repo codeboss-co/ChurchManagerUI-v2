@@ -1,0 +1,34 @@
+.connection-info-form-form-dialog {
+
+    max-width: 100% !important;
+
+    /*sm*/
+    @media (min-width: 640px) {
+        width: 100%;
+    }
+
+    /*>= md*/
+    @media (min-width: 768px) {
+        width: 650px;
+    }
+
+    .mat-dialog-container {
+        padding: 0;
+
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+
+        .toolbar-bottom {
+            height: auto;
+        }
+    }
+
+    .dialog-content-wrapper {
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+}

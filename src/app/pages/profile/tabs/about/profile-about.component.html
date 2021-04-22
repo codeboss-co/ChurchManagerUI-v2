@@ -17,7 +17,7 @@
                                 [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                         </button>
                         <mat-menu #generalActionsMenu="matMenu">
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="onEditGeneralInfo()">
                                 <mat-icon>edit</mat-icon>
                                 <span>Edit</span>
                             </button>
@@ -123,7 +123,7 @@
                 <fuse-card class="flex flex-col p-8 m-8 ">
 
                     <div class="flex items-center justify-between">
-                        <div class="text-2xl font-semibold leading-tight">General</div>
+                        <div class="text-2xl font-semibold leading-tight">Personal</div>
                         <div class="-mr-3">
                             <button
                                 mat-icon-button
