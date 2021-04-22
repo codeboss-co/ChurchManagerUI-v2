@@ -20,7 +20,7 @@ export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
     attendees?: GroupAttendee[];
 }
 
-interface GroupAttendee {
+export interface GroupAttendee {
     groupMemberId: number;
     didAttend: boolean;
     isFirstTime?: any;

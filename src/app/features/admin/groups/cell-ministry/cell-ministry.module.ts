@@ -24,6 +24,7 @@ import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-m
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
 import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
+import { MatSortModule } from '@angular/material/sort';
 
 const routes: Routes = [
     {
@@ -67,6 +68,7 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSelectModule,
         MatSidenavModule,
+        MatSortModule,
         MatSlideToggleModule,
         MatTabsModule,
         MatTableModule,

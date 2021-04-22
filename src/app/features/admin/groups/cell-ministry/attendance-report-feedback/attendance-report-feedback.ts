@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { GroupAttendanceRecordDetail } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { GroupAttendanceRecordDetail, GroupAttendee } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -15,6 +15,8 @@ import { GroupAttendanceRecordDetail } from '@features/admin/groups/cell-ministr
 export class AttendanceReportFeedbackComponent implements OnInit
 {
     attendanceRecord$: Observable<GroupAttendanceRecordDetail>;
+
+    tableColumns: string[] = ['firstName', 'lastName', 'didAttend'];
 
     /**
      * Constructor
@@ -39,6 +41,17 @@ export class AttendanceReportFeedbackComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: GroupAttendee): any
+    {
+        return item.groupMemberId || index;
+    }
 
     /**
      * Close the drawer

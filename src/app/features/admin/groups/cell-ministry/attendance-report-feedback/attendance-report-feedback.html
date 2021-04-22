@@ -61,6 +61,134 @@
                     </div>
                 </div>
 
+
+                <!-- Table wrapper -->
+                <div
+                    class="overflow-x-auto sm:overflow-y-auto"
+                    cdkScrollable>
+
+                    <!-- Table -->
+                    <table
+                        class="w-full min-w-320 table-fixed bg-transparent"
+                        [ngClass]="{'pointer-events-none': true}"
+                        mat-table
+                        matSort
+                        [matSortActive]="'name'"
+                        [matSortDisableClear]="true"
+                        [matSortDirection]="'asc'"
+                        [multiTemplateDataRows]="true"
+                        [dataSource]="record.attendees"
+                        [trackBy]="trackByFn">
+
+                        <!-- SKU -->
+                        <ng-container matColumnDef="sku">
+                            <th
+                                class="w-56 pl-26 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                SKU
+                            </th>
+                            <td
+                                class="px-8"
+                                mat-cell
+                                *matCellDef="let product">
+                                <div class="flex items-center">
+                                    <span class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
+                                        <img
+                                            class="w-8"
+                                            *ngIf="product.thumbnail"
+                                            [src]="product.thumbnail">
+                                        <span
+                                            class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
+                                            *ngIf="!product.thumbnail">
+                                            No Image
+                                        </span>
+                                    </span>
+                                    <span class="truncate">{{product.sku}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- Name -->
+                        <ng-container matColumnDef="firstName">
+                            <th
+                                class="bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Name
+                            </th>
+                            <td
+                                class="pr-8 truncate"
+                                mat-cell
+                                *matCellDef="let product">
+                                {{product.groupMember.firstName}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Name -->
+                        <ng-container matColumnDef="lastName">
+                            <th
+                                class="bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Name
+                            </th>
+                            <td
+                                class="pr-8 truncate"
+                                mat-cell
+                                *matCellDef="let product">
+                                {{product.groupMember.lastName}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Active -->
+                        <ng-container matColumnDef="didAttend">
+                            <th
+                                class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Did Attend
+                            </th>
+                            <td
+                                class="pr-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.didAttend"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                <mat-icon
+                                    class="text-gray-400 icon-size-5"
+                                    *ngIf="!product.didAttend"
+                                    [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <tr
+                            class="shadow"
+                            mat-header-row
+                            *matHeaderRowDef="tableColumns; sticky: true"></tr>
+                        <tr
+                            class="h-18 hover:bg-hover"
+                            mat-row
+                            *matRowDef="let product; columns: tableColumns;"></tr>
+                        <tr
+                            class="h-0"
+                            mat-row
+                            *matRowDef="let row; columns: ['productDetails']"></tr>
+
+                    </table>
+
+                </div>
+
                 <ul>
                     <li *ngFor="let attendee of record.attendees">
                         <div>{{attendee.groupMember.firstName}} {{attendee.groupMember.lastName}} | {{attendee.didAttend ? 'Yes' : 'No'}}</div>
