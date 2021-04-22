@@ -49,6 +49,7 @@ export interface Profile {
     fullName?: FullName;
     birthDate?: BirthDate;
     baptismStatus?: Baptism;
+    foundationSchool?: DiscipleshipStep;
     maritalStatus?: string;
     anniversaryDate?: any;
     email?: Email;
@@ -86,6 +87,7 @@ export class ProfileModel implements Profile {
     fullName: FullName;
     birthDate?: BirthDate;
     baptismStatus?: Baptism;
+    foundationSchool?: DiscipleshipStep;
     maritalStatus?: any;
     anniversaryDate?: any;
     email?: Email;
@@ -114,6 +116,14 @@ export interface Church
     shortCode: string;
 }
 
+export interface DiscipleshipStep
+{
+    id?: number;
+    name?: string;
+    isCompleted?: boolean;
+    completionDate?: Date;
+    status?: string;
+}
 
 /**
  * Update profile models
@@ -136,5 +146,7 @@ export interface ProfileGeneralInfo
     maritalStatus: string;
     birthDate?: { day?: number, month?: number, year?: number };
 }
+
+
 
 

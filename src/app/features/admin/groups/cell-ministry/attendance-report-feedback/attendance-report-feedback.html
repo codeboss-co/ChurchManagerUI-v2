@@ -1,0 +1,264 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="attendanceRecord$ | async as record">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container>
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    src="/assets/images/backgrounds/cape-town-mountain.jpg">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Close'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{record.groupName}}</div>
+
+                <div *ngIf="record.didNotOccur == false">
+                    <!-- Attendance Date & Reviewed -->
+                    <div class="flex flex-wrap items-center mt-2">
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-amber-200 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">{{record.attendanceDate | date}}</span>
+                        </div>
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700"
+                             [ngClass]="{'bg-blue-200': record.attendanceReviewed, 'bg-red-200': !record.attendanceReviewed}">
+                            <span class="text-sm font-medium whitespace-nowrap">{{record.attendanceReviewed ? 'Reviewed' : 'Not Reviewed'}}</span>
+                        </div>
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-indigo-200 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">Attendance Rate: {{record.attendanceRate.toFixed(3) * 100}}%</span>
+                        </div>
+                    </div>
+                    <!-- More Stats -->
+                    <div class="flex flex-wrap items-center mt-2">
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">Attendance: {{record.attendanceCount}}</span>
+                        </div>
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">New Converts: {{record.newConvertCount}}</span>
+                        </div>
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">First Timers: {{record.firstTimerCount}}</span>
+                        </div>
+                        <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
+                            <span class="text-sm font-medium whitespace-nowrap">Holy Spirit: {{record.receivedHolySpiritCount}}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Table wrapper -->
+                <div
+                    class="overflow-x-auto sm:overflow-y-auto"
+                    cdkScrollable>
+
+                    <!-- Table -->
+                    <table
+                        class="w-full table-fixed bg-transparent"
+                        [ngClass]="{'pointer-events-none': false}"
+                        mat-table
+                        matSort
+                        [matSortActive]="'lastName'"
+                        [matSortDisableClear]="true"
+                        [matSortDirection]="'asc'"
+                        [multiTemplateDataRows]="true"
+                        [dataSource]="record.attendees"
+                        [trackBy]="trackByFn">
+
+                        <!-- Name -->
+                        <ng-container matColumnDef="firstName">
+                            <th
+                                class="w-30 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                First Name
+                            </th>
+                            <td
+                                class=""
+                                mat-cell
+                                *matCellDef="let product">
+                                {{product.groupMember.firstName}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Name -->
+                        <ng-container matColumnDef="lastName">
+                            <th
+                                class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Last Name
+                            </th>
+                            <td
+                                class=""
+                                mat-cell
+                                *matCellDef="let product">
+                                {{product.groupMember.lastName}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Did Attend -->
+                        <ng-container matColumnDef="didAttend">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Did Attend
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.didAttend"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                <mat-icon
+                                    class="text-gray-400 icon-size-5"
+                                    *ngIf="!product.didAttend"
+                                    [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <!-- First Timer -->
+                        <ng-container matColumnDef="isFirstTime">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                First Timer
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.isFirstTime"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <!-- New Convert -->
+                        <ng-container matColumnDef="isNewConvert">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                               New Convert
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.isNewConvert"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <!-- Holy Spirit -->
+                        <ng-container matColumnDef="receivedHolySpirit">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Holy Spirit
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.receivedHolySpirit"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <tr
+                            class="shadow"
+                            mat-header-row
+                            *matHeaderRowDef="tableColumns; sticky: true"></tr>
+                        <tr
+                            class="h-8 hover:bg-hover"
+                            mat-row
+                            *matRowDef="let product; columns: tableColumns;"></tr>
+
+                    </table>
+
+                </div>
+
+                <!-- Notes -->
+                <div class="mt-8">
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                        <mat-label>Feedback</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden sm:flex icon-size-5"
+                            [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <textarea
+                            matInput
+                            fuseAutogrow
+                            [rows]="5"
+                            [formControl]="feedbackControl"
+                            [placeholder]="'Feedback'"
+                            [spellcheck]="true"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                    <!-- Cancel -->
+                    <button
+                        class="ml-auto"
+                        mat-button
+                        [matTooltip]="'Cancel'"
+                        (click)="component.onBackdropClicked()">
+                        Cancel
+                    </button>
+                    <!-- Save -->
+                    <button
+                        class="ml-2"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="feedbackControl.pristine"
+                        [matTooltip]="'Save'"
+                        (click)="updateAttendance()">
+                        Save
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        </ng-container>
+</div>

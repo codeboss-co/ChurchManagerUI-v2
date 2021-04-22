@@ -4,7 +4,7 @@ import * as moment from 'moment';
 export const analytics = {
     visitors           : {
         series: {
-            'this-year': [
+            '2021': [
                 {
                     name: 'Visitors',
                     data: [
@@ -491,7 +491,7 @@ export const analytics = {
                     ]
                 }
             ],
-            'last-year': [
+            '2020': [
                 {
                     name: 'Visitors',
                     data: [
@@ -1584,8 +1584,8 @@ export const analytics = {
         uniqueVisitors: 46085,
         series        : [35, 65],
         labels        : [
-            'Under 30',
-            'Over 30'
+            'Adults',
+            'Children'
         ]
     },
     language           : {

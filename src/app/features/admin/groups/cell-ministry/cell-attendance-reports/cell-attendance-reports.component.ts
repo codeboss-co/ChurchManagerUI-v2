@@ -1,27 +1,41 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { FuseAnimations } from '@fuse/animations';
 import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { CellMinistryDataService } from '../cell-ministry-data.service';
+import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { Sort } from '@shared/data/pagination.models';
 import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
 import { ChurchGroup } from '@ui/controls/church-groups-select-control/church-group.model';
+import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     selector     : 'cell-ministry-attendance-reports',
     templateUrl  : './cell-attendance-reports.component.html',
-    styleUrls    : ['./cell-attendance-reports.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations   : FuseAnimations
 })
 export class CellAttendanceReportsComponent implements OnInit
 {
+    @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+
+
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
+    drawerMode: 'over' | 'side';
 
     displayedColumns: string[] = ['attendanceDate', 'groupName', 'didNotOccur', 'attendanceCount',
         'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos'
@@ -33,13 +47,14 @@ export class CellAttendanceReportsComponent implements OnInit
 
     /**
      * Constructor
-     *
-     * @param {FormBuilder} _formBuilder
-     * @param {CellMinistryDataService} _data
      */
     constructor(
         private _formBuilder: FormBuilder,
-        private _data: CellMinistryDataService
+        private _activatedRoute: ActivatedRoute,
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _data: CellMinistryDataService,
+        private _router: Router,
+        private _fuseMediaWatcherService: FuseMediaWatcherService
     )
     {
         this.searchForm = this._formBuilder.group({
@@ -121,5 +136,55 @@ export class CellAttendanceReportsComponent implements OnInit
                 })
             )
             .subscribe();*/
+
+        // Subscribe to media changes
+        this._fuseMediaWatcherService.onMediaChange$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({matchingAliases}) => {
+                // Set the drawerMode if the given breakpoint is active
+                if ( matchingAliases.includes('lg') )
+                {
+                    this.drawerMode = 'side';
+                }
+                else
+                {
+                    this.drawerMode = 'over';
+                }
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    onBackdropClicked(): void {
+        // Get the current activated route
+        let route = this._activatedRoute;
+        while ( route.firstChild )
+        {
+            route = route.firstChild;
+        }
+        // Go to contact
+        this._router.navigate(['../'], {relativeTo: route});
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Go to attendance record
+     *
+     * @param id
+     */
+    goToRecord( id: number ): void {
+        console.log( 'id', id, '' );
+        // Go to contact
+        this._router.navigate(['/apps/groups/cell-ministry/attendance-reports/', id]);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
     }
 }

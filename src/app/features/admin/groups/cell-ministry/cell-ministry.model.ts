@@ -1,5 +1,6 @@
 export interface GroupAttendanceRecord {
-    groupName: string,
+    id: number;
+    groupName: string;
     attendanceDate: Date;
     didNotOccur?: boolean;
     attendanceCount?: number;
@@ -8,6 +9,43 @@ export interface GroupAttendanceRecord {
     receivedHolySpiritCount?: number;
     notes?: string;
     photoUrls: string[];
+}
+
+export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
+    didAttendCount: number;
+    attendanceCount: number;
+    attendanceEntered: boolean;
+    attendanceRate: number;
+    attendanceReviewed: boolean;
+    attendees?: GroupAttendees;
+    attendanceReview: AttendanceReview;
+}
+
+export type GroupAttendees = GroupAttendee[];
+
+export interface GroupAttendee {
+    groupMemberId: number;
+    didAttend: boolean;
+    isFirstTime?: any;
+    isNewConvert: boolean;
+    receivedHolySpirit: boolean;
+    note?: any;
+    groupMember: GroupMemberPerson;
+}
+
+interface AttendanceReview {
+    isReviewed?: boolean;
+    feedback?: string;
+    reviewedBy?: string;
+}
+
+interface GroupMemberPerson {
+    personId: number;
+    firstName: string;
+    middleName?: any;
+    lastName: string;
+    gender: string;
+    photoUrl: string;
 }
 
 export interface GroupAttendanceQuery {

@@ -8,15 +8,15 @@ import { InitialDataResolver } from 'app/app.resolvers';
 // tslint:disable:max-line-length
 export const appRoutes: Route[] = [
 
-    // Redirect empty path to '/example'
-    {path: '', pathMatch : 'full', redirectTo: 'example'},
+    // Redirect empty path to '/dashboard'
+    {path: '', pathMatch : 'full', redirectTo: 'dashboard'},
 
     // Redirect signed in user to the '/example'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'example'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard'},
 
     // Auth routes for guests
     {
@@ -73,6 +73,10 @@ export const appRoutes: Route[] = [
             initialData: InitialDataResolver,
         },
         children   : [
+
+            // Dashboards
+            {path: 'dashboard', loadChildren: () => import('app/features/admin/dashboard/analytics.module').then(m => m.AnalyticsModule)},
+
             // Example
             {path: 'example', loadChildren: () => import('app/features/admin/example/example.module').then( m => m.ExampleModule)},
 
