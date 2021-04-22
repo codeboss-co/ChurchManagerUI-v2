@@ -216,6 +216,46 @@
 
                 </div>
 
+                <!-- Notes -->
+                <div class="mt-8">
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                        <mat-label>Feedback</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden sm:flex icon-size-5"
+                            [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <textarea
+                            matInput
+                            fuseAutogrow
+                            [rows]="5"
+                            [formControl]="feedbackControl"
+                            [placeholder]="'Feedback'"
+                            [spellcheck]="true"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                    <!-- Cancel -->
+                    <button
+                        class="ml-auto"
+                        mat-button
+                        [matTooltip]="'Cancel'"
+                        (click)="component.onBackdropClicked()">
+                        Cancel
+                    </button>
+                    <!-- Save -->
+                    <button
+                        class="ml-2"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="feedbackControl.pristine"
+                        [matTooltip]="'Save'"
+                        (click)="updateAttendance()">
+                        Save
+                    </button>
+                </div>
+
             </div>
         </div>
 

@@ -6,6 +6,7 @@ import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_s
 import { Observable } from 'rxjs/internal/Observable';
 import { GroupAttendanceRecordDetail, GroupAttendee, GroupAttendees } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { map, pluck } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -19,13 +20,15 @@ export class AttendanceReportFeedbackComponent implements OnInit
 
     tableColumns: string[] = ['firstName', 'lastName', 'didAttend', 'isFirstTime', 'isNewConvert', 'receivedHolySpirit'];
 
+    feedbackControl: FormControl = new FormControl();
+
     /**
      * Constructor
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cellAttendanceReportsComponent: CellAttendanceReportsComponent,
+        public component: CellAttendanceReportsComponent,
         private _data: CellMinistryDataService
     )
     {
@@ -34,7 +37,7 @@ export class AttendanceReportFeedbackComponent implements OnInit
     ngOnInit(): void
     {
         // Open the drawer
-        this._cellAttendanceReportsComponent.matDrawer.open();
+        this.component.matDrawer.open();
         // Set the attendance record
         this.attendanceRecord$ = this._data.attendanceRecord$;
     }
@@ -59,6 +62,11 @@ export class AttendanceReportFeedbackComponent implements OnInit
      */
     closeDrawer(): Promise<MatDrawerToggleResult>
     {
-        return this._cellAttendanceReportsComponent.matDrawer.close();
+        return this.component.matDrawer.close();
+    }
+
+    updateAttendance(): void
+    {
+
     }
 }

@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
 import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 import { MatSortModule } from '@angular/material/sort';
+import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 
 const routes: Routes = [
     {
@@ -74,6 +75,9 @@ const routes: Routes = [
         MatTableModule,
         MatTooltipModule,
         NgApexchartsModule,
+
+        // Fuse
+        FuseAutogrowModule,
 
         // Controls
         ChurchGroupsSelectControlModule
