@@ -61,7 +61,6 @@
                     </div>
                 </div>
 
-
                 <!-- Table wrapper -->
                 <div
                     class="overflow-x-auto sm:overflow-y-auto"
@@ -69,60 +68,29 @@
 
                     <!-- Table -->
                     <table
-                        class="w-full min-w-320 table-fixed bg-transparent"
-                        [ngClass]="{'pointer-events-none': true}"
+                        class="w-full table-fixed bg-transparent"
+                        [ngClass]="{'pointer-events-none': false}"
                         mat-table
                         matSort
-                        [matSortActive]="'name'"
+                        [matSortActive]="'lastName'"
                         [matSortDisableClear]="true"
                         [matSortDirection]="'asc'"
                         [multiTemplateDataRows]="true"
                         [dataSource]="record.attendees"
                         [trackBy]="trackByFn">
 
-                        <!-- SKU -->
-                        <ng-container matColumnDef="sku">
-                            <th
-                                class="w-56 pl-26 bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                mat-header-cell
-                                *matHeaderCellDef
-                                mat-sort-header
-                                disableClear>
-                                SKU
-                            </th>
-                            <td
-                                class="px-8"
-                                mat-cell
-                                *matCellDef="let product">
-                                <div class="flex items-center">
-                                    <span class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
-                                        <img
-                                            class="w-8"
-                                            *ngIf="product.thumbnail"
-                                            [src]="product.thumbnail">
-                                        <span
-                                            class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
-                                            *ngIf="!product.thumbnail">
-                                            No Image
-                                        </span>
-                                    </span>
-                                    <span class="truncate">{{product.sku}}</span>
-                                </div>
-                            </td>
-                        </ng-container>
-
                         <!-- Name -->
                         <ng-container matColumnDef="firstName">
                             <th
-                                class="bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                class="w-30 bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 mat-header-cell
                                 *matHeaderCellDef
                                 mat-sort-header
                                 disableClear>
-                                Name
+                                First Name
                             </th>
                             <td
-                                class="pr-8 truncate"
+                                class=""
                                 mat-cell
                                 *matCellDef="let product">
                                 {{product.groupMember.firstName}}
@@ -132,25 +100,25 @@
                         <!-- Name -->
                         <ng-container matColumnDef="lastName">
                             <th
-                                class="bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 mat-header-cell
                                 *matHeaderCellDef
                                 mat-sort-header
                                 disableClear>
-                                Name
+                                Last Name
                             </th>
                             <td
-                                class="pr-8 truncate"
+                                class=""
                                 mat-cell
                                 *matCellDef="let product">
                                 {{product.groupMember.lastName}}
                             </td>
                         </ng-container>
 
-                        <!-- Active -->
+                        <!-- Did Attend -->
                         <ng-container matColumnDef="didAttend">
                             <th
-                                class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 mat-header-cell
                                 *matHeaderCellDef
                                 mat-sort-header
@@ -158,7 +126,7 @@
                                 Did Attend
                             </th>
                             <td
-                                class="pr-4"
+                                class="px-4"
                                 mat-cell
                                 *matCellDef="let product">
                                 <mat-icon
@@ -172,28 +140,81 @@
                             </td>
                         </ng-container>
 
+                        <!-- First Timer -->
+                        <ng-container matColumnDef="isFirstTime">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                First Timer
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.isFirstTime"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <!-- New Convert -->
+                        <ng-container matColumnDef="isNewConvert">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                               New Convert
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.isNewConvert"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <!-- Holy Spirit -->
+                        <ng-container matColumnDef="receivedHolySpirit">
+                            <th
+                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                                disableClear>
+                                Holy Spirit
+                            </th>
+                            <td
+                                class="px-4"
+                                mat-cell
+                                *matCellDef="let product">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="product.receivedHolySpirit"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                            </td>
+                        </ng-container>
+
                         <tr
                             class="shadow"
                             mat-header-row
                             *matHeaderRowDef="tableColumns; sticky: true"></tr>
                         <tr
-                            class="h-18 hover:bg-hover"
+                            class="h-8 hover:bg-hover"
                             mat-row
                             *matRowDef="let product; columns: tableColumns;"></tr>
-                        <tr
-                            class="h-0"
-                            mat-row
-                            *matRowDef="let row; columns: ['productDetails']"></tr>
 
                     </table>
 
                 </div>
-
-                <ul>
-                    <li *ngFor="let attendee of record.attendees">
-                        <div>{{attendee.groupMember.firstName}} {{attendee.groupMember.lastName}} | {{attendee.didAttend ? 'Yes' : 'No'}}</div>
-                    </li>
-                </ul>
 
             </div>
         </div>

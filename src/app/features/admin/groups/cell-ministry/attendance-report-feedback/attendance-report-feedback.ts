@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { GroupAttendanceRecordDetail, GroupAttendee } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { GroupAttendanceRecordDetail, GroupAttendee, GroupAttendees } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { map, pluck } from 'rxjs/operators';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -16,7 +17,7 @@ export class AttendanceReportFeedbackComponent implements OnInit
 {
     attendanceRecord$: Observable<GroupAttendanceRecordDetail>;
 
-    tableColumns: string[] = ['firstName', 'lastName', 'didAttend'];
+    tableColumns: string[] = ['firstName', 'lastName', 'didAttend', 'isFirstTime', 'isNewConvert', 'receivedHolySpirit'];
 
     /**
      * Constructor

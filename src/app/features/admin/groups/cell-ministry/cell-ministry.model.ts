@@ -17,8 +17,10 @@ export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
     attendanceEntered: boolean;
     attendanceRate: number;
     attendanceReviewed: boolean;
-    attendees?: GroupAttendee[];
+    attendees?: GroupAttendees;
 }
+
+export type GroupAttendees = GroupAttendee[];
 
 export interface GroupAttendee {
     groupMemberId: number;
