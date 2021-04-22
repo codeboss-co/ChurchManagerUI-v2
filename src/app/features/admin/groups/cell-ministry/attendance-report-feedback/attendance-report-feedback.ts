@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { GroupAttendanceRecordDetail } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -14,7 +14,7 @@ import { GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell
 })
 export class AttendanceReportFeedbackComponent implements OnInit
 {
-    attendanceRecord$: Observable<GroupAttendanceRecord>;
+    attendanceRecord$: Observable<GroupAttendanceRecordDetail>;
 
     /**
      * Constructor

@@ -17,7 +17,26 @@ export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
     attendanceEntered: boolean;
     attendanceRate: number;
     attendanceReviewed: boolean;
-    attendees?: any[];
+    attendees?: GroupAttendee[];
+}
+
+interface GroupAttendee {
+    groupMemberId: number;
+    didAttend: boolean;
+    isFirstTime?: any;
+    isNewConvert: boolean;
+    receivedHolySpirit: boolean;
+    note?: any;
+    groupMember: GroupMemberPerson;
+}
+
+interface GroupMemberPerson {
+    personId: number;
+    firstName: string;
+    middleName?: any;
+    lastName: string;
+    gender: string;
+    photoUrl: string;
 }
 
 export interface GroupAttendanceQuery {
