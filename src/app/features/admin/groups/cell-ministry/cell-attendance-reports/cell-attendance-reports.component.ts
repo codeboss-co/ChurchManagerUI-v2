@@ -10,7 +10,7 @@ import { FuseAnimations } from '@fuse/animations';
 import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { CellMinistryDataService } from '../cell-ministry-data.service';
+import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { Sort } from '@shared/data/pagination.models';

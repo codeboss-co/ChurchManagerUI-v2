@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEnca
 import { CellAttendanceReportsComponent } from '@features/admin/groups/cell-ministry/cell-attendance-reports/cell-attendance-reports.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
+import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Component({
     selector       : 'attendance-report-feedback',
@@ -11,13 +14,16 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 })
 export class AttendanceReportFeedbackComponent implements OnInit
 {
+    attendanceRecord$: Observable<GroupAttendanceRecord>;
+
     /**
      * Constructor
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cellAttendanceReportsComponent: CellAttendanceReportsComponent
+        private _cellAttendanceReportsComponent: CellAttendanceReportsComponent,
+        private _data: CellMinistryDataService
     )
     {
     }
@@ -26,6 +32,8 @@ export class AttendanceReportFeedbackComponent implements OnInit
     {
         // Open the drawer
         this._cellAttendanceReportsComponent.matDrawer.open();
+        // Set the attendance record
+        this.attendanceRecord$ = this._data.attendanceRecord$;
     }
 
     // -----------------------------------------------------------------------------------------------------

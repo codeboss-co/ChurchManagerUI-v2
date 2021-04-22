@@ -5,14 +5,20 @@ import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, share } from 'rxjs/operators';
-import { CellGroupsWeeklyBreakdown, GroupAttendanceQuery, GroupAttendanceRecord } from './cell-ministry.model';
+import { CellGroupsWeeklyBreakdown, GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { ApiResponse } from '@shared/shared.models';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
 export class CellMinistryDataService extends HttpBaseService
 {
+    // Private
     private _apiUrl = this._environment.baseUrls.apiUrl;
+
+    private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecord>(null);
+    private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
     constructor(
         private http: HttpClient,
@@ -20,6 +26,22 @@ export class CellMinistryDataService extends HttpBaseService
     {
         super(http);
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Getter for attendance record
+     */
+    get attendanceRecord$(): Observable<GroupAttendanceRecord>
+    {
+        return this._attendanceRecord.asObservable();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     pageCellAttendanceReports$( request: PagedRequest<GroupAttendanceRecord>, query: GroupAttendanceQuery ): Observable<PagedResult<GroupAttendanceRecord>>
     {
@@ -49,12 +71,26 @@ export class CellMinistryDataService extends HttpBaseService
             `${this._apiUrl}/v1/cellministry/attendance/browse`, body);
     }
 
+    /**
+     * Fetch chart data for cell ministry dashboard page
+     */
     getChartData$(): Observable<CellGroupsWeeklyBreakdown[]>
     {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/cellministry/charts`)
             .pipe(
                 share(),
-                map(response => response.data)
+                map(response => response.data),
+                tap(chartData => this._weeklyChartData.next(chartData))
+            );
+    }
+
+    /**
+     * Fetch single attendance record
+     */
+    getAttendanceRecordById$( attendanceId: number ): Observable<GroupAttendanceRecord> {
+        return super.get<GroupAttendanceRecord>(`${this._apiUrl}/v1/cellministry/attendance/${attendanceId}`)
+            .pipe(
+                tap(record => this._attendanceRecord.next(record))
             );
     }
 }

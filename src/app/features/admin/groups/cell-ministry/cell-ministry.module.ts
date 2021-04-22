@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CellAttendanceReportsComponent } from './cell-attendance-reports/cell-attendance-reports.component';
-import { CellMinistryDataService } from './cell-ministry-data.service';
+import { CellMinistryDataService } from './_services/cell-ministry-data.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -23,6 +23,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-ministry/attendance-report-feedback/attendance-report-feedback';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
+import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 
 const routes: Routes = [
     {
@@ -32,7 +33,10 @@ const routes: Routes = [
             {
                 path         : ':id',
                 component    : AttendanceReportFeedbackComponent,
-                canDeactivate: [CanDeactivateAttendanceReportFeedback]
+                canDeactivate: [CanDeactivateAttendanceReportFeedback],
+                resolve: {
+                    attendanceRecord: CellMinistryAttendanceReportResolver
+                }
             }
         ]
     },
@@ -72,7 +76,7 @@ const routes: Routes = [
         // Controls
         ChurchGroupsSelectControlModule
     ],
-    providers: [CellMinistryDataService]
+    providers: [CellMinistryDataService, CellMinistryAttendanceReportResolver]
 })
 export class CellMinistryModule
 {
