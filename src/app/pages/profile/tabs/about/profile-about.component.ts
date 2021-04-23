@@ -2,17 +2,18 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { filter, first, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, first, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseAnimations } from '@fuse/animations';
 
-import { Profile } from '../../profile.model';
+import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfilePersonalInfo } from '../../profile.model';
 import { ProfileService } from '../../profile.service';
 import {
     ProfileConnectionInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,
     ProfilePersonalInfoFormDialogComponent
 } from './components';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector       : 'profile-main',
@@ -35,6 +36,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
     constructor(
         private _profileService: ProfileService,
         private _matDialog: MatDialog,
+        private _activatedRoute: ActivatedRoute,
     )
     {
         // Set the private defaults
@@ -94,12 +96,22 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                          * Save
                          */
                         case 'save':
-                            return this._profileService.editGeneralInfo$(profile.personId, formData.getRawValue());
+                            const model: ProfileGeneralInfo = formData.getRawValue();
+                            return this._profileService.editGeneralInfo$(profile.personId, model)
+                                .pipe(
+                                    map(_ => profile)
+                                );
                     }
                 })
             );
 
-        afterClosed$.subscribe(
+        afterClosed$
+            .pipe(
+                switchMap((profile: Profile) => {
+                    // Calls the endpoint to update the profile
+                    return this._profileService.getUserProfile$(+profile.personId);
+                } ))
+            .subscribe(
             value => {},
             error => {},
             () => console.log('GeneralInfo completed')
@@ -130,13 +142,22 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                          * Save
                          */
                         case 'save':
-                            return this._profileService.editPersonalInfo$(profile.personId, formData.getRawValue());
+                            const model: ProfilePersonalInfo = formData.getRawValue();
+                            return this._profileService.editPersonalInfo$(profile.personId, model)
+                                .pipe(
+                                    map(_ => ({profile, model}))
+                                );
                     }
                 })
             );
 
         afterClosed$.subscribe(
-            value => {},
+            ( { profile, model }) => {
+                Object.assign(profile.fullName, model);
+                profile.gender = model.gender;
+                profile.ageClassification = model.ageClassification;
+                this.profile$.next(profile);
+            },
             error => {},
             () => console.log('PersonalInfo completed')
         );
@@ -165,13 +186,23 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                          * Save
                          */
                         case 'save':
-                            return this._profileService.editConnectionInfo$(profile.personId, formData.getRawValue());
+                            const model: ProfileConnectionInfo = formData.getRawValue();
+                            return this._profileService.editConnectionInfo$(profile.personId, formData.getRawValue())
+                                .pipe(
+                                    map(_ => profile)
+                                );
                     }
                 })
             );
 
-        afterClosed$.subscribe(
-            value => {},
+        afterClosed$
+            .pipe(
+                switchMap((profile: Profile) => {
+                    // Calls the endpoint to update the profile
+                    return this._profileService.getUserProfile$(+profile.personId);
+                } ))
+            .subscribe(
+                value => {},
             error => {},
             () => console.log('ConnectionInfo completed')
         );

@@ -60,9 +60,9 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
             maritalStatus: [this.profile.maritalStatus],
             birthDate: [
                 {
-                    day: this.profile.birthDate.birthDay,
-                    month: this.profile.birthDate.birthMonth,
-                    year: this.profile.birthDate.birthYear,
+                    day: this.profile.birthDate?.birthDay,
+                    month: this.profile.birthDate?.birthMonth,
+                    year: this.profile.birthDate?.birthYear,
                 }]
         });
     }
