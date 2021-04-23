@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { filter, first, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, first, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseAnimations } from '@fuse/animations';
 
@@ -80,7 +80,8 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
             }
         });
 
-        const afterClosed$ = combineLatest([this.dialogRef.afterClosed(), this.profile$])
+        const afterClosed$ = this.dialogRef.afterClosed()
+            .pipe(withLatestFrom(this.profile$))
             .pipe(
                 filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
                 first(), // <-- completes the observable and unsubscribes,
@@ -115,7 +116,8 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
             }
         });
 
-        const afterClosed$ = combineLatest([this.dialogRef.afterClosed(), this.profile$])
+        const afterClosed$ =  this.dialogRef.afterClosed()
+            .pipe(withLatestFrom(this.profile$))
             .pipe(
                 filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
                 first(), // <-- completes the observable and unsubscribes,
@@ -149,7 +151,8 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
             }
         });
 
-        const afterClosed$ = combineLatest([this.dialogRef.afterClosed(), this.profile$])
+        const afterClosed$ =  this.dialogRef.afterClosed()
+            .pipe(withLatestFrom(this.profile$))
             .pipe(
                 filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
                 first(), // <-- completes the observable and unsubscribes,
