@@ -107,9 +107,11 @@
                 <div class="flex flex-col">
                     <div class="flex justify-between mt-6">
                         <img *ngFor="let member of profile.familyMembers"
-                             class="w-14 h-14 rounded-full"
+                             [routerLink]="['/pages/profile', member.personId]"
+                             matTooltip="{{member.fullName.firstName}} ({{member.ageClassification}})"
+                             class="w-14 h-14 rounded-full cursor-pointer"
                              [src]="member.photoUrl"
-                             alt="Card cover image">
+                             alt="Family member">
                     </div>
                 </div>
             </fuse-card>

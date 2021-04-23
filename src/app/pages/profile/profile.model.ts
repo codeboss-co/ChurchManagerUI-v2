@@ -31,6 +31,7 @@ interface PhoneNumber {
 }
 
 interface FamilyMember {
+    personId?: number;
     fullName: FullName;
     gender: string;
     ageClassification: string;
