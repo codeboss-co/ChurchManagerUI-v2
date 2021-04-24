@@ -25,15 +25,15 @@
 
                     <!-- Title -->
                     <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">Contacts</div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">People Directory</div>
                         <div class="ml-0.5 font-medium text-secondary">
-                            <ng-container *ngIf="contactsCount > 0">
+                            <ng-container *ngIf="(dataSource.page$ | async )?.totalResults as contactsCount">
                                 {{contactsCount}}
                             </ng-container>
                             {{contactsCount | i18nPlural: {
-                            '=0'   : 'No contacts',
-                            '=1'   : 'contact',
-                            'other': 'contacts'
+                            '=0'   : 'No people',
+                            '=1'   : 'person',
+                            'other': 'people'
                         } }}
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                     matInput
                                     [formControl]="searchInputControl"
                                     [autocomplete]="'off'"
-                                    [placeholder]="'Search contacts'">
+                                    [placeholder]="'Search people'">
                             </mat-form-field>
                         </div>
                         <!-- Add contact button -->

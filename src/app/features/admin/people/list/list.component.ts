@@ -1,19 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Contact, Country } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
-import { GroupAttendanceQuery, GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { PeopleSearchQuery, Person } from '@features/admin/people';
 import { Sort } from '@shared/data/pagination.models';
-import { Group } from '@features/admin/groups';
-import { GroupsQuery } from '../../../../pages/profile/tabs/groups/groups.component';
 import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
 
 @Component({
@@ -102,14 +108,14 @@ export class ContactsListComponent implements OnInit, OnDestroy
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
             .pipe(
-                takeUntil(this._unsubscribeAll),
-                switchMap((query) => {
-
-                    // Search
-                    return this._contactsService.searchContacts(query);
-                })
+                // filter(search => search.length > 3),
+                distinctUntilChanged(),
+                debounceTime(300),
+                takeUntil(this._unsubscribeAll)
             )
-            .subscribe();
+            .subscribe(searchTerm => {
+                this.dataSource.queryBy({searchTerm});
+            });
 
         // Subscribe to MatDrawer opened change
         this.matDrawer.openedChange.subscribe((opened) => {
