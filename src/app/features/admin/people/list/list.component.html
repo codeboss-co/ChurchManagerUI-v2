@@ -104,12 +104,22 @@
                         </ng-container>
                     </ng-container>
 
+                    <mat-paginator class="flex justify-end" *ngIf="dataSource.page$ | async as page"
+                                   [length]="page.totalResults"
+                                   [pageSize]="10"
+                                   [pageIndex]="0"
+                                   (page)="dataSource.fetch($event.pageIndex)">
+                    </mat-paginator>
+
                     <!-- No contacts -->
                     <ng-template #noContacts>
                         <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no contacts!</div>
                     </ng-template>
 
                 </div>
+
+
+
 
             </div>
 
