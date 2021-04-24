@@ -76,4 +76,9 @@ export class PersonModel implements Person {
     }
 }
 
+export interface PeopleSearchQuery
+{
+    searchTerm?: string;
+}
+
 

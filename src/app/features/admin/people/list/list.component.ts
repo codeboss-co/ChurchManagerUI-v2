@@ -8,6 +8,13 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Contact, Country } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
+import { PaginatedDataSource } from '@shared/data/paginated.data-source';
+import { GroupAttendanceQuery, GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { PeopleSearchQuery, Person } from '@features/admin/people';
+import { Sort } from '@shared/data/pagination.models';
+import { Group } from '@features/admin/groups';
+import { GroupsQuery } from '../../../../pages/profile/tabs/groups/groups.component';
+import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
 
 @Component({
     selector       : 'contacts-list',
@@ -29,6 +36,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
     selectedContact: Contact;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    dataSource: PaginatedDataSource<Person, PeopleSearchQuery> | null;
+
     /**
      * Constructor
      */
@@ -36,6 +45,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
         private _contactsService: ContactsService,
+        private _data: PeopleDataService,
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService
@@ -144,6 +154,18 @@ export class ContactsListComponent implements OnInit, OnDestroy
             .subscribe(() => {
                 this.createContact();
             });
+
+
+        // Initialize Paginated Data Source
+        const initialSort: Sort<any> = {property: 'FullName.LastName', order: 'asc'};
+        const initialQuery: PeopleSearchQuery = {searchTerm: ''};
+
+        this.dataSource =  new PaginatedDataSource<Person, PeopleSearchQuery>(
+            (request, query) => this._data.pagePeople$(request, query),
+            initialSort,
+            initialQuery,
+        );
+        // Initialize Paginated Data Source
     }
 
     /**

@@ -68,7 +68,7 @@
 
                 <!-- Contacts list -->
                 <div class="relative">
-                    <ng-container *ngIf="contacts$ | async as contacts">
+                    <ng-container *ngIf="(dataSource.page$ | async )?.data as contacts">
                         <ng-container *ngIf="contacts.length; else noContacts">
                             <ng-container *ngFor="let contact of contacts; let i = index; trackBy: trackByFn">
                                 <!-- Group -->
@@ -83,11 +83,11 @@
                                     [ngClass]="{'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.id === contact.id}"
                                     (click)="goToContact(contact.id)">
                                     <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
-                                        <ng-container *ngIf="contact.avatar">
+                                        <ng-container *ngIf="contact.photoUrl">
                                             <img
                                                 class="object-cover w-full h-full"
-                                                [src]="contact.avatar"
-                                                alt="Contact avatar"/>
+                                                [src]="contact.photoUrl"
+                                                alt="Contact PhotoUrl"/>
                                         </ng-container>
                                         <ng-container *ngIf="!contact.avatar">
                                             <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="min-w-0 ml-4">
                                         <div class="font-medium leading-5 truncate">{{contact.name}}</div>
-                                        <div class="leading-5 truncate text-secondary">{{contact.title}}</div>
+                                        <div class="leading-5 truncate text-secondary">{{contact.connectionStatus}}</div>
                                     </div>
                                 </div>
                             </ng-container>
