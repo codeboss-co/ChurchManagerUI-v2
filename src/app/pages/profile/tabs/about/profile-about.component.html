@@ -47,7 +47,12 @@
                             <mat-icon
                                 class="icon-size-5 mr-3"
                                 [svgIcon]="'heroicons_solid:cake'"></mat-icon>
-                            <span class="leading-none">{{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}</span>
+                            <span class="leading-none">
+                                {{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}
+                                <span class="mat-caption" *ngIf="profile.birthDate.age">
+                                      ({{profile.birthDate.age}}{{profile.birthDate.age < 1 ? 'yr' : 'yrs' }})
+                                    </span>
+                            </span>
                         </div>
                         <hr class="w-full border-t my-6">
 

@@ -8,9 +8,10 @@ interface FullName {
 }
 
 interface BirthDate {
-    birthDay: number;
-    birthMonth: number;
-    birthYear: number;
+    birthDay?: number;
+    birthMonth?: number;
+    birthYear?: number;
+    age?: number;
 }
 
 interface Email {
