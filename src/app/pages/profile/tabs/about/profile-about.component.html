@@ -49,8 +49,8 @@
                                 [svgIcon]="'heroicons_solid:cake'"></mat-icon>
                             <span class="leading-none">
                                 {{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}
-                                <span class="mat-caption" *ngIf="profile.birthDate.age">
-                                      ({{profile.birthDate.age}}{{profile.birthDate.age < 1 ? 'yr' : 'yrs' }})
+                                <span class="mat-caption" *ngIf="profile.birthDate?.age">
+                                      ({{profile.birthDate.age | agePluralize }})
                                     </span>
                             </span>
                         </div>

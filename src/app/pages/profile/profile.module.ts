@@ -33,6 +33,7 @@ import { ProfileConnectionInfoFormDialogComponent } from './tabs/about/component
 import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
 import { ProfilePersonalInfoFormDialogComponent } from './tabs/about/components/personal-info-form/personal-info-form-dialog.component';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 
 
 @NgModule({
@@ -74,7 +75,10 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
         // UI Controls
         GenderControlModule,
         BirthDateEditorModule,
-        ChurchesSelectControlModule
+        ChurchesSelectControlModule,
+
+        // Extensions
+        AgePluralizeModule
     ],
     providers: [ProfileResolver, ProfileService, GroupsDataService]
 })
