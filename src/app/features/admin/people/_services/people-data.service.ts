@@ -2,19 +2,22 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { Observable } from 'rxjs';
-import { GroupMemberSimple } from '../../groups/group.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { GroupMemberSimple } from '@features/admin/groups';
 import { ApiResponse } from '@shared/shared.models';
 import { NewFamilyForm } from '../new-family-form/person-form/person-form.model';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
-import { GroupAttendanceQuery, GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { PeopleSearchQuery, Person } from '@features/admin/people';
+import { People, PeopleSearchQuery, Person } from '@features/admin/people';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PeopleDataService extends HttpBaseService
 {
+    // Private
+    private _person: BehaviorSubject<Person> = new BehaviorSubject(null);
+    private _people: BehaviorSubject<People> = new BehaviorSubject([]);
+
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     constructor(
@@ -22,6 +25,26 @@ export class PeopleDataService extends HttpBaseService
         @Inject(ENV) private _environment: Environment )
     {
         super(http);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Getter for person
+     */
+    get person$(): Observable<Person>
+    {
+        return this._person.asObservable();
+    }
+
+    /**
+     * Getter for people
+     */
+    get people$(): Observable<People>
+    {
+        return this._people.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -48,6 +71,7 @@ export class PeopleDataService extends HttpBaseService
             .pipe(
                 map((pagedResult: PagedResult<Person>) => {
                     console.log('page', pagedResult);
+                    this._people.next(pagedResult.data);
                     return pagedResult;
                 })
             );

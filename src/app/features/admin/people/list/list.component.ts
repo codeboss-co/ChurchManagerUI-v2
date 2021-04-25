@@ -12,10 +12,10 @@ import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Contact, Country } from '../contacts.types';
+import { Country } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { PeopleSearchQuery, Person } from '@features/admin/people';
@@ -32,14 +32,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-    contacts$: Observable<Contact[]>;
-
-    contactsCount: number = 0;
-    contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     countries: Country[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedContact: Contact;
+    selectedContact: Person;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     dataSource: PaginatedDataSource<Person, PeopleSearchQuery> | null;
@@ -68,23 +64,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Get the contacts
-        this.contacts$ = this._contactsService.contacts$;
-        this._contactsService.contacts$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-
-                // Update the counts
-                this.contactsCount = contacts.length;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
         // Get the contact
-        this._contactsService.contact$
+        this._data.person$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
+            .subscribe((contact: Person) => {
 
                 // Update the selected contact
                 this.selectedContact = contact;
@@ -108,10 +91,9 @@ export class ContactsListComponent implements OnInit, OnDestroy
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
             .pipe(
-                // filter(search => search.length > 3),
+                takeUntil(this._unsubscribeAll),
                 distinctUntilChanged(),
-                debounceTime(300),
-                takeUntil(this._unsubscribeAll)
+                debounceTime(300)
             )
             .subscribe(searchTerm => {
                 this.dataSource.queryBy({searchTerm});
@@ -193,7 +175,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
      *
      * @param id
      */
-    goToContact(id: string): void
+    goToContact(id: number): void
     {
         // Get the current activated route
         let route = this._activatedRoute;
@@ -237,7 +219,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._contactsService.createContact().subscribe((newContact) => {
 
             // Go to new contact
-            this.goToContact(newContact.id);
+            this.goToContact(+newContact.id);
         });
     }
 
@@ -262,8 +244,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
+    trackByFn(index: number, item: Person): any
     {
-        return item.id || index;
+        return item.personId || index;
     }
 }

@@ -35,6 +35,7 @@ import { PersonEditorControlModule } from '@ui/controls/person-editor-control/pe
 import { MatDialogModule } from '@angular/material/dialog';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 
 @NgModule({
     declarations: [
@@ -78,7 +79,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
         // Controls
         AddressEditorControlModule,
-        PersonEditorControlModule
+        PersonEditorControlModule,
+
+        // Extensions
+        FullNamePipeModule
     ],
     providers   : [
         {
