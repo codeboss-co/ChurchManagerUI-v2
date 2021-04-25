@@ -73,10 +73,7 @@ export class CellAttendanceReportsComponent implements OnInit
                 takeUntil(this._unsubscribeAll),
                 map( () => {
 
-                    const churchGroup = this.searchForm.get('churchGroup').value as ChurchGroup;
-                    const withFeedBack = this.searchForm.get('withFeedBack').value;
-                    const from = this.searchForm.get('from').value;
-                    const to = this.searchForm.get('to').value;
+                    const {churchGroup, withFeedBack, from, to} = this.searchForm.value;
 
                     const {churchId, groupId} = churchGroup;
 

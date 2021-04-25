@@ -34,6 +34,8 @@ import { AddressEditorControlModule } from '@ui/controls/address-editor-control/
 import { PersonEditorControlModule } from '@ui/controls/person-editor-control/person-editor-control.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 
 @NgModule({
     declarations: [
@@ -58,6 +60,7 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
         MatInputModule,
         MatMenuModule,
         MatMomentDateModule,
+        MatPaginatorModule,
         MatProgressBarModule,
         MatRadioModule,
         MatRippleModule,
@@ -76,7 +79,10 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 
         // Controls
         AddressEditorControlModule,
-        PersonEditorControlModule
+        PersonEditorControlModule,
+
+        // Extensions
+        FullNamePipeModule
     ],
     providers   : [
         {

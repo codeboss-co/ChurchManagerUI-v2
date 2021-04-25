@@ -25,16 +25,15 @@
 
                     <!-- Title -->
                     <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">Contacts</div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">People Directory</div>
                         <div class="ml-0.5 font-medium text-secondary">
-                            <ng-container *ngIf="contactsCount > 0">
-                                {{contactsCount}}
+                            <ng-container *ngIf="(dataSource.page$ | async )?.totalResults as contactsCount">
+                                {{contactsCount}}  {{contactsCount | i18nPlural: {
+                                '=0'   : 'No people',
+                                '=1'   : 'person',
+                                'other': 'people'
+                            } }}
                             </ng-container>
-                            {{contactsCount | i18nPlural: {
-                            '=0'   : 'No contacts',
-                            '=1'   : 'contact',
-                            'other': 'contacts'
-                        } }}
                         </div>
                     </div>
 
@@ -51,7 +50,7 @@
                                     matInput
                                     [formControl]="searchInputControl"
                                     [autocomplete]="'off'"
-                                    [placeholder]="'Search contacts'">
+                                    [placeholder]="'Search people'">
                             </mat-form-field>
                         </div>
                         <!-- Add contact button -->
@@ -68,41 +67,48 @@
 
                 <!-- Contacts list -->
                 <div class="relative">
-                    <ng-container *ngIf="contacts$ | async as contacts">
+                    <ng-container *ngIf="(dataSource.page$ | async )?.data as contacts">
                         <ng-container *ngIf="contacts.length; else noContacts">
                             <ng-container *ngFor="let contact of contacts; let i = index; trackBy: trackByFn">
                                 <!-- Group -->
-                                <ng-container *ngIf="i === 0 || contact.name.charAt(0) !== contacts[i - 1].name.charAt(0)">
+                                <ng-container *ngIf="i === 0 || contact.fullName.lastName.charAt(0) !== contacts[i - 1].fullName.lastName.charAt(0)">
                                     <div class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
-                                        {{contact.name.charAt(0)}}
+                                        {{contact.fullName.lastName.charAt(0)}}
                                     </div>
                                 </ng-container>
                                 <!-- Contact -->
                                 <div
                                     class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer hover:bg-hover border-b"
-                                    [ngClass]="{'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.id === contact.id}"
-                                    (click)="goToContact(contact.id)">
+                                    [ngClass]="{'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.personId === contact.personId}"
+                                    (click)="goToContact(contact.personId)">
                                     <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
-                                        <ng-container *ngIf="contact.avatar">
+                                        <ng-container *ngIf="contact.photoUrl">
                                             <img
                                                 class="object-cover w-full h-full"
-                                                [src]="contact.avatar"
-                                                alt="Contact avatar"/>
+                                                [src]="contact.photoUrl"
+                                                alt="Contact PhotoUrl"/>
                                         </ng-container>
-                                        <ng-container *ngIf="!contact.avatar">
+                                        <ng-container *ngIf="!contact.photoUrl">
                                             <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                                {{contact.name.charAt(0)}}
+                                                {{contact.fullName.firstName.charAt(0)}}  {{contact.fullName.lastName.charAt(0)}}
                                             </div>
                                         </ng-container>
                                     </div>
                                     <div class="min-w-0 ml-4">
-                                        <div class="font-medium leading-5 truncate">{{contact.name}}</div>
-                                        <div class="leading-5 truncate text-secondary">{{contact.title}}</div>
+                                        <div class="font-medium leading-5 truncate">{{contact.fullName | fullName}}</div>
+                                        <div class="leading-5 truncate text-secondary">{{contact.connectionStatus}}</div>
                                     </div>
                                 </div>
                             </ng-container>
                         </ng-container>
                     </ng-container>
+
+                    <mat-paginator class="flex justify-end" *ngIf="dataSource.page$ | async as page"
+                                   [length]="page.totalResults"
+                                   [pageSize]="10"
+                                   [pageIndex]="0"
+                                   (page)="dataSource.fetch($event.pageIndex)">
+                    </mat-paginator>
 
                     <!-- No contacts -->
                     <ng-template #noContacts>
@@ -110,6 +116,9 @@
                     </ng-template>
 
                 </div>
+
+
+
 
             </div>
 

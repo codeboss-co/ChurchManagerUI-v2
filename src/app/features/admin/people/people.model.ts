@@ -1,6 +1,6 @@
 export interface FullName {
     title?: any;
-    firstName?: string;
+    firstName: string;
     nickName?: string;
     middleName?: string;
     lastName: string;
@@ -8,19 +8,35 @@ export interface FullName {
 }
 
 export interface BirthDate {
-    birthDay: number;
-    birthMonth: number;
-    birthYear: number;
+    birthDay?: number;
+    birthMonth?: number;
+    birthYear?: number;
+    age?: number;
 }
 
 export interface BaptismStatus {
-    isBaptised: boolean;
-    baptismDate?: any;
+    baptismDate?: Date;
+    isBaptised?: boolean;
 }
 
 export interface Email {
-    address: string;
-    isActive: boolean;
+    address?: string;
+    isActive?: boolean;
+}
+
+export interface PhoneNumber {
+    countryCode?: string;
+    description?: string;
+    number: string;
+    isMessagingEnabled?: boolean;
+}
+
+export interface Church
+{
+    id: number;
+    name: string;
+    description?: string;
+    shortCode?: string;
 }
 
 export interface Person {
@@ -34,10 +50,10 @@ export interface Person {
     fullName: FullName;
     birthDate?: BirthDate;
     baptismStatus?: BaptismStatus;
-    maritalStatus?: any;
-    anniversaryDate?: any;
+    maritalStatus?: string;
+    anniversaryDate?: Date;
     email?: Email;
-    phoneNumbers?: any[];
+    phoneNumbers?: PhoneNumber[];
     communicationPreference?: any;
     photoUrl?: string;
     occupation?: string;
@@ -47,10 +63,12 @@ export interface Person {
     userLoginId?: string;
     viewedCount?: number;
     family?: any;
-    church?: any;
+    church?: Church;
     recordStatus?: string;
     inactiveDateTime?: any;
 }
+
+export type  People = Person[];
 
 export class PersonModel implements Person {
     ageClassification: string;
@@ -75,5 +93,13 @@ export class PersonModel implements Person {
         }
     }
 }
+
+
+// Paginated Query / Result
+export interface PeopleSearchQuery
+{
+    searchTerm?: string;
+}
+
 
 
