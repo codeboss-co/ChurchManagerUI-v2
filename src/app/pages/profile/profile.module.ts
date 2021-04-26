@@ -10,10 +10,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FuseCardModule } from '@fuse/components/card';
 import { ProfileComponent } from './profile.component';
-import { profileRoutes } from './profile.routing';
+import { profileRoutes } from './_services/profile.routing';
 import { SharedModule } from '@shared/shared.module';
-import { ProfileResolver } from './profile.resolvers';
-import { ProfileService } from './profile.service';
+import { ProfileDiscipleshipResolver, ProfileResolver } from './_services/profile.resolvers';
+import { ProfileService } from './_services/profile.service';
 import { ProfileAboutComponent } from './tabs/about/profile-about.component';
 import { ProfileGroupsComponent } from './tabs/groups/groups.component';
 import { GroupAttendanceFormDialogComponent } from './tabs/groups/components/group-attendance-form/group-attendance-form-dialog.component';
@@ -28,6 +28,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
+import { ProfileGeneralInfoFormDialogComponent } from './tabs/about/components';
+import { ProfileConnectionInfoFormDialogComponent } from './tabs/about/components';
+import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
+import { ProfilePersonalInfoFormDialogComponent } from './tabs/about/components';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
+import { ProfileDiscipleshipService } from './tabs/discipleship/profile-discipleship.service';
+import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discipleship.component';
+import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 
 
 @NgModule({
@@ -36,7 +45,13 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
         // Tabs
         ProfileAboutComponent,
         ProfileGroupsComponent,
+        ProfileDiscipleshipComponent,
+        // Dialogs
         GroupAttendanceFormDialogComponent,
+        // Edit Dialogs
+        ProfileGeneralInfoFormDialogComponent,
+        ProfileConnectionInfoFormDialogComponent,
+        ProfilePersonalInfoFormDialogComponent
     ],
     imports     : [
         RouterModule.forChild(profileRoutes),
@@ -60,14 +75,20 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
         FuseCardModule,
         FuseAutogrowModule,
         FuseScrollbarModule,
+        FuseFindByKeyPipeModule,
         SharedModule,
 
         // UI Controls
         GenderControlModule,
+        BirthDateEditorModule,
+        ChurchesSelectControlModule,
 
-
+        // Extensions
+        AgePluralizeModule
     ],
-    providers: [ProfileResolver, ProfileService, GroupsDataService]
+    providers: [
+        ProfileResolver, ProfileDiscipleshipResolver,
+        ProfileService, GroupsDataService, ProfileDiscipleshipService]
 })
 export class ProfileModule
 {

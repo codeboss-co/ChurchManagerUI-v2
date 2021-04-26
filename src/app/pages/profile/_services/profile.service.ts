@@ -4,9 +4,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfileModel } from './profile.model';
+import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfileModel, ProfilePersonalInfo } from '../profile.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
-import { GroupsQuery } from './tabs/groups/groups.component';
+import { GroupsQuery } from '../tabs/groups/groups.component';
 import { Group } from '@features/admin/groups';
 import { ApiResponse } from '@shared/shared.models';
 
@@ -101,7 +101,6 @@ export class ProfileService
     /**
      * Edit person connection information
      *
-     * @returns {Observable<ApiResponse>}
      */
     editConnectionInfo$(personId: number, model: ProfileConnectionInfo): Observable<ApiResponse>
     {
@@ -109,9 +108,17 @@ export class ProfileService
     }
 
     /**
+     * Edit person personal information
+     *
+     */
+    editPersonalInfo$(personId: number, model: ProfilePersonalInfo): Observable<ApiResponse>
+    {
+        return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/personal-info`, model);
+    }
+
+    /**
      * Edit person general information
      *
-     * @returns {Observable<ApiResponse>}
      */
     editGeneralInfo$(personId: number, model: ProfileGeneralInfo): Observable<ApiResponse>
     {

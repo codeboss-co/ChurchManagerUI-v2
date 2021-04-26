@@ -1,13 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
-import { fromEvent, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Contact, Country } from '../contacts.types';
+import { Country } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
+import { PaginatedDataSource } from '@shared/data/paginated.data-source';
+import { PeopleSearchQuery, Person } from '@features/admin/people';
+import { Sort } from '@shared/data/pagination.models';
+import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
 
 @Component({
     selector       : 'contacts-list',
@@ -19,15 +32,13 @@ export class ContactsListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-    contacts$: Observable<Contact[]>;
-
-    contactsCount: number = 0;
-    contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     countries: Country[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedContact: Contact;
+    selectedContact: Person;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+    dataSource: PaginatedDataSource<Person, PeopleSearchQuery> | null;
 
     /**
      * Constructor
@@ -36,6 +47,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
         private _contactsService: ContactsService,
+        private _data: PeopleDataService,
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService
@@ -52,23 +64,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Get the contacts
-        this.contacts$ = this._contactsService.contacts$;
-        this._contactsService.contacts$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-
-                // Update the counts
-                this.contactsCount = contacts.length;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
         // Get the contact
-        this._contactsService.contact$
+        this._data.person$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
+            .subscribe((contact: Person) => {
 
                 // Update the selected contact
                 this.selectedContact = contact;
@@ -93,13 +92,12 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this.searchInputControl.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
-                switchMap((query) => {
-
-                    // Search
-                    return this._contactsService.searchContacts(query);
-                })
+                distinctUntilChanged(),
+                debounceTime(300)
             )
-            .subscribe();
+            .subscribe(searchTerm => {
+                this.dataSource.queryBy({searchTerm});
+            });
 
         // Subscribe to MatDrawer opened change
         this.matDrawer.openedChange.subscribe((opened) => {
@@ -144,6 +142,18 @@ export class ContactsListComponent implements OnInit, OnDestroy
             .subscribe(() => {
                 this.createContact();
             });
+
+
+        // Initialize Paginated Data Source
+        const initialSort: Sort<any> = {property: 'FullName.LastName', order: 'asc'};
+        const initialQuery: PeopleSearchQuery = {searchTerm: ''};
+
+        this.dataSource =  new PaginatedDataSource<Person, PeopleSearchQuery>(
+            (request, query) => this._data.pagePeople$(request, query),
+            initialSort,
+            initialQuery,
+        );
+        // Initialize Paginated Data Source
     }
 
     /**
@@ -165,7 +175,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
      *
      * @param id
      */
-    goToContact(id: string): void
+    goToContact(id: number): void
     {
         // Get the current activated route
         let route = this._activatedRoute;
@@ -209,7 +219,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._contactsService.createContact().subscribe((newContact) => {
 
             // Go to new contact
-            this.goToContact(newContact.id);
+            this.goToContact(+newContact.id);
         });
     }
 
@@ -234,8 +244,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
+    trackByFn(index: number, item: Person): any
     {
-        return item.id || index;
+        return item.personId || index;
     }
 }

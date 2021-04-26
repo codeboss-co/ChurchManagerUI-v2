@@ -6,10 +6,10 @@
         <!-- Header -->
         <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
             <!-- Background -->
-            <ng-container *ngIf="contact.background">
+            <ng-container>
                 <img
                     class="absolute inset-0 object-cover w-full h-full"
-                    [src]="contact.background">
+                    [src]="background">
             </ng-container>
             <!-- Close button -->
             <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
@@ -34,16 +34,16 @@
                     <div class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
                         <img
                             class="object-cover w-full h-full"
-                            *ngIf="contact.avatar"
-                            [src]="contact.avatar">
+                            *ngIf="person.photoUrl"
+                            [src]="person.photoUrl">
                         <div
                             class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
-                            *ngIf="!contact.avatar">
-                            {{contact.name.charAt(0)}}
+                            *ngIf="!person.photoUrl">
+                            {{person.fullName.firstName.charAt(0)}}{{person.fullName.lastName.charAt(0)}}
                         </div>
                     </div>
                     <!-- Actions -->
-                    <div class="flex items-center ml-auto mb-1">
+                    <div class="flex items-center ml-auto mb-1 space-x-1">
                         <button
                             mat-stroked-button
                             (click)="toggleEditMode(true)">
@@ -52,43 +52,64 @@
                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                             <span class="ml-2">Edit</span>
                         </button>
+                        <button
+                            mat-stroked-button
+                            [routerLink]="['/pages', 'profile', person.personId]">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                            <span class="ml-2">View Profile</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Name -->
-                <div class="mt-3 text-4xl font-bold truncate">{{contact.name}}</div>
+                <div class="mt-3 text-4xl font-bold truncate">{{person.fullName | fullName}}</div>
 
                 <!-- Tags -->
-                <ng-container *ngIf="contact.tags.length">
+                <ng-container>
                     <div class="flex flex-wrap items-center mt-2">
                         <!-- Tag -->
-                        <ng-container *ngFor="let tag of (contact.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
-                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
-                                <span class="text-sm font-medium whitespace-nowrap">{{tag.title}}</span>
+                        <ng-container>
+                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-indigo-200 dark:text-gray-300 dark:bg-gray-700">
+                                <span class="text-sm font-medium whitespace-nowrap">{{person.connectionStatus}}</span>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-blue-200 dark:text-gray-300 dark:bg-gray-700">
+                                <span class="text-sm font-medium whitespace-nowrap">{{person.church.name}}</span>
                             </div>
                         </ng-container>
                     </div>
                 </ng-container>
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
-                    <!-- Title -->
-                    <ng-container *ngIf="contact.title">
+                    <!-- Gender -->
+                    <ng-container *ngIf="person.gender">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.title}}</div>
+                            <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">{{person.ageClassification}}, {{person.gender}}</div>
                         </div>
                     </ng-container>
 
-                    <!-- Company -->
-                    <ng-container *ngIf="contact.company">
+                    <!-- Occupation -->
+                    <ng-container *ngIf="person.occupation">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.company}}</div>
+                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <div class="ml-6 leading-6">{{person.occupation}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- First Visit -->
+                    <ng-container *ngIf="person.firstVisitDate">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:clock'"></mat-icon>
+                            <div class="ml-6 leading-6">{{person.firstVisitDate | date}}</div>
                         </div>
                     </ng-container>
 
                     <!-- Emails -->
-                    <ng-container *ngIf="contact.emails.length">
+                    <!--<ng-container *ngIf="contact.emails.length">
                         <div class="flex">
                             <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
                             <div class="min-w-0 ml-6 space-y-1">
@@ -110,28 +131,28 @@
                                 </ng-container>
                             </div>
                         </div>
-                    </ng-container>
+                    </ng-container>-->
 
                     <!-- Phone -->
-                    <ng-container *ngIf="contact.phoneNumbers.length">
+                    <ng-container *ngIf="person.phoneNumbers.length">
                         <div class="flex">
                             <mat-icon [svgIcon]="'heroicons_outline:phone'"></mat-icon>
                             <div class="min-w-0 ml-6 space-y-1">
-                                <ng-container *ngFor="let phoneNumber of contact.phoneNumbers; trackBy: trackByFn">
+                                <ng-container *ngFor="let phoneNumber of person.phoneNumbers; trackBy: trackByFn">
                                     <div class="flex items-center leading-6">
-                                        <div
+                                        <!--<div
                                             class="hidden sm:flex w-6 h-4 overflow-hidden"
-                                            [matTooltip]="getCountryByIso(phoneNumber.country).name"
+                                            [matTooltip]="getCountryByIso(phoneNumber.countryCode).name"
                                             [style.background]="'url(\'/assets/images/apps/contacts/flags.png\') no-repeat 0 0'"
                                             [style.backgroundSize]="'24px 3876px'"
-                                            [style.backgroundPosition]="getCountryByIso(phoneNumber.country).flagImagePos"></div>
-                                        <div class="sm:ml-3 font-mono">{{getCountryByIso(phoneNumber.country).code}}</div>
+                                            [style.backgroundPosition]="getCountryByIso(phoneNumber.countryCode).flagImagePos"></div>
+                                        <div class="sm:ml-3 font-mono">{{getCountryByIso(phoneNumber.countryCode).code}}</div>-->
                                         <div class="ml-2.5 font-mono">{{phoneNumber.number}}</div>
                                         <div
                                             class="text-md truncate text-secondary"
-                                            *ngIf="phoneNumber.label">
+                                            *ngIf="phoneNumber.description">
                                             <span class="mx-2">&bull;</span>
-                                            <span class="font-medium">{{phoneNumber.label}}</span>
+                                            <span class="font-medium">{{phoneNumber.description}}</span>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -139,31 +160,21 @@
                         </div>
                     </ng-container>
 
-                    <!-- Address -->
-                    <ng-container *ngIf="contact.address">
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:location-marker'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.address}}</div>
-                        </div>
-                    </ng-container>
-
                     <!-- Birthday -->
-                    <ng-container *ngIf="contact.birthday">
+                    <ng-container *ngIf="person.birthDate">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:cake'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.birthday | date:'longDate'}}</div>
+                            <div class="ml-6 leading-6">
+                                <span *ngIf="person.birthDate?.birthDay">{{person.birthDate?.birthDay}}</span>
+                                <span *ngIf="person.birthDate?.birthMonth">/{{person.birthDate?.birthMonth}}</span>
+                                <span *ngIf="person.birthDate?.birthYear">/{{person.birthDate?.birthYear}}</span>
+                                <span class="mat-caption" *ngIf="person.birthDate?.age">
+                                      ({{person.birthDate | agePluralize }})
+                                </span>
+                            </div>
                         </div>
                     </ng-container>
 
-                    <!-- Notes -->
-                    <ng-container *ngIf="contact.notes">
-                        <div class="flex">
-                            <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
-                            <div
-                                class="max-w-none ml-6 prose prose-sm"
-                                [innerHTML]="contact.notes"></div>
-                        </div>
-                    </ng-container>
                 </div>
 
             </div>
@@ -171,17 +182,17 @@
     </ng-container>
 
     <!-- Edit mode -->
-    <ng-container *ngIf="editMode">
+    <!--<ng-container *ngIf="editMode">
 
-        <!-- Header -->
+        &lt;!&ndash; Header &ndash;&gt;
         <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
-            <!-- Background -->
+            &lt;!&ndash; Background &ndash;&gt;
             <ng-container *ngIf="contact.background">
                 <img
                     class="absolute inset-0 object-cover w-full h-full"
                     [src]="contact.background">
             </ng-container>
-            <!-- Close button -->
+            &lt;!&ndash; Close button &ndash;&gt;
             <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
                 <button
                     mat-icon-button
@@ -194,15 +205,15 @@
             </div>
         </div>
 
-        <!-- Contact form -->
+        &lt;!&ndash; Contact form &ndash;&gt;
         <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
             <div class="w-full max-w-3xl">
                 <form [formGroup]="contactForm">
 
-                    <!-- Avatar -->
+                    &lt;!&ndash; Avatar &ndash;&gt;
                     <div class="flex flex-auto items-end -mt-16">
                         <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
-                            <!-- Upload / Remove avatar -->
+                            &lt;!&ndash; Upload / Remove avatar &ndash;&gt;
                             <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
                             <div class="absolute inset-0 flex items-center justify-center z-20">
                                 <div>
@@ -233,7 +244,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- Image/Letter -->
+                            &lt;!&ndash; Image/Letter &ndash;&gt;
                             <img
                                 class="object-cover w-full h-full"
                                 *ngIf="contact.avatar"
@@ -246,7 +257,7 @@
                         </div>
                     </div>
 
-                    <!-- Name -->
+                    &lt;!&ndash; Name &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Name</mat-label>
@@ -262,9 +273,9 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Tags -->
+                    &lt;!&ndash; Tags &ndash;&gt;
                     <div class="flex flex-wrap items-center -m-1.5 mt-6">
-                        <!-- Tags -->
+                        &lt;!&ndash; Tags &ndash;&gt;
                         <ng-container *ngIf="contact.tags.length">
                             <ng-container *ngFor="let tag of (contact.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
                                 <div class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
@@ -272,7 +283,7 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-                        <!-- Tags panel and its button -->
+                        &lt;!&ndash; Tags panel and its button &ndash;&gt;
                         <div
                             class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 cursor-pointer text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700"
                             (click)="openTagsPanel()"
@@ -292,10 +303,10 @@
                                 <span class="ml-1.5 text-md font-medium whitespace-nowrap">Add</span>
                             </ng-container>
 
-                            <!-- Tags panel -->
+                            &lt;!&ndash; Tags panel &ndash;&gt;
                             <ng-template #tagsPanel>
                                 <div class="w-60 rounded border shadow-md bg-card">
-                                    <!-- Tags panel header -->
+                                    &lt;!&ndash; Tags panel header &ndash;&gt;
                                     <div class="flex items-center m-3 mr-2">
                                         <div class="flex items-center">
                                             <mat-icon
@@ -328,7 +339,7 @@
                                     </div>
                                     <div
                                         class="flex flex-col max-h-64 py-2 border-t overflow-y-auto">
-                                        <!-- Tags -->
+                                        &lt;!&ndash; Tags &ndash;&gt;
                                         <ng-container *ngIf="!tagsEditMode">
                                             <div
                                                 *ngFor="let tag of filteredTags; trackBy: trackByFn"
@@ -343,7 +354,7 @@
                                                 <div class="ml-1">{{tag.title}}</div>
                                             </div>
                                         </ng-container>
-                                        <!-- Tags editing -->
+                                        &lt;!&ndash; Tags editing &ndash;&gt;
                                         <ng-container *ngIf="tagsEditMode">
                                             <div class="py-2 space-y-2">
                                                 <div
@@ -366,7 +377,7 @@
                                                 </div>
                                             </div>
                                         </ng-container>
-                                        <!-- Create tag -->
+                                        &lt;!&ndash; Create tag &ndash;&gt;
                                         <div
                                             class="flex items-center h-10 min-h-10 -ml-0.5 pl-4 pr-3 leading-none cursor-pointer hover:bg-hover"
                                             *ngIf="shouldShowCreateTagButton(newTagInput.value)"
@@ -383,7 +394,7 @@
                         </div>
                     </div>
 
-                    <!-- Title -->
+                    &lt;!&ndash; Title &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Title</mat-label>
@@ -398,7 +409,7 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Company -->
+                    &lt;!&ndash; Company &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Company</mat-label>
@@ -413,7 +424,7 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Emails -->
+                    &lt;!&ndash; Emails &ndash;&gt;
                     <div class="mt-8">
                         <div class="space-y-4">
                             <ng-container *ngFor="let email of contactForm.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
@@ -441,7 +452,7 @@
                                             [formControl]="email.get('label')"
                                             [placeholder]="'Label'">
                                     </mat-form-field>
-                                    <!-- Remove email -->
+                                    &lt;!&ndash; Remove email &ndash;&gt;
                                     <ng-container *ngIf="!(first && last)">
                                         <div
                                             class="flex items-center w-10 pl-2"
@@ -470,7 +481,7 @@
                         </div>
                     </div>
 
-                    <!-- Phone numbers -->
+                    &lt;!&ndash; Phone numbers &ndash;&gt;
                     <div class="mt-8">
                         <div class="space-y-4">
                             <ng-container *ngFor="let phoneNumber of contactForm.get('phoneNumbers')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
@@ -521,7 +532,7 @@
                                             [formControl]="phoneNumber.get('label')"
                                             [placeholder]="'Label'">
                                     </mat-form-field>
-                                    <!-- Remove phone number -->
+                                    &lt;!&ndash; Remove phone number &ndash;&gt;
                                     <ng-container *ngIf="!(first && last)">
                                         <div
                                             class="flex items-center w-10 pl-2"
@@ -550,7 +561,7 @@
                         </div>
                     </div>
 
-                    <!-- Address -->
+                    &lt;!&ndash; Address &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Address</mat-label>
@@ -565,7 +576,7 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Birthday -->
+                    &lt;!&ndash; Birthday &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Birthday</mat-label>
@@ -586,7 +597,7 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Notes -->
+                    &lt;!&ndash; Notes &ndash;&gt;
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
                             <mat-label>Notes</mat-label>
@@ -604,9 +615,9 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Actions -->
+                    &lt;!&ndash; Actions &ndash;&gt;
                     <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
-                        <!-- Delete -->
+                        &lt;!&ndash; Delete &ndash;&gt;
                         <button
                             mat-button
                             [color]="'warn'"
@@ -614,7 +625,7 @@
                             (click)="deleteContact()">
                             Delete
                         </button>
-                        <!-- Cancel -->
+                        &lt;!&ndash; Cancel &ndash;&gt;
                         <button
                             class="ml-auto"
                             mat-button
@@ -622,7 +633,7 @@
                             (click)="toggleEditMode(false)">
                             Cancel
                         </button>
-                        <!-- Save -->
+                        &lt;!&ndash; Save &ndash;&gt;
                         <button
                             class="ml-2"
                             mat-flat-button
@@ -637,5 +648,5 @@
                 </form>
             </div>
         </div>
-    </ng-container>
+    </ng-container>-->
 </div>

@@ -17,7 +17,7 @@
                                 [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                         </button>
                         <mat-menu #generalActionsMenu="matMenu">
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="onEditGeneralInfo()">
                                 <mat-icon>edit</mat-icon>
                                 <span>Edit</span>
                             </button>
@@ -43,11 +43,18 @@
                         </span>
 
                         </div>
-                        <div class="flex items-center mt-4">
+                        <div *ngIf="profile.birthDate" class="flex items-center mt-4">
                             <mat-icon
                                 class="icon-size-5 mr-3"
                                 [svgIcon]="'heroicons_solid:cake'"></mat-icon>
-                            <span class="leading-none">{{profile.birthDate?.birthDay}}/{{profile.birthDate?.birthMonth}}/{{profile.birthDate?.birthYear}}</span>
+                            <span class="leading-none">
+                                <span *ngIf="profile.birthDate?.birthDay">{{profile.birthDate?.birthDay}}</span>
+                                <span *ngIf="profile.birthDate?.birthMonth">/{{profile.birthDate?.birthMonth}}</span>
+                                <span *ngIf="profile.birthDate?.birthYear">/{{profile.birthDate?.birthYear}}</span>
+                                <span class="mat-caption" *ngIf="profile.birthDate?.age">
+                                      ({{profile.birthDate | agePluralize }})
+                                    </span>
+                            </span>
                         </div>
                         <hr class="w-full border-t my-6">
 
@@ -107,9 +114,11 @@
                 <div class="flex flex-col">
                     <div class="flex justify-between mt-6">
                         <img *ngFor="let member of profile.familyMembers"
-                             class="w-14 h-14 rounded-full"
+                             [routerLink]="['/pages/profile', member.personId]"
+                             matTooltip="{{member.fullName.firstName}} ({{member.ageClassification}})"
+                             class="w-14 h-14 rounded-full cursor-pointer"
                              [src]="member.photoUrl"
-                             alt="Card cover image">
+                             alt="Family member">
                     </div>
                 </div>
             </fuse-card>
@@ -123,17 +132,17 @@
                 <fuse-card class="flex flex-col p-8 m-8 ">
 
                     <div class="flex items-center justify-between">
-                        <div class="text-2xl font-semibold leading-tight">General</div>
+                        <div class="text-2xl font-semibold leading-tight">Personal</div>
                         <div class="-mr-3">
                             <button
                                 mat-icon-button
-                                [matMenuTriggerFor]="generalActionsMenu">
+                                [matMenuTriggerFor]="personalActionsMenu">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
-                            <mat-menu #generalActionsMenu="matMenu">
-                                <button mat-menu-item>
+                            <mat-menu #personalActionsMenu="matMenu">
+                                <button mat-menu-item (click)="onEditPersonalInfo()">
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>
@@ -178,7 +187,7 @@
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #connectionActionsMenu="matMenu">
-                                <button mat-menu-item>
+                                <button mat-menu-item (click)="onEditConnectionsInfo()">
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>
@@ -202,7 +211,7 @@
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">First Visit Date</div>
-                                <div class="px-4 py-2">{{profile.firstVisitDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="px-4 py-2">{{profile.firstVisitDate | date}}</div>
                             </div>
                         </div>
                     </div>
@@ -239,7 +248,7 @@
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Baptism Date</div>
-                                <div class="px-4 py-2">{{profile.baptismStatus?.baptismDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="px-4 py-2">{{profile.baptismStatus?.baptismDate | date}}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Received Holy Spirit</div>

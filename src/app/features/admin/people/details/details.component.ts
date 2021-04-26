@@ -9,6 +9,8 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Contact, Country, Tag } from '../contacts.types';
 import { ContactsListComponent } from '../list/list.component';
 import { ContactsService } from '../_services/contacts.service';
+import { People, Person, PhoneNumber } from '@features/admin/people';
+import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
 
 @Component({
     selector       : 'contacts-details',
@@ -33,6 +35,10 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
     private _tagsPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    background = '';
+
+    person: Person;
+    people: People;
     /**
      * Constructor
      */
@@ -41,6 +47,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _contactsListComponent: ContactsListComponent,
         private _contactsService: ContactsService,
+        private _data: PeopleDataService,
         private _formBuilder: FormBuilder,
         private _renderer2: Renderer2,
         private _router: Router,
@@ -48,6 +55,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         private _viewContainerRef: ViewContainerRef
     )
     {
+        this.background = this.randomBackground;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -78,25 +86,25 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         });
 
         // Get the contacts
-        this._contactsService.contacts$
+        this._data.people$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-                this.contacts = contacts;
+            .subscribe((contacts: People) => {
+                this.people = contacts;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
         // Get the contact
-        this._contactsService.contact$
+        this._data.person$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
+            .subscribe((contact: Person) => {
 
                 // Open the drawer in case it is closed
                 this._contactsListComponent.matDrawer.open();
 
                 // Get the contact
-                this.contact = contact;
+                this.person = contact;
 
                 // Clear the emails and phoneNumbers form arrays
                 (this.contactForm.get('emails') as FormArray).clear();
@@ -108,7 +116,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 // Setup the emails form array
                 const emailFormGroups = [];
 
-                if ( contact.emails.length > 0 )
+/*                if ( contact.emails.length > 0 )
                 {
                     // Iterate through them
                     contact.emails.forEach((email) => {
@@ -131,7 +139,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                             label: ['']
                         })
                     );
-                }
+                }*/
 
                 // Add the email form groups to the emails form array
                 emailFormGroups.forEach((emailFormGroup) => {
@@ -149,9 +157,9 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                         // Create an email form group
                         phoneNumbersFormGroups.push(
                             this._formBuilder.group({
-                                country: [phoneNumber.country],
+                                country: [phoneNumber.countryCode],
                                 number : [phoneNumber.number],
-                                label  : [phoneNumber.label]
+                                label  : [phoneNumber.description]
                             })
                         );
                     });
@@ -704,8 +712,14 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
+    trackByFn(index: number, item: PhoneNumber): any
     {
         return item.id || index;
+    }
+
+    get randomBackground(): string
+    {
+        const num = Math.floor(Math.random() * 5) + 1;
+        return `/assets/images/backgrounds/cape-town-${num}.jpg`;
     }
 }

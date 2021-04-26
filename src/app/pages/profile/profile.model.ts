@@ -1,36 +1,7 @@
-interface FullName {
-    title?: any;
-    firstName: string;
-    nickName?: any;
-    middleName?: any;
-    lastName: string;
-    suffix?: any;
-}
+import { BaptismStatus, BirthDate, Email, FullName, PhoneNumber, Church } from '@features/admin/people';
 
-interface BirthDate {
-    birthDay: number;
-    birthMonth: number;
-    birthYear: number;
-}
-
-interface Email {
-    address: string;
-    isActive: boolean;
-}
-
-interface Baptism {
-    baptismDate?: Date;
-    isBaptised?: boolean;
-}
-
-interface PhoneNumber {
-    countryCode: string;
-    description?: string;
-    number: string;
-    isMessagingEnabled?: boolean;
-}
-
-interface FamilyMember {
+export interface FamilyMember {
+    personId?: number;
     fullName: FullName;
     gender: string;
     ageClassification: string;
@@ -48,7 +19,7 @@ export interface Profile {
     firstVisitDate?: Date;
     fullName?: FullName;
     birthDate?: BirthDate;
-    baptismStatus?: Baptism;
+    baptismStatus?: BaptismStatus;
     foundationSchool?: DiscipleshipStep;
     maritalStatus?: string;
     anniversaryDate?: any;
@@ -86,7 +57,7 @@ export class ProfileModel implements Profile {
     firstVisitDate?: Date;
     fullName: FullName;
     birthDate?: BirthDate;
-    baptismStatus?: Baptism;
+    baptismStatus?: BaptismStatus;
     foundationSchool?: DiscipleshipStep;
     maritalStatus?: any;
     anniversaryDate?: any;
@@ -106,14 +77,6 @@ export class ProfileModel implements Profile {
         this.familyMembers = model.familyMembers.map(x => new FamilyMemberModel(x));
     }
 
-}
-
-export interface Church
-{
-    id: number;
-    name: string;
-    description: string;
-    shortCode: string;
 }
 
 export interface DiscipleshipStep
@@ -136,14 +99,21 @@ export interface ProfileConnectionInfo
     source: string;
 }
 
-export interface ProfileGeneralInfo
+export interface ProfilePersonalInfo
 {
     firstName: string;
     middleName?: string;
     lastName: string;
     gender: string;
     ageClassification: string;
-    maritalStatus: string;
+}
+
+export interface ProfileGeneralInfo
+{
+    occupation?: string;
+    phoneNumber: string;
+    email?: string;
+    maritalStatus?: string;
     birthDate?: { day?: number, month?: number, year?: number };
 }
 
