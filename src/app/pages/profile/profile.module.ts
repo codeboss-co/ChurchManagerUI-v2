@@ -12,7 +12,7 @@ import { FuseCardModule } from '@fuse/components/card';
 import { ProfileComponent } from './profile.component';
 import { profileRoutes } from './_services/profile.routing';
 import { SharedModule } from '@shared/shared.module';
-import { ProfileResolver } from './_services/profile.resolvers';
+import { ProfileDiscipleshipResolver, ProfileResolver } from './_services/profile.resolvers';
 import { ProfileService } from './_services/profile.service';
 import { ProfileAboutComponent } from './tabs/about/profile-about.component';
 import { ProfileGroupsComponent } from './tabs/groups/groups.component';
@@ -84,7 +84,9 @@ import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discip
         // Extensions
         AgePluralizeModule
     ],
-    providers: [ProfileResolver, ProfileService, GroupsDataService, ProfileDiscipleshipService]
+    providers: [
+        ProfileResolver, ProfileDiscipleshipResolver,
+        ProfileService, GroupsDataService, ProfileDiscipleshipService]
 })
 export class ProfileModule
 {
