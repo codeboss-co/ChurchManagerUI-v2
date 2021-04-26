@@ -2,14 +2,16 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, throwError } from 'rxjs';
 import { GroupMemberSimple } from '@features/admin/groups';
 import { ApiResponse } from '@shared/shared.models';
 import { NewFamilyForm } from '../new-family-form/person-form/person-form.model';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { People, PeopleSearchQuery, Person } from '@features/admin/people';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
+import { ProfileModel } from '../../../../pages/profile/profile.model';
 
 @Injectable()
 export class PeopleDataService extends HttpBaseService
@@ -50,6 +52,22 @@ export class PeopleDataService extends HttpBaseService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+
+    /**
+     * Get selected person from the current list of people
+     *
+     */
+    getPersonById$(personId: number): Observable<ApiResponse> {
+
+        const profileUrl = `${this._apiUrl}/v1/profiles/person/${personId}?condensed=true`;
+
+        return this.http.get<ApiResponse>(profileUrl)
+            .pipe(
+                tap(response =>  this._person.next(response.data as Person))
+            );
+    }
+
     /**
      * Get group members and their simple information
      *
@@ -93,4 +111,5 @@ export class PeopleDataService extends HttpBaseService
 
         return super.post<PagedResult<Person>>(`${this._apiUrl}/v1/people/browse`, body);
     }
+
 }

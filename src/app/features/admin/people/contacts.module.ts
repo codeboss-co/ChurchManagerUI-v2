@@ -36,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
+import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
 
 @NgModule({
     declarations: [
@@ -99,7 +100,7 @@ import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module
                 }
             }
         },
-        PeopleDataService
+        PeopleDataService, PeopleResolver
     ]
 })
 export class ContactsModule
