@@ -1,1 +1,93 @@
-<h1>HELLO</h1>
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+
+    <!-- Main -->
+    <div class="flex flex-auto p-6 sm:p-10">
+
+        <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
+            <!-- Filters -->
+
+            <!-- Courses -->
+            <ng-container *ngIf="(programs$ | async) as filteredCourses; else noCourses">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
+                    <ng-container *ngFor="let course of filteredCourses">
+                        <!-- Course -->
+                        <div class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
+                            <div class="flex flex-col p-6">
+                                <div class="flex items-center justify-between">
+                                    <!-- Course category -->
+                                    <ng-container *ngIf="course.program.name">
+                                        <div
+                                            class="py-0.5 px-3 rounded-full text-sm font-semibold text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500">
+                                            {{course.program.name}}
+                                        </div>
+                                    </ng-container>
+                                    <!-- Completed at least once -->
+                                    <div class="flex items-center">
+                                        <ng-container *ngIf="checkProgramComplete(course)">
+                                            <mat-icon
+                                                class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_solid:badge-check'"
+                                                [matTooltip]="'You completed this course at least once'"></mat-icon>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <!-- Course title & description -->
+                                <div class="mt-4 text-lg font-medium">{{course.program.name}}</div>
+                                <div class="mt-0.5 line-clamp-2 text-secondary">{{course.program.description}}</div>
+                                <div class="w-12 h-1 my-6 border-t-2"></div>
+                                <!-- Course steps -->
+                                <div *ngFor="let step of course.steps" class="flex items-start leading-5 text-md text-secondary">
+                                    <mat-icon
+                                        class="icon-size-5 text-hint"
+                                        [svgIcon]="'heroicons_solid:template'"></mat-icon>
+                                    <div class="flex flex-col ml-1.5 mx-2">
+                                        <div class="font-medium">{{step.stepDefinition.name}}</div>
+                                        <div class="mt-0.5 line-clamp-2 text-secondary">{{step.stepDefinition.description}}</div>
+                                        <!-- Course time -->
+                                        <div *ngIf="step.completionDate">{{step.completionDate | date}}</div>
+                                    </div>
+                                    <div>
+                                            <mat-icon *ngIf="step.status === 'Completed'"
+                                                      class="icon-size-5 text-green-600"
+                                                      [svgIcon]="'heroicons_solid:badge-check'"
+                                                      [matTooltip]="'Completed this step'"></mat-icon>
+                                        <mat-icon *ngIf="step.status === 'Not Started'"
+                                                  class="icon-size-5 text-amber-600"
+                                                  [svgIcon]="'heroicons_solid:x-circle'"
+                                                  [matTooltip]="'Not started this step'"></mat-icon>
+                                        <mat-icon *ngIf="step.status === 'In Progress'"
+                                                  class="icon-size-5 text-yellow-500"
+                                                  [svgIcon]="'heroicons_solid:clock'"
+                                                  [matTooltip]="'In Progress this step'"></mat-icon>
+                                        </div>
+                                </div>
+                            </div>
+                            <!-- Footer -->
+                            <div class="flex flex-col w-full mt-auto">
+                                <!-- Course progress -->
+
+
+
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <!-- No courses -->
+            <ng-template #noCourses>
+                <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                    <mat-icon
+                        class="icon-size-20"
+                        [svgIcon]="'iconsmind:file_search'"></mat-icon>
+                    <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">No courses found!</div>
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+
+</div>

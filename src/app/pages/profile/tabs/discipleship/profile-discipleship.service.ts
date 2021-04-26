@@ -12,7 +12,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 @Injectable()
 export class ProfileDiscipleshipService extends  HttpBaseService
 {
-    private _discipleship: BehaviorSubject<DiscipleshipProgramDetails> = new BehaviorSubject(null);
+    private _programs: BehaviorSubject<DiscipleshipProgramDetails> = new BehaviorSubject(null);
 
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
@@ -22,6 +22,19 @@ export class ProfileDiscipleshipService extends  HttpBaseService
     {
         super(http);
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Getter for categories
+     */
+    get programs$(): Observable<DiscipleshipProgramDetails>
+    {
+        return this._programs.asObservable();
+    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -38,7 +51,7 @@ export class ProfileDiscipleshipService extends  HttpBaseService
         return super.post<ApiResponse>(`${this._apiUrl}/v1/discipleship/person/programs`, body)
             .pipe(
                 map(response => response.data),
-                tap(discipleship => this._discipleship.next(discipleship))
+                tap(programs => this._programs.next(programs))
             );
     }
 }

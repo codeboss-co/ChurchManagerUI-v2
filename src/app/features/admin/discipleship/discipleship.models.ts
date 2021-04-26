@@ -18,6 +18,7 @@ export interface DiscipleshipType {
 
 export interface DiscipleshipStep {
     completionDate?: Date;
+    order?: number;
     status?: string;
     stepDefinition: StepDefinition;
     discipleshipType: DiscipleshipType;
@@ -26,7 +27,7 @@ export interface DiscipleshipStep {
 
 export interface DiscipleshipProgramDetail {
     program: DiscipleshipProgram;
-    discipleshipSteps: DiscipleshipStep[];
+    steps: DiscipleshipStep[];
 }
 
 export type DiscipleshipProgramDetails = DiscipleshipProgramDetail[];

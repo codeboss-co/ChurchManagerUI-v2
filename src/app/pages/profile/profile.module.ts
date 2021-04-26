@@ -36,6 +36,7 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 import { ProfileDiscipleshipService } from './tabs/discipleship/profile-discipleship.service';
 import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discipleship.component';
+import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discip
         FuseCardModule,
         FuseAutogrowModule,
         FuseScrollbarModule,
+        FuseFindByKeyPipeModule,
         SharedModule,
 
         // UI Controls
