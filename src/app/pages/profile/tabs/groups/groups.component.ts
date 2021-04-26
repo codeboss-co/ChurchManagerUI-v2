@@ -13,7 +13,7 @@ import { GroupAttendanceFormDialogComponent } from './components/group-attendanc
 import { GroupAttendanceForm } from './components/group-attendance-form/group-attendance.model';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
-import { ProfileService } from '../../profile.service';
+import { ProfileService } from '../../_services/profile.service';
 import { FuseAnimations } from '@fuse/animations';
 
 export interface GroupsQuery {

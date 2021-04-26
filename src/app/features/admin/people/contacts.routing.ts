@@ -5,6 +5,7 @@ import { ContactsComponent } from './contacts.component';
 import { ContactsListComponent } from './list/list.component';
 import { ContactsDetailsComponent } from './details/details.component';
 import { NewFamilyFormComponent } from '@features/admin/people/new-family-form/new-family-form.component';
+import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
 
 export const contactsRoutes: Route[] = [
     {
@@ -30,7 +31,7 @@ export const contactsRoutes: Route[] = [
                         path         : ':id',
                         component    : ContactsDetailsComponent,
                         resolve      : {
-                            task     : ContactsContactResolver,
+                            task     : PeopleResolver,
                             countries: ContactsCountriesResolver
                         },
                         canDeactivate: [CanDeactivateContactsDetails]

@@ -25,6 +25,7 @@ export interface Email {
 }
 
 export interface PhoneNumber {
+    id?: number;
     countryCode?: string;
     description?: string;
     number: string;
