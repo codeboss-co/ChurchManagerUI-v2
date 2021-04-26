@@ -37,6 +37,7 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
+import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 
 @NgModule({
     declarations: [
@@ -83,7 +84,8 @@ import { PeopleResolver } from '@features/admin/people/_services/people.resolver
         PersonEditorControlModule,
 
         // Extensions
-        FullNamePipeModule
+        FullNamePipeModule,
+        AgePluralizeModule
     ],
     providers   : [
         {

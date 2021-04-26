@@ -168,7 +168,10 @@
                                 <span *ngIf="person.birthDate?.birthDay">{{person.birthDate?.birthDay}}</span>
                                 <span *ngIf="person.birthDate?.birthMonth">/{{person.birthDate?.birthMonth}}</span>
                                 <span *ngIf="person.birthDate?.birthYear">/{{person.birthDate?.birthYear}}</span>
-                                </div>
+                                <span class="mat-caption" *ngIf="person.birthDate?.age">
+                                      ({{person.birthDate | agePluralize }})
+                                </span>
+                            </div>
                         </div>
                     </ng-container>
 
