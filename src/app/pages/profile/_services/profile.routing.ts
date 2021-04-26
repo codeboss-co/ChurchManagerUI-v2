@@ -1,8 +1,9 @@
 import { Route } from '@angular/router';
 import { ProfileComponent } from 'app/pages/profile/profile.component';
 import { ProfileResolver } from './profile.resolvers';
-import { ProfileAboutComponent } from './tabs/about/profile-about.component';
-import { ProfileGroupsComponent } from './tabs/groups/groups.component';
+import { ProfileAboutComponent } from '../tabs/about/profile-about.component';
+import { ProfileGroupsComponent } from '../tabs/groups/groups.component';
+import { ProfileDiscipleshipComponent } from '../tabs/discipleship/profile-discipleship.component';
 
 export const profileRoutes: Route[] = [
     {
@@ -14,6 +15,7 @@ export const profileRoutes: Route[] = [
         children: [
             {path: '', component: ProfileAboutComponent },
             {path: 'groups', component: ProfileGroupsComponent },
+            {path: 'discipleship', component: ProfileDiscipleshipComponent },
         ]
     },
     {

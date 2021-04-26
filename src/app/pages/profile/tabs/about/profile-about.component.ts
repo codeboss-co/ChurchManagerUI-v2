@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, first, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseAnimations } from '@fuse/animations';
 
 import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfilePersonalInfo } from '../../profile.model';
-import { ProfileService } from '../../profile.service';
+import { ProfileService } from '../../_services/profile.service';
 import {
     ProfileConnectionInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,

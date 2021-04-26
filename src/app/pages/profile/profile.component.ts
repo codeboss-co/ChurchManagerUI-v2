@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { ProfileService } from './profile.service';
+import { ProfileService } from './_services/profile.service';
 import { Observable } from 'rxjs';
 import { Profile } from './profile.model';
 
