@@ -64,6 +64,7 @@ export class PeopleDataService extends HttpBaseService
 
         return this.http.get<ApiResponse>(profileUrl)
             .pipe(
+                // Store the selected person
                 tap(response =>  this._person.next(response.data as Person))
             );
     }

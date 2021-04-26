@@ -39,11 +39,11 @@
                         <div
                             class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
                             *ngIf="!person.photoUrl">
-                            {{contact.name.charAt(0)}}
+                            {{person.fullName.firstName.charAt(0)}}{{person.fullName.lastName.charAt(0)}}
                         </div>
                     </div>
                     <!-- Actions -->
-                    <div class="flex items-center ml-auto mb-1">
+                    <div class="flex items-center ml-auto mb-1 space-x-1">
                         <button
                             mat-stroked-button
                             (click)="toggleEditMode(true)">
@@ -52,26 +52,47 @@
                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                             <span class="ml-2">Edit</span>
                         </button>
+                        <button
+                            mat-stroked-button
+                            [routerLink]="['/pages', 'profile', person.personId]">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                            <span class="ml-2">View Profile</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Name -->
-                <div class="mt-3 text-4xl font-bold truncate">{{person.fullName.firstName}}</div>
+                <div class="mt-3 text-4xl font-bold truncate">{{person.fullName | fullName}}</div>
 
-               <!-- &lt;!&ndash; Tags &ndash;&gt;
-                <ng-container *ngIf="contact.tags.length">
+                <!-- Tags -->
+                <ng-container>
                     <div class="flex flex-wrap items-center mt-2">
-                        &lt;!&ndash; Tag &ndash;&gt;
-                        <ng-container *ngFor="let tag of (contact.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
-                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
-                                <span class="text-sm font-medium whitespace-nowrap">{{tag.title}}</span>
+                        <!-- Tag -->
+                        <ng-container>
+                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-indigo-200 dark:text-gray-300 dark:bg-gray-700">
+                                <span class="text-sm font-medium whitespace-nowrap">{{person.connectionStatus}}</span>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-blue-200 dark:text-gray-300 dark:bg-gray-700">
+                                <span class="text-sm font-medium whitespace-nowrap">{{person.church.name}}</span>
                             </div>
                         </ng-container>
                     </div>
-                </ng-container>-->
+                </ng-container>
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
-                    <!-- Title -->
+                    <!-- Gender -->
+                    <ng-container *ngIf="person.gender">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">{{person.ageClassification}}, {{person.gender}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Occupation -->
                     <ng-container *ngIf="person.occupation">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
@@ -79,11 +100,11 @@
                         </div>
                     </ng-container>
 
-                    <!-- Company -->
-                    <ng-container *ngIf="person.occupation">
+                    <!-- First Visit -->
+                    <ng-container *ngIf="person.firstVisitDate">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
-                            <div class="ml-6 leading-6">{{person.occupation}}</div>
+                            <mat-icon [svgIcon]="'heroicons_outline:clock'"></mat-icon>
+                            <div class="ml-6 leading-6">{{person.firstVisitDate | date}}</div>
                         </div>
                     </ng-container>
 
@@ -139,31 +160,18 @@
                         </div>
                     </ng-container>
 
-                    <!-- Address -->
-                    <ng-container *ngIf="person.ageClassification">
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:location-marker'"></mat-icon>
-                            <div class="ml-6 leading-6">{{person.ageClassification}}</div>
-                        </div>
-                    </ng-container>
-
                     <!-- Birthday -->
                     <ng-container *ngIf="person.birthDate">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:cake'"></mat-icon>
-                            <div class="ml-6 leading-6">{{person.birthDate?.birthMonth}}</div>
+                            <div class="ml-6 leading-6">
+                                <span *ngIf="person.birthDate?.birthDay">{{person.birthDate?.birthDay}}</span>
+                                <span *ngIf="person.birthDate?.birthMonth">/{{person.birthDate?.birthMonth}}</span>
+                                <span *ngIf="person.birthDate?.birthYear">/{{person.birthDate?.birthYear}}</span>
+                                </div>
                         </div>
                     </ng-container>
 
-                    <!-- Notes -->
-                    <ng-container *ngIf="person.ageClassification">
-                        <div class="flex">
-                            <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
-                            <div
-                                class="max-w-none ml-6 prose prose-sm"
-                                [innerHTML]="person.ageClassification"></div>
-                        </div>
-                    </ng-container>
                 </div>
 
             </div>
