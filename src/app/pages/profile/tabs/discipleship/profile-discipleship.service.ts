@@ -6,7 +6,10 @@ import { Environment } from '@shared/environment.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
-import { DiscipleshipProgramDetails } from '@features/admin/discipleship/discipleship.models';
+import {
+    DiscipleshipProgramDetailModel,
+    DiscipleshipProgramDetails
+} from '@features/admin/discipleship/discipleship.models';
 import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
@@ -51,7 +54,7 @@ export class ProfileDiscipleshipService extends  HttpBaseService
         return super.post<ApiResponse>(`${this._apiUrl}/v1/discipleship/person/programs`, body)
             .pipe(
                 map(response => response.data),
-                tap(programs => this._programs.next(programs))
+                tap(programs => this._programs.next(programs.map(x => new DiscipleshipProgramDetailModel(x))))
             );
     }
 }

@@ -47,8 +47,4 @@ export class ProfileDiscipleshipComponent
     {
         this.filters.categorySlug$.next(change.value);
     }
-
-    checkProgramComplete( course: DiscipleshipProgramDetail ): boolean {
-        return course.steps.find(x => x.status !== 'Completed') === undefined;
-    }
 }
