@@ -256,8 +256,8 @@
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Foundation School</div>
-                                <div class="px-4 py-2">{{profile.foundationSchool.isCompleted ? 'Yes' : 'No'}}
-                                    <span class="mat-caption" *ngIf="profile.foundationSchool.isCompleted && profile.foundationSchool.completionDate">
+                                <div class="px-4 py-2">{{profile.foundationSchool.isComplete ? 'Yes' : 'No'}}
+                                    <span class="mat-caption" *ngIf="profile.foundationSchool.isComplete && profile.foundationSchool.completionDate">
                                       ({{profile.foundationSchool.completionDate | date}})
                                     </span>
                                 </div>

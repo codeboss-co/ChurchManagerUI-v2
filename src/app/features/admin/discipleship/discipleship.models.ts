@@ -3,52 +3,47 @@ export interface DiscipleshipProgram
     description?: string;
     id: number;
     name: string;
+    category?: string;
+    order?: number;
 }
 
 export interface StepDefinition
 {
+    id: number;
+    name: string;
     description?: string;
-    id: number;
-    name: string;
-}
-
-export interface DiscipleshipType
-{
-    description?: any;
-    id: number;
-    name: string;
+    order?: number;
 }
 
 export interface DiscipleshipStep
 {
     completionDate?: Date;
-    order?: number;
     status?: string;
     stepDefinition: StepDefinition;
-    discipleshipType: DiscipleshipType;
     personId?: number;
+    isComplete: boolean;
 }
 
-export interface DiscipleshipProgramDetail
+export interface DiscipleshipProgramForPerson
 {
     program: DiscipleshipProgram;
     steps: DiscipleshipStep[];
     checkProgramComplete(): boolean;
 }
 
-export type DiscipleshipProgramDetails = DiscipleshipProgramDetail[];
+export type DiscipleshipProgramsForPerson = DiscipleshipProgramForPerson[];
 
 export class DiscipleshipProgramDetailModel
 {
     program: DiscipleshipProgram;
     steps: DiscipleshipStep[];
 
-    constructor(model?: Partial<DiscipleshipProgramDetail>)
+    constructor(model?: Partial<DiscipleshipProgramForPerson>)
     {
         Object.assign(this, model);
     }
 
     checkProgramComplete(): boolean {
-        return this.steps?.find(x => x.status !== 'Completed') === undefined;
+        return this.steps?.find(x => !x.isComplete) === undefined;
     }
 }

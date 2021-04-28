@@ -8,14 +8,14 @@ import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import {
     DiscipleshipProgramDetailModel,
-    DiscipleshipProgramDetails
+    DiscipleshipProgramsForPerson
 } from '@features/admin/discipleship/discipleship.models';
 import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
 export class ProfileDiscipleshipService extends  HttpBaseService
 {
-    private _programs: BehaviorSubject<DiscipleshipProgramDetails> = new BehaviorSubject(null);
+    private _programs: BehaviorSubject<DiscipleshipProgramsForPerson> = new BehaviorSubject(null);
 
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
@@ -33,7 +33,7 @@ export class ProfileDiscipleshipService extends  HttpBaseService
     /**
      * Getter for categories
      */
-    get programs$(): Observable<DiscipleshipProgramDetails>
+    get programs$(): Observable<DiscipleshipProgramsForPerson>
     {
         return this._programs.asObservable();
     }
@@ -47,7 +47,7 @@ export class ProfileDiscipleshipService extends  HttpBaseService
      * Get Discipleship info for person
      *
      */
-    getDiscipleshipStepsForPerson$(personId: number | undefined): Observable<DiscipleshipProgramDetails>
+    getDiscipleshipStepsForPerson$(personId: number | undefined): Observable<DiscipleshipProgramsForPerson>
     {
         const body = { personId };
 

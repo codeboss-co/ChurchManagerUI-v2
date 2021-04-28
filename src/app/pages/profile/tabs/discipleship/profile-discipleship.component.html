@@ -17,10 +17,10 @@
                             <div class="flex flex-col p-6">
                                 <div class="flex items-center justify-between">
                                     <!-- Course category -->
-                                    <ng-container *ngIf="course.program.name">
+                                    <ng-container *ngIf="course.program.category">
                                         <div
                                             class="py-0.5 px-3 rounded-full text-sm font-semibold text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500">
-                                            {{course.program.name}}
+                                            {{course.program.category}}
                                         </div>
                                     </ng-container>
                                     <!-- Completed at least once -->

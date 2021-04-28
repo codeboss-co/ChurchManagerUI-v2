@@ -83,7 +83,7 @@ export interface DiscipleshipStep
 {
     id?: number;
     name?: string;
-    isCompleted?: boolean;
+    isComplete?: boolean;
     completionDate?: Date;
     status?: string;
 }
