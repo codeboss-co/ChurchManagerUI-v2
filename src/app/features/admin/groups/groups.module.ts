@@ -7,12 +7,18 @@ import { GroupsManageService } from '@features/admin/groups/_services/groups-man
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 import { GroupsManageComponent } from '@features/admin/groups/manage/groups-manage.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent],
     imports: [
         RouterModule.forChild(groupsRoutes),
 
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
         MatTreeModule
     ],
     providers: [GroupsManageResolver, GroupsManageService]
