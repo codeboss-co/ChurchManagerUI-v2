@@ -7,12 +7,12 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupMemberSimple } from './group.model';
+import { GroupMemberSimple, GroupWithChildren } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
-import { GroupAttendanceForm } from './group-attendance.model';
+import { GroupAttendanceForm } from '../group-attendance.model';
 
 @Injectable()
 export class GroupsDataService extends HttpBaseService

@@ -59,3 +59,18 @@ export interface GroupMemberSimple{
     gender: string;
     photoUrl: string;
 }
+
+
+export interface GroupWithChildren {
+    id: number;
+    churchId: number;
+    parentGroupId?: any;
+    groupTypeId: number;
+    name: string;
+    description: string;
+    address?: any;
+    startDate?: Date;
+    isOnline: boolean;
+    createdDate: Date;
+    groups?: GroupWithChildren[];
+}

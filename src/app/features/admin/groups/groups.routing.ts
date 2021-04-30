@@ -1,5 +1,7 @@
 import { Route } from '@angular/router';
 import { GroupsComponent } from '@features/admin/groups/groups.component';
+import { GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
+import { GroupsViewerComponent } from '@features/admin/groups/list/groups-viewer.component';
 
 export const groupsRoutes: Route[] = [
     // Cell Ministry
@@ -7,7 +9,16 @@ export const groupsRoutes: Route[] = [
 
     // Default Groups home page
     {
-        path     : '**',
-        component: GroupsComponent
+        path     : '',
+        component: GroupsComponent,
+        children: [
+            {
+                path     : '',
+                component: GroupsViewerComponent,
+                resolve  : {
+                    groups: GroupsManageResolver
+                }
+            }
+        ]
     }
 ];
