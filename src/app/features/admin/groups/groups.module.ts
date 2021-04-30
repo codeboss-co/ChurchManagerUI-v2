@@ -10,6 +10,8 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
     declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent],
@@ -18,8 +20,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
         MatButtonModule,
         MatIconModule,
+        MatSidenavModule,
         MatTooltipModule,
-        MatTreeModule
+        MatTreeModule,
+
+        SharedModule
     ],
     providers: [GroupsManageResolver, GroupsManageService]
 })

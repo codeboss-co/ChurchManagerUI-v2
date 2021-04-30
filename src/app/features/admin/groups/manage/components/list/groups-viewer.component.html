@@ -1,1 +1,75 @@
-<h1>Group Viewer</h1>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container
+        class="flex-auto h-full bg-card dark:bg-transparent"
+        (backdropClick)="onBackdropClicked()">
+
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-full sm:w-100 dark:bg-gray-900"
+            [mode]="drawerMode"
+            [opened]="false"
+            [position]="'end'"
+            [disableClose]="true"
+            #matDrawer>
+            <router-outlet></router-outlet>
+        </mat-drawer>
+
+        <mat-drawer-content class="flex flex-col bg-gray-100 dark:bg-transparent">
+
+            <!-- Main -->
+            <div class="flex flex-col flex-auto">
+
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
+                    <!-- Title -->
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Groups Manager</div>
+                        <div class="flex items-center mt-0.5 font-medium text-secondary">
+                            {{groups.length}} groups
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="mt-4 sm:mt-0">
+                        <!-- Upload button -->
+                        <button
+                            mat-flat-button
+                            [color]="'primary'">
+                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                            <span class="ml-2 mr-1">Upload file</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Items list -->
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button disabled></button>
+                        <mat-icon class="mr-2" [svgIcon]="'mat_outline:circle'"></mat-icon>
+                        {{node.name}}
+                    </mat-tree-node>
+
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                        <button mat-icon-button matTreeNodeToggle
+                                [attr.aria-label]="'toggle ' + node.name">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </button>
+                        <mat-icon class="mr-2" [svgIcon]="'heroicons_outline:share'"></mat-icon>
+                        {{node.name}}
+                    </mat-tree-node>
+                </mat-tree>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>
+
+
