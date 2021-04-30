@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulatio
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 
 @Component({
-    selector       : 'groups-viewer',
-    templateUrl    : './groups-viewer.component.html',
+    selector       : 'groups-manage',
+    templateUrl    : './groups-manage.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsViewerComponent
+export class GroupsManageComponent
 {
     constructor(private _service: GroupsManageService)
     {
