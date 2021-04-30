@@ -15,11 +15,27 @@ export class GroupsManageService extends HttpBaseService
 
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Getter for groups
+     */
+    get groups$(): Observable<GroupWithChildren[]>
+    {
+        return this._groups.asObservable();
+    }
+
     constructor(
         private http: HttpClient,
         @Inject( ENV ) private _environment: Environment ) {
         super( http );
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Get groups with their children in the form of a tree

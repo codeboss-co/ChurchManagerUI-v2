@@ -6,11 +6,14 @@ import { GroupsManageResolver } from '@features/admin/groups/_services/groups.re
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 import { GroupsManageComponent } from '@features/admin/groups/manage/groups-manage.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
     declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent],
     imports: [
-        RouterModule.forChild(groupsRoutes)
+        RouterModule.forChild(groupsRoutes),
+
+        MatTreeModule
     ],
     providers: [GroupsManageResolver, GroupsManageService]
 })
