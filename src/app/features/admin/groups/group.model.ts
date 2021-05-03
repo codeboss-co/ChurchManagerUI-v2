@@ -67,6 +67,7 @@ export interface GroupWithChildren {
     id: number;
     churchId: number;
     parentGroupId?: any;
+    parentGroupName?: string;
     groupType: GroupType;
     name: string;
     description: string;

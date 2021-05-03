@@ -20,7 +20,7 @@
                 </mat-icon>
             </button>
             <mat-icon *ngIf="node.item.groupType.iconCssClass" class="mr-2" [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
-            <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node.item.name}}</span>
+            <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node.item.name}}<span class="text-sm"> ({{node.item.groups?.length}})</span></span>
         </mat-tree-node>
     </mat-tree>
 
