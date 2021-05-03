@@ -1,0 +1,68 @@
+<!-- FAMILY MEMBERS -->
+
+<table mat-table *ngIf="dataSource?.data?.length" [dataSource]="dataSource" class="w-full table-fixed bg-transparent">
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+        <th class="w-6" mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="photoUrl">
+        <th class="w-12" mat-header-cell *matHeaderCellDef></th>
+        <td class="px-8" mat-cell *matCellDef="let element">
+            <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                <ng-container *ngIf="element.photoUrl">
+                    <img
+                        class="object-cover w-full h-full"
+                        [src]="element.photoUrl"
+                        alt="Contact avatar"/>
+                </ng-container>
+                <ng-container *ngIf="!element.photoUrl">
+                    <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                        {{element.firstName.charAt(0)}}{{element.lastName.charAt(0)}}
+                    </div>
+                </ng-container>
+            </div></td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+        <th class="w-12" mat-header-cell *matHeaderCellDef> First Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+        <th class="w-12"  mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <!-- Gender Column -->
+    <ng-container matColumnDef="gender">
+        <th  class="w-12" mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="groupMemberRole">
+        <th  class="w-12" mat-header-cell *matHeaderCellDef> Role </th>
+        <td mat-cell *matCellDef="let element"> {{element.groupMemberRole}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!-- FAMILY MEMBERS -->

@@ -5,15 +5,25 @@
         <!-- Name & Type -->
         <div class="flex flex-col items-start mt-8">
             <div class="text-xl font-medium">{{group.name}}</div>
-            <div
-                class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 text-white"
-                [class.bg-indigo-600]="group.groupType.name === 'Cell'"
-                [class.bg-red-600]="group.groupType.name === 'PDF'"
-                [class.bg-blue-600]="group.groupType.name=== 'DOC'"
-                [class.bg-green-600]="group.groupType.name === 'XLS'"
-                [class.bg-gray-600]="group.groupType.name=== 'TXT'"
-                [class.bg-amber-600]="group.groupType.name=== 'JPG'">
-                {{group.groupType.name.toUpperCase()}}
+            <div class="flex flex items-start">
+                <div
+                    class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white "
+                    [class.bg-indigo-600]="group.groupType.name === 'Cell'"
+                    [class.bg-red-600]="group.groupType.name === 'PDF'"
+                    [class.bg-blue-600]="group.groupType.name=== 'DOC'"
+                    [class.bg-green-600]="group.groupType.name === 'XLS'"
+                    [class.bg-gray-600]="group.groupType.name=== 'TXT'"
+                    [class.bg-amber-600]="group.groupType.name=== 'JPG'">
+                    {{group.groupType.name.toUpperCase()}}
+                </div>
+                <div *ngIf="group.isOnline"
+                     class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-blue-600">
+                    ONLINE
+                </div>
+                <div *ngIf="group.groupType.takesAttendance"
+                     class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-green-600">
+                    TAKES ATTENDANCE
+                </div>
             </div>
         </div>
 

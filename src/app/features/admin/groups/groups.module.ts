@@ -4,30 +4,44 @@ import { groupsRoutes } from '@features/admin/groups/groups.routing';
 import { GroupsComponent } from '@features/admin/groups/groups.component';
 import { GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
-import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
-import { GroupsManageComponent } from '@features/admin/groups/manage/groups-manage.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from '@shared/shared.module';
-import { GroupDetailsComponent } from '@features/admin/groups/manage/components/details/group-details.component';
+import {
+    GroupMembersComponent,
+    GroupDetailsComponent,
+    GroupsViewerComponent,
+    GroupsManageComponent
+} from '@features/admin/groups/manage';
+import { GroupsDataService } from '@features/admin/groups/_services/groups-data.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
-    declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent, GroupDetailsComponent],
+    declarations: [
+        GroupsComponent,
+        GroupsManageComponent,
+        GroupsViewerComponent,
+        GroupDetailsComponent,
+        GroupMembersComponent
+    ],
     imports: [
         RouterModule.forChild(groupsRoutes),
 
         MatButtonModule,
+        MatCheckboxModule,
         MatIconModule,
         MatSidenavModule,
+        MatTableModule,
         MatTooltipModule,
         MatTreeModule,
 
         SharedModule
     ],
-    providers: [GroupsManageResolver, GroupsManageService]
+    providers: [GroupsManageResolver, GroupsManageService, GroupsDataService]
 })
 export class GroupsModule
 {

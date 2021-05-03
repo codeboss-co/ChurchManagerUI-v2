@@ -52,7 +52,8 @@ export interface GroupSummary {
     membersCount: number;
 }
 
-export interface GroupMemberSimple{
+export interface GroupMemberSimple
+{
     groupMemberId: number;
     personId: number;
     firstName: string;
@@ -60,10 +61,16 @@ export interface GroupMemberSimple{
     lastName: string;
     gender: string;
     photoUrl: string;
+    groupMemberRole?: string;
+    groupMemberRoleId?: number;
+    isLeader?: boolean;
+    firstVisitDate?: Date;
 }
 
+export type GroupMembersSimple = GroupMemberSimple[];
 
-export interface GroupWithChildren {
+export interface GroupWithChildren
+{
     id: number;
     churchId: number;
     parentGroupId?: any;
