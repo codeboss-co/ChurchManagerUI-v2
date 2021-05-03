@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component,
+    EventEmitter,
     Input,
     OnChanges,
     Output,
@@ -10,12 +11,12 @@ import {
 import { GroupWithChildren } from '@features/admin/groups';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { MatSelectChange } from '@angular/material/select';
 
 interface FlatNode {
     expandable: boolean;
     name: string;
     level: number;
+    item: GroupWithChildren;
 }
 
 @Component({
@@ -33,16 +34,21 @@ export class GroupsViewerComponent implements OnChanges
 
     dataSource: MatTreeFlatDataSource<GroupWithChildren, FlatNode>;
 
+    /** Map from flat node to nested node. This helps us finding the nested node to be modified */
+    flatNodeMap = new Map<number, GroupWithChildren>();
+
     private _treeFlattener: MatTreeFlattener<GroupWithChildren, FlatNode>;
 
     private _transformer = (node: GroupWithChildren, level: number) => {
+        // While transforming add the item to the map
+        this.flatNodeMap.set(node.id, node);
+
         return {
             expandable: !!node.groups && node.groups.length > 0,
             name: node.name,
             level: level,
             // optional
-            description: node.description,
-            groupType: node.groupType
+            item: node
         };
     }
 
@@ -63,8 +69,9 @@ export class GroupsViewerComponent implements OnChanges
         }
     }
 
-    onSelectGroup( { name }: FlatNode ): void {
-        const selectedGroup = this.groups.find(x => x.name === name);
+    onSelectGroup( { item }: FlatNode ): void
+    {
+        const selectedGroup = this.flatNodeMap.get(item.id);
         this.selectedGroup.emit(selectedGroup);
     }
 }

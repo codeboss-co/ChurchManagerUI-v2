@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { GroupWithChildren } from '@features/admin/groups';
 
 @Component({
@@ -12,9 +12,15 @@ import { GroupWithChildren } from '@features/admin/groups';
 export class GroupsManageComponent
 {
     groups$: Observable<GroupWithChildren[]>;
+    selectedGroup$ = new Subject<GroupWithChildren>();
 
     constructor(private _service: GroupsManageService)
     {
         this.groups$ = _service.groups$;
+    }
+
+    onGroupSelected( selected: GroupWithChildren ): void {
+        console.log( 'selected', selected, '' );
+        this.selectedGroup$.next(selected);
     }
 }

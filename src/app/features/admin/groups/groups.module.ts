@@ -12,9 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from '@shared/shared.module';
+import { GroupDetailsComponent } from '@features/admin/groups/manage/components/details/group-details.component';
 
 @NgModule({
-    declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent],
+    declarations: [GroupsComponent, GroupsManageComponent, GroupsViewerComponent, GroupDetailsComponent],
     imports: [
         RouterModule.forChild(groupsRoutes),
 
