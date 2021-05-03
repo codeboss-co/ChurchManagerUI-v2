@@ -1,16 +1,16 @@
 import {
     ChangeDetectionStrategy,
-    Component,
+    Component, EventEmitter,
     Input,
     OnChanges,
+    Output,
     SimpleChanges,
-    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import { GroupWithChildren } from '@features/admin/groups';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatSelectChange } from '@angular/material/select';
 
 interface FlatNode {
     expandable: boolean;
@@ -26,10 +26,8 @@ interface FlatNode {
 })
 export class GroupsViewerComponent implements OnChanges
 {
-    @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
-    drawerMode: 'side' | 'over';
-
     @Input() groups: GroupWithChildren[] = [];
+    @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
 
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
@@ -43,7 +41,8 @@ export class GroupsViewerComponent implements OnChanges
             name: node.name,
             level: level,
             // optional
-            description: node.description
+            description: node.description,
+            groupType: node.groupType
         };
     }
 
@@ -64,7 +63,8 @@ export class GroupsViewerComponent implements OnChanges
         }
     }
 
-    onBackdropClicked() {
-
+    onSelectGroup( { name }: FlatNode ): void {
+        const selectedGroup = this.groups.find(x => x.name === name);
+        this.selectedGroup.emit(selectedGroup);
     }
 }

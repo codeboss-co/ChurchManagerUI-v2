@@ -11,12 +11,14 @@ export interface Group {
 }
 
 export interface GroupType {
-    id: number;
+    id?: number;
     name: string;
     description: string;
-    groupTerm: string;
-    groupMemberTerm: string;
+    groupTerm?: string;
+    groupMemberTerm?: string;
     takesAttendance: boolean;
+    isSystem: boolean;
+    iconCssClass?: any;
 }
 
 export interface GroupMemberRole {
@@ -65,7 +67,7 @@ export interface GroupWithChildren {
     id: number;
     churchId: number;
     parentGroupId?: any;
-    groupTypeId: number;
+    groupType: GroupType;
     name: string;
     description: string;
     address?: any;
