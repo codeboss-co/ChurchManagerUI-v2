@@ -1,5 +1,5 @@
 import { Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { PersonSearchService } from '@ui/controls/person-autocomplete-control/pe
 import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
 import { Identifiable } from '@shared/shared.models';
+import { containsIdValidation } from '@shared/validators/common-forms.validators';
 
 @Component({
     selector: 'person-autocomplete-control',
@@ -46,7 +47,7 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * search form control
      */
-    inputControl = new FormControl('');
+    inputControl = new FormControl('', this._validators);
 
     /**
      * Autocomplete search results stream
@@ -167,5 +168,13 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     selectPerson( id: string | number ): void
     {
 
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    private get _validators(): ValidatorFn[] {
+        return [Validators.required, containsIdValidation];
     }
 }
