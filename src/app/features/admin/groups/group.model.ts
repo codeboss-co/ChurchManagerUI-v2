@@ -42,7 +42,8 @@ export interface GroupMember {
     inactiveDateTime?: any;
 }
 
-export interface GroupSummary {
+export interface GroupSummary
+{
     groupId: number;
     name: string;
     description: string;
@@ -54,6 +55,7 @@ export interface GroupSummary {
 
 export interface GroupMemberSimple
 {
+    groupId: number;
     groupMemberId: number;
     personId: number;
     firstName: string;

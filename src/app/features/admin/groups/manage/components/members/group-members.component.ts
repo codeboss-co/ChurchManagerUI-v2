@@ -14,6 +14,7 @@ export class GroupMembersComponent implements  OnChanges
 {
     @Input() members: GroupMembersSimple;
     @Input() isLoading: boolean = false;
+
     displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole'];
 
     dataSource: MatTableDataSource<GroupMemberSimple> = new MatTableDataSource([]);
