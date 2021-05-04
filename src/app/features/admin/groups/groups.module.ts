@@ -24,6 +24,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddGroupMemberFormDialogComponent } from '@features/admin/groups/manage/components/members/add/add-group-member-form-dialog.component';
 
 @NgModule({
     declarations: [
@@ -31,13 +33,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         GroupsManageComponent,
         GroupsViewerComponent,
         GroupDetailsComponent,
-        GroupMembersComponent
+        GroupMembersComponent,
+        // Dialogs
+        AddGroupMemberFormDialogComponent
     ],
     imports: [
         RouterModule.forChild(groupsRoutes),
 
         MatButtonModule,
         MatCheckboxModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,

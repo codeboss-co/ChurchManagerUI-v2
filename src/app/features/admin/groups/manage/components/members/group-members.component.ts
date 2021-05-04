@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { GroupMemberSimple, GroupMembersSimple } from '@features/admin/groups';
+import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AddGroupMemberFormDialogComponent } from './add/add-group-member-form-dialog.component';
 
 @Component({
     selector       : 'group-members',
@@ -13,7 +15,9 @@ import { FormControl } from '@angular/forms';
 export class GroupMembersComponent implements  OnChanges
 {
     @Input() members: GroupMembersSimple;
+    @Input() group: GroupWithChildren;
     @Input() isLoading: boolean = false;
+    dialogRef: any;
 
     displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole'];
 
@@ -22,6 +26,9 @@ export class GroupMembersComponent implements  OnChanges
     selection = new SelectionModel<GroupMemberSimple>(true, []);
 
     searchInputControl: FormControl = new FormControl();
+
+    constructor(private _matDialog: MatDialog) {
+    }
 
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected(): boolean
@@ -49,6 +56,11 @@ export class GroupMembersComponent implements  OnChanges
 
     addGroupMember(): void
     {
-
+        this.dialogRef = this._matDialog.open(AddGroupMemberFormDialogComponent, {
+            panelClass: 'add-group-member-form-dialog',
+            data      : {
+                group: this.group
+            }
+        });
     }
 }
