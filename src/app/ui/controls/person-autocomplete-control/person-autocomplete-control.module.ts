@@ -6,6 +6,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { PersonSearchService } from '@ui/controls/person-autocomplete-control/person-search.service';
 
 const COMPONENTS = [
     PersonAutocompleteControl
@@ -23,7 +24,7 @@ const COMPONENTS = [
         SharedModule
     ],
     exports: [COMPONENTS],
-    providers: []
+    providers: [PersonSearchService]
 })
 export class PersonAutocompleteControlModule
 {
