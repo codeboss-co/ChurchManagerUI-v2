@@ -1,53 +1,46 @@
-<input
-    class="w-full h-full px-16 sm:px-18"
-    [formControl]="searchControl"
-    [matAutocomplete]="matAutocomplete"
-    [placeholder]="'Search person..'"
-    (keydown)="onKeydown($event)"
-    #barSearchInput>
-<mat-autocomplete
-    class="max-h-128 border-t rounded-b shadow-md"
-    [disableRipple]="true"
-    #matAutocomplete="matAutocomplete">
-    <mat-option
-        class="h-14 px-6 py-0 sm:px-8 text-md pointer-events-none text-secondary bg-transparent"
-        *ngIf="results && !results.length">
-        No results found!
+<!--Search input-->
+<mat-form-field>
+    <input matInput
+           [matAutocomplete]="auto"
+           matAutocompletePosition="below"
+           [formControl]="inputControl"
+           [placeholder]="'Search person...'"
+           [required]="required"
+           (blur)="onTouched()"
+           (keydown)="onKeydown($event)"/>
+    <mat-icon matSuffix>search</mat-icon>
+    <mat-error *ngIf="!inputControl.valid && inputControl.errors?.required">
+        This field is required
+    </mat-error>
+</mat-form-field>
+
+<!-- Autocompletion-->
+<mat-autocomplete #auto [displayWith]="displayFn">
+
+    <mat-option *ngIf="isSearching" value="" disabled="true">
+        <em>Searching...</em>
     </mat-option>
-    <mat-option
-        class="group relative h-14 px-6 py-0 sm:px-8 text-md"
-        *ngFor="let result of results"
-        (click)="selectPerson(result.id)">
-        <ng-container
-            [ngTemplateOutlet]="searchResult"
-            [ngTemplateOutletContext]="{$implicit: result}"></ng-container>
+
+    <!-- Main server side options -->
+    <div *ngIf="searchResults$ | async as searchResults">
+        <mat-option *ngFor="let result of searchResults" [value]="result" class="provided">
+            <div class="flex items-center">
+                <div class="text-sm">{{result.label}}</div>
+                <div class="flex flex-shrink-0 items-center justify-center w-6 h-6 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
+                    <img
+                        *ngIf="result.photoUrl"
+                        [src]="result.photoUrl">
+                    <mat-icon
+                        class="m-0 icon-size-5 text-primary"
+                        *ngIf="!result.photoUrl"
+                        [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                </div>
+            </div>
+        </mat-option>
+    </div>
+
+    <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
+        <b>No results found</b>
     </mat-option>
+
 </mat-autocomplete>
-
-<ng-template
-    #searchResult
-    let-result>
-
-    <!-- Hover indicator -->
-    <div class="absolute inset-y-0 left-0 hidden w-1 bg-primary group-hover:flex"></div>
-
-    <!-- Contact result -->
-    <ng-container>
-        <div class="flex items-center">
-            <div class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-indigo-50 bg-indigo-600">{{result.connectionStatus}}</div>
-            <div class="overflow-hidden overflow-ellipsis">
-                <span [innerHTML]="result.label"></span>
-            </div>
-            <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
-                <img
-                    *ngIf="result.photoUrl"
-                    [src]="result.photoUrl">
-                <mat-icon
-                    class="m-0 icon-size-5 text-primary"
-                    *ngIf="!result.photoUrl"
-                    [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-            </div>
-        </div>
-    </ng-container>
-
-</ng-template>

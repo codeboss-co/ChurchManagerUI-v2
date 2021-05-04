@@ -7,6 +7,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { PersonAutocompletes } from '@ui/layout/common/search/search-bar.models';
 import { PersonSearchService } from '@ui/controls/person-autocomplete-control/person-search.service';
 import { tap } from 'rxjs/internal/operators/tap';
+import { Observable } from 'rxjs/internal/Observable';
+import { Identifiable } from '@shared/shared.models';
 
 @Component({
     selector: 'person-autocomplete-control',
@@ -44,8 +46,14 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * search form control
      */
-    searchControl = new FormControl('');
+    inputControl = new FormControl('');
 
+    /**
+     * Autocomplete search results stream
+     */
+    searchResults$: Observable<PersonAutocompletes>;
+
+    noResults: boolean = false;
     isSearching: boolean = false;
     results: PersonAutocompletes;
 
@@ -64,17 +72,18 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
      */
     writeValue(value: number): void {
         if (value) {
-            this.searchControl.setValue(value, { emitEvent: false });
+            this.inputControl.setValue(value, { emitEvent: false });
         } else {
-            this.searchControl.reset('');
+            this.inputControl.reset('');
         }
     }
 
     /**
      * view --> model
      */
-    registerOnChange(fn: (value: number) => void) {
-        this.searchControl
+    registerOnChange(fn: (value: number) => void): void
+    {
+        this.inputControl
             .valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(fn);
@@ -83,7 +92,8 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * model --> view
      */
-    registerOnTouched(fn: () => void) {
+    registerOnTouched(fn: () => void): void
+    {
         this.onTouched = fn;
     }
 
@@ -101,8 +111,16 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         if ( event.code === 'Escape' )
         {
             // Clear the search input
-            this.searchControl.setValue('');
+            this.inputControl.setValue('');
         }
+    }
+
+    /**
+     * Method linked to the mat-autocomplete `[displayWith]` input.
+     * This is how result name is printed in the input box.
+     */
+    displayFn( result: Identifiable ): string | undefined {
+        return result ? result.label : undefined;
     }
 
 
@@ -111,41 +129,29 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
      */
     ngOnInit(): void
     {
-        // Subscribe to the search field value changes
-        this.searchControl.valueChanges
+        /**
+         * Configure fetch search results stream when search input changes
+         * */
+        this.searchResults$ = this.inputControl.valueChanges
+            .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
+                filter((value: string) => value && value.length >= this.minLength),
+                tap(() => {
+                    this.isSearching = true;
+                    this.noResults = false; // reset
+                }),
                 debounceTime(this.debounce),
-                takeUntil(this._unsubscribeAll),
-                map((value) => {
-
-                    // Set the search results to null if there is no value or
-                    // the length of the value is smaller than the minLength
-                    // so the autocomplete panel can be closed
-                    if ( !value || value.length < this.minLength )
-                    {
-                        this.results = null;
-                    }
-
-                    // Continue
-                    return value;
-                }),
-                filter((value) => {
-                    // Filter out undefined/null/false statements and also
-                    // filter out the values that are smaller than minLength
-                    return value && value.length >= this.minLength;
-                }),
-                tap(() => this.isSearching = true),
-                // use switch map so as to cancel previous subscribed events, before creating new once
-                switchMap(value =>  this._search.lookup(value)
+                switchMap((value: string) => this._search.lookup(value)
                     .pipe(
+                        tap(results => {
+                            if ( !results || !results.length ) {
+                                this.noResults = true;
+                            }
+                        }),
                         finalize(() => this.isSearching = false)
                     )
                 )
-            )
-            .subscribe((response: PersonAutocompletes) => {
-                // Store the results
-                this.results = response;
-            });
+            );
     }
 
     /**
