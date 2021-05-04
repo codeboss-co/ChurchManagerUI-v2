@@ -23,6 +23,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { MatInputModule } from '@angular/material/input';
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatPaginatorModule,
         MatProgressBarModule,
         MatSidenavModule,
         MatTableModule,
