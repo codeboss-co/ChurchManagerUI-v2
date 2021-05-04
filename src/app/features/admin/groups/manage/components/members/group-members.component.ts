@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, Vi
 import { GroupMemberSimple, GroupMembersSimple } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector       : 'group-members',
@@ -12,12 +13,14 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class GroupMembersComponent implements  OnChanges
 {
     @Input() members: GroupMembersSimple;
-
+    @Input() isLoading: boolean = false;
     displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole'];
 
     dataSource: MatTableDataSource<GroupMemberSimple> = new MatTableDataSource([]);
 
     selection = new SelectionModel<GroupMemberSimple>(true, []);
+
+    searchInputControl: FormControl = new FormControl();
 
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected(): boolean
@@ -41,5 +44,10 @@ export class GroupMembersComponent implements  OnChanges
             this.dataSource.data = changes['members'].currentValue;
             // this.dataSource._updateChangeSubscription();
         }
+    }
+
+    addGroupMember(): void
+    {
+
     }
 }

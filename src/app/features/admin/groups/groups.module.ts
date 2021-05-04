@@ -19,6 +19,10 @@ import {
 import { GroupsDataService } from '@features/admin/groups/_services/groups-data.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -33,9 +37,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
         MatButtonModule,
         MatCheckboxModule,
+        MatFormFieldModule,
         MatIconModule,
+        MatInputModule,
+        MatProgressBarModule,
         MatSidenavModule,
         MatTableModule,
+        MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
 

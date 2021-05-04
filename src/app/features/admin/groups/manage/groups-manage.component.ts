@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GroupMembersSimple, GroupsDataService, GroupWithChildren } from '@features/admin/groups';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
     selector       : 'groups-manage',
@@ -15,6 +15,7 @@ export class GroupsManageComponent
     groups$: Observable<GroupWithChildren[]>;
     members$: Observable<GroupMembersSimple>;
     selectedGroup$ = new Subject<GroupWithChildren>();
+    loading$ = new BehaviorSubject(true);
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -28,9 +29,11 @@ export class GroupsManageComponent
 
         this. members$ = this.selectedGroup$
             .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(tap(_ => this.loading$.next(true)))
             .pipe(
                 switchMap(group => {
-                    return this._data.getGroupMembers$(group.id);
+                    return this._data.getGroupMembers$(group.id)
+                        .pipe(finalize(() => this.loading$.next(false)));
                 })
             );
     }

@@ -4,6 +4,6 @@
 
     <group-details [group]="selectedGroup$ | async"></group-details>
 
-    <group-members [members]="members$ | async"></group-members>
+    <group-members [members]="members$ | async" [isLoading]="loading$ | async"></group-members>
 
 </div>
