@@ -47,7 +47,7 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * search form control
      */
-    inputControl = new FormControl('', this._validators);
+    inputControl: FormControl;
 
     /**
      * Autocomplete search results stream
@@ -66,6 +66,12 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     constructor(private _search: PersonSearchService)
     {
         this._unsubscribeAll = new Subject();
+
+        if ( this.required ) {
+            this.inputControl = new FormControl('', [Validators.required, containsIdValidation]);
+        } else {
+            this.inputControl = new FormControl('', [containsIdValidation]);
+        }
     }
 
     /**
@@ -168,13 +174,5 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     selectPerson( id: string | number ): void
     {
 
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    private get _validators(): ValidatorFn[] {
-        return [Validators.required, containsIdValidation];
     }
 }
