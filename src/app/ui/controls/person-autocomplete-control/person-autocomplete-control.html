@@ -1,5 +1,5 @@
 <!--Search input-->
-<mat-form-field>
+<mat-form-field class="min-w-50">
     <input matInput
            [matAutocomplete]="auto"
            matAutocompletePosition="below"
@@ -8,7 +8,7 @@
            [required]="required"
            (blur)="onTouched()"
            (keydown)="onKeydown($event)"/>
-    <mat-icon matSuffix>search</mat-icon>
+    <mat-icon matSuffix>person</mat-icon>
     <mat-error *ngIf="inputControl.hasError('required')">
         Please enter a search value
     </mat-error>

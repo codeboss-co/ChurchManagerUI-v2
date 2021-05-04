@@ -22,8 +22,6 @@ import { SelectItem } from '@shared/shared.models';
 } )
 export class ChurchGroupsSelectControlComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-    private readonly _destroyed$: Subject<void> = new Subject();
-
     public form = new FormGroup( {
         churchId: new FormControl( null, [Validators.required] ),
         groupId: new FormControl( null),
@@ -32,12 +30,16 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
     churches$: Observable<SelectItem[]> = this._data.getChurches$();
     groups$: Observable<SelectItem[]>;
 
+    private readonly _destroyed$: Subject<void> = new Subject();
+
     constructor( private _elementRef: ElementRef, private _data: ChurchGroupsSelectControlDataService ) { }
 
-    ngOnInit() {
+    ngOnInit(): void
+    {
         // Responds to changes in the church select and loads the groups
         this.groups$ = this.form.get('churchId')
             .valueChanges
+            .pipe(takeUntil(this._destroyed$))
             .pipe(
                 debounceTime(500),
                 distinctUntilChanged(),
@@ -45,21 +47,22 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
             );
     }
 
-    writeValue( churchAndGroup: any ): void {
+    writeValue( churchAndGroup: any ): void
+    {
         if ( churchAndGroup ) {
             this.form.patchValue( churchAndGroup );
         }
     }
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: any): void
+    {
         this.form.valueChanges
-            .pipe(
-                takeUntil( this._destroyed$ )
-            )
+            .pipe(takeUntil( this._destroyed$ ))
             .subscribe( fn );
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched(fn: any): void
+    {
         this._elementRef.nativeElement.querySelectorAll( '*' ).forEach(
             ( element: HTMLElement ) => {
                 fromEvent( element, 'blur' )
@@ -71,11 +74,13 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
         );
     }
 
-    setDisabledState?(isDisabled: boolean): void {
+    setDisabledState?(isDisabled: boolean): void
+    {
         isDisabled ? this.form.disable() : this.form.enable();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void
+    {
         this._destroyed$.next();
         this._destroyed$.complete();
     }

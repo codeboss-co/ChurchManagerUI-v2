@@ -1,12 +1,10 @@
-import { Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from '@angular/forms';
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
-import { debounceTime, filter, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { MatSelectChange } from '@angular/material/select';
+import { debounceTime, filter, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { PersonAutocompletes } from '@ui/layout/common/search/search-bar.models';
 import { PersonSearchService } from '@ui/controls/person-autocomplete-control/person-search.service';
-import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
 import { Identifiable } from '@shared/shared.models';
 import { containsIdValidation } from '@shared/validators/common-forms.validators';
@@ -42,8 +40,6 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         this._required = coerceBooleanProperty(value);
     }
 
-    @Output() selectionChange = new EventEmitter<MatSelectChange>();
-
     /**
      * search form control
      */
@@ -56,7 +52,6 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
 
     noResults: boolean = false;
     isSearching: boolean = false;
-    results: PersonAutocompletes;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -77,7 +72,7 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * model --> view
      */
-    writeValue(value: number): void {
+    writeValue(value: Identifiable): void {
         if (value) {
             this.inputControl.setValue(value, { emitEvent: false });
         } else {
@@ -88,11 +83,14 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     /**
      * view --> model
      */
-    registerOnChange(fn: (value: number) => void): void
+    registerOnChange(fn: (value: Identifiable) => void): void
     {
         this.inputControl
             .valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
+            // This is what is returned to the formControl binding
+            // We map to return only the id and the label
+            .pipe(map( ({id, label}) => ({id, label}) ))
             .subscribe(fn);
     }
 
@@ -129,7 +127,6 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     displayFn( result: Identifiable ): string | undefined {
         return result ? result.label : undefined;
     }
-
 
     /**
      * On init

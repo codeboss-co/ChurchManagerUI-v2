@@ -16,8 +16,8 @@ import { Group, GroupMemberSimple, GroupsDataService } from '@features/admin/gro
     encapsulation: ViewEncapsulation.None,
     animations   : FuseAnimations
 })
-export class GroupAttendanceFormDialogComponent implements OnInit {
-
+export class GroupAttendanceFormDialogComponent implements OnInit
+{
     form: FormGroup;
     group: Group;
 
