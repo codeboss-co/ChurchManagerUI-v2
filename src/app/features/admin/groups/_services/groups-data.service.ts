@@ -43,6 +43,17 @@ export class GroupsDataService extends HttpBaseService
             );
     }
 
+    /**
+     * Get group roles for group
+     */
+    getGroupRoles$(groupTypeId: number): Observable<GroupMemberSimple[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupTypeId}/grouproles`, null)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
     registerAttendance$( model: GroupAttendanceForm ): Observable<any>
     {
         return super.post<any>(`${this._apiUrl}/v1/groups/${model.groupId}/attendance`, model);

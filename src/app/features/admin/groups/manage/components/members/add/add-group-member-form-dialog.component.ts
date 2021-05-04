@@ -27,11 +27,17 @@ export class AddGroupMemberFormDialogComponent implements OnInit
     )
     {
         this.group = _data.group;
+        console.log( '_data', _data, '' );
     }
 
     ngOnInit(): void
     {
         this.form = this.createForm();
+
+        this._groupsData.getGroupRoles$(this.group.groupType.id)
+            .subscribe(
+                value => console.log( 'getGroupRoles$', value, '' )
+            );
     }
 
     /**
