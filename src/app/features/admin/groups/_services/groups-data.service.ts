@@ -7,7 +7,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupMemberSimple, GroupWithChildren } from '../group.model';
+import { GroupMemberSimple, GroupTypeRole, GroupWithChildren } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
@@ -46,7 +46,7 @@ export class GroupsDataService extends HttpBaseService
     /**
      * Get group roles for group
      */
-    getGroupRoles$(groupTypeId: number): Observable<GroupMemberSimple[]>
+    getGroupRoles$(groupTypeId: number): Observable<GroupTypeRole[]>
     {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupTypeId}/grouproles`, null)
             .pipe(

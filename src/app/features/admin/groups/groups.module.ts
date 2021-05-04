@@ -27,6 +27,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddGroupMemberFormDialogComponent } from '@features/admin/groups/manage/components/members/add/add-group-member-form-dialog.component';
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [
@@ -42,7 +44,9 @@ import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplet
         RouterModule.forChild(groupsRoutes),
 
         MatButtonModule,
+        MatButtonToggleModule,
         MatCheckboxModule,
+        MatDatepickerModule,
         MatDialogModule,
         MatFormFieldModule,
         MatIconModule,

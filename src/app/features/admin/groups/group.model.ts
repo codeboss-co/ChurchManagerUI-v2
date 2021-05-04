@@ -86,3 +86,15 @@ export interface GroupWithChildren
     createdDate: Date;
     groups?: GroupWithChildren[];
 }
+
+export interface GroupTypeRole
+{
+    id?: number;
+    name: string;
+    description: string;
+    isLeader: boolean;
+    canView?: boolean;
+    canEdit?: boolean;
+    canManageMembers?: boolean;
+    groupTypeId?: number;
+}

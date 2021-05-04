@@ -1,37 +1,58 @@
-<div class="dialog-content-wrapper">
-    <!-- Header -->
-    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
-        <div class="text-lg">Add Group member</div>
-        <div class="text-sm"> {{group.name}}</div>
-        <button
-            mat-icon-button
-            (click)="matDialogRef.close()"
-            [tabIndex]="-1">
-            <mat-icon
-                class="text-current"
-                [svgIcon]="'heroicons_outline:x'"></mat-icon>
-        </button>
+<form class="flex flex-col w-full" [formGroup]="form">
+
+    <div class="text-2xl font-semibold tracking-tight">{{group.name}}</div>
+
+    <div class="flex flex-col items-start  mt-6">
+        <!--Person-->
+        <person-autocomplete-control
+            formControlName="person"
+            required>
+        </person-autocomplete-control>
+
+        <div class="flex flex-col mt-6">
+            <mat-label>Group Role</mat-label>
+            <mat-button-toggle-group  formControlName="groupRole">
+                <mat-button-toggle *ngFor="let role of groupRoles$ | async"
+                                   matTooltip="{{role.isLeader ? 'Leader' : 'Non Leader'}}"
+                                   [value]="role.id">
+                    {{role.name}}
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-error *ngIf="form.touched && form.get('groupRole').hasError('required')">
+                Please select role.
+            </mat-error>
+        </div>
+
+        <div class="flex flex-col mt-6">
+            <mat-label>Communication Preference</mat-label>
+            <mat-button-toggle-group  formControlName="communication">
+                <mat-button-toggle value="Email">Email</mat-button-toggle>
+                <mat-button-toggle value="Message">Message</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-error *ngIf="form.touched && form.get('communication').hasError('required')">
+                Please select communication preference.
+            </mat-error>
+        </div>
+
+        <!-- Birthday -->
+        <div class="mt-6 w-full">
+            <mat-form-field class="fuse-mat-no-subscript">
+                <mat-label>First Visit Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="datepicker"
+                    formControlName="firstVisitDate"
+                    [placeholder]="'Birthday'">
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="datepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #datepicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+
     </div>
-
-    <div mat-dialog-content cdkScrollable>
-
-        <form [formGroup]="form">
-
-
-            <div class="flex flex-col items-start">
-                <!--Person-->
-                <person-autocomplete-control
-                    formControlName="person"
-                    required>
-                </person-autocomplete-control>
-            </div>
-
-        </form>
-
-        {{form.value | json}}
-
-    </div>
-
 
     <!-- Actions -->
     <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
@@ -55,4 +76,5 @@
         </button>
     </div>
 
-</div>
+</form>
+

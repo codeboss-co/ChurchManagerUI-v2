@@ -1,19 +1,21 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GroupsDataService, GroupWithChildren } from '@features/admin/groups';
+import { GroupsDataService, GroupTypeRole, GroupWithChildren } from '@features/admin/groups';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
     selector       : 'add-group-member-dialog',
     templateUrl    : './add-group-member-form-dialog.component.html',
-    styleUrls    : ['./add-group-member-form-dialog.component.scss'],
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    //styleUrls    : ['./add-group-member-form-dialog.component.scss'],
+    encapsulation  : ViewEncapsulation.None
 })
 export class AddGroupMemberFormDialogComponent implements OnInit
 {
     form: FormGroup;
     group: GroupWithChildren;
+
+    groupRoles$: Observable<GroupTypeRole[]>;
 
     /**
      * Constructor
@@ -34,10 +36,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit
     {
         this.form = this.createForm();
 
-        this._groupsData.getGroupRoles$(this.group.groupType.id)
-            .subscribe(
-                value => console.log( 'getGroupRoles$', value, '' )
-            );
+        this.groupRoles$ = this._groupsData.getGroupRoles$(this.group.groupType.id);
     }
 
     /**
@@ -46,7 +45,10 @@ export class AddGroupMemberFormDialogComponent implements OnInit
     private createForm(): FormGroup
     {
         return this._formBuilder.group({
-            person: [null, Validators.required]
+            person: [null, Validators.required],
+            groupRole: [null, Validators.required],
+            communication: ['Email', Validators.required],
+            firstVisitDate: [null],
         });
     }
 
