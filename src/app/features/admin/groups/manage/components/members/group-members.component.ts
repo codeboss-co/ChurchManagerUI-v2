@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component, EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+    ViewEncapsulation
+} from '@angular/core';
 import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGroupMemberFormDialogComponent } from './add/add-group-member-form-dialog.component';
 
@@ -17,6 +25,8 @@ export class GroupMembersComponent implements  OnChanges
     @Input() members: GroupMembersSimple;
     @Input() group: GroupWithChildren;
     @Input() isLoading: boolean = false;
+    @Output() memberAdded = new EventEmitter<NewGroupMemberForm>();
+
     dialogRef: any;
 
     displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole'];
@@ -73,9 +83,8 @@ export class GroupMembersComponent implements  OnChanges
 
                 const actionType: string = response[0];
                 const formData: NewGroupMemberForm = response[1];
-
                 // Do something here
-                console.log( 'formData', formData );
+                this.memberAdded.emit(formData);
             });
     }
 }

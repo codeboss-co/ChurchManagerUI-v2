@@ -7,7 +7,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupMemberSimple, GroupTypeRole, GroupWithChildren } from '../group.model';
+import { GroupMemberSimple, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
@@ -32,8 +32,6 @@ export class GroupsDataService extends HttpBaseService
 
     /**
      * Get group members and their simple information
-     *
-     * @returns {Observable<GroupMemberSimple[]>}
      */
     getGroupMembers$(groupId: number): Observable<GroupMemberSimple[]>
     {
@@ -49,6 +47,26 @@ export class GroupsDataService extends HttpBaseService
     getGroupRoles$(groupTypeId: number): Observable<GroupTypeRole[]>
     {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupTypeId}/grouproles`, null)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
+    /**
+     * Add new group member
+     */
+    addGroupMember$(model: NewGroupMemberForm): Observable<any>
+    {
+        const personId = model.person.id;
+        const groupId = model.groupId;
+        const groupRoleId = model.groupRole;
+        const firstVisitDate = model.firstVisitDate;
+
+        const body = {
+            personId, groupId, groupRoleId, firstVisitDate
+        };
+
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/${model.groupId}/add-member`, body)
             .pipe(
                 map(response => response.data)
             );

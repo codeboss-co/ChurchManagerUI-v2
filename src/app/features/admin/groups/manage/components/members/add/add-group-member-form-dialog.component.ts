@@ -58,7 +58,8 @@ export class AddGroupMemberFormDialogComponent implements OnInit
         const {person, groupRole, communicationPreference, firstVisitDate} = this.form.value;
 
         const model: NewGroupMemberForm = {
-            person, groupRole, communicationPreference, firstVisitDate
+            person, groupRole, communicationPreference, firstVisitDate,
+            groupId: this.group.id
         };
 
         this.matDialogRef.close(['new', model]);

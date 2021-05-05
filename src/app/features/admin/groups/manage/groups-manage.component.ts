@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { GroupMembersSimple, GroupsDataService, GroupWithChildren } from '@features/admin/groups';
+import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -27,7 +27,7 @@ export class GroupsManageComponent
 
         this.groups$ = _service.groups$;
 
-        this. members$ = this.selectedGroup$
+        this.members$ = this.selectedGroup$
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(tap(_ => this.loading$.next(true)))
             .pipe(
@@ -41,5 +41,10 @@ export class GroupsManageComponent
     onGroupSelected( selected: GroupWithChildren ): void {
         console.log( 'selected', selected, '' );
         this.selectedGroup$.next(selected);
+    }
+
+    onMemberAdded( form: NewGroupMemberForm )
+    {
+
     }
 }

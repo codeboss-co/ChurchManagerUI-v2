@@ -107,4 +107,6 @@ export interface NewGroupMemberForm
     groupRole: number;
     communicationPreference?: string;
     firstVisitDate?: Moment;
+
+    groupId?: number;
 }

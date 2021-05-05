@@ -7,7 +7,9 @@
     <group-members
         [members]="members$ | async"
         [group]="selectedGroup$ | async"
-        [isLoading]="loading$ | async">
+        [isLoading]="loading$ | async"
+        (memberAdded)="onMemberAdded($event)"
+    >
     </group-members>
 
 </div>
