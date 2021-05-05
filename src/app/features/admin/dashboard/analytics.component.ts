@@ -114,104 +114,107 @@ export class AnalyticsComponent implements OnInit, OnDestroy
 
                     //this.chartVisitors.series = tempDatasets as any;
 
-                    const chartVisitors = {
-                        chart     : {
-                            animations: {
-                                speed           : 400,
-                                animateGradually: {
+                    if ( tempDatasets?.length ) {
+                        const chartVisitors = {
+                            chart     : {
+                                animations: {
+                                    speed           : 400,
+                                    animateGradually: {
+                                        enabled: false
+                                    }
+                                },
+                                fontFamily: 'inherit',
+                                foreColor : 'inherit',
+                                width     : '100%',
+                                height    : '100%',
+                                type      : 'area',
+                                toolbar   : {
+                                    show: false
+                                },
+                                zoom      : {
                                     enabled: false
                                 }
                             },
-                            fontFamily: 'inherit',
-                            foreColor : 'inherit',
-                            width     : '100%',
-                            height    : '100%',
-                            type      : 'area',
-                            toolbar   : {
-                                show: false
-                            },
-                            zoom      : {
+                            colors    : ['#818CF8'],
+                            dataLabels: {
                                 enabled: false
-                            }
-                        },
-                        colors    : ['#818CF8'],
-                        dataLabels: {
-                            enabled: false
-                        },
-                        fill      : {
-                            colors: ['#312E81']
-                        },
-                        grid      : {
-                            show       : true,
-                            borderColor: '#334155',
-                            padding    : {
-                                top   : 10,
-                                bottom: -20,
-                                left  : 20,
-                                right : 20
                             },
-                            position   : 'back',
-                            xaxis      : {
-                                lines: {
-                                    show: true
-                                }
-                            }
-                        },
-                        series    : tempDatasets,
-                        stroke    : {
-                            width: 3
-                        },
-                        tooltip   : {
-                            followCursor: true,
-                            theme       : 'dark',
-                            y           : {
-                                formatter(value: number): string
-                                {
-                                    return `${value}`;
-                                }
-                            }
-                        },
-                        xaxis     : {
-                            axisBorder: {
-                                show: false
+                            fill      : {
+                                colors: ['#312E81']
                             },
-                            axisTicks : {
-                                show: false
-                            },
-                            crosshairs: {
-                                stroke: {
-                                    color    : '#475569',
-                                    dashArray: 0,
-                                    width    : 2
+                            grid      : {
+                                show       : true,
+                                borderColor: '#334155',
+                                padding    : {
+                                    top   : 10,
+                                    bottom: -20,
+                                    left  : 20,
+                                    right : 20
+                                },
+                                position   : 'back',
+                                xaxis      : {
+                                    lines: {
+                                        show: true
+                                    }
                                 }
                             },
-                            labels    : {
-                                offsetY: -5,
-                                style  : {
-                                    colors: '#CBD5E1'
-                                }
+                            series    : tempDatasets,
+                            stroke    : {
+                                width: 3
                             },
-                            tickAmount: 20,
                             tooltip   : {
-                                enabled: false
+                                followCursor: true,
+                                theme       : 'dark',
+                                y           : {
+                                    formatter(value: number): string
+                                    {
+                                        return `${value}`;
+                                    }
+                                }
                             },
-                            categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-                        },
-                        yaxis     : {
-                            axisTicks : {
-                                show: false
+                            xaxis     : {
+                                axisBorder: {
+                                    show: false
+                                },
+                                axisTicks : {
+                                    show: false
+                                },
+                                crosshairs: {
+                                    stroke: {
+                                        color    : '#475569',
+                                        dashArray: 0,
+                                        width    : 2
+                                    }
+                                },
+                                labels    : {
+                                    offsetY: -5,
+                                    style  : {
+                                        colors: '#CBD5E1'
+                                    }
+                                },
+                                tickAmount: 20,
+                                tooltip   : {
+                                    enabled: false
+                                },
+                                categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
                             },
-                            axisBorder: {
-                                show: false
-                            },
-                            min       : min => min - 750,
-                            max       : max => max + 250,
-                            tickAmount: 5,
-                            show      : false
-                        }
-                    };
+                            yaxis     : {
+                                axisTicks : {
+                                    show: false
+                                },
+                                axisBorder: {
+                                    show: false
+                                },
+                                min       : min => min - 750,
+                                max       : max => max + 250,
+                                tickAmount: 5,
+                                show      : false
+                            }
+                        };
 
-                    this.chartVisitors$.next( chartVisitors );
+                        this.chartVisitors$.next( chartVisitors );
+                    }
+
                 }
             );
     }

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { CanDeactivateContactsDetails } from './_services/contacts.guards';
-import { ContactsContactResolver, ContactsCountriesResolver, ContactsResolver, ContactsTagsResolver } from './_services/contacts.resolvers';
+import { ContactsCountriesResolver, ContactsResolver, ContactsTagsResolver } from './_services/contacts.resolvers';
 import { ContactsComponent } from './contacts.component';
 import { ContactsListComponent } from './list/list.component';
 import { ContactsDetailsComponent } from './details/details.component';

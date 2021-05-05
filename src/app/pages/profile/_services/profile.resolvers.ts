@@ -5,7 +5,7 @@ import { Profile } from '../profile.model';
 import { ProfileService } from './profile.service';
 import { ProfileDiscipleshipComponent } from '../tabs/discipleship/profile-discipleship.component';
 import { ProfileDiscipleshipService } from '../tabs/discipleship/profile-discipleship.service';
-import { DiscipleshipProgramDetails } from '@features/admin/discipleship/discipleship.models';
+import { DiscipleshipProgramsForPerson } from '@features/admin/discipleship/discipleship.models';
 
 @Injectable()
 export class ProfileResolver implements Resolve<any>
@@ -36,10 +36,10 @@ export class ProfileDiscipleshipResolver implements Resolve<any>
     {
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DiscipleshipProgramDetails>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DiscipleshipProgramsForPerson>
     {
         // Try extract personId from route
-        const { personId } = route.params;
+        const { personId } = route.parent.params;
 
         return this._service.getDiscipleshipStepsForPerson$(personId);
     }

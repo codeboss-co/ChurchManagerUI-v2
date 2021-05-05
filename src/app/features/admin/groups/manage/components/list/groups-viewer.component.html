@@ -1,0 +1,29 @@
+
+
+    <!-- Items list -->
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+            <!-- use a disabled button to provide padding for tree leaf -->
+            <button mat-icon-button disabled></button>
+            <mat-icon *ngIf="node.item.groupType.iconCssClass" class="mr-2" [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
+            <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node.item.name}}</span>
+        </mat-tree-node>
+
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'toggle ' + node.item.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            <mat-icon *ngIf="node.item.groupType.iconCssClass" class="mr-2" [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
+            <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node.item.name}}<span class="text-sm"> ({{node.item.groups?.length}})</span></span>
+        </mat-tree-node>
+    </mat-tree>
+
+
+
+

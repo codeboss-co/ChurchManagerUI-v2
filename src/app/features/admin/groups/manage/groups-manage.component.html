@@ -1,0 +1,15 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden dark:bg-transparent">
+
+    <groups-viewer [groups]="groups$ | async" (selectedGroup)="onGroupSelected($event)"></groups-viewer>
+
+    <group-details [group]="selectedGroup$ | async"></group-details>
+
+    <group-members
+        [members]="members$ | async"
+        [group]="selectedGroup$ | async"
+        [isLoading]="loading$ | async"
+        (memberAdded)="onMemberAdded($event)"
+    >
+    </group-members>
+
+</div>

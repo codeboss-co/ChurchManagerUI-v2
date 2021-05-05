@@ -9,8 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FamilyMembersListComponent implements OnChanges {
-
+export class FamilyMembersListComponent implements OnChanges
+{
     @Input() familyMembers: PersonBasicDetailsForm[] = [];
 
     displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'ageClassification'];
@@ -22,5 +22,4 @@ export class FamilyMembersListComponent implements OnChanges {
             this.dataSource.data = changes['familyMembers'].currentValue;
         }
     }
-
 }
