@@ -2,7 +2,8 @@
 
     <div class="text-2xl font-semibold tracking-tight">{{group.name}}</div>
 
-    <div class="flex flex-col items-start  mt-6">
+    <div class="flex flex-col w-full mt-6">
+
         <!--Person-->
         <person-autocomplete-control
             formControlName="person"
@@ -25,18 +26,18 @@
 
         <div class="flex flex-col mt-6">
             <mat-label>Communication Preference</mat-label>
-            <mat-button-toggle-group  formControlName="communication">
+            <mat-button-toggle-group  formControlName="communicationPreference">
                 <mat-button-toggle value="Email">Email</mat-button-toggle>
                 <mat-button-toggle value="Message">Message</mat-button-toggle>
             </mat-button-toggle-group>
-            <mat-error *ngIf="form.touched && form.get('communication').hasError('required')">
+            <mat-error *ngIf="form.touched && form.get('communicationPreference').hasError('required')">
                 Please select communication preference.
             </mat-error>
         </div>
 
         <!-- Birthday -->
-        <div class="mt-6 w-full">
-            <mat-form-field class="fuse-mat-no-subscript">
+        <div class="flex items-center mt-6 w-full">
+            <mat-form-field class="fuse-mat-no-subscript flex-auto">
                 <mat-label>First Visit Date</mat-label>
                 <input
                     matInput
@@ -65,7 +66,7 @@
             Cancel
         </button>
         <!-- Save -->
-        <button
+        <button *ngIf="action === 'new'"
             class="ml-2"
             mat-flat-button
             [color]="'primary'"

@@ -1,4 +1,6 @@
 import { Person } from '../people';
+import { Moment } from 'moment';
+import { Identifiable } from '@shared/shared.models';
 
 export interface Group {
     groupId: number;
@@ -97,4 +99,12 @@ export interface GroupTypeRole
     canEdit?: boolean;
     canManageMembers?: boolean;
     groupTypeId?: number;
+}
+
+export interface NewGroupMemberForm
+{
+    person: Identifiable;
+    groupRole: number;
+    communicationPreference?: string;
+    firstVisitDate?: Moment;
 }

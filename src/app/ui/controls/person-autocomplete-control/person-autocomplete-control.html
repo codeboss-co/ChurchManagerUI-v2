@@ -1,49 +1,54 @@
-<!--Search input-->
-<mat-form-field class="fuse-mat-no-subscript">
-    <input matInput
-           [matAutocomplete]="auto"
-           matAutocompletePosition="below"
-           [formControl]="inputControl"
-           [placeholder]="'Search person...'"
-           [required]="required"
-           (blur)="onTouched()"
-           (keydown)="onKeydown($event)"/>
-    <mat-icon matSuffix>person</mat-icon>
-    <mat-error *ngIf="inputControl.hasError('required')">
-        Please enter a search value
-    </mat-error>
-    <mat-error *ngIf="inputControl.hasError('invalidId')">
-        Please select a person
-    </mat-error>
-</mat-form-field>
+<div class="flex items-center">
 
-<!-- Autocompletion-->
-<mat-autocomplete #auto [displayWith]="displayFn">
+    <!--Search input-->
+    <mat-form-field class="fuse-mat-no-subscript flex-grow">
+        <input matInput
+               [matAutocomplete]="auto"
+               matAutocompletePosition="below"
+               [formControl]="inputControl"
+               [placeholder]="'Search person...'"
+               [required]="required"
+               (blur)="onTouched()"
+               (keydown)="onKeydown($event)"/>
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="inputControl.hasError('required')">
+            Please enter a search value
+        </mat-error>
+        <mat-error *ngIf="inputControl.hasError('invalidId')">
+            Please select a person
+        </mat-error>
+    </mat-form-field>
 
-    <mat-option *ngIf="isSearching" value="" disabled="true">
-        <em>Searching...</em>
-    </mat-option>
+    <!-- Autocompletion-->
+    <mat-autocomplete #auto [displayWith]="displayFn">
 
-    <!-- Main server side options -->
-    <div *ngIf="searchResults$ | async as searchResults">
-        <mat-option *ngFor="let result of searchResults" [value]="result">
-            <div class="flex items-center">
-                <div class="text-sm">{{result.label}}</div>
-                <div class="flex flex-shrink-0 items-center justify-center w-6 h-6 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
-                    <img
-                        *ngIf="result.photoUrl"
-                        [src]="result.photoUrl">
-                    <mat-icon
-                        class="m-0 icon-size-5 text-primary"
-                        *ngIf="!result.photoUrl"
-                        [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-                </div>
-            </div>
+        <mat-option *ngIf="isSearching" value="" disabled="true">
+            <em>Searching...</em>
         </mat-option>
-    </div>
 
-    <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
-        No results found
-    </mat-option>
+        <!-- Main server side options -->
+        <div *ngIf="searchResults$ | async as searchResults">
+            <mat-option *ngFor="let result of searchResults" [value]="result">
+                <div class="flex items-center">
+                    <div class="text-sm">{{result.label}}</div>
+                    <div
+                        class="flex flex-shrink-0 items-center justify-center w-6 h-6 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
+                        <img
+                            *ngIf="result.photoUrl"
+                            [src]="result.photoUrl">
+                        <mat-icon
+                            class="m-0 icon-size-5 text-primary"
+                            *ngIf="!result.photoUrl"
+                            [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                    </div>
+                </div>
+            </mat-option>
+        </div>
 
-</mat-autocomplete>
+        <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
+            No results found
+        </mat-option>
+
+    </mat-autocomplete>
+
+</div>

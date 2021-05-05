@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren } from '@features/admin/groups';
+import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGroupMemberFormDialogComponent } from './add/add-group-member-form-dialog.component';
 
@@ -59,8 +59,23 @@ export class GroupMembersComponent implements  OnChanges
         this.dialogRef = this._matDialog.open(AddGroupMemberFormDialogComponent, {
             panelClass: 'add-group-member-form-dialog',
             data      : {
+                action: 'new',
                 group: this.group
             }
         });
+
+        this.dialogRef.afterClosed()
+            .subscribe((response) => {
+                if ( !response )
+                {
+                    return;
+                }
+
+                const actionType: string = response[0];
+                const formData: NewGroupMemberForm = response[1];
+
+                // Do something here
+                console.log( 'formData', formData );
+            });
     }
 }
