@@ -4,8 +4,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ProfileDiscipleshipService } from './profile-discipleship.service';
 import {
-    DiscipleshipProgramDetail,
-    DiscipleshipProgramDetails
+    DiscipleshipProgramForPerson,
+    DiscipleshipProgramsForPerson
 } from '@features/admin/discipleship/discipleship.models';
 
 @Component({
@@ -26,7 +26,7 @@ export class ProfileDiscipleshipComponent
         hideCompleted$: new BehaviorSubject(false)
     };
 
-    programs$: Observable<DiscipleshipProgramDetails>;
+    programs$: Observable<DiscipleshipProgramsForPerson>;
 
     /**
      * Constructor
@@ -46,9 +46,5 @@ export class ProfileDiscipleshipComponent
     filterByCategory(change: MatSelectChange): void
     {
         this.filters.categorySlug$.next(change.value);
-    }
-
-    checkProgramComplete( course: DiscipleshipProgramDetail ): boolean {
-        return course.steps.find(x => x.status !== 'Completed') === undefined;
     }
 }

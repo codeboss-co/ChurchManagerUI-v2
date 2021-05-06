@@ -4,57 +4,48 @@ import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GroupWithChildren } from '@features/admin/groups';
 import { ApiResponse } from '@shared/shared.models';
-import { map } from 'rxjs/operators';
-import {
-    DiscipleshipProgramDetailModel,
-    DiscipleshipProgramsForPerson
-} from '@features/admin/discipleship/discipleship.models';
-import { tap } from 'rxjs/internal/operators/tap';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
-export class ProfileDiscipleshipService extends  HttpBaseService
+export class GroupsManageService extends HttpBaseService
 {
-    private _programs: BehaviorSubject<DiscipleshipProgramsForPerson> = new BehaviorSubject(null);
+    private _groups: BehaviorSubject<GroupWithChildren[]> = new BehaviorSubject([]);
 
     private _apiUrl = this._environment.baseUrls.apiUrl;
-
-    constructor(
-        private http: HttpClient,
-        @Inject(ENV) private _environment: Environment )
-    {
-        super(http);
-    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Getter for categories
+     * Getter for groups
      */
-    get programs$(): Observable<DiscipleshipProgramsForPerson>
+    get groups$(): Observable<GroupWithChildren[]>
     {
-        return this._programs.asObservable();
+        return this._groups.asObservable();
     }
 
+    constructor(
+        private http: HttpClient,
+        @Inject( ENV ) private _environment: Environment ) {
+        super( http );
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Get Discipleship info for person
-     *
+     * Get groups with their children in the form of a tree
      */
-    getDiscipleshipStepsForPerson$(personId: number | undefined): Observable<DiscipleshipProgramsForPerson>
+    getGroupsTree$(): Observable<GroupWithChildren[]>
     {
-        const body = { personId };
-
-        return super.post<ApiResponse>(`${this._apiUrl}/v1/discipleship/person/programs`, body)
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/tree`, null)
             .pipe(
                 map(response => response.data),
-                tap(programs => this._programs.next(programs.map(x => new DiscipleshipProgramDetailModel(x))))
+                tap(groups => this._groups.next(groups))
             );
     }
 }

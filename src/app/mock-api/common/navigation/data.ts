@@ -51,6 +51,14 @@ export const compactNavigation: FuseNavigationItem[] = [
         icon    : 'heroicons_outline:view-grid',
         children: [
             {
+                id   : 'groups.group-manager',
+                title: 'Manage Groups',
+                subtitle: 'View, create & edit groups',
+                type : 'basic',
+                icon : 'heroicons_outline:view-grid',
+                link : '/apps/groups'
+            },
+            {
                 id      : 'groups.cell-ministry',
                 title   : 'Cell Ministry',
                 type    : 'collapsable',
