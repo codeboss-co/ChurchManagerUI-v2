@@ -9,6 +9,7 @@ import { FuseTailwindService } from '@fuse/services/tailwind/tailwind.service';
 import { FUSE_VERSION } from '@fuse/version';
 import { Layout } from '@ui/layout/layout.types';
 import { AppConfig, Scheme, Theme } from '@core/config/app.config';
+import { SnackbarNotificationsService } from '@core/notifications/snackbar-notifications.service';
 
 @Component({
     selector     : 'layout',
@@ -35,7 +36,7 @@ export class LayoutComponent implements OnInit, OnDestroy
         private _router: Router,
         private _fuseConfigService: FuseConfigService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseTailwindConfigService: FuseTailwindService
+        private _fuseTailwindConfigService: FuseTailwindService,
     )
     {
     }

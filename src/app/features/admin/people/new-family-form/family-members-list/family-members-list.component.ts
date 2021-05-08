@@ -20,6 +20,7 @@ export class FamilyMembersListComponent implements OnChanges
     {
         if ( changes['familyMembers'] ) {
             this.dataSource.data = changes['familyMembers'].currentValue;
+            console.log( 'this.dataSource.data', this.dataSource.data, '' );
         }
     }
 }
