@@ -45,7 +45,8 @@ export class PersonFormDialogComponent implements OnInit {
         this.form = this.createForm();
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void
+    {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,7 +58,8 @@ export class PersonFormDialogComponent implements OnInit {
      *
      * @returns {FormGroup}
      */
-    createForm(): FormGroup {
+    createForm(): FormGroup
+    {
         return this._formBuilder.group( {
             church: [null, Validators.required],
             connectionStatus: [null, Validators.required],
@@ -72,12 +74,10 @@ export class PersonFormDialogComponent implements OnInit {
         } );
     }
 
-    addPerson() {
+    addPerson(): void
+    {
         const churchId = this.form.get( 'church' ).value;
-        const connectionStatus = this.form.get( 'connectionStatus' ).value;
-        const source = this.form.get( 'source' ).value;
-        const firstVisitDate = this.form.get( 'firstVisitDate' ).value;
-        const person = this.form.get( 'person' ).value;
+        const {connectionStatus, source, firstVisitDate, person} = this.form.value;
 
         const model: FamilyMember = {
             churchId,

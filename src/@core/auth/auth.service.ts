@@ -63,7 +63,10 @@ export class AuthService
         return fromPromise(
             Auth.signIn(credentials.email, credentials.password)
                 .then(cognitoUser => this._authState.next(cognitoUser) )
-                .catch(error =>  this._authState.next(null) )
+                .catch(error =>  {
+                    this._authState.next(null);
+                    throw error;
+                } )
             );
     }
 
