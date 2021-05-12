@@ -4,5 +4,5 @@ export interface GroupAttendanceForm {
     attendanceDate: Date | string;
     members: [];
     firstTimers: [];
-    note?: string;
+    notes?: string;
 }

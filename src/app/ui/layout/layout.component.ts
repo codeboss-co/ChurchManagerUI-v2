@@ -30,13 +30,13 @@ export class LayoutComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        @Inject(DOCUMENT) private _document: any,
-        private _renderer2: Renderer2,
-        private _router: Router,
-        private _fuseConfigService: FuseConfigService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseTailwindConfigService: FuseTailwindService,
+        protected _activatedRoute: ActivatedRoute,
+        @Inject(DOCUMENT) protected _document: any,
+        protected _renderer2: Renderer2,
+        protected _router: Router,
+        protected _fuseConfigService: FuseConfigService,
+        protected _fuseMediaWatcherService: FuseMediaWatcherService,
+        protected _fuseTailwindConfigService: FuseTailwindService
     )
     {
     }
