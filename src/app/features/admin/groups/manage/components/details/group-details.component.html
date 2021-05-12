@@ -9,9 +9,9 @@
                 <div
                     class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white "
                     [class.bg-indigo-600]="group.groupType.name === 'Cell'"
-                    [class.bg-red-600]="group.groupType.name === 'PDF'"
-                    [class.bg-blue-600]="group.groupType.name=== 'DOC'"
-                    [class.bg-green-600]="group.groupType.name === 'XLS'"
+                    [class.bg-red-600]="group.groupType.name === 'Security'"
+                    [class.bg-blue-600]="group.groupType.name=== 'Section'"
+                    [class.bg-green-600]="group.groupType.name === 'Department'"
                     [class.bg-gray-600]="group.groupType.name=== 'TXT'"
                     [class.bg-amber-600]="group.groupType.name=== 'JPG'">
                     {{group.groupType.name.toUpperCase()}}
