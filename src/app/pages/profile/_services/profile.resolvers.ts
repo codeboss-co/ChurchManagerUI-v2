@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profile } from '../profile.model';
 import { ProfileService } from './profile.service';
-import { ProfileDiscipleshipComponent } from '../tabs/discipleship/profile-discipleship.component';
 import { ProfileDiscipleshipService } from '../tabs/discipleship/profile-discipleship.service';
 import { DiscipleshipProgramsForPerson } from '@features/admin/discipleship/discipleship.models';
 

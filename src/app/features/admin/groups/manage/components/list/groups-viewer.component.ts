@@ -57,7 +57,7 @@ export class GroupsViewerComponent implements OnChanges
     constructor()
     {
         this._treeFlattener = new MatTreeFlattener(
-            this._transformer, node => node.level, node => node.expandable, node => node.groups)
+            this._transformer, node => node.level, node => node.expandable, node => node.groups);
 
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this._treeFlattener);
     }

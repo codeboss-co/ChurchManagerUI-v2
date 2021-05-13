@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { GroupsComponent } from '@features/admin/groups/groups.component';
-import { GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
+import { GroupManageResolver, GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
 import { GroupsManageComponent } from '@features/admin/groups/manage/groups-manage.component';
 
 export const groupsRoutes: Route[] = [
@@ -12,11 +12,23 @@ export const groupsRoutes: Route[] = [
         path     : '',
         component: GroupsComponent,
         children: [
+            /* manage all groups */
             {
                 path     : '',
                 component: GroupsManageComponent,
                 resolve  : {
                     groups: GroupsManageResolver
+                }
+            },
+            /* manage single group */
+            {
+                path     : ':groupId',
+                component: GroupsManageComponent,
+                data: {
+                    from: 'profile' // Where we came from, needed for some processing
+                },
+                resolve  : {
+                    groups: GroupManageResolver
                 }
             }
         ]

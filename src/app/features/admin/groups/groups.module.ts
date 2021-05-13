@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { groupsRoutes } from '@features/admin/groups/groups.routing';
 import { GroupsComponent } from '@features/admin/groups/groups.component';
-import { GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
+import { GroupManageResolver, GroupsManageResolver } from '@features/admin/groups/_services/groups.resolvers';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,10 +11,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from '@shared/shared.module';
 import {
-    GroupMembersComponent,
     GroupDetailsComponent,
-    GroupsViewerComponent,
-    GroupsManageComponent
+    GroupMembersComponent,
+    GroupsManageComponent,
+    GroupsViewerComponent
 } from '@features/admin/groups/manage';
 import { GroupsDataService } from '@features/admin/groups/_services/groups-data.service';
 import { MatTableModule } from '@angular/material/table';
@@ -64,7 +64,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         // Controls
         PersonAutocompleteControlModule
     ],
-    providers: [GroupsManageResolver, GroupsManageService, GroupsDataService]
+    providers: [
+        GroupsManageResolver,
+        GroupManageResolver,
+        GroupsManageService,
+        GroupsDataService
+    ]
 })
 export class GroupsModule
 {
