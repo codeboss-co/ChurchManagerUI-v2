@@ -14,6 +14,7 @@ import { SharedModule } from '@shared/shared.module';
 import { AnalyticsComponent } from './analytics.component';
 import { analyticsRoutes } from './analytics.routing';
 import { DashboardDataService } from './dashboard-data.service';
+import { SnackbarNotificationsService } from '@core/notifications/snackbar-notifications.service';
 
 @NgModule({
     declarations: [

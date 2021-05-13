@@ -154,7 +154,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit
             didNotOccur: this.form.get('didNotOccur').value,
             members: this.form.get('members').dirty ? this.form.get('members').value : [],
             firstTimers: this.form.get('firstTimers').value,
-            note:  this.form.get('note').value
+            notes:  this.form.get('note').value
         };
 
         this.matDialogRef.close(model);

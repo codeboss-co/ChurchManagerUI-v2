@@ -15,6 +15,7 @@ import { DenseLayoutModule } from '@ui/layout/layouts/vertical/dense/dense.modul
 import { FuturisticLayoutModule } from '@ui/layout/layouts/vertical/futuristic/futuristic.module';
 import { ThinLayoutModule } from '@ui/layout/layouts/vertical/thin/thin.module';
 import { SharedModule } from '@shared/shared.module';
+import { AdminLayoutComponent } from '@ui/layout/layouts/admin-layout/admin-layout.component';
 
 const layoutModules = [
     // Empty
@@ -37,7 +38,9 @@ const layoutModules = [
 
 @NgModule({
     declarations: [
-        LayoutComponent
+        LayoutComponent,
+        // Added so that NotificationsSignalRService can run when logged in
+        AdminLayoutComponent
     ],
     imports     : [
         MatIconModule,
