@@ -5,12 +5,12 @@ import { WindowRef } from '@core/window-ref';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-@Component( {
+@Component({
     selector: 'sw-update-menu',
     templateUrl: './sw-update.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
-} )
+})
 export class SwUpdateComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -23,7 +23,7 @@ export class SwUpdateComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.subscribeForUpdates();
+        this._subscribeForUpdates();
     }
 
     /**
@@ -35,12 +35,12 @@ export class SwUpdateComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    subscribeForUpdates(): void {
+    private _subscribeForUpdates(): void {
         this.swUpdate.available
-            .pipe( takeUntil( this._unsubscribeAll ) )
-            .subscribe( event => {
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(event => {
                 console.log(
-                    '[App Shell Update] Update available: current version is',
+                    '[App Update] Update available: current version is',
                     event.current,
                     'available version is',
                     event.available
@@ -52,49 +52,49 @@ export class SwUpdateComponent implements OnInit, OnDestroy {
                     'Refresh the page'
                 );
 
-                snackBarRef.onAction().subscribe( () => {
+                snackBarRef.onAction().subscribe(() => {
                     this.activateUpdate();
-                } );
-            } );
+                });
+            });
 
         this.swUpdate.activated
-            .pipe( takeUntil( this._unsubscribeAll ) )
-            .subscribe( event => {
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(event => {
                 console.log(
-                    '[App Shell Update] Update activated: old version was',
+                    '[App Update] Update activated: old version was',
                     event.previous,
                     'new version is',
                     event.current
                 );
-            } );
+            });
     }
 
     activateUpdate(): void {
-        console.log( '[App Shell Update] activateUpdate started' );
+        console.log('[App Update] activateUpdate started');
         this.swUpdate
             .activateUpdate()
-            .then( () => {
-                console.log( '[App Shell Update] activateUpdate completed' );
+            .then(() => {
+                console.log('[App Update] activateUpdate completed');
                 this.winRef.nativeWindow.location.reload();
-            } )
-            .catch( err => {
-                console.error( err );
-            } );
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     checkForUpdate(): void {
-        console.log( '[App Shell Update] checkForUpdate started' );
+        console.log('[App Update] checkForUpdate started');
         this.swUpdate
             .checkForUpdate()
-            .then( () => {
-                console.log( '[App Shell Update] checkForUpdate completed' );
-            } )
-            .catch( err => {
-                console.error( err );
-            } );
+            .then(() => {
+                console.log('[App Update] checkForUpdate completed');
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     openLog(): void {
-        this.winRef.nativeWindow.open( '/ngsw/state' );
+        this.winRef.nativeWindow.open('/ngsw/state');
     }
 }
