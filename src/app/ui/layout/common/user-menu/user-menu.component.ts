@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { User } from '@core/user/user.model';
+import { PushNotificationsService } from '@core/notifications/push-notifications.service';
 
 @Component({
     selector       : 'user-menu',
@@ -26,8 +27,6 @@ export class UserMenuComponent implements OnInit, OnDestroy
     @Input() showAvatar: boolean = true;
     @Input() user: User;
 
-    //user$: Observable<User> = this._userService.user$;
-
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -36,7 +35,7 @@ export class UserMenuComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        //private _userService: UserService
+        public push: PushNotificationsService
     )
     {
     }
