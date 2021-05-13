@@ -48,4 +48,16 @@ export class GroupsManageService extends HttpBaseService
                 tap(groups => this._groups.next(groups))
             );
     }
+
+    /**
+     * Get group by id with their children in the form of a tree
+     */
+    getGroupTree$(groupId: number): Observable<GroupWithChildren[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupId}/tree`, null)
+            .pipe(
+                map(response => response.data),
+                tap(groups => this._groups.next(groups))
+            );
+    }
 }

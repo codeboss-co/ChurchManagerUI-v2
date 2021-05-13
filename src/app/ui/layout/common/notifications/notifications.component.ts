@@ -1,4 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    SimpleChanges,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatButton } from '@angular/material/button';
@@ -6,7 +19,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Notification } from '@ui/layout/common/notifications/notifications.types';
 import { NotificationsService } from '@ui/layout/common/notifications/notifications.service';
-import { SnackbarNotificationsService } from '@core/notifications/snackbar-notifications.service';
 
 @Component({
     selector       : 'notifications',
@@ -32,8 +44,7 @@ export class NotificationsComponent implements OnChanges, OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _notificationsService: NotificationsService,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef,
-        private _notifier: SnackbarNotificationsService
+        private _viewContainerRef: ViewContainerRef
     )
     {
     }

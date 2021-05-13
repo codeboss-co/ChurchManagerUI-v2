@@ -3,6 +3,7 @@ import { AuthGuard } from '@core/auth/guards/auth.guard';
 import { NoAuthGuard } from '@core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/ui/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
+import { AdminLayoutComponent } from '@ui/layout/layouts/admin-layout/admin-layout.component';
 
 // @formatter:off
 // tslint:disable:max-line-length
@@ -68,7 +69,7 @@ export const appRoutes: Route[] = [
         path       : '',
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
-        component  : LayoutComponent,
+        component  : AdminLayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,
         },

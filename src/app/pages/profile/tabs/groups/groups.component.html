@@ -45,6 +45,10 @@
                                 <mat-icon>check_box</mat-icon>
                                 <span>Take attendance</span>
                             </button>
+                            <button mat-menu-item aria-label="manage" [routerLink]="['/apps/groups', group.groupId]">
+                                <mat-icon>settings</mat-icon>
+                                <span>Manage</span>
+                            </button>
                             <button mat-menu-item aria-label="remove" (click)="delete(group)">
                                 <mat-icon>delete</mat-icon>
                                 <span>Remove</span>
