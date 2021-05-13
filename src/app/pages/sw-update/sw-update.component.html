@@ -1,0 +1,25 @@
+<!-- Button -->
+<button
+    mat-icon-button
+    [matMenuTriggerFor]="updateActions">
+    <span class="relative">
+        <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    </span>
+</button>
+
+<mat-menu
+    [xPosition]="'before'"
+    #updateActions="matMenu">
+    <button mat-menu-item (click)="checkForUpdate()">
+        <mat-icon>check</mat-icon>
+        <span>Check for update</span>
+    </button>
+    <button mat-menu-item (click)="activateUpdate()">
+        <mat-icon>refresh</mat-icon>
+        <span>Activate update</span>
+    </button>
+    <button mat-menu-item (click)="openLog()">
+        <mat-icon>list</mat-icon>
+        <span>Open log</span>
+    </button>
+</mat-menu>

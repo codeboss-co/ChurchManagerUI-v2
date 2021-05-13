@@ -12,6 +12,8 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/ui/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const routerConfig: ExtraOptions = {
     scrollPositionRestoration: 'enabled',
@@ -40,7 +42,13 @@ const routerConfig: ExtraOptions = {
         LayoutModule,
 
         // 3rd party modules
-        MarkdownModule.forRoot({})
+        MarkdownModule.forRoot({}),
+         ServiceWorkerModule.register('ngsw-worker.js', {
+           enabled: environment.production,
+           // Register the ServiceWorker as soon as the app is stable
+           // or after 30 seconds (whichever comes first).
+           registrationStrategy: 'registerWhenStable:30000'
+         })
     ],
     bootstrap   : [
         AppComponent
