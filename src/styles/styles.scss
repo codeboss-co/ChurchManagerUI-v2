@@ -2,3 +2,6 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+body.light .mat-simple-snackbar-action, body .light .mat-simple-snackbar-action {
+    color: #cbd5e1 !important;
+}

@@ -20,4 +20,8 @@ export interface Environment {
         token: string;
         environment?: string;  // defaults to `master`
     };
+
+    push: {
+        publicKey: string
+    };
 }
