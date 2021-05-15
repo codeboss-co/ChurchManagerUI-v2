@@ -17,7 +17,7 @@ import { PushNotificationsService } from '@core/notifications/push-notifications
     selector       : 'user-menu',
     templateUrl    : './user-menu.component.html',
     encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    //changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'userMenu'
 })
 export class UserMenuComponent implements OnInit, OnDestroy
