@@ -39,7 +39,7 @@
         <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
         <span>Settings</span>
     </button>
-    <button *ngIf="push.isEnabled"
+    <button *ngIf="(push.isEnabled$ | async) === true"
         mat-menu-item
         [matMenuTriggerFor]="userStatus">
         <mat-icon [svgIcon]="'heroicons_outline:annotation'"></mat-icon>
@@ -60,20 +60,17 @@
     <button *ngIf="(push.isSubscribed$ | async) === false"
         mat-menu-item
         (click)="push.subscribeToPushNotifications()">
-        <span class="w-4 h-4 mr-3 rounded-full bg-green-500"></span>
-        <span>Subscribe</span>
+        <mat-icon>notifications_active</mat-icon>Subscribe
     </button>
     <button *ngIf="(push.isSubscribed$ | async) === true"
         mat-menu-item
         (click)="push.unSubscribeFromPushNotifications()">
-        <span class="w-4 h-4 mr-3 rounded-full bg-red-500"></span>
-        <span>Unsubscribe</span>
+        <mat-icon>notifications_off</mat-icon>Unsubscribe
     </button>
     <button
             mat-menu-item
             (click)="push.showMessages()">
-        <span class="w-4 h-4 mr-3 rounded-full bg-gray-400"></span>
-        <span>Debug</span>
+        <mat-icon>list</mat-icon>Show messages
     </button>
 </mat-menu>
 

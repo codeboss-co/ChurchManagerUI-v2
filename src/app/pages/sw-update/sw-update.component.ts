@@ -49,7 +49,7 @@ export class SwUpdateComponent implements OnInit, OnDestroy {
                 const versionMessage = event.available.appData ? event.available.appData['versionMessage'] : '';
                 const snackBarRef = this.snackBar.open(
                     versionMessage || 'Newer version of the app is available.',
-                    'Refresh the page'
+                    'Refresh'
                 );
 
                 snackBarRef.onAction().subscribe(() => {
