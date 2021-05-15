@@ -19,31 +19,13 @@ export class PushSubscriptionService
     addSubscription(subscription: PushSubscription): Observable<any>
     {
         console.log('[Push Subscription Service] Adding subscriber');
-
-        const body = {
-            name: 'test sub 1',
-            endpoint: subscription.endpoint,
-            p256dh: base64Encode(subscription.getKey('p256dh')),
-            auth: base64Encode(subscription.getKey('auth'))
-        };
-
-        //return this._http.post(`${this._apiUrl}/v1/webpush/subscribe`, body);
-        return of('SUCCEEDED');
+        return this._http.post(`${this._apiUrl}/v1/webpush/subscribe`, { subscription: subscription });
     }
 
     removeSubscription(subscription: PushSubscription): Observable<any>
     {
         console.log('[Push Subscription Service] Deleting subscriber');
-
-        const body = {
-            name: 'test sub 1',
-            endpoint: subscription.endpoint,
-            p256dh: base64Encode(subscription.getKey('p256dh')),
-            auth: base64Encode(subscription.getKey('auth'))
-        };
-
-        //return this._http.post(`${this._apiUrl}/v1/webpush/unsubscribe`, body);
-        return of('SUCCEEDED');
+        return this._http.post(`${this._apiUrl}/v1/webpush/unsubscribe`, { subscription: subscription });
     }
 }
 
