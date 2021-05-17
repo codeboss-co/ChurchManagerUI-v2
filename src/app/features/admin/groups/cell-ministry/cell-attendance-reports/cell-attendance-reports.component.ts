@@ -6,17 +6,15 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { Sort } from '@shared/data/pagination.models';
-import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
-import { ChurchGroup } from '@ui/controls/church-groups-select-control/church-group.model';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -26,7 +24,7 @@ import { MatDrawer } from '@angular/material/sidenav';
     templateUrl  : './cell-attendance-reports.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class CellAttendanceReportsComponent implements OnInit
 {

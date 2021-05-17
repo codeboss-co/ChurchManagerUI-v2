@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonFormDialogComponent } from './person-form/person-form-dialog.component';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { PersonBasicDetailsForm, FamilyMember, NewFamilyForm } from './person-form/person-form.model';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { first } from 'rxjs/operators';
     templateUrl  : './new-family-form.component.html',
     styleUrls    : ['./new-family-form.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations,
+    animations   : fuseAnimations,
     viewProviders: [MatExpansionPanel] // <----- Here
 })
 export class NewFamilyFormComponent {

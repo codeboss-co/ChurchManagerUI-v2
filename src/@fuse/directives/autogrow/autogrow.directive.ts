@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 })
 export class FuseAutogrowDirective implements OnChanges, OnInit, OnDestroy
 {
-    // tslint:disable-next-line:no-input-rename
+    /* eslint-disable */
     @Input('fuseAutogrowVerticalPadding') padding: number = 8;
     @HostBinding('rows') private _rows: number = 1;
 

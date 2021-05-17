@@ -4,7 +4,7 @@ import { shake } from './shake';
 import { slideInBottom, slideInLeft, slideInRight, slideInTop, slideOutBottom, slideOutLeft, slideOutRight, slideOutTop } from './slide';
 import { zoomIn, zoomOut } from './zoom';
 
-export const FuseAnimations = [
+export const fuseAnimations = [
     expandCollapse,
     fadeIn, fadeInTop, fadeInBottom, fadeInLeft, fadeInRight,
     fadeOut, fadeOutTop, fadeOutBottom, fadeOutLeft, fadeOutRight,

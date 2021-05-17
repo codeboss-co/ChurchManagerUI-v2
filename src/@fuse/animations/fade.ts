@@ -25,7 +25,7 @@ const fadeIn = trigger('fadeIn',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -58,7 +58,7 @@ const fadeInTop = trigger('fadeInTop',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -91,7 +91,7 @@ const fadeInBottom = trigger('fadeInBottom',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -124,7 +124,7 @@ const fadeInLeft = trigger('fadeInLeft',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -157,7 +157,7 @@ const fadeInRight = trigger('fadeInRight',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -188,7 +188,7 @@ const fadeOut = trigger('fadeOut',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )
@@ -221,7 +221,7 @@ const fadeOutTop = trigger('fadeOutTop',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )
@@ -254,7 +254,7 @@ const fadeOutBottom = trigger('fadeOutBottom',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )
@@ -287,7 +287,7 @@ const fadeOutLeft = trigger('fadeOutLeft',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )
@@ -320,7 +320,7 @@ const fadeOutRight = trigger('fadeOutRight',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )

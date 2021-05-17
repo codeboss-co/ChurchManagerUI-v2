@@ -16,7 +16,7 @@ export class FuseMockApiUtils
      */
     static guid(): string
     {
-        /* tslint:disable */
+        /* eslint-disable */
 
         let d = new Date().getTime();
 
@@ -32,6 +32,6 @@ export class FuseMockApiUtils
             return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
 
-        /* tslint:enable */
+        /* eslint-disable */
     }
 }

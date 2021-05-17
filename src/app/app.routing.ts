@@ -6,7 +6,7 @@ import { InitialDataResolver } from 'app/app.resolvers';
 import { AdminLayoutComponent } from '@ui/layout/layouts/admin-layout/admin-layout.component';
 
 // @formatter:off
-// tslint:disable:max-line-length
+/* eslint-disable */
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboard'

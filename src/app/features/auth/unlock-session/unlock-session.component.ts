@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { AuthService } from '@core/auth/auth.service';
 import { UserService } from '@core/user/user.service';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -10,7 +10,7 @@ import { FuseAlertType } from '@fuse/components/alert';
     selector     : 'auth-unlock-session',
     templateUrl  : './unlock-session.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class AuthUnlockSessionComponent implements OnInit
 {

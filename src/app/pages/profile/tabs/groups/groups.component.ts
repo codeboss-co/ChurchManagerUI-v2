@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,9 +12,8 @@ import { Group, GroupsDataService } from '@features/admin/groups';
 import { GroupAttendanceFormDialogComponent } from './components/group-attendance-form/group-attendance-form-dialog.component';
 import { GroupAttendanceForm } from './components/group-attendance-form/group-attendance.model';
 import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/internal/operators/tap';
 import { ProfileService } from '../../_services/profile.service';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 
 export interface GroupsQuery {
     search: string;
@@ -25,7 +24,7 @@ export interface GroupsQuery {
     selector     : 'profile-groups',
     templateUrl  : './groups.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class ProfileGroupsComponent implements OnInit, OnDestroy
 {

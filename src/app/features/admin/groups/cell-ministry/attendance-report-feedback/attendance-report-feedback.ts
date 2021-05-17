@@ -5,11 +5,9 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { GroupAttendanceRecordDetail, GroupAttendee } from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
-import { tap } from 'rxjs/internal/operators/tap';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
     selector       : 'attendance-report-feedback',

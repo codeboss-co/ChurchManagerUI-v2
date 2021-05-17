@@ -28,7 +28,7 @@ const zoomIn = trigger('zoomIn',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
@@ -62,7 +62,7 @@ const zoomOut = trigger('zoomOut',
         transition('* => void', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.EXITING} ${FuseAnimationCurves.ACCELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.exiting} ${FuseAnimationCurves.acceleration}`
                 }
             }
         )

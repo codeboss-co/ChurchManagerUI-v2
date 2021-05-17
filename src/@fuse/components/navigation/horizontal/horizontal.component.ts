@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
@@ -9,7 +9,7 @@ import { FuseUtilsService } from '@fuse/services/utils/utils.service';
     selector       : 'fuse-horizontal-navigation',
     templateUrl    : './horizontal.component.html',
     styleUrls      : ['./horizontal.component.scss'],
-    animations     : FuseAnimations,
+    animations     : fuseAnimations,
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'fuseHorizontalNavigation'

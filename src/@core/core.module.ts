@@ -8,6 +8,11 @@ import { httpInterceptorProviders } from '@core/interceptors';
 import { notificationToastrProvider } from '@core/notifications';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+    return localStorage.getItem("accessToken");
+}
 
 @NgModule({
     imports  : [
@@ -15,7 +20,14 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 
         // Material Core Modules
         MatSnackBarModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ['localhost:5001', 'codeboss.tech'],
+            }
+        })
     ],
     providers: [
         { provide: ENV, useValue: environment },

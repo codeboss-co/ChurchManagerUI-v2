@@ -1,4 +1,4 @@
-/* tslint:disable:max-line-length */
+/* eslint-disable */
 export const categories = [
     {
         id      : 'b899ec30-b85a-40ab-bb1f-18a596d5c6de',
