@@ -102,36 +102,6 @@ export class CellAttendanceReportsComponent implements OnInit
 
         merge(initDatasource$, afterInitDatasource$).subscribe();
 
-        /*this.searchBtnClicked
-            .pipe(
-                filter( () =>  this.searchForm.valid),
-                takeUntil(this._unsubscribeAll),
-                tap( () => {
-
-                    const churchGroup = this.searchForm.get('churchGroup').value as ChurchGroup;
-                    const withFeedBack = this.searchForm.get('withFeedBack').value;
-                    const from = this.searchForm.get('from').value;
-                    const to = this.searchForm.get('to').value;
-
-                    const {churchId, groupId} = churchGroup;
-
-                    // Initialize Paginated Data Source
-                    if ( !this.dataSource ) {
-                        const initialSort: Sort<GroupAttendanceRecord> = {property: 'attendanceDate', order: 'desc'};
-                        const initialQuery: GroupAttendanceQuery = {churchId, groupId, withFeedBack, from, to};
-
-                        this.dataSource =  new PaginatedDataSource<GroupAttendanceRecord, GroupAttendanceQuery>(
-                            (request, query) => this._data.pageCellAttendanceReports$(request, query),
-                            initialSort,
-                            initialQuery,
-                        );
-                    } else {
-                        this.dataSource.queryBy({churchId, groupId, withFeedBack, from, to});
-                    }
-                })
-            )
-            .subscribe();*/
-
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -156,15 +126,8 @@ export class CellAttendanceReportsComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     onBackdropClicked(): void {
-        // Get the current activated route
-        let route = this._activatedRoute;
-        while ( route.firstChild )
-        {
-            route = route.firstChild;
-        }
-        // Go to contact
-        this._router.navigate(['../'], {relativeTo: route});
-
+        // Go back to the list
+        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
