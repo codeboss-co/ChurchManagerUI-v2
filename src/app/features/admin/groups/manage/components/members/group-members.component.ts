@@ -1,17 +1,17 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component,
+    EventEmitter,
     Input,
     OnChanges,
     Output,
-    SimpleChanges, ViewChild,
+    SimpleChanges,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGroupMemberFormDialogComponent } from './add/add-group-member-form-dialog.component';
 import { MatSort } from '@angular/material/sort';
@@ -44,7 +44,7 @@ export class GroupMembersComponent implements OnChanges
 
     dialogRef: any;
 
-    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole'];
+    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole', 'recordStatus'];
 
     dataSource: MatTableDataSource<GroupMemberSimple> = new MatTableDataSource([]);
 

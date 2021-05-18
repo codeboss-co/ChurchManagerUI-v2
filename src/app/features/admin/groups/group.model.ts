@@ -69,6 +69,7 @@ export interface GroupMemberSimple
     groupMemberRoleId?: number;
     isLeader?: boolean;
     firstVisitDate?: Date;
+    recordStatus: string;
 }
 
 export type GroupMembersSimple = GroupMemberSimple[];

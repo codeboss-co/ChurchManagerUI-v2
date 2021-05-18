@@ -116,6 +116,12 @@
                         <td mat-cell *matCellDef="let element"> {{element.groupMemberRole}} </td>
                     </ng-container>
 
+                    <!-- Record Status Column -->
+                    <ng-container matColumnDef="recordStatus">
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                        <td mat-cell *matCellDef="let element"> {{element.recordStatus}} </td>
+                    </ng-container>
+
                     <tr mat-header-row class="h-8" *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row class="h-10" *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
