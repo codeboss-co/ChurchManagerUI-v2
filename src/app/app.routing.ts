@@ -6,7 +6,7 @@ import { InitialDataResolver } from 'app/app.resolvers';
 import { AdminLayoutComponent } from '@ui/layout/layouts/admin-layout/admin-layout.component';
 
 // @formatter:off
-/* eslint-disable */
+// tslint:disable:max-line-length
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboard'
@@ -93,6 +93,8 @@ export const appRoutes: Route[] = [
                     // Profile
                 {path: 'profile', loadChildren: () => import('app/pages/profile/profile.module').then( m => m.ProfileModule)},
 
+                // Settings
+                {path: 'settings', loadChildren: () => import('app/pages/settings/settings.module').then(m => m.SettingsModule)},
             ]},
         ]
     }
