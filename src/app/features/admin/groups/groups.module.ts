@@ -31,6 +31,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
+import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { MatSortModule } from '@angular/material/sort';
         GroupDetailsComponent,
         GroupMembersComponent,
         // Dialogs
-        AddGroupMemberFormDialogComponent
+        AddGroupMemberFormDialogComponent,
+        NewGroupDialogComponent
     ],
     imports: [
         RouterModule.forChild(groupsRoutes),

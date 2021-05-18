@@ -74,4 +74,9 @@ export class GroupsViewerComponent implements OnChanges
         const selectedGroup = this.flatNodeMap.get(item.id);
         this.selectedGroup.emit(selectedGroup);
     }
+
+    addNewGroup({ item }: FlatNode)
+    {
+        console.log('parent item', item, '');
+    }
 }
