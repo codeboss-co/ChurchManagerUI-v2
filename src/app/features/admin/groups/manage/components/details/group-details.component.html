@@ -1,67 +1,63 @@
-<div *ngIf="group">
+<mat-expansion-panel *ngIf="group" class="mt-1" [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Group Details
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="flex flex-col flex-auto mb-4 px-6 md:px-8">
 
-
-    <mat-expansion-panel class="mt-1" [expanded]="true">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Group Details
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="flex flex-col flex-auto mb-4 px-6 md:px-8">
-
-            <!-- Name & Type -->
-            <div class="flex flex-col items-start mt-8">
-                <div class="text-xl font-medium">{{group.name}}</div>
-                <div class="flex flex items-start">
-                    <div
-                        class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white "
-                        [class.bg-indigo-600]="group.groupType.name === 'Cell'"
-                        [class.bg-red-600]="group.groupType.name === 'Security'"
-                        [class.bg-blue-600]="group.groupType.name=== 'Section'"
-                        [class.bg-green-600]="group.groupType.name === 'Department'"
-                        [class.bg-gray-600]="group.groupType.name=== 'TXT'"
-                        [class.bg-amber-600]="group.groupType.name=== 'JPG'">
-                        {{group.groupType.name.toUpperCase()}}
-                    </div>
-                    <div *ngIf="group.isOnline"
-                         class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-blue-600">
-                        ONLINE
-                    </div>
-                    <div *ngIf="group.groupType.takesAttendance"
-                         class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-green-600">
-                        TAKES ATTENDANCE
-                    </div>
+        <!-- Name & Type -->
+        <div class="flex flex-col items-start mt-8">
+            <div class="text-xl font-medium">{{group.name}}</div>
+            <div class="flex flex items-start">
+                <div
+                    class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white "
+                    [class.bg-indigo-600]="group.groupType.name === 'Cell'"
+                    [class.bg-red-600]="group.groupType.name === 'Security'"
+                    [class.bg-blue-600]="group.groupType.name=== 'Section'"
+                    [class.bg-green-600]="group.groupType.name === 'Department'"
+                    [class.bg-gray-600]="group.groupType.name=== 'TXT'"
+                    [class.bg-amber-600]="group.groupType.name=== 'JPG'">
+                    {{group.groupType.name.toUpperCase()}}
+                </div>
+                <div *ngIf="group.isOnline"
+                     class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-blue-600">
+                    ONLINE
+                </div>
+                <div *ngIf="group.groupType.takesAttendance"
+                     class="mt-1 mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-green-600">
+                    TAKES ATTENDANCE
                 </div>
             </div>
-
-            <!-- Information -->
-            <div class="text-lg font-medium mt-8">Information</div>
-            <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">Parent Group</div>
-                    <div>{{group.parentGroupName}}</div>
-                </div>
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">Description</div>
-                    <div>{{group.description}}</div>
-                </div>
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">Address</div>
-                    <div>{{group.address}}</div>
-                </div>
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">Online</div>
-                    <div>{{group.isOnline ? 'Yes' : 'No'}}</div>
-                </div>
-
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">Started At</div>
-                    <div>{{group.createdDate | date: 'dd MMMM yyyy'}}</div>
-                </div>
-            </div>
-
         </div>
-    </mat-expansion-panel>
+
+        <!-- Information -->
+        <div class="text-lg font-medium mt-8">Information</div>
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Parent Group</div>
+                <div>{{group.parentGroupName}}</div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Description</div>
+                <div>{{group.description}}</div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Address</div>
+                <div>{{group.address}}</div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Online</div>
+                <div>{{group.isOnline ? 'Yes' : 'No'}}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Started At</div>
+                <div>{{group.createdDate | date: 'dd MMMM yyyy'}}</div>
+            </div>
+        </div>
+
+    </div>
+</mat-expansion-panel>
 
 
-</div>

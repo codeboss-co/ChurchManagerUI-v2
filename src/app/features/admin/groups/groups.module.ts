@@ -30,6 +30,7 @@ import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplet
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatPaginatorModule,
         MatProgressBarModule,
         MatSidenavModule,
+        MatSortModule,
         MatTableModule,
         MatToolbarModule,
         MatTooltipModule,
