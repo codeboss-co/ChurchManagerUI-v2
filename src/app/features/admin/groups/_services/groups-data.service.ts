@@ -60,10 +60,11 @@ export class GroupsDataService extends HttpBaseService
         const personId = model.person.id;
         const groupId = model.groupId;
         const groupRoleId = model.groupRole;
+        const communicationPreference = model.communicationPreference;
         const firstVisitDate = model.firstVisitDate;
 
         const body = {
-            personId, groupId, groupRoleId, firstVisitDate
+            personId, groupId, groupRoleId, communicationPreference, firstVisitDate
         };
 
         return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/${model.groupId}/add-member`, body)

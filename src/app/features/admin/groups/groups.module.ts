@@ -29,6 +29,7 @@ import { AddGroupMemberFormDialogComponent } from '@features/admin/groups/manage
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatCheckboxModule,
         MatDatepickerModule,
         MatDialogModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
