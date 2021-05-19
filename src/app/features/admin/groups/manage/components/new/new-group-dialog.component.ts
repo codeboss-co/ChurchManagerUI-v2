@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GroupsDataService, GroupType, GroupWithChildren } from '@features/admin/groups';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
-import { Profile } from '../../../../../../pages/profile/profile.model';
+import { weekdays} from './calendar.model';
+
 
 @Component({
     selector       : 'new-group-dialog',
@@ -15,8 +16,8 @@ import { Profile } from '../../../../../../pages/profile/profile.model';
 export class NewGroupDialogComponent implements OnInit
 {
     form: FormGroup;
-    groupType$: Observable<GroupType>;
-
+    groupType: GroupType;
+    weekdays = weekdays;
     parentGroup: GroupWithChildren
 
     /**
@@ -46,12 +47,19 @@ export class NewGroupDialogComponent implements OnInit
             parentGroupId: [this.parentGroup?.id, Validators.required],
             name: [null, Validators.required],
             description: [null],
+            frequency: [null],
+            weekly  : this._formBuilder.group({
+                byDay: [[]]
+            }),
+            meetingTime: []
         });
 
-        this.groupType$ = this.form.get('groupTypeId').valueChanges
+        // Get the group type info
+        this.form.get('groupTypeId').valueChanges
             .pipe(
-                switchMap(groupTypeId => this._data.getGroupType$(groupTypeId))
-            );
+                switchMap(groupTypeId => this._data.getGroupType$(groupTypeId)),
+                map(data => this.groupType = data)
+            ).subscribe();
     }
 
 }

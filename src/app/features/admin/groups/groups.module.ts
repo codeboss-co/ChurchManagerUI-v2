@@ -35,6 +35,7 @@ import { NewGroupDialogComponent } from '@features/admin/groups/manage/component
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatCheckboxModule,
         MatDatepickerModule,
         MatDialogModule,
+        MatDividerModule,
         MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,

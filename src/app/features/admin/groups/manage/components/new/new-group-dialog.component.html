@@ -19,8 +19,8 @@
         [formGroup]="form">
 
         <!-- Name & Type -->
-        <div *ngIf="groupType$ | async as groupType" class="mb-4 -mt-4">
-            <div class="flex flex items-center">
+        <div *ngIf="groupType">
+            <div class="flex flex items-center mb-4 -mt-4">
                 <mat-icon *ngIf="groupType.iconCssClass" class="mr-1" [svgIcon]="groupType.iconCssClass"></mat-icon>
                 <div *ngIf="groupType.isSystem"
                     class="mr-1 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-red-600">
@@ -39,7 +39,7 @@
             <mat-label>Parent Group</mat-label>
             <mat-select formControlName="parentGroupId" >
                 <mat-option [value]="parentGroup?.id">{{parentGroup?.name}}</mat-option>
-                <mat-option value="">No Parent</mat-option>
+                <mat-option value="0">No Parent</mat-option>
             </mat-select>
             <mat-icon
                 class="icon-size-5"
@@ -62,6 +62,62 @@
                 formControlName="description">
         </mat-form-field>
 
+        <mat-divider class="mt-1 mb-2"></mat-divider>
+
+        <div *ngIf="groupType?.takesAttendance">
+
+            <p class="text-lg font-medium">Group meeting details</p>
+
+            <div class="flex justify-between items-end">
+
+                <!-- Interval and frequency -->
+                <mat-form-field class="fuse-mat-no-subscript w-40">
+                    <mat-label>Frequency</mat-label>
+                    <mat-select formControlName="frequency">
+                        <mat-option [value]="'DAILY'">Daily</mat-option>
+                        <mat-option [value]="'WEEKLY'">Weekly</mat-option>
+                        <mat-option [value]="'MONTHLY'">Monthly</mat-option>
+                        <mat-option [value]="'YEARLY'">Annually</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Weekly repeat options -->
+                <div
+                    class="flex flex-col mt-6"
+                    formGroupName="weekly"
+                    *ngIf="form.get('frequency').value === 'WEEKLY'">
+                    <div class="font-medium">Meeting days</div>
+                    <mat-button-toggle-group
+                        class="mt-1.5 border-0 space-x-1"
+                        [formControlName]="'byDay'"
+                        [multiple]="true">
+                        <ng-container *ngFor="let weekday of weekdays">
+                            <mat-button-toggle
+                                class="w-10 h-10 border-0 rounded-full"
+                                [disableRipple]="true"
+                                [value]="weekday.value"
+                                [matTooltip]="weekday.label">
+                                {{weekday.abbr}}
+                            </mat-button-toggle>
+                        </ng-container>
+                    </mat-button-toggle-group>
+                </div>
+
+                <mat-form-field class="fuse-mat-no-subscript time start-time">
+                    <input
+                        matInput
+                        [autocomplete]="'off'"
+                        formControlName="meetingTime">
+                    <mat-label>Meeting time</mat-label>
+                </mat-form-field>
+
+
+            </div>
+
+
+
+        </div>
+
 
         <!-- Actions -->
         <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
@@ -80,7 +136,7 @@
                 [color]="'primary'"
                 [disabled]="form.pristine"
                 [matTooltip]="'Save'"
-                (click)="matDialogRef.close(form)">
+                (click)="matDialogRef.close(form.getRawValue())">
                 Save
             </button>
         </div>
