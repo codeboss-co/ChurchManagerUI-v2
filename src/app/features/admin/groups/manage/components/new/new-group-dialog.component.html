@@ -33,7 +33,20 @@
             </div>
         </div>
 
-        <group-types-select-control formControlName="groupType" required> </group-types-select-control>
+        <group-types-select-control formControlName="groupTypeId" required> </group-types-select-control>
+
+        <mat-form-field>
+            <mat-label>Parent Group</mat-label>
+            <mat-select formControlName="parentGroupId" >
+                <mat-option [value]="parentGroup?.id">{{parentGroup?.name}}</mat-option>
+                <mat-option value="">No Parent</mat-option>
+            </mat-select>
+            <mat-icon
+                class="icon-size-5"
+                matPrefix
+                [svgIcon]="'heroicons_solid:link'"></mat-icon>
+        </mat-form-field>
+
 
         <mat-form-field>
             <mat-label>Name</mat-label>

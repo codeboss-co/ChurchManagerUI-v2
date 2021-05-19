@@ -80,7 +80,11 @@ export class GroupsViewerComponent implements OnChanges
     openAddGroupDialog({ item }: FlatNode): void
     {
         // Open the dialog
-        const dialogRef = this._matDialog.open(NewGroupDialogComponent);
+        const dialogRef = this._matDialog.open(NewGroupDialogComponent, {
+            data : {
+                parentGroup: item
+            }
+        });
 
         dialogRef.afterClosed()
             .subscribe((result) => {

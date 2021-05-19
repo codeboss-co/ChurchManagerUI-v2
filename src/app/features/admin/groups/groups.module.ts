@@ -34,6 +34,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-sele
         MatPaginatorModule,
         MatProgressBarModule,
         MatSidenavModule,
+        MatSelectModule,
         MatSortModule,
         MatTableModule,
         MatToolbarModule,
