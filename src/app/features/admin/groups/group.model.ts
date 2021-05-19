@@ -6,7 +6,7 @@ export interface Group {
     groupId: number;
     name: string;
     description: string;
-    parentGroupId?: any;
+    parentGroupId?: number;
     groupType: GroupType;
     members: GroupMember[];
     recordStatus: string;
@@ -20,7 +20,7 @@ export interface GroupType {
     groupMemberTerm?: string;
     takesAttendance: boolean;
     isSystem: boolean;
-    iconCssClass?: any;
+    iconCssClass?: string;
 }
 
 export interface GroupMemberRole {
@@ -35,7 +35,7 @@ export interface GroupMember {
     groupId: number;
     personId: number;
     groupMemberRoleId: number;
-    archiveStatus?: any;
+    archiveStatus?: string;
     communicationPreference: string;
     group?: Group;
     groupMemberRole: GroupMemberRole;
@@ -49,7 +49,7 @@ export interface GroupSummary
     groupId: number;
     name: string;
     description: string;
-    parentGroupId?: any;
+    parentGroupId?: number;
     groupType: string;
     recordStatus: string;
     membersCount: number;
@@ -78,7 +78,7 @@ export interface GroupWithChildren
 {
     id: number;
     churchId: number;
-    parentGroupId?: any;
+    parentGroupId?: number;
     parentGroupName?: string;
     groupType: GroupType;
     name: string;

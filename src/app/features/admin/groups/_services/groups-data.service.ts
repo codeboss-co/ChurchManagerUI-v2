@@ -7,7 +7,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupMemberSimple, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
+import { GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
@@ -76,5 +76,13 @@ export class GroupsDataService extends HttpBaseService
     registerAttendance$( model: GroupAttendanceForm ): Observable<any>
     {
         return super.post<any>(`${this._apiUrl}/v1/groups/${model.groupId}/attendance`, model);
+    }
+
+    getGroupType$(groupTypeId: number) : Observable<GroupType>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/types/${groupTypeId}`, null)
+            .pipe(
+                map(response => response.data)
+            );
     }
 }
