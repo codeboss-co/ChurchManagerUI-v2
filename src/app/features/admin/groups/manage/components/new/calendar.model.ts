@@ -42,3 +42,17 @@ export const weekdays: CalendarWeekday[] = [
         value: 'SU'
     }
 ];
+
+export interface Weekly {
+    byDay: string[];
+}
+
+export interface NewGroupForm {
+    groupTypeId: number;
+    parentGroupId: number;
+    name: string;
+    description: string;
+    frequency?: string;
+    weekly?: Weekly;
+    meetingTime?: string;
+}

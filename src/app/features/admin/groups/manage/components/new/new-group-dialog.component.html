@@ -62,6 +62,40 @@
                 formControlName="description">
         </mat-form-field>
 
+        <!-- Dates -->
+        <div class="flex items-start mt-6">
+            <mat-icon
+                class="hidden sm:inline-flex mt-3 mr-6"
+                [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+            <div class="flex-auto">
+                <fuse-date-range
+                    [formControlName]="'range'"
+                    [dateFormat]="settings.dateFormat"
+                    [timeRange]="!form.get('allDay').value"
+                    [timeFormat]="settings.timeFormat"></fuse-date-range>
+                <mat-checkbox
+                    class="mt-4"
+                    [color]="'primary'"
+                    [formControlName]="'allDay'">
+                    All day
+                </mat-checkbox>
+            </div>
+        </div>
+
+        <!-- Recurrence -->
+        <div class="flex items-center mt-6">
+            <mat-icon
+                class="hidden sm:inline-flex mr-6 transform -scale-x-1"
+                [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+            <div
+                class="flex flex-auto items-center h-12 px-4 rounded-md border cursor-pointer shadow-sm border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500"
+                (click)="openRecurrenceDialog()">
+                <div class="flex-auto">
+                    {{(recurrenceStatus$ | async) || 'Does not repeat'}}
+                </div>
+            </div>
+        </div>
+
         <mat-divider class="mt-1 mb-2"></mat-divider>
 
         <div *ngIf="groupType?.takesAttendance">

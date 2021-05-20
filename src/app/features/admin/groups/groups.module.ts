@@ -36,6 +36,7 @@ import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-c
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
+import { CalendarModule } from '../../../pages/calendar/calendar.module';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { MatDividerModule } from '@angular/material/divider';
         MatTreeModule,
 
         SharedModule,
+        CalendarModule,
 
         // Controls
         PersonAutocompleteControlModule,
