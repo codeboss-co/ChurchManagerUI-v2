@@ -37,6 +37,7 @@ import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-sele
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { CalendarModule } from '../../../pages/calendar/calendar.module';
+import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
     declarations: [
@@ -77,7 +78,11 @@ import { CalendarModule } from '../../../pages/calendar/calendar.module';
 
         // Controls
         PersonAutocompleteControlModule,
-        GroupTypesSelectControlModule
+        GroupTypesSelectControlModule,
+
+        // 3rd Party
+        NgxMatNativeDateModule,
+        NgxMatTimepickerModule
     ],
     providers: [
         GroupsManageResolver,

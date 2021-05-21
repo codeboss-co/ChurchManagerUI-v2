@@ -97,22 +97,13 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
             parentGroupId: [this.parentGroup?.id, Validators.required],
             name: [null, Validators.required],
             description: [null],
-            frequency: [null],
-            weekly  : this._formBuilder.group({
-                byDay: [[]]
-            }),
             meetingTime: [],
 
             // Event
             start           : [new Date()],
             end             : [new Date()],
             duration        : [null],
-            allDay          : [false],
-            recurrence      : [null],
-            range           : [{
-                start: new Date(),
-                end: new Date()
-            }]
+            recurrence      : [null]
         });
 
         // Subscribe to groupTypeId field value changes to get  the group type info
@@ -122,38 +113,6 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
                 switchMap(groupTypeId => this._data.getGroupType$(groupTypeId)),
                 map(data => this.groupType = data)
             ).subscribe();
-
-        // Subscribe to 'range' field value changes
-        this.form.get('range').valueChanges.subscribe((value) => {
-
-            if ( !value )
-            {
-                return;
-            }
-
-            // Set the 'start' field value from the range
-            this.form.get('start').setValue(value.start, {emitEvent: false});
-
-            // If this is a recurring event...
-            if ( this.form.get('recurrence').value )
-            {
-                // Update the recurrence rules if needed
-                this._updateRecurrenceRule();
-
-                // Set the duration field
-                const duration = moment(value.end).diff(moment(value.start), 'minutes');
-                this.form.get('duration').setValue(duration, {emitEvent: false});
-
-                // Update the end value
-                this._updateEndValue();
-            }
-            // Otherwise...
-            else
-            {
-                // Set the end field
-                this.form.get('end').setValue(value.end, {emitEvent: false});
-            }
-        });
 
         // Subscribe to 'recurrence' field changes
         this.form.get('recurrence').valueChanges.subscribe((value) => {
@@ -384,4 +343,8 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
         this.form.get('end').setValue(moment().year(9999).endOf('year').toISOString());
     }
 
+    updateStartTime($event: FocusEvent)
+    {
+        console.log($event);
+    }
 }

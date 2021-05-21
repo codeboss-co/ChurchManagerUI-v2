@@ -15,7 +15,7 @@
 
     <!-- form -->
     <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        class="flex flex-col flex-auto p-6 sm:p-8"
         [formGroup]="form">
 
         <!-- Name & Type -->
@@ -62,39 +62,6 @@
                 formControlName="description">
         </mat-form-field>
 
-        <!-- Dates -->
-        <div class="flex items-start mt-6">
-            <mat-icon
-                class="hidden sm:inline-flex mt-3 mr-6"
-                [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
-            <div class="flex-auto">
-                <fuse-date-range
-                    [formControlName]="'range'"
-                    [dateFormat]="settings.dateFormat"
-                    [timeRange]="!form.get('allDay').value"
-                    [timeFormat]="settings.timeFormat"></fuse-date-range>
-                <mat-checkbox
-                    class="mt-4"
-                    [color]="'primary'"
-                    [formControlName]="'allDay'">
-                    All day
-                </mat-checkbox>
-            </div>
-        </div>
-
-        <!-- Recurrence -->
-        <div class="flex items-center mt-6">
-            <mat-icon
-                class="hidden sm:inline-flex mr-6 transform -scale-x-1"
-                [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
-            <div
-                class="flex flex-auto items-center h-12 px-4 rounded-md border cursor-pointer shadow-sm border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500"
-                (click)="openRecurrenceDialog()">
-                <div class="flex-auto">
-                    {{(recurrenceStatus$ | async) || 'Does not repeat'}}
-                </div>
-            </div>
-        </div>
 
         <mat-divider class="mt-1 mb-2"></mat-divider>
 
@@ -102,52 +69,53 @@
 
             <p class="text-lg font-medium">Group meeting details</p>
 
-            <div class="flex justify-between items-end">
-
-                <!-- Interval and frequency -->
-                <mat-form-field class="fuse-mat-no-subscript w-40">
-                    <mat-label>Frequency</mat-label>
-                    <mat-select formControlName="frequency">
-                        <mat-option [value]="'DAILY'">Daily</mat-option>
-                        <mat-option [value]="'WEEKLY'">Weekly</mat-option>
-                        <mat-option [value]="'MONTHLY'">Monthly</mat-option>
-                        <mat-option [value]="'YEARLY'">Annually</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <!-- Weekly repeat options -->
+            <!-- Recurrence -->
+            <div class="flex items-center mt-4 mb-2">
+                <mat-icon
+                    class="hidden sm:inline-flex mr-6 transform -scale-x-1"
+                    [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                 <div
-                    class="flex flex-col mt-6"
-                    formGroupName="weekly"
-                    *ngIf="form.get('frequency').value === 'WEEKLY'">
-                    <div class="font-medium">Meeting days</div>
-                    <mat-button-toggle-group
-                        class="mt-1.5 border-0 space-x-1"
-                        [formControlName]="'byDay'"
-                        [multiple]="true">
-                        <ng-container *ngFor="let weekday of weekdays">
-                            <mat-button-toggle
-                                class="w-10 h-10 border-0 rounded-full"
-                                [disableRipple]="true"
-                                [value]="weekday.value"
-                                [matTooltip]="weekday.label">
-                                {{weekday.abbr}}
-                            </mat-button-toggle>
-                        </ng-container>
-                    </mat-button-toggle-group>
+                    class="flex flex-auto items-center h-12 px-4 rounded-md border cursor-pointer shadow-sm border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500"
+                    (click)="openRecurrenceDialog()">
+                    <div class="flex-auto">
+                        {{(recurrenceStatus$ | async) || 'Does not repeat'}}
+                    </div>
                 </div>
-
-                <mat-form-field class="fuse-mat-no-subscript time start-time">
-                    <input
-                        matInput
-                        [autocomplete]="'off'"
-                        formControlName="meetingTime">
-                    <mat-label>Meeting time</mat-label>
-                </mat-form-field>
-
-
             </div>
 
+            <label class="font-medium">Meeting Time</label>
+            <ngx-mat-timepicker formControlName="meetingTime" [showSpinners]="false"></ngx-mat-timepicker>
+
+            <!-- Birthday -->
+            <div class="mt-8">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Meeting Start Date (optional)</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="birthdayDatepicker"
+                        [formControlName]="'start'"
+                        [placeholder]="'Birthday'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="birthdayDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #birthdayDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+           <!-- <mat-form-field class="fuse-mat-no-subscript time start-time">
+                <input
+                    matInput
+                    [autocomplete]="'off'"
+                    formControlName="meetingTime"
+                    (blur)="updateStartTime($event){{}}"
+                    tabindex="3">
+                <mat-label>Start time</mat-label>
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+            </mat-form-field>-->
 
 
         </div>
