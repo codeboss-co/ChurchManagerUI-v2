@@ -5,12 +5,11 @@ import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
     DiscipleshipProgramDetailModel,
     DiscipleshipProgramsForPerson
 } from '@features/admin/discipleship/discipleship.models';
-import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
 export class ProfileDiscipleshipService extends  HttpBaseService

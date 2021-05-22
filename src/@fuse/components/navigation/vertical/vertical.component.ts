@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { merge, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseNavigationItem, FuseVerticalNavigationAppearance, FuseVerticalNavigationMode, FuseVerticalNavigationPosition } from '@fuse/components/navigation/navigation.types';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseScrollbarDirective } from '@fuse/directives/scrollbar/scrollbar.directive';
@@ -15,7 +15,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
     selector       : 'fuse-vertical-navigation',
     templateUrl    : './vertical.component.html',
     styleUrls      : ['./vertical.component.scss'],
-    animations     : FuseAnimations,
+    animations     : fuseAnimations,
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'fuseVerticalNavigation'

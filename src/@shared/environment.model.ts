@@ -1,5 +1,3 @@
-import { AuthOptions } from '@aws-amplify/auth/lib/types';
-
 export interface Environment {
     production?: boolean;
 
@@ -7,11 +5,6 @@ export interface Environment {
     baseUrls: {
         signalRHub: string,
         apiUrl: string
-    };
-
-    // AWS Cognito Configuration
-    amplify: {
-        Auth: AuthOptions
     };
 
     // Contentful CMS

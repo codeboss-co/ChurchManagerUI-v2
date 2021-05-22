@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Ho
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertAppearance, FuseAlertType } from '@fuse/components/alert/alert.types';
 import { FuseAlertService } from '@fuse/components/alert/alert.service';
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
@@ -13,7 +13,7 @@ import { FuseUtilsService } from '@fuse/services/utils/utils.service';
     styleUrls      : ['./alert.component.scss'],
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations     : FuseAnimations,
+    animations     : fuseAnimations,
     exportAs       : 'fuseAlert'
 })
 export class FuseAlertComponent implements OnChanges, OnInit, OnDestroy

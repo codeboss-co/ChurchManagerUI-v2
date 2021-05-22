@@ -29,6 +29,15 @@ import { AddGroupMemberFormDialogComponent } from '@features/admin/groups/manage
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSortModule } from '@angular/material/sort';
+import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
+import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
+import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
+import { CalendarModule } from '../../../pages/calendar/calendar.module';
+import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
     declarations: [
@@ -38,7 +47,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         GroupDetailsComponent,
         GroupMembersComponent,
         // Dialogs
-        AddGroupMemberFormDialogComponent
+        AddGroupMemberFormDialogComponent,
+        NewGroupDialogComponent
     ],
     imports: [
         RouterModule.forChild(groupsRoutes),
@@ -48,21 +58,31 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatCheckboxModule,
         MatDatepickerModule,
         MatDialogModule,
+        MatDividerModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatSidenavModule,
+        MatSelectModule,
+        MatSortModule,
         MatTableModule,
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
 
         SharedModule,
+        CalendarModule,
 
         // Controls
-        PersonAutocompleteControlModule
+        PersonAutocompleteControlModule,
+        GroupTypesSelectControlModule,
+
+        // 3rd Party
+        NgxMatNativeDateModule,
+        NgxMatTimepickerModule
     ],
     providers: [
         GroupsManageResolver,

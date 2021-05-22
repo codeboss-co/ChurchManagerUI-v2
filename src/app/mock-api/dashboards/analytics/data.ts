@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-/* tslint:disable:max-line-length */
+/* eslint-disable */
 export const analytics = {
     visitors           : {
         series: {

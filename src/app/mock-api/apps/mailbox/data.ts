@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-/* tslint:disable:max-line-length */
+/* eslint-disable */
 export const folders = [
     {
         id   : '7c004a19-4506-48ef-93ab-f16381302e3b',

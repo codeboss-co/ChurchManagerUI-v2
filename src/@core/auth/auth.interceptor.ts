@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { from, Observable, of, throwError } from 'rxjs';
+import { from, Observable, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { AuthService } from '@core/auth/auth.service';
-import { AuthUtils } from '@core/auth/auth.utils';
-import { Auth } from 'aws-amplify';
 
 export const InterceptorSkipHeader = 'X-Skip-Interceptor';
 
@@ -34,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor
 
         // Only for our http requests to api
         if (request.url.includes('/api')) {
-            return this._getToken().pipe(
+            return this._authService.getToken$().pipe(
                 mergeMap(token => {
 
                     console.log('Auth Interceptor token called');
@@ -65,23 +63,5 @@ export class AuthInterceptor implements HttpInterceptor
                     catchError(err => throwError(err))
             );
         }
-    }
-
-    /*
-  * Retrieves the token from the active session
-  */
-    private _getToken() {
-        return from(
-            new Promise((resolve, reject) => {
-                Auth.currentSession().then((session) => {
-                    if (!session.isValid()) {
-                        resolve(null);
-                    } else {
-                        resolve(session.getAccessToken().getJwtToken());
-                    }
-                })
-                    .catch(err => resolve(null));
-            })
-        );
     }
 }

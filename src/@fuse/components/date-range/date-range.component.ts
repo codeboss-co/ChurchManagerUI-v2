@@ -23,14 +23,14 @@ import { Moment } from 'moment';
 })
 export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnDestroy
 {
-    @Output() readonly rangeChanged: EventEmitter<{ start: string, end: string }> = new EventEmitter<{ start: string; end: string }>();
+    @Output() readonly rangeChanged: EventEmitter<{ start: string; end: string }> = new EventEmitter<{ start: string; end: string }>();
     @ViewChild('matMonthView1') private _matMonthView1: MatMonthView<any>;
     @ViewChild('matMonthView2') private _matMonthView2: MatMonthView<any>;
     @ViewChild('pickerPanelOrigin', {read: ElementRef}) private _pickerPanelOrigin: ElementRef;
     @ViewChild('pickerPanel') private _pickerPanel: TemplateRef<any>;
     @HostBinding('class.fuse-date-range') private _defaultClassNames = true;
 
-    activeDates: { month1: Moment | null, month2: Moment | null } = {
+    activeDates: { month1: Moment | null; month2: Moment | null } = {
         month1: null,
         month2: null
     };
@@ -41,7 +41,7 @@ export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnD
     private _onChange: (value: any) => void;
     private _onTouched: (value: any) => void;
     private _programmaticChange!: boolean;
-    private _range: { start: Moment | null, end: Moment | null } = {
+    private _range: { start: Moment | null; end: Moment | null } = {
         start: null,
         end  : null
     };
@@ -330,7 +330,7 @@ export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnD
      *
      * @param range
      */
-    writeValue(range: { start: string, end: string }): void
+    writeValue(range: { start: string; end: string }): void
     {
         // Set this change as a programmatic one
         this._programmaticChange = true;
@@ -481,11 +481,8 @@ export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnD
      */
     dateFilter(): any
     {
-        return (date: Moment): boolean => {
-
-            // If we are selecting the end date, disable all the dates that comes before the start date
-            return !(this.setWhichDate === 'end' && date.isBefore(this._range.start, 'day'));
-        };
+        // If we are selecting the end date, disable all the dates that comes before the start date
+        return (date: Moment): boolean => !(this.setWhichDate === 'end' && date.isBefore(this._range.start, 'day'));
     }
 
     /**
@@ -667,7 +664,7 @@ export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnD
     private _parseTime(value: string): Moment
     {
         // Parse the time using the time regexp
-        const timeArr = value.split(this._timeRegExp).filter((part) => part !== '');
+        const timeArr = value.split(this._timeRegExp).filter(part => part !== '');
 
         // Get the meridiem
         const meridiem = timeArr[2] || null;

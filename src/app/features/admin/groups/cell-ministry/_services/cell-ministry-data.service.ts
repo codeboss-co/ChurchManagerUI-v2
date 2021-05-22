@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import {
     CellGroupsWeeklyBreakdown,
     GroupAttendanceQuery,
@@ -14,7 +14,6 @@ import {
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { ApiResponse } from '@shared/shared.models';
 import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
 export class CellMinistryDataService extends HttpBaseService

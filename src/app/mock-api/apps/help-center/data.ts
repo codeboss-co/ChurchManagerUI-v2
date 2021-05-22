@@ -1,4 +1,4 @@
-/* tslint:disable:max-line-length */
+/* eslint-disable */
 export const faqCategories = [
     {
         id   : '28924eab-97cc-465a-ba21-f232bb95843f',

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { MatSelectChange } from '@angular/material/select';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ProfileDiscipleshipService } from './profile-discipleship.service';
@@ -12,7 +12,7 @@ import {
     selector     : 'profile-discipleship',
     templateUrl  : './profile-discipleship.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class ProfileDiscipleshipComponent
 {

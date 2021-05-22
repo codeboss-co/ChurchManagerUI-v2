@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
-import { tap } from 'rxjs/internal/operators/tap';
+import { map, tap } from 'rxjs/operators';
 
 export declare type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

@@ -1,5 +1,9 @@
-<div *ngIf="group">
-
+<mat-expansion-panel *ngIf="group" class="mt-1" [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Group Details
+        </mat-panel-title>
+    </mat-expansion-panel-header>
     <div class="flex flex-col flex-auto mb-4 px-6 md:px-8">
 
         <!-- Name & Type -->
@@ -54,5 +58,6 @@
         </div>
 
     </div>
+</mat-expansion-panel>
 
-</div>
+

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from '@core/auth/auth.service';
 
@@ -9,7 +9,7 @@ import { AuthService } from '@core/auth/auth.service';
     selector     : 'auth-sign-in',
     templateUrl  : './sign-in.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class AuthSignInComponent implements OnInit
 {
@@ -45,7 +45,7 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['', [Validators.required]],
+            username     : ['', [Validators.required]],
             password  : ['', Validators.required],
             rememberMe: ['']
         });
