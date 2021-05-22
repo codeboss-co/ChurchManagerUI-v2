@@ -6,7 +6,7 @@ import { Moment } from 'moment';
 
 import { GroupAttendanceForm } from './group-attendance.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { Group, GroupMemberSimple, GroupsDataService } from '@features/admin/groups';
 
 @Component({
@@ -14,7 +14,7 @@ import { Group, GroupMemberSimple, GroupsDataService } from '@features/admin/gro
     templateUrl  : './group-attendance-form-dialog.component.html',
     styleUrls    : ['./group-attendance-form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class GroupAttendanceFormDialogComponent implements OnInit
 {

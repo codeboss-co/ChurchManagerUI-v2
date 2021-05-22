@@ -12,7 +12,7 @@
                 [svgIcon]="'heroicons_outline:search'"></mat-icon>
             <input
                 matInput
-                [formControl]="searchInputControl"
+                (keyup)="applyFilter($event)"
                 [autocomplete]="'off'"
                 [placeholder]="'Search members'">
         </mat-form-field>
@@ -48,11 +48,11 @@
 
             <!-- Table wrapper -->
             <div
-                class="overflow-x-auto sm:overflow-y-auto h-80"
+                class="overflow-x-auto sm:overflow-y-auto h-max"
                 cdkScrollable>
 
                 <!-- Table -->
-                <table mat-table *ngIf="dataSource?.data?.length" [dataSource]="dataSource"
+                <table mat-table [dataSource]="dataSource" matSort
                        class="w-full table-fixed bg-transparent">
 
                     <!-- Checkbox Column -->
@@ -71,7 +71,7 @@
                         </td>
                     </ng-container>
 
-                    <!-- First Name Column -->
+                    <!-- Avatar Column -->
                     <ng-container matColumnDef="photoUrl">
                         <th class="w-12" mat-header-cell *matHeaderCellDef></th>
                         <td class="px-8" mat-cell *matCellDef="let element">
@@ -94,26 +94,32 @@
 
                     <!-- First Name Column -->
                     <ng-container matColumnDef="firstName">
-                        <th class="w-12" mat-header-cell *matHeaderCellDef> First Name</th>
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> First Name</th>
                         <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
                     </ng-container>
 
                     <!-- Last Name Column -->
                     <ng-container matColumnDef="lastName">
-                        <th class="w-12" mat-header-cell *matHeaderCellDef> Last Name</th>
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Last Name</th>
                         <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
                     </ng-container>
 
                     <!-- Gender Column -->
                     <ng-container matColumnDef="gender">
-                        <th class="w-12" mat-header-cell *matHeaderCellDef> Gender</th>
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Gender</th>
                         <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
                     </ng-container>
 
                     <!-- Role Column -->
                     <ng-container matColumnDef="groupMemberRole">
-                        <th class="w-12" mat-header-cell *matHeaderCellDef> Role</th>
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
                         <td mat-cell *matCellDef="let element"> {{element.groupMemberRole}} </td>
+                    </ng-container>
+
+                    <!-- Record Status Column -->
+                    <ng-container matColumnDef="recordStatus">
+                        <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                        <td mat-cell *matCellDef="let element"> {{element.recordStatus}} </td>
                     </ng-container>
 
                     <tr mat-header-row class="h-8" *matHeaderRowDef="displayedColumns"></tr>
@@ -126,7 +132,7 @@
                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                 [ngClass]="{'pointer-events-none': isLoading}"
                 [length]="members.length"
-                [pageSizeOptions]="[5, 10, 25, 100]"
+                [pageSizeOptions]="[5, 10, 25]"
                 [showFirstLastButtons]="true"></mat-paginator>
 
         </ng-container>

@@ -17,9 +17,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { of, Subject } from 'rxjs';
-import { catchError, debounceTime, filter, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseAnimations } from '@fuse/animations/public-api';
-import { tap } from 'rxjs/internal/operators/tap';
+import { catchError, debounceTime, filter, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { fuseAnimations } from '@fuse/animations/public-api';
 import { PersonAutocompletes } from '@ui/layout/common/search/search-bar.models';
 import { Observable } from 'rxjs/internal/Observable';
 import { ApiResponse } from '@shared/shared.models';
@@ -31,7 +30,7 @@ import { Environment } from '@shared/environment.model';
     templateUrl  : './search.component.html',
     encapsulation: ViewEncapsulation.None,
     exportAs     : 'fuseSearch',
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class SearchComponent implements OnChanges, OnInit, OnDestroy
 {

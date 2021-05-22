@@ -77,10 +77,10 @@
                                     </div>
                                 </ng-container>
                                 <!-- Contact -->
-                                <div
+                                <a
                                     class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer hover:bg-hover border-b"
                                     [ngClass]="{'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.personId === contact.personId}"
-                                    (click)="goToContact(contact.personId)">
+                                    [routerLink]="['./', contact.personId]">
                                     <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
                                         <ng-container *ngIf="contact.photoUrl">
                                             <img
@@ -98,7 +98,7 @@
                                         <div class="font-medium leading-5 truncate">{{contact.fullName | fullName}}</div>
                                         <div class="leading-5 truncate text-secondary">{{contact.connectionStatus}}</div>
                                     </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </ng-container>

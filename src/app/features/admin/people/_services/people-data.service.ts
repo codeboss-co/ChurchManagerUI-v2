@@ -2,16 +2,14 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { BehaviorSubject, merge, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { GroupMemberSimple } from '@features/admin/groups';
 import { ApiResponse } from '@shared/shared.models';
 import { NewFamilyForm } from '../new-family-form/person-form/person-form.model';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { People, PeopleSearchQuery, Person } from '@features/admin/people';
-import { filter, map, switchMap, take } from 'rxjs/operators';
-import { tap } from 'rxjs/internal/operators/tap';
-import { ProfileModel } from '../../../../pages/profile/profile.model';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PeopleDataService extends HttpBaseService

@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
-import { filter, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, finalize, first, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from '@core/notifications/toastr.service';
 
 @Component({
     selector       : 'groups-manage',
@@ -15,6 +16,7 @@ export class GroupsManageComponent
 {
     groups$: Observable<GroupWithChildren[]>;
     selectedGroup$ = new BehaviorSubject<GroupWithChildren>(null);
+    selectedGroup: GroupWithChildren;
     members$: Observable<GroupMembersSimple>;
     loading$ = new BehaviorSubject(true);
 
@@ -24,7 +26,8 @@ export class GroupsManageComponent
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _service: GroupsManageService,
-        private _data: GroupsDataService)
+        private _data: GroupsDataService,
+        private _toastr: ToastrService)
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -35,7 +38,7 @@ export class GroupsManageComponent
                     // If we are coming from profile page and there are groups
                     // set the selected group to the first one
                     if ( groups && this._activatedRoute.snapshot?.data?.from === 'profile' ) {
-                        this.selectedGroup$.next(groups[0]);
+                        this.onGroupSelected(groups[0]);
                     }
                 })
             );
@@ -54,12 +57,22 @@ export class GroupsManageComponent
     }
 
     onGroupSelected( selected: GroupWithChildren ): void {
-        console.log( 'selected', selected, '' );
+        this.selectedGroup = selected;
         this.selectedGroup$.next(selected);
     }
 
-    onMemberAdded( form: NewGroupMemberForm )
+    onMemberAdded( member: NewGroupMemberForm )
     {
-
+        this._data.addGroupMember$(member)
+            .pipe(first())
+            .pipe(tap(response => {
+                if ( response ) {
+                    // Forces  reload of the members
+                    this.onGroupSelected(this.selectedGroup)
+                } else {
+                    this._toastr.info(`${member.person.label} is already a member of this group`)
+                }
+             }))
+            .subscribe()
     }
 }

@@ -24,7 +24,7 @@ const expandCollapse = trigger('expandCollapse',
             animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.ENTERING} ${FuseAnimationCurves.DECELERATION_CURVE}`
+                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )

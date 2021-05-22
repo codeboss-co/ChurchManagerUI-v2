@@ -1,32 +1,47 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable, of, Subject } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { AuthUtils } from '@core/auth/auth.utils';
-import { UserService } from '@core/user/user.service';
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import Amplify, { Auth } from 'aws-amplify';
-import { environment } from '../../environments/environment';
-import { fromPromise } from 'rxjs/internal-compatibility';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ENV } from '@shared/constants';
+import { Environment } from '@shared/environment.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService
 {
-    private _authState: Subject<CognitoUser> = new Subject<CognitoUser>();
-    authState: Observable<CognitoUser> = this._authState.asObservable();
+    private _apiUrl = this._environment.baseUrls.apiUrl;
+    isAuthenticated: boolean = false;
 
     /**
      * Constructor
      */
     constructor(
         private _httpClient: HttpClient,
-        private _router: Router
+        private _router: Router,
+        private _jwtHelper: JwtHelperService,
+        @Inject(ENV) private _environment: Environment
     )
     {
-        Amplify.configure(environment.amplify);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Setter & getter for access token
+     */
+    set accessToken(token: string)
+    {
+        localStorage.setItem('accessToken', token);
+    }
+
+    get accessToken(): string
+    {
+        return localStorage.getItem('accessToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,25 +73,28 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string, password: string }): Observable<any>
+    signIn(credentials: { username: string, password: string }): Observable<any>
     {
-        return fromPromise(
-            Auth.signIn(credentials.email, credentials.password)
-                .then(cognitoUser => this._authState.next(cognitoUser) )
-                .catch(error =>  {
-                    this._authState.next(null);
-                    throw error;
+        return this._httpClient.post(`${this._apiUrl}/v1/auth/login`, credentials)
+            .pipe(
+                map((response) => {
+                    const token = (<any>response).accessToken;
+                    const refreshToken = (<any>response).refreshToken;
+                    this.accessToken = token;
+                    localStorage.setItem("refreshToken", refreshToken);
+                    this.isAuthenticated = true;
                 } )
             );
     }
 
     /** get authenticate state */
     public isAuthenticated$(): Observable<boolean> {
-        return fromPromise(Auth.currentAuthenticatedUser())
-            .pipe(
-                map(result => true),
-                catchError(error => of(false))
-            );
+        const token: string = this.accessToken;
+        if (token && !this._jwtHelper.isTokenExpired(token)) {
+            return of(true);
+        }
+
+        return of(false);
     }
 
     /**
@@ -84,14 +102,9 @@ export class AuthService
      */
     signOut(): void
     {
-        fromPromise(Auth.signOut())
-            .subscribe(
-                result => {
-                    this._authState.next(null);
-                    this._router.navigate(['sign-in']);
-                },
-                error => console.log(error)
-            );
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        this._router.navigate(['sign-in']);
     }
 
     /**
@@ -118,17 +131,6 @@ export class AuthService
     * Retrieves the token from the active session
     */
     public getToken$(): Observable<any> {
-        return from(
-            new Promise((resolve, reject) => {
-                Auth.currentSession().then((session) => {
-                    if (!session.isValid()) {
-                        resolve(null);
-                    } else {
-                        resolve(session.getAccessToken().getJwtToken());
-                    }
-                })
-                    .catch(err => resolve(null));
-            })
-        );
+        return of(this.accessToken);
     }
 }

@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
@@ -12,7 +12,7 @@ import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types
     selector       : 'fuse-vertical-navigation-collapsable-item',
     templateUrl    : './collapsable.component.html',
     styles         : [],
-    animations     : FuseAnimations,
+    animations     : fuseAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, OnDestroy

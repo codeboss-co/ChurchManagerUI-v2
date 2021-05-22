@@ -13,6 +13,7 @@ import { ShortcutsModule } from '@ui/layout/common/shortcuts/shortcuts.module';
 import { UserMenuModule } from '@ui/layout/common/user-menu/user-menu.module';
 import { SharedModule } from '@shared/shared.module';
 import { CompactLayoutComponent } from '@ui/layout/layouts/vertical/compact/compact.component';
+import { SwUpdateModule } from '../../../../../pages/sw-update/sw-update.module';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,10 @@ import { CompactLayoutComponent } from '@ui/layout/layouts/vertical/compact/comp
         SearchModule,
         ShortcutsModule,
         UserMenuModule,
-        SharedModule
+        SharedModule,
+
+        // Extensions
+        SwUpdateModule
     ],
     exports     : [
         CompactLayoutComponent

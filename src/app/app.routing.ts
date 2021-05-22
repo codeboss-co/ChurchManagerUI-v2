@@ -93,6 +93,8 @@ export const appRoutes: Route[] = [
                     // Profile
                 {path: 'profile', loadChildren: () => import('app/pages/profile/profile.module').then( m => m.ProfileModule)},
 
+                // Settings
+                {path: 'settings', loadChildren: () => import('app/pages/settings/settings.module').then(m => m.SettingsModule)},
             ]},
         ]
     }

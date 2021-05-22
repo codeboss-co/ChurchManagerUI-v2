@@ -6,17 +6,15 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { Sort } from '@shared/data/pagination.models';
-import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
-import { ChurchGroup } from '@ui/controls/church-groups-select-control/church-group.model';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -26,7 +24,7 @@ import { MatDrawer } from '@angular/material/sidenav';
     templateUrl  : './cell-attendance-reports.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class CellAttendanceReportsComponent implements OnInit
 {
@@ -104,36 +102,6 @@ export class CellAttendanceReportsComponent implements OnInit
 
         merge(initDatasource$, afterInitDatasource$).subscribe();
 
-        /*this.searchBtnClicked
-            .pipe(
-                filter( () =>  this.searchForm.valid),
-                takeUntil(this._unsubscribeAll),
-                tap( () => {
-
-                    const churchGroup = this.searchForm.get('churchGroup').value as ChurchGroup;
-                    const withFeedBack = this.searchForm.get('withFeedBack').value;
-                    const from = this.searchForm.get('from').value;
-                    const to = this.searchForm.get('to').value;
-
-                    const {churchId, groupId} = churchGroup;
-
-                    // Initialize Paginated Data Source
-                    if ( !this.dataSource ) {
-                        const initialSort: Sort<GroupAttendanceRecord> = {property: 'attendanceDate', order: 'desc'};
-                        const initialQuery: GroupAttendanceQuery = {churchId, groupId, withFeedBack, from, to};
-
-                        this.dataSource =  new PaginatedDataSource<GroupAttendanceRecord, GroupAttendanceQuery>(
-                            (request, query) => this._data.pageCellAttendanceReports$(request, query),
-                            initialSort,
-                            initialQuery,
-                        );
-                    } else {
-                        this.dataSource.queryBy({churchId, groupId, withFeedBack, from, to});
-                    }
-                })
-            )
-            .subscribe();*/
-
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -158,15 +126,8 @@ export class CellAttendanceReportsComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     onBackdropClicked(): void {
-        // Get the current activated route
-        let route = this._activatedRoute;
-        while ( route.firstChild )
-        {
-            route = route.firstChild;
-        }
-        // Go to contact
-        this._router.navigate(['../'], {relativeTo: route});
-
+        // Go back to the list
+        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }

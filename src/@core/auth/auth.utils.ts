@@ -39,7 +39,7 @@ export class AuthUtils
             );
         }
 
-        /* tslint:disable */
+        /* eslint-disable */
         for (
             // initialize result and counters
             let bc = 0, bs: any, buffer: any, idx = 0;
@@ -60,7 +60,7 @@ export class AuthUtils
             // try to find character in table (0-63, not found => -1)
             buffer = chars.indexOf(buffer);
         }
-        /* tslint:enable */
+        /* eslint-disable */
 
         return output;
     }

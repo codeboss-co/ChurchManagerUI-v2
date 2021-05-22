@@ -1,22 +1,19 @@
+@use '~@angular/material' as mat;
 @use "sass:map";
-@import '~@angular/material/theming';
 
 /** Include the core Angular Material styles */
-@include mat-core();
+@include mat.core();
 
 /** Configure the Angular Material typography */
-@include angular-material-typography(
-        mat-typography-config(
+@include mat.all-component-typographies(
+        mat.define-typography-config(
             $font-family: theme('fontFamily.sans'),
-            $title: mat-typography-level(1.25rem, 2rem, 600),
-            $body-2: mat-typography-level(0.875rem, 1.5rem, 600),
-            $button: mat-typography-level(0.875rem, 0.875rem, 500),
-            $input: mat-typography-level(0.875rem, 1.2857142857, 400) // line-height: 20px
+            $title: mat.define-typography-level(1.25rem, 2rem, 600),
+            $body-2: mat.define-typography-level(0.875rem, 1.5rem, 600),
+            $button: mat.define-typography-level(0.875rem, 0.875rem, 500),
+            $input: mat.define-typography-level(0.875rem, 1.2857142857, 400) // line-height: 20px
         )
 );
-
-/** Configure the Angular Material density **/
-@include angular-material-density(-2);
 
 /** Prepare the Background and Foreground maps */
 $background-light: (
@@ -135,7 +132,7 @@ $palettes: ();
     CSS Custom Properties to dynamically switch the colors. */
 body.light,
 body .light {
-    $base-light-theme: mat-light-theme((
+    $base-light-theme: mat.define-light-theme((
         color: ($palettes)
     ));
 
@@ -148,22 +145,15 @@ body .light {
             foreground: $foreground-light,
             background: $background-light
         ),
-        typography: null,
-        density: null,
-        primary: map.get(map.get($base-light-theme, color), primary),
-        accent: map.get(map.get($base-light-theme, color), accent),
-        warn: map.get(map.get($base-light-theme, color), warn),
-        is-dark: map.get(map.get($base-light-theme, color), is-dark),
-        foreground: $foreground-light,
-        background: $background-light
+        density: -2
     );
 
-    @include angular-material-theme($light-theme);
+    @include mat.all-component-themes($light-theme);
 }
 
 body.dark,
 body .dark {
-    $base-dark-theme: mat-dark-theme((
+    $base-dark-theme: mat.define-dark-theme((
         color: ($palettes)
     ));
 
@@ -176,15 +166,8 @@ body .dark {
             foreground: $foreground-dark,
             background: $background-dark
         ),
-        typography: null,
-        density: null,
-        primary: map.get(map.get($base-dark-theme, color), primary),
-        accent: map.get(map.get($base-dark-theme, color), accent),
-        warn: map.get(map.get($base-dark-theme, color), warn),
-        is-dark: map.get(map.get($base-dark-theme, color), is-dark),
-        foreground: $foreground-dark,
-        background: $background-dark
+        density: -2
     );
 
-    @include angular-material-theme($dark-theme);
+    @include mat.all-component-colors($dark-theme);
 }

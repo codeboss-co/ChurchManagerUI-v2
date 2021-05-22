@@ -1,8 +1,5 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "cli": {
-      "analytics": "a8a2f400-67e4-464a-91d6-a2d8e6007ac6"
-    },
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
@@ -25,22 +22,24 @@
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
-                        "aot": true,
+                        "inlineStyleLanguage": "scss",
                         "allowedCommonJsDependencies": [
                             "apexcharts",
                             "highlight.js",
                             "crypto-js/enc-utf8",
                             "crypto-js/hmac-sha256",
-                            "crypto-js/enc-base64",
-                            "buffer", "uuid", "@aws-crypto/sha256-browser", "@aws-crypto", "crypto",
-                            "@aws-amplify/core", "ulid", "@aws-crypto/sha256-js", "lodash/isEqual", "lodash/isEmpty",
-                            "lodash/get", "crypto-js/hmac-sha256", "crypto-js/lib-typedarrays", "zen-observable",
-                            "axios", "js-cookie", "isomorphic-unfetch", "@aws-crypto/crc32", "fast-xml-parser", "utils"
+                            "crypto-js/enc-base64"
                         ],
                         "assets": [
                             "src/favicon-16x16.png",
                             "src/favicon-32x32.png",
-                            "src/assets"
+                            "src/assets",
+                            "src/manifest.webmanifest",
+                            {
+                                "glob": "_redirects",
+                                "input": "src",
+                                "output": "/"
+                            }
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": [
@@ -55,23 +54,12 @@
                             "src/styles/styles.scss",
                             "src/styles/tailwind.scss"
                         ],
-                        "scripts": []
+                        "scripts": [],
+                        "serviceWorker": true,
+                        "ngswConfigPath": "ngsw-config.json"
                     },
                     "configurations": {
                         "production": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
-                                }
-                            ],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -83,20 +71,37 @@
                                     "maximumWarning": "100kb",
                                     "maximumError": "150kb"
                                 }
-                            ]
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
                         }
-                    }
+                    },
+                    "defaultConfiguration": "production"
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": {
-                        "browserTarget": "church-manager-ui:build"
-                    },
                     "configurations": {
                         "production": {
                             "browserTarget": "church-manager-ui:build:production"
+                        },
+                        "development": {
+                            "browserTarget": "church-manager-ui:build:development"
                         }
-                    }
+                    },
+                    "defaultConfiguration": "development"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -111,10 +116,12 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
+                        "inlineStyleLanguage": "scss",
                         "assets": [
                             "src/favicon-16x16.png",
                             "src/favicon-32x32.png",
-                            "src/assets"
+                            "src/assets",
+                            "src/manifest.webmanifest"
                         ],
                         "styles": [
                             "src/styles.scss"
@@ -123,15 +130,11 @@
                     }
                 },
                 "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
+                    "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
+                        "lintFilePatterns": [
+                            "src/**/*.ts",
+                            "src/**/*.html"
                         ]
                     }
                 },
@@ -150,5 +153,9 @@
             }
         }
     },
-    "defaultProject": "church-manager-ui"
+    "defaultProject": "church-manager-ui",
+    "cli": {
+        "analytics": false,
+        "defaultCollection": "@angular-eslint/schematics"
+    }
 }

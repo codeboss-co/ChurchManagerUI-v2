@@ -8,6 +8,7 @@
         <mat-icon *ngIf="node?.item?.groupType?.iconCssClass" class="mr-2"
                   [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
         <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node?.item?.name}}</span>
+        <button mat-icon-button matTooltip="Add New Group"  (click)="openAddGroupDialog(node)"><mat-icon>add</mat-icon></button>
     </mat-tree-node>
 
     <!-- This is the tree node template for expandable nodes -->
@@ -20,8 +21,10 @@
         </button>
         <mat-icon *ngIf="node?.item?.groupType?.iconCssClass" class="mr-2"
                   [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
-        <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node?.item?.name}}<span
-            class="text-sm"> ({{node?.item?.groups?.length}})</span></span>
+        <span class="cursor-pointer" (click)="onSelectGroup(node)">{{node?.item?.name}}
+            <span class="text-sm"> ({{node?.item?.groups?.length}})</span>
+        </span>
+        <button mat-fab-button matTooltip="Add New Group" (click)="openAddGroupDialog(node)"><mat-icon>add</mat-icon></button>
     </mat-tree-node>
 </mat-tree>
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { FuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { ApexOptions } from 'ng-apexcharts';
     selector     : 'cell-ministry',
     templateUrl  : './cell-ministry.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : FuseAnimations
+    animations   : fuseAnimations
 })
 export class CellMinistryComponent implements OnDestroy
 {

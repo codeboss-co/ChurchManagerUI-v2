@@ -170,42 +170,14 @@ export class ContactsListComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Go to contact
-     *
-     * @param id
-     */
-    goToContact(id: number): void
-    {
-        // Get the current activated route
-        let route = this._activatedRoute;
-        while ( route.firstChild )
-        {
-            route = route.firstChild;
-        }
-
-        // Go to contact
-        this._router.navigate(['../', id], {relativeTo: route});
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
 
     /**
      * On backdrop clicked
      */
     onBackdropClicked(): void
     {
-        // Get the current activated route
-        let route = this._activatedRoute;
-        while ( route.firstChild )
-        {
-            route = route.firstChild;
-        }
-
-        // Go to the parent route
-        this._router.navigate(['../'], {relativeTo: route});
-
+        // Go back to the list
+        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
@@ -219,7 +191,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._contactsService.createContact().subscribe((newContact) => {
 
             // Go to new contact
-            this.goToContact(+newContact.id);
+            this._router.navigate(['./', newContact.id], {relativeTo: this._activatedRoute});
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
 

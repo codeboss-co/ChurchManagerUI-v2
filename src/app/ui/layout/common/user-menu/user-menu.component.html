@@ -35,15 +35,15 @@
         <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
         <span>Profile</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item [routerLink]="'/pages/settings'">
         <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
         <span>Settings</span>
     </button>
-    <button
+    <button *ngIf="(push.isEnabled$ | async) === true"
         mat-menu-item
         [matMenuTriggerFor]="userStatus">
-        <mat-icon [svgIcon]="'heroicons_outline:dots-circle-horizontal'"></mat-icon>
-        <span>Status</span>
+        <mat-icon [svgIcon]="'heroicons_outline:annotation'"></mat-icon>
+        <span>Notifications</span>
     </button>
     <mat-divider class="my-2"></mat-divider>
     <button
@@ -57,29 +57,20 @@
 <mat-menu
     class="user-status-menu"
     #userStatus="matMenu">
-    <button
+    <button *ngIf="(push.isSubscribed$ | async) === false"
         mat-menu-item
-        (click)="updateUserStatus('online')">
-        <span class="w-4 h-4 mr-3 rounded-full bg-green-500"></span>
-        <span>Online</span>
+        (click)="push.subscribeToPushNotifications()">
+        <mat-icon>notifications_active</mat-icon>Subscribe
+    </button>
+    <button *ngIf="(push.isSubscribed$ | async) === true"
+        mat-menu-item
+        (click)="push.unSubscribeFromPushNotifications()">
+        <mat-icon>notifications_off</mat-icon>Unsubscribe
     </button>
     <button
-        mat-menu-item
-        (click)="updateUserStatus('away')">
-        <span class="w-4 h-4 mr-3 rounded-full bg-amber-500"></span>
-        <span>Away</span>
-    </button>
-    <button
-        mat-menu-item
-        (click)="updateUserStatus('busy')">
-        <span class="w-4 h-4 mr-3 rounded-full bg-red-500"></span>
-        <span>Busy</span>
-    </button>
-    <button
-        mat-menu-item
-        (click)="updateUserStatus('not-visible')">
-        <span class="w-4 h-4 mr-3 rounded-full bg-gray-400"></span>
-        <span>Invisible</span>
+            mat-menu-item
+            (click)="push.showMessages()">
+        <mat-icon>list</mat-icon>Show messages
     </button>
 </mat-menu>
 

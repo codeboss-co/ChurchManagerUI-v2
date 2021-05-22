@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-/* tslint:disable:max-line-length */
+/* eslint-disable */
 export const calendars = [
     {
         id     : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',

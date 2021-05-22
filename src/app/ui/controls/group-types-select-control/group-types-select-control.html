@@ -1,0 +1,12 @@
+<mat-form-field appearance="outline">
+    <mat-label>Group Type</mat-label>
+    <mat-select
+        [required]="required"
+        (selectionChange)="onSelectionChange($event)"
+        [formControl]="selectListControl">
+        <mat-option *ngFor="let item of items$ | async" [value]="item.id">
+            {{ item.name }}
+        </mat-option>
+    </mat-select>
+    <mat-error *ngIf="selectListControl.hasError('required')">Required</mat-error>
+</mat-form-field>
