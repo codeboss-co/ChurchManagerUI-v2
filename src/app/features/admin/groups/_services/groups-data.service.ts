@@ -13,6 +13,7 @@ import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { GroupAttendanceForm } from '../group-attendance.model';
+import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
 @Injectable()
 export class GroupsDataService extends HttpBaseService
@@ -84,5 +85,10 @@ export class GroupsDataService extends HttpBaseService
             .pipe(
                 map(response => response.data)
             );
+    }
+
+    addGroup$(model: NewGroupForm): Observable<any>
+    {
+        return super.post<any>(`${this._apiUrl}/v1/groups`, model);
     }
 }

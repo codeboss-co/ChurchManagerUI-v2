@@ -9,10 +9,8 @@ import { notificationToastrProvider } from '@core/notifications';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { JwtModule } from '@auth0/angular-jwt';
-
-export function tokenGetter() {
-    return localStorage.getItem("accessToken");
-}
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+import { ngxUiLoaderConfig, routerLoaderConfig, tokenGetter } from '@core/core.config';
 
 @NgModule({
     imports  : [
@@ -21,13 +19,16 @@ export function tokenGetter() {
         // Material Core Modules
         MatSnackBarModule,
         MatMomentDateModule,
-
+        // Auth setup
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
                 allowedDomains: ['localhost:5001', 'codeboss.tech'],
             }
-        })
+        }),
+        // Loaders
+        NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+        NgxUiLoaderRouterModule.forRoot(routerLoaderConfig)
     ],
     providers: [
         { provide: ENV, useValue: environment },
@@ -35,7 +36,8 @@ export function tokenGetter() {
         notificationToastrProvider,
         // Change the default behaviour to parse dates as UTC
         { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
-    ]
+    ],
+    exports: [NgxUiLoaderModule, NgxUiLoaderRouterModule]
 })
 export class CoreModule
 {

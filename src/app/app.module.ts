@@ -42,12 +42,14 @@ const routerConfig: ExtraOptions = {
 
         // 3rd party modules
         MarkdownModule.forRoot({}),
-         ServiceWorkerModule.register('ngsw-worker.js', {
-           enabled: environment.production,
-           // Register the ServiceWorker as soon as the app is stable
-           // or after 30 seconds (whichever comes first).
-           registrationStrategy: 'registerWhenStable:30000'
-         })
+
+        // Service Worker
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: environment.production,
+          // Register the ServiceWorker as soon as the app is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        })
     ],
     bootstrap   : [
         AppComponent

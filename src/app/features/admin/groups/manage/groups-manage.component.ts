@@ -1,10 +1,17 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
+import {
+    Group,
+    GroupMembersSimple,
+    GroupsDataService,
+    GroupWithChildren,
+    NewGroupMemberForm
+} from '@features/admin/groups';
 import { filter, finalize, first, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
+import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
 @Component({
     selector       : 'groups-manage',
@@ -74,5 +81,12 @@ export class GroupsManageComponent
                 }
              }))
             .subscribe()
+    }
+
+    onGroupAdded(group: NewGroupForm)
+    {
+        this._data.addGroup$(group)
+            .pipe(first())
+            .subscribe();
     }
 }

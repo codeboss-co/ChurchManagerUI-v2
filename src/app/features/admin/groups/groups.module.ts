@@ -38,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { CalendarModule } from '../../../pages/calendar/calendar.module';
 import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-materia
         // Controls
         PersonAutocompleteControlModule,
         GroupTypesSelectControlModule,
+        ChurchesSelectControlModule,
 
         // 3rd Party
         NgxMatNativeDateModule,

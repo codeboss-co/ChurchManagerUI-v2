@@ -18,7 +18,7 @@
         class="flex flex-col flex-auto p-6 sm:p-8"
         [formGroup]="form">
 
-        <!-- Name & Type -->
+
         <div *ngIf="groupType">
             <div class="flex flex items-center mb-4 -mt-4">
                 <mat-icon *ngIf="groupType.iconCssClass" class="mr-1" [svgIcon]="groupType.iconCssClass"></mat-icon>
@@ -33,8 +33,12 @@
             </div>
         </div>
 
-        <group-types-select-control formControlName="groupTypeId" required> </group-types-select-control>
+        <div class="flex flex-row justify-between">
+            <churches-select-control formControlName="churchId" required></churches-select-control>
+            <group-types-select-control formControlName="groupTypeId" required> </group-types-select-control>
+        </div>
 
+        <!-- Parent Group -->
         <mat-form-field>
             <mat-label>Parent Group</mat-label>
             <mat-select formControlName="parentGroupId" >
@@ -47,7 +51,7 @@
                 [svgIcon]="'heroicons_solid:link'"></mat-icon>
         </mat-form-field>
 
-
+        <!-- Name & Description -->
         <mat-form-field>
             <mat-label>Name</mat-label>
             <input
@@ -62,12 +66,32 @@
                 formControlName="description">
         </mat-form-field>
 
-
+        <!-- Takes Attendance Section -->
         <mat-divider class="mt-1 mb-2"></mat-divider>
 
         <div *ngIf="groupType?.takesAttendance">
 
             <p class="text-lg font-medium">Group meeting details</p>
+
+            <label class="font-medium">Meeting Time</label>
+            <ngx-mat-timepicker formControlName="meetingTime" [showSpinners]="false"></ngx-mat-timepicker>
+
+            <!-- Start Date Meeting -->
+            <div class="mt-1">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Meeting Start Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="startDatepicker"
+                        [formControlName]="'start'"
+                        [placeholder]="'Birthday'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="startDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #startDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
 
             <!-- Recurrence -->
             <div class="flex items-center mt-4 mb-2">
@@ -82,41 +106,6 @@
                     </div>
                 </div>
             </div>
-
-            <label class="font-medium">Meeting Time</label>
-            <ngx-mat-timepicker formControlName="meetingTime" [showSpinners]="false"></ngx-mat-timepicker>
-
-            <!-- Birthday -->
-            <div class="mt-8">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Meeting Start Date (optional)</mat-label>
-                    <input
-                        matInput
-                        [matDatepicker]="birthdayDatepicker"
-                        [formControlName]="'start'"
-                        [placeholder]="'Birthday'">
-                    <mat-datepicker-toggle
-                        matSuffix
-                        [for]="birthdayDatepicker">
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #birthdayDatepicker></mat-datepicker>
-                </mat-form-field>
-            </div>
-
-           <!-- <mat-form-field class="fuse-mat-no-subscript time start-time">
-                <input
-                    matInput
-                    [autocomplete]="'off'"
-                    formControlName="meetingTime"
-                    (blur)="updateStartTime($event){{}}"
-                    tabindex="3">
-                <mat-label>Start time</mat-label>
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-            </mat-form-field>-->
-
 
         </div>
 
@@ -144,7 +133,5 @@
         </div>
 
     </form>
-
-    {{form.value | json}}
 
 </div>

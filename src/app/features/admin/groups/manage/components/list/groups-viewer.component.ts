@@ -13,6 +13,8 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { MatDialog } from '@angular/material/dialog';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
+import { filter } from 'rxjs/operators';
+import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
 interface FlatNode {
     expandable: boolean;
@@ -31,7 +33,7 @@ export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
-    @Output() addedGroup = new EventEmitter<Group>();
+    @Output() addedGroup = new EventEmitter<NewGroupForm>();
 
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
@@ -87,8 +89,10 @@ export class GroupsViewerComponent implements OnChanges
         });
 
         dialogRef.afterClosed()
-            .subscribe((result) => {
-                console.log('Compose dialog was closed!', result);
+            .pipe(filter(result => !!result))
+            .subscribe((group: NewGroupForm) => {
+                // Signal the added group details
+                this.addedGroup.emit(group);
             });
     }
 
