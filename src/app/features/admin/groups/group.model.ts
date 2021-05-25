@@ -76,17 +76,17 @@ export type GroupMembersSimple = GroupMemberSimple[];
 
 export interface GroupWithChildren
 {
-    id: number;
-    churchId: number;
+    id?: number;
+    churchId?: number;
     parentGroupId?: number;
     parentGroupName?: string;
-    groupType: GroupType;
+    groupType?: GroupType;
     name: string;
-    description: string;
+    description?: string;
     address?: any;
     startDate?: Date;
-    isOnline: boolean;
-    createdDate: Date;
+    isOnline?: boolean;
+    createdDate?: Date;
     groups?: GroupWithChildren[];
 }
 

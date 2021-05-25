@@ -10,7 +10,7 @@ import { Environment } from '@shared/environment.model';
 import { GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { GroupAttendanceForm } from '../group-attendance.model';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
@@ -90,5 +90,27 @@ export class GroupsDataService extends HttpBaseService
     addGroup$(model: NewGroupForm): Observable<any>
     {
         return super.post<any>(`${this._apiUrl}/v1/groups`, model);
+    }
+
+    /**
+     * Get groups with their children in the form of a tree
+     */
+    getGroupsTree$(): Observable<GroupWithChildren[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/tree`, null)
+            .pipe(
+                map(response => response.data),
+            );
+    }
+
+    /**
+     * Get group by id with their children in the form of a tree
+     */
+    getGroupTree$(groupId: number): Observable<GroupWithChildren[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupId}/tree`, null)
+            .pipe(
+                map(response => response.data),
+            );
     }
 }

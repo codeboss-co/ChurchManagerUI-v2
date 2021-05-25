@@ -125,7 +125,7 @@
                 class="ml-2"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="form.pristine"
+                [disabled]="form.invalid"
                 [matTooltip]="'Save'"
                 (click)="matDialogRef.close(form.getRawValue())">
                 Save
