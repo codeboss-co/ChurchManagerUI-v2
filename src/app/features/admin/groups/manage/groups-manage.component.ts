@@ -8,7 +8,7 @@ import {
     GroupWithChildren,
     NewGroupMemberForm
 } from '@features/admin/groups';
-import { filter, finalize, first, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, finalize, first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
@@ -96,15 +96,22 @@ export class GroupsManageComponent implements AfterViewInit
         this._data.addGroup$(event.group)
             .pipe(first())
             .pipe(
-                switchMap(_ => {
+                switchMap((groupId: number) => {
                     if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
                         return this._data.getGroupTree$(this._activatedRoute.snapshot.params["groupId"])
+                            .pipe(
+                                map( groups => ({groupId, groups}) )
+                            );
                     } else {
                         return this._data.getGroupsTree$()
+                            .pipe(
+                                map( groups => ({groupId, groups}) )
+                            );
                     }
                 })
             )
-            .subscribe(groups => {
+            .subscribe(({groupId, groups}) => {
+                console.log('groupId', groupId, '');
                 console.log('data', groups, '');
 
                 const viewer = this.viewer;
@@ -128,12 +135,7 @@ export class GroupsManageComponent implements AfterViewInit
                 // returns array of groups
                 const allGroups = groups.map(g => flattenTree(g, 'groups'))
                 const flattened = arr => [].concat(...arr);
-                // Find the added group in the returned data
-                const addedGroup =  flattened(allGroups)
-                    .find((g: GroupWithChildren) =>
-                        g.name === event.group.name &&
-                        g.description === event.group.description &&
-                        g.parentGroupId === event.group.parentGroupId);
+
 
                 const expandNode = (data: GroupWithChildren[], uniqueId: number) => {
                     data.forEach(group => {
@@ -157,9 +159,8 @@ export class GroupsManageComponent implements AfterViewInit
                     });
                 };
 
-                expandNode(groups, addedGroup.id);
+                expandNode(groups, groupId);
 
-                console.log('addedGroup.id', addedGroup.id);
 
                 //expand(groups, addedGroup.id);
 
