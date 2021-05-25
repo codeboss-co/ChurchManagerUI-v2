@@ -10,9 +10,9 @@ import { Environment } from '@shared/environment.model';
 import { GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
-import { GroupAttendanceForm } from '../group-attendance.model';
+import { GroupAttendanceForm } from '@features/admin/groups';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
 @Injectable()
@@ -87,9 +87,15 @@ export class GroupsDataService extends HttpBaseService
             );
     }
 
-    addGroup$(model: NewGroupForm): Observable<any>
+    /**
+     * @returns the newly created group id
+     */
+    addGroup$(model: NewGroupForm): Observable<number>
     {
-        return super.post<any>(`${this._apiUrl}/v1/groups`, model);
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups`, model)
+            .pipe(
+                map(response => response.data),
+            );;
     }
 
     /**
