@@ -39,6 +39,9 @@
                 <button mat-icon-button matTooltip="Split group">
                     <mat-icon>call_split</mat-icon>
                 </button>
+                <button *ngIf="group.groupType.takesAttendance" mat-icon-button matTooltip="View attendance records">
+                    <mat-icon>assignment</mat-icon>
+                </button>
             </div>
         </div>
 
