@@ -26,6 +26,7 @@ export class GroupsManageComponent implements OnInit
 
     private _groupAdded$ = new Subject<NewGroupForm>();
     private _groupMemberAdded$ = new Subject<NewGroupMemberForm>();
+    private _groupMemberDeleted$ = new Subject<{groupMemberId: number; groupId: number}>();
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -127,6 +128,21 @@ export class GroupsManageComponent implements OnInit
             );
 
         addMemberAndReload$.subscribe();
+
+        this._groupMemberDeleted$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(switchMap(memberInfo => {
+
+                return this._data.deleteGroupMember$(memberInfo)
+                    .pipe(tap(response => {
+                        if ( response ) {
+                            // Forces  reload of the members
+                            this.onGroupSelected(this.selectedGroup)
+                        }
+                    }));
+
+            }))
+            .subscribe();
     }
 
 
@@ -144,5 +160,10 @@ export class GroupsManageComponent implements OnInit
     onGroupAdded(group: NewGroupForm)
     {
        this._groupAdded$.next(group);
+    }
+
+    onMemberDeleted( memberInfo: { groupMemberId: number; groupId: number } )
+    {
+        this._groupMemberDeleted$.next(memberInfo);
     }
 }

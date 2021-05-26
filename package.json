@@ -39,6 +39,7 @@
         "crypto-js": "3.3.0",
         "highlight.js": "10.7.2",
         "lodash-es": "4.17.21",
+        "logrocket": "^1.2.1",
         "moment": "2.29.1",
         "ng-apexcharts": "1.5.9",
         "ngx-markdown": "11.1.3",

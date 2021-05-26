@@ -125,6 +125,15 @@
                         <td mat-cell *matCellDef="let element"> {{element.recordStatus}} </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="actions">
+                        <th  class="w-4" mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button (click)="delete(element['groupMemberId'])">
+                                <mat-icon mat-icon-button>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
                     <tr mat-header-row class="h-8" *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row class="h-10" *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>

@@ -29,6 +29,7 @@ export class GroupMembersComponent implements OnChanges
     @Input() group: GroupWithChildren;
     @Input() isLoading: boolean = false;
     @Output() memberAdded = new EventEmitter<NewGroupMemberForm>();
+    @Output() memberDeleted = new EventEmitter<{ groupMemberId: number, groupId: number }>();
 
     // Fix: https://stackoverflow.com/questions/46786757/angular-matsort-does-not-sort
     private _sort: MatSort;
@@ -44,7 +45,7 @@ export class GroupMembersComponent implements OnChanges
 
     dialogRef: any;
 
-    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole', 'recordStatus'];
+    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole', 'recordStatus', 'actions'];
 
     dataSource: MatTableDataSource<GroupMemberSimple> = new MatTableDataSource([]);
 
@@ -101,9 +102,15 @@ export class GroupMembersComponent implements OnChanges
             });
     }
 
-    applyFilter(event: Event) {
+    applyFilter(event: Event)
+    {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    delete( groupMemberId: number )
+    {
+        this.memberDeleted.emit({groupMemberId, groupId: this.group.id});
     }
 
     private _setDataSourceAttributes() : void
@@ -111,4 +118,6 @@ export class GroupMembersComponent implements OnChanges
         this.dataSource.paginator = this._paginator;
         this.dataSource.sort = this._sort;
     }
+
+
 }

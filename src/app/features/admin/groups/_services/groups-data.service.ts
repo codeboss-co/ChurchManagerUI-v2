@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
@@ -74,6 +74,17 @@ export class GroupsDataService extends HttpBaseService
             );
     }
 
+    /**
+     * Remove group member from group
+     */
+    deleteGroupMember$( body: {groupMemberId: number; groupId: number} )
+    {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/${body.groupId}/remove-member`, body)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
     registerAttendance$( model: GroupAttendanceForm ): Observable<any>
     {
         return super.post<any>(`${this._apiUrl}/v1/groups/${model.groupId}/attendance`, model);
@@ -119,4 +130,6 @@ export class GroupsDataService extends HttpBaseService
                 map(response => response.data),
             );
     }
+
+
 }

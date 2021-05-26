@@ -13,6 +13,7 @@
         [group]="selectedGroup$ | async"
         [isLoading]="loading$ | async"
         (memberAdded)="onMemberAdded($event)"
+        (memberDeleted)="onMemberDeleted($event)"
     >
     </group-members>
 
