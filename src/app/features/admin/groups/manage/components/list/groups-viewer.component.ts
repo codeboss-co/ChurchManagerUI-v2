@@ -15,7 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
 import { filter } from 'rxjs/operators';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
-import { SelectionModel } from '@angular/cdk/collections';
 
 export interface FlatNode {
     expandable: boolean;
@@ -28,19 +27,17 @@ export interface FlatNode {
     selector       : 'groups-viewer',
     templateUrl    : './groups-viewer.component.html',
     encapsulation  : ViewEncapsulation.None,
-    //changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
-    @Output() addedGroup = new EventEmitter<{group: NewGroupForm, parent: FlatNode}>();
+    @Output() addedGroup = new EventEmitter<NewGroupForm>();
 
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
     dataSource: MatTreeFlatDataSource<GroupWithChildren, FlatNode>;
-
-    expansionModel = new SelectionModel<number>(true, []);
 
 
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
@@ -97,42 +94,24 @@ export class GroupsViewerComponent implements OnChanges
             .pipe(filter(result => !!result))
             .subscribe((group: NewGroupForm) => {
                 // Signal the added group details
-                this.addedGroup.emit({group, parent: node});
-                //node.item.groups.push({name: group.name})
-                //this.dataSource.data = [...this.dataSource.data];
-
-                // https://github.com/cantidio/node-tree-flatten/blob/master/src/tree-flatten.js
-                /*function flattenTree(root, key) {
-                    let flatten = [Object.assign({}, root)];
-                    delete flatten[0][key];
-
-                    if (root[key] && root[key].length > 0) {
-                        return flatten.concat(root[key]
-                            .map((child)=>flattenTree(child, key))
-                            .reduce((a, b)=>a.concat(b), [])
-                        );
-                    }
-
-                    return flatten;
-                }
-
-                const allGroups = this.dataSource.data.map(g => flattenTree(g, 'groups'))
-                const flattened = arr => [].concat(...arr);
-                // Find the added group in the returned data
-                const flatGroups =  flattened(allGroups);
-
-                const expandNode = (group: GroupWithChildren) => {
-                    const node = this.treeControl.dataNodes.find(x => x.item.name === group.name);
-                    this.treeControl.expand(node);
-                    console.log('group', group);
-                    if (group.parentGroupId) {
-                        const parent = flatGroups.find(x => x.id === group.parentGroupId);
-                        if (parent) expandNode(parent);
-                    }
-                };
-
-                expandNode(node.item);*/
+                this.addedGroup.emit(group);
             });
+    }
+
+    /**
+     * Expands tree from given node to all its parent
+     * https://stackblitz.com/edit/angular-icfxva?file=src%2Fapp%2Ftree-nested-overview-example.ts
+     */
+    expandTree( data: FlatNode[], id: number): any {
+        data.forEach(node => {
+            if (node.item.groups && node.item.groups.find(c => c.id === id)) {
+                this.treeControl.expand(node);
+                this.expandTree(this.treeControl.dataNodes, node.item.id);
+            }
+            else if (node.item.groups && node.item.groups.find(c => c.groups)) {
+                this.expandTree(node.item.groups.map(this._transformer), id);
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -1,18 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import {
-    Group,
-    GroupMembersSimple,
-    GroupsDataService,
-    GroupWithChildren,
-    NewGroupMemberForm
-} from '@features/admin/groups';
+import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
 import { filter, finalize, first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
-import { FlatNode, GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
+import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 
 @Component({
     selector       : 'groups-manage',
@@ -20,7 +14,7 @@ import { FlatNode, GroupsViewerComponent } from '@features/admin/groups/manage/c
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsManageComponent implements AfterViewInit
+export class GroupsManageComponent
 {
     groups$: Observable<GroupWithChildren[]>;
     selectedGroup$ = new BehaviorSubject<GroupWithChildren>(null);
@@ -66,11 +60,8 @@ export class GroupsManageComponent implements AfterViewInit
             );
     }
 
-    ngAfterViewInit(): void {
-        //this.viewer.treeControl.dataNodes.forEach(x => this.viewer.treeControl.expand(x))
-    }
-
-    onGroupSelected( selected: GroupWithChildren ): void {
+    onGroupSelected( selected: GroupWithChildren ): void
+    {
         this.selectedGroup = selected;
         this.selectedGroup$.next(selected);
     }
@@ -90,13 +81,13 @@ export class GroupsManageComponent implements AfterViewInit
             .subscribe()
     }
 
-    onGroupAdded(event: {group: NewGroupForm, parent: FlatNode})
+    onGroupAdded(group: NewGroupForm)
     {
-
-        this._data.addGroup$(event.group)
+        this._data.addGroup$(group)
             .pipe(first())
             .pipe(
                 switchMap((groupId: number) => {
+                    // Depending on where we are coming from
                     if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
                         return this._data.getGroupTree$(this._activatedRoute.snapshot.params["groupId"])
                             .pipe(
@@ -111,115 +102,16 @@ export class GroupsManageComponent implements AfterViewInit
                 })
             )
             .subscribe(({groupId, groups}) => {
-                console.log('groupId', groupId, '');
-                console.log('data', groups, '');
-
                 const viewer = this.viewer;
+                // Update the data
                 viewer.dataSource.data = groups;
-
-                // https://github.com/cantidio/node-tree-flatten/blob/master/src/tree-flatten.js
-                function flattenTree(root, key) {
-                    let flatten = [Object.assign({}, root)];
-                    delete flatten[0][key];
-
-                    if (root[key] && root[key].length > 0) {
-                        return flatten.concat(root[key]
-                            .map((child)=>flattenTree(child, key))
-                            .reduce((a, b)=>a.concat(b), [])
-                        );
-                    }
-
-                    return flatten;
-                }
-
-                // returns array of groups
-                const allGroups = groups.map(g => flattenTree(g, 'groups'))
-                const flattened = arr => [].concat(...arr);
-
-
-                const expandNode = (data: GroupWithChildren[], uniqueId: number) => {
-                    data.forEach(group => {
-
-                        if (group.groups && group.groups.find(c => c.id === uniqueId)) {
-                            const node = viewer.treeControl.dataNodes.find(n => n.item.id === uniqueId);
-                            if (node) {
-                                console.log('node', node);
-                                viewer.treeControl.expand(node);
-                                expandNode([group], group.parentGroupId);
-                            }
-                        }
-                        else if (group.parentGroupId === null) {
-                            const root = viewer.treeControl.dataNodes.find(n => n.item.parentGroupId === null);
-                            console.log('root', root);
-                            viewer.treeControl.expand(root);
-                        }
-                        else if (group.groups) {
-                            expandNode(group.groups, uniqueId);
-                        }
-                    });
-                };
-
-                expandNode(groups, groupId);
-
-
-                //expand(groups, addedGroup.id);
-
+                // Expand the tree to from the new node
+                viewer.expandTree(viewer.treeControl.dataNodes, groupId);
+                // Show the new groups details
+                const newGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
+                this.selectedGroup$.next(newGroup);
             });
-           /* .pipe(
-                switchMap(_ => {
-                    if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
-                        return this._service.getGroupTree$(this._activatedRoute.snapshot.params["groupId"])
-                    } else {
-                        return this._service.getGroupsTree$()
-                    }
-                })
-            ).subscribe(
-                groups => {
-                    console.log('data', groups, '');
 
-                    // https://github.com/cantidio/node-tree-flatten/blob/master/src/tree-flatten.js
-                    function flattenTree(root, key) {
-                        let flatten = [Object.assign({}, root)];
-                        delete flatten[0][key];
-
-                        if (root[key] && root[key].length > 0) {
-                            return flatten.concat(root[key]
-                                .map((child)=>flattenTree(child, key))
-                                .reduce((a, b)=>a.concat(b), [])
-                            );
-                        }
-
-                        return flatten;
-                    }
-
-                    // returns array of groups
-                    const allGroups = groups.map(g => flattenTree(g, 'groups'))
-                    const flattened = arr => [].concat(...arr);
-                    // Find the added group in the returned data
-                    const addedGroup =  flattened(allGroups)
-                        .find((g: GroupWithChildren) =>
-                            g.name === event.group.name &&
-                            g.description === event.group.description &&
-                            g.parentGroupId === event.group.parentGroupId);
-
-                    // flattened groups list
-                    const flatGroups =  flattened(allGroups);
-
-                    this.onGroupSelected(addedGroup)
-
-                    const expandNode = (group: GroupWithChildren) => {
-                        const node = this.viewer.treeControl.dataNodes.find(x => x.item.name === group.name);
-                        this.viewer.treeControl.expand(node);
-                        console.log('group', group);
-                        if (group.parentGroupId) {
-                            const parent = flatGroups.find(x => x.id === group.parentGroupId);
-                            if (parent) expandNode(parent);
-                        }
-                    };
-
-                    expandNode(event.parent);
-                }
-        );*/
     }
 
 
