@@ -1,21 +1,20 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     Inject,
-    OnInit,
     OnDestroy,
-    ViewEncapsulation,
-    ChangeDetectorRef
+    OnInit,
+    ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GroupsDataService, GroupType, GroupWithChildren } from '@features/admin/groups';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
-import { CalendarRecurrenceComponent } from '../../../../../../pages/calendar';
-import { weekdays, settings, CalendarSettings, CalendarWeekday } from '../../../../../../pages/calendar';
+import { CalendarRecurrenceComponent, CalendarSettings, settings } from '../../../../../../pages/calendar';
 import RRule from 'rrule';
 import * as moment from 'moment';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 
 @Component({
@@ -67,6 +66,8 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
             parentGroupId: [this.parentGroup?.id, Validators.required],
             name: [null, Validators.required],
             description: [null],
+            address: [null],
+            isOnline: [false],
             // Event
             meetingTime: [null],
             start           : [new Date()],

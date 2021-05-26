@@ -39,6 +39,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CalendarModule } from '../../../pages/calendar/calendar.module';
 import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -68,6 +69,7 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
         MatProgressBarModule,
         MatSidenavModule,
         MatSelectModule,
+        MatSlideToggleModule,
         MatSortModule,
         MatTableModule,
         MatToolbarModule,
