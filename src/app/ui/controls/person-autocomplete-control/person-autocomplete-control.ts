@@ -91,7 +91,6 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
             // This is what is returned to the formControl binding
             // We map to return only the id and the label
             .pipe(map( (value: any) => {
-                console.log(value)
                 // return the id and the label
                 // on the parent form we can check for this and set state invalid by adding containsIdValidation
                 // Example:  add-group-member-form-dialog.component.ts
