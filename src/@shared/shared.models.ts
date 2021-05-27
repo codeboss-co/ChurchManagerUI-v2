@@ -61,4 +61,12 @@ export class OnlineUserModel implements OnlineUser
     }
 }
 
+export type FormAction = FormActions.New | FormActions.Edit;
+
+export enum FormActions
+{
+    New = 'new',
+    Edit = 'edit'
+}
+
 

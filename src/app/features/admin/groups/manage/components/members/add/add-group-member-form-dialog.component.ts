@@ -1,17 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {
-    GroupMemberEdit,
-    GroupsDataService,
-    GroupTypeRole,
-    GroupWithChildren,
-    NewGroupMemberForm
-} from '@features/admin/groups';
+import { GroupsDataService, GroupTypeRole, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
 import { Observable } from 'rxjs/internal/Observable';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { containsIdValidation } from '@shared/validators/common-forms.validators';
+import { FormAction, FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'add-group-member-dialog',
@@ -22,8 +17,8 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
 {
     form: FormGroup;
     group: GroupWithChildren;
-    groupMember: GroupMemberEdit
-    action: string;
+    groupMember: GroupMemberForm
+    action: FormAction;
     // Streams
     groupMemberId$ = new BehaviorSubject<number>(null);
     groupRoles$: Observable<GroupTypeRole[]>;
@@ -46,7 +41,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
         this.action = _data.action;
 
         // If editing - begin the stream to load the group member details
-        if (this.action === 'edit')
+        if (this.action === FormActions.Edit)
         {
             this.groupMemberId$.next(_data.groupMemberId)
         }
@@ -67,7 +62,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
             .pipe(switchMap(groupMemberId => this._groupsData.getGroupMember$(groupMemberId)));
 
         // Update the form with edited member
-        groupMemberData$.subscribe((groupMember: GroupMemberEdit) => {
+        groupMemberData$.subscribe((groupMember: GroupMemberForm) => {
                 this.groupMember = groupMember;
                 this.form.patchValue(groupMember, {emitEvent: false});
             }
@@ -86,14 +81,22 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
 
     add(): void
     {
+        const model = this.groupMemberForm;
+
+        this.matDialogRef.close([FormActions.New, model]);
+    }
+
+    /**
+     * Build and return GroupMemberForm
+     */
+    get groupMemberForm(): GroupMemberForm
+    {
         const {person, groupRole, communicationPreference, firstVisitDate} = this.form.value;
 
-        const model: NewGroupMemberForm = {
+        return {
             person, groupRole, communicationPreference, firstVisitDate,
             groupId: this.group.id
         };
-
-        this.matDialogRef.close(['new', model]);
     }
 
     /**
@@ -111,6 +114,8 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
 
     update()
     {
-        console.log('update');
+        const model = this.groupMemberForm;
+
+        this.matDialogRef.close([FormActions.Edit, model]);
     }
 }

@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
+import { GroupMembersSimple, GroupsDataService, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
 import { filter, finalize, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
+import { FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'groups-manage',
@@ -24,8 +25,10 @@ export class GroupsManageComponent implements OnInit, OnDestroy
 
     @ViewChild(GroupsViewerComponent) viewer!: GroupsViewerComponent;
 
+    // Private trigger streams
     private _groupAdded$ = new Subject<NewGroupForm>();
-    private _groupMemberAdded$ = new Subject<NewGroupMemberForm>();
+    private _groupMemberAdded$ = new Subject<GroupMemberForm>();
+    private _groupMemberUpdated$ = new Subject<GroupMemberForm>();
 
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -115,7 +118,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap(member => {
-                    return this._data.addGroupMember$(member)
+                    return this._data.addOrUpdateGroupMember$(member)
                         .pipe(tap(response => {
                             if ( response ) {
                                 // Forces  reload of the members
@@ -128,6 +131,25 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             );
 
         addMemberAndReload$.subscribe();
+
+        // update group member and reload
+        const updateMemberAndReload$ = this._groupMemberUpdated$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap(member => {
+                    return this._data.addOrUpdateGroupMember$(member, FormActions.Edit)
+                        .pipe(tap(response => {
+                            if ( response ) {
+                                // Forces  reload of the members
+                                this.onGroupSelected(this.selectedGroup)
+                            } else {
+                                this._toastr.info(`${member.person.label} is already a member of this group`)
+                            }
+                        }))
+                })
+            );
+
+        updateMemberAndReload$.subscribe();
     }
 
 
@@ -141,6 +163,9 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     onGroupSelected( selected: GroupWithChildren ): void
     {
@@ -148,7 +173,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         this.selectedGroup$.next(selected);
     }
 
-    onMemberAdded( member: NewGroupMemberForm )
+    onMemberAdded( member: GroupMemberForm )
     {
         this._groupMemberAdded$.next(member);
     }
@@ -156,5 +181,10 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     onGroupAdded(group: NewGroupForm)
     {
        this._groupAdded$.next(group);
+    }
+
+    onMemberUpdated(member: GroupMemberForm)
+    {
+        this._groupMemberUpdated$.next(member);
     }
 }

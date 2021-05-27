@@ -45,12 +45,7 @@ export interface GroupMember {
     firstVisitDate? : Date;
 }
 
-export interface GroupMemberEdit {
-    person: Identifiable;
-    groupRole: number;
-    communicationPreference: string;
-    firstVisitDate?: Date;
-}
+
 
 export interface GroupSummary
 {
@@ -110,7 +105,7 @@ export interface GroupTypeRole
     groupTypeId?: number;
 }
 
-export interface NewGroupMemberForm
+export interface GroupMemberForm
 {
     person: Identifiable;
     groupRole: number;

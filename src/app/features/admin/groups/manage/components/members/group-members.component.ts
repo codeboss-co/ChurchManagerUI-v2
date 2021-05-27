@@ -9,7 +9,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
+import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import { AddGroupMemberFormDialogComponent } from './add/add-group-member-form-d
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
+// https://stackblitz.com/edit/mat-dialog-example?file=app%2Fapp.component.ts
 @Component({
     selector       : 'group-members',
     templateUrl    : './group-members.component.html',
@@ -28,7 +29,8 @@ export class GroupMembersComponent implements OnChanges
     @Input() members: GroupMembersSimple;
     @Input() group: GroupWithChildren;
     @Input() isLoading: boolean = false;
-    @Output() memberAdded = new EventEmitter<NewGroupMemberForm>();
+    @Output() memberAdded = new EventEmitter<GroupMemberForm>();
+    @Output() memberUpdated = new EventEmitter<GroupMemberForm>();
 
     // Fix: https://stackoverflow.com/questions/46786757/angular-matsort-does-not-sort
     private _sort: MatSort;
@@ -95,7 +97,7 @@ export class GroupMembersComponent implements OnChanges
                 }
 
                 const actionType: string = response[0];
-                const formData: NewGroupMemberForm = response[1];
+                const formData: GroupMemberForm = response[1];
                 // Do something here
                 this.memberAdded.emit(formData);
             });
@@ -116,6 +118,19 @@ export class GroupMembersComponent implements OnChanges
                 groupMemberId
             }
         });
+
+        this.dialogRef.afterClosed()
+            .subscribe((response) => {
+                if ( !response )
+                {
+                    return;
+                }
+
+                const actionType: string = response[0];
+                const formData: GroupMemberForm = response[1];
+                // Do something here
+                this.memberUpdated.emit(formData);
+            });
     }
 
     private _setDataSourceAttributes() : void
