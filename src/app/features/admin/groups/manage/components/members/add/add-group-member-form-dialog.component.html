@@ -75,6 +75,16 @@
             (click)="add()">
             Add
         </button>
+        <!-- Edit -->
+        <button *ngIf="action === 'edit'"
+                class="ml-2"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="!form.valid || !form.dirty"
+                [matTooltip]="'Update Member'"
+                (click)="update()">
+            Update
+        </button>
     </div>
 </form>
 

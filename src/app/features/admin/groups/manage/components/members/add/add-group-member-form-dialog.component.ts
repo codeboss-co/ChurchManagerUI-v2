@@ -11,6 +11,7 @@ import {
 import { Observable } from 'rxjs/internal/Observable';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { containsIdValidation } from '@shared/validators/common-forms.validators';
 
 @Component({
     selector       : 'add-group-member-dialog',
@@ -68,7 +69,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
         // Update the form with edited member
         groupMemberData$.subscribe((groupMember: GroupMemberEdit) => {
                 this.groupMember = groupMember;
-                this.form.patchValue(groupMember);
+                this.form.patchValue(groupMember, {emitEvent: false});
             }
         );
     }
@@ -101,10 +102,15 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
     private _createForm(): FormGroup
     {
         return this._formBuilder.group({
-            person: [null, Validators.required],
+            person: [null, [Validators.required, containsIdValidation]],
             groupRole: [null, Validators.required],
             communicationPreference: ['Email', Validators.required],
             firstVisitDate: [null],
         });
+    }
+
+    update()
+    {
+        console.log('update');
     }
 }
