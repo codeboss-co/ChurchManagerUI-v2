@@ -106,6 +106,18 @@ export class GroupMembersComponent implements OnChanges
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    goToRecord(groupMemberId)
+    {
+        this.dialogRef = this._matDialog.open(AddGroupMemberFormDialogComponent, {
+            panelClass: 'add-group-member-form-dialog',
+            data      : {
+                action: 'edit',
+                group: this.group,
+                groupMemberId
+            }
+        });
+    }
+
     private _setDataSourceAttributes() : void
     {
         this.dataSource.paginator = this._paginator;

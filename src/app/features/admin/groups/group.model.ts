@@ -42,6 +42,14 @@ export interface GroupMember {
     person: Person;
     recordStatus: string;
     inactiveDateTime?: any;
+    firstVisitDate? : Date;
+}
+
+export interface GroupMemberEdit {
+    person: Identifiable;
+    groupRole: number;
+    communicationPreference: string;
+    firstVisitDate?: Date;
 }
 
 export interface GroupSummary

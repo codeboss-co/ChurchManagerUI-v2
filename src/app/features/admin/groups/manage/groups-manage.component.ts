@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
@@ -14,7 +14,7 @@ import { GroupsViewerComponent } from '@features/admin/groups/manage/components/
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsManageComponent implements OnInit
+export class GroupsManageComponent implements OnInit, OnDestroy
 {
     groups$: Observable<GroupWithChildren[]>;
     selectedGroup$ = new BehaviorSubject<GroupWithChildren>(null);
@@ -28,7 +28,7 @@ export class GroupsManageComponent implements OnInit
     private _groupMemberAdded$ = new Subject<NewGroupMemberForm>();
 
     // Private
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -36,10 +36,11 @@ export class GroupsManageComponent implements OnInit
         private _data: GroupsDataService,
         private _toastr: ToastrService)
     {
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void
     {
@@ -127,6 +128,17 @@ export class GroupsManageComponent implements OnInit
             );
 
         addMemberAndReload$.subscribe();
+    }
+
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
 

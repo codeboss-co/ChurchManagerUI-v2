@@ -1,21 +1,33 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GroupsDataService, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
+import {
+    GroupMemberEdit,
+    GroupsDataService,
+    GroupTypeRole,
+    GroupWithChildren,
+    NewGroupMemberForm
+} from '@features/admin/groups';
 import { Observable } from 'rxjs/internal/Observable';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
     selector       : 'add-group-member-dialog',
     templateUrl    : './add-group-member-form-dialog.component.html',
-    //styleUrls    : ['./add-group-member-form-dialog.component.scss'],
     encapsulation  : ViewEncapsulation.None
 })
-export class AddGroupMemberFormDialogComponent implements OnInit
+export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
 {
     form: FormGroup;
     group: GroupWithChildren;
+    groupMember: GroupMemberEdit
     action: string;
+    // Streams
+    groupMemberId$ = new BehaviorSubject<number>(null);
     groupRoles$: Observable<GroupTypeRole[]>;
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
@@ -31,26 +43,44 @@ export class AddGroupMemberFormDialogComponent implements OnInit
         // Set the defaults
         this.group = _data.group;
         this.action = _data.action;
+
+        // If editing - begin the stream to load the group member details
+        if (this.action === 'edit')
+        {
+            this.groupMemberId$.next(_data.groupMemberId)
+        }
     }
 
     ngOnInit(): void
     {
-        this.form = this.createForm();
+        // Create the form
+        this.form = this._createForm();
 
+        // Get specific group roles for this group
         this.groupRoles$ = this._groupsData.getGroupRoles$(this.group.groupType.id);
+
+        // Get the member data if we are editing
+        const groupMemberData$ = this.groupMemberId$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(filter(value => !!value))
+            .pipe(switchMap(groupMemberId => this._groupsData.getGroupMember$(groupMemberId)));
+
+        // Update the form with edited member
+        groupMemberData$.subscribe((groupMember: GroupMemberEdit) => {
+                this.groupMember = groupMember;
+                this.form.patchValue(groupMember);
+            }
+        );
     }
 
     /**
-     * Create form
+     * On destroy
      */
-    private createForm(): FormGroup
+    ngOnDestroy(): void
     {
-        return this._formBuilder.group({
-            person: [null, Validators.required],
-            groupRole: [null, Validators.required],
-            communicationPreference: ['Email', Validators.required],
-            firstVisitDate: [null],
-        });
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     add(): void
@@ -63,5 +93,18 @@ export class AddGroupMemberFormDialogComponent implements OnInit
         };
 
         this.matDialogRef.close(['new', model]);
+    }
+
+    /**
+     * Create form
+     */
+    private _createForm(): FormGroup
+    {
+        return this._formBuilder.group({
+            person: [null, Validators.required],
+            groupRole: [null, Validators.required],
+            communicationPreference: ['Email', Validators.required],
+            firstVisitDate: [null],
+        });
     }
 }
