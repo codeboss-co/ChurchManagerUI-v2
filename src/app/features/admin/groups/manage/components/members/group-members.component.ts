@@ -9,7 +9,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { GroupMemberSimple, GroupMembersSimple, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
+import { GroupMemberForm, GroupMemberSimple, GroupMembersSimple, GroupWithChildren } from '@features/admin/groups';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';

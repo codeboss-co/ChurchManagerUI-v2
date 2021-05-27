@@ -1,4 +1,18 @@
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+    SimpleChanges,
+    ViewEncapsulation
+} from '@angular/core';
 import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
 import { FuseDrawerMode, FuseDrawerPosition } from '@fuse/components/drawer/drawer.types';
 import { FuseDrawerService } from '@fuse/components/drawer/drawer.service';

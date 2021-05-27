@@ -1,7 +1,27 @@
 import { expandCollapse } from './expand-collapse';
-import { fadeIn, fadeInBottom, fadeInLeft, fadeInRight, fadeInTop, fadeOut, fadeOutBottom, fadeOutLeft, fadeOutRight, fadeOutTop } from './fade';
+import {
+    fadeIn,
+    fadeInBottom,
+    fadeInLeft,
+    fadeInRight,
+    fadeInTop,
+    fadeOut,
+    fadeOutBottom,
+    fadeOutLeft,
+    fadeOutRight,
+    fadeOutTop
+} from './fade';
 import { shake } from './shake';
-import { slideInBottom, slideInLeft, slideInRight, slideInTop, slideOutBottom, slideOutLeft, slideOutRight, slideOutTop } from './slide';
+import {
+    slideInBottom,
+    slideInLeft,
+    slideInRight,
+    slideInTop,
+    slideOutBottom,
+    slideOutLeft,
+    slideOutRight,
+    slideOutTop
+} from './slide';
 import { zoomIn, zoomOut } from './zoom';
 
 export const fuseAnimations = [

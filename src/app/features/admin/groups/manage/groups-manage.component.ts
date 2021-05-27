@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { GroupMembersSimple, GroupsDataService, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
+import { GroupMemberForm, GroupMembersSimple, GroupsDataService, GroupWithChildren } from '@features/admin/groups';
 import { filter, finalize, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';

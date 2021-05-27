@@ -33,7 +33,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
-import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { CalendarModule } from '../../../pages/calendar/calendar.module';

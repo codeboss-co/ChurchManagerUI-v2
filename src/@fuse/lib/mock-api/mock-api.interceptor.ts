@@ -1,5 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import {
+    HttpErrorResponse,
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest,
+    HttpResponse
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
 import { FUSE_MOCK_API_DEFAULT_DELAY } from '@fuse/lib/mock-api/mock-api.constants';

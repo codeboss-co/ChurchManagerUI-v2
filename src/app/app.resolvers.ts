@@ -8,7 +8,6 @@ import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { UserDetails } from '@shared/shared.models';
 import LogRocket from 'logrocket';
-import { environment } from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'

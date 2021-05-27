@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GroupsDataService, GroupTypeRole, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
+import { GroupMemberForm, GroupsDataService, GroupTypeRole, GroupWithChildren } from '@features/admin/groups';
 import { Observable } from 'rxjs/internal/Observable';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
