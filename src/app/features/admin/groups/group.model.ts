@@ -42,7 +42,10 @@ export interface GroupMember {
     person: Person;
     recordStatus: string;
     inactiveDateTime?: any;
+    firstVisitDate? : Date;
 }
+
+
 
 export interface GroupSummary
 {
@@ -102,7 +105,7 @@ export interface GroupTypeRole
     groupTypeId?: number;
 }
 
-export interface NewGroupMemberForm
+export interface GroupMemberForm
 {
     person: Identifiable;
     groupRole: number;

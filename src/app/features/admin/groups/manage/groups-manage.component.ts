@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { GroupMembersSimple, GroupsDataService, GroupWithChildren, NewGroupMemberForm } from '@features/admin/groups';
+import { GroupMembersSimple, GroupsDataService, GroupWithChildren, GroupMemberForm } from '@features/admin/groups';
 import { filter, finalize, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
+import { FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'groups-manage',
@@ -14,7 +15,7 @@ import { GroupsViewerComponent } from '@features/admin/groups/manage/components/
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsManageComponent implements OnInit
+export class GroupsManageComponent implements OnInit, OnDestroy
 {
     groups$: Observable<GroupWithChildren[]>;
     selectedGroup$ = new BehaviorSubject<GroupWithChildren>(null);
@@ -24,12 +25,14 @@ export class GroupsManageComponent implements OnInit
 
     @ViewChild(GroupsViewerComponent) viewer!: GroupsViewerComponent;
 
+    // Private trigger streams
     private _groupAdded$ = new Subject<NewGroupForm>();
-    private _groupMemberAdded$ = new Subject<NewGroupMemberForm>();
     private _groupMemberDeleted$ = new Subject<{groupMemberId: number; groupId: number}>();
+    private _groupMemberAdded$ = new Subject<GroupMemberForm>();
+    private _groupMemberUpdated$ = new Subject<GroupMemberForm>();
 
     // Private
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -37,10 +40,11 @@ export class GroupsManageComponent implements OnInit
         private _data: GroupsDataService,
         private _toastr: ToastrService)
     {
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void
     {
@@ -115,7 +119,7 @@ export class GroupsManageComponent implements OnInit
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap(member => {
-                    return this._data.addGroupMember$(member)
+                    return this._data.addOrUpdateGroupMember$(member)
                         .pipe(tap(response => {
                             if ( response ) {
                                 // Forces  reload of the members
@@ -143,8 +147,41 @@ export class GroupsManageComponent implements OnInit
 
             }))
             .subscribe();
+
+        // update group member and reload
+        const updateMemberAndReload$ = this._groupMemberUpdated$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap(member => {
+                    return this._data.addOrUpdateGroupMember$(member, FormActions.Edit)
+                        .pipe(tap(response => {
+                            if ( response ) {
+                                // Forces  reload of the members
+                                this.onGroupSelected(this.selectedGroup)
+                            } else {
+                                this._toastr.info(`${member.person.label} is already a member of this group`)
+                            }
+                        }))
+                })
+            );
+
+        updateMemberAndReload$.subscribe();
     }
 
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     onGroupSelected( selected: GroupWithChildren ): void
     {
@@ -152,7 +189,7 @@ export class GroupsManageComponent implements OnInit
         this.selectedGroup$.next(selected);
     }
 
-    onMemberAdded( member: NewGroupMemberForm )
+    onMemberAdded( member: GroupMemberForm )
     {
         this._groupMemberAdded$.next(member);
     }
@@ -165,5 +202,10 @@ export class GroupsManageComponent implements OnInit
     onMemberDeleted( memberInfo: { groupMemberId: number; groupId: number } )
     {
         this._groupMemberDeleted$.next(memberInfo);
+    }
+
+    onMemberUpdated(member: GroupMemberForm)
+    {
+        this._groupMemberUpdated$.next(member);
     }
 }
