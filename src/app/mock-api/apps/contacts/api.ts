@@ -3,7 +3,11 @@ import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { contacts as contactsData, countries as countriesData, tags as tagsData } from 'app/mock-api/apps/contacts/data';
+import {
+    contacts as contactsData,
+    countries as countriesData,
+    tags as tagsData
+} from 'app/mock-api/apps/contacts/data';
 
 @Injectable({
     providedIn: 'root'

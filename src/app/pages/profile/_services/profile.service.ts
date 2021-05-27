@@ -4,7 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfileModel, ProfilePersonalInfo } from '../profile.model';
+import {
+    Profile,
+    ProfileConnectionInfo,
+    ProfileGeneralInfo,
+    ProfileModel,
+    ProfilePersonalInfo
+} from '../profile.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { GroupsQuery } from '../tabs/groups/groups.component';
 import { Group } from '@features/admin/groups';

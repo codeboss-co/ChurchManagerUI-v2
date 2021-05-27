@@ -5,7 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Environment } from '@shared/environment.model';
 import { AuthService } from '@core/auth/auth.service';
 import { ENV } from '@shared/constants';
-import { OnlineUser, OnlineUserModel, OnlineUsers } from '@shared/shared.models';
+import { OnlineUserModel, OnlineUsers } from '@shared/shared.models';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { NotificationMethod } from '@core/notifications/notification';
 

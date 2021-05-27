@@ -7,6 +7,7 @@ import { InitialData } from 'app/app.types';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { UserDetails } from '@shared/shared.models';
+import LogRocket from 'logrocket';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +46,14 @@ export class InitialDataResolver implements Resolve<any>
                     map(response => {
                         const userDetails = response.data as UserDetails;
                         console.log( 'UserDetails', userDetails, 'InitialDataResolver' );
+
+                        // LogRocket for production only
+                        if ( this._environment.production ){
+                            LogRocket.identify(userDetails.userLoginId, {
+                                name: `${userDetails.firstName} ${userDetails.lastName}`,
+                                email: userDetails.email
+                            });
+                        }
 
                         return  {
                             id: userDetails.userLoginId,

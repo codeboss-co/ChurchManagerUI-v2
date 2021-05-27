@@ -3,7 +3,13 @@ import { assign, cloneDeep, omit } from 'lodash-es';
 import * as moment from 'moment';
 import RRule, { RRuleSet, rrulestr } from 'rrule';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { calendars as calendarsData, events as eventsData, exceptions as exceptionsData, settings as settingsData, weekdays as weekdaysData } from 'app/mock-api/apps/calendar/data';
+import {
+    calendars as calendarsData,
+    events as eventsData,
+    exceptions as exceptionsData,
+    settings as settingsData,
+    weekdays as weekdaysData
+} from 'app/mock-api/apps/calendar/data';
 
 @Injectable({
     providedIn: 'root'

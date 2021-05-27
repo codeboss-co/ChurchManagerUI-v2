@@ -33,11 +33,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
-import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { CalendarModule } from '../../../pages/calendar/calendar.module';
 import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-materia
         MatProgressBarModule,
         MatSidenavModule,
         MatSelectModule,
+        MatSlideToggleModule,
         MatSortModule,
         MatTableModule,
         MatToolbarModule,
@@ -79,6 +81,7 @@ import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-materia
         // Controls
         PersonAutocompleteControlModule,
         GroupTypesSelectControlModule,
+        ChurchesSelectControlModule,
 
         // 3rd Party
         NgxMatNativeDateModule,

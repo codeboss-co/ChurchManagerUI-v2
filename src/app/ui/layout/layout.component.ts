@@ -9,7 +9,6 @@ import { FuseTailwindService } from '@fuse/services/tailwind/tailwind.service';
 import { FUSE_VERSION } from '@fuse/version';
 import { Layout } from '@ui/layout/layout.types';
 import { AppConfig, Scheme, Theme } from '@core/config/app.config';
-import { SnackbarNotificationsService } from '@core/notifications/snackbar-notifications.service';
 
 @Component({
     selector     : 'layout',

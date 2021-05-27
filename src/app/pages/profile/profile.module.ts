@@ -28,10 +28,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
-import { ProfileGeneralInfoFormDialogComponent } from './tabs/about/components';
-import { ProfileConnectionInfoFormDialogComponent } from './tabs/about/components';
+import {
+    ProfileConnectionInfoFormDialogComponent,
+    ProfileGeneralInfoFormDialogComponent,
+    ProfilePersonalInfoFormDialogComponent
+} from './tabs/about/components';
 import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
-import { ProfilePersonalInfoFormDialogComponent } from './tabs/about/components';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 import { ProfileDiscipleshipService } from './tabs/discipleship/profile-discipleship.service';

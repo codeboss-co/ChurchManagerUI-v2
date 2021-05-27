@@ -3,10 +3,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { MatSelectChange } from '@angular/material/select';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ProfileDiscipleshipService } from './profile-discipleship.service';
-import {
-    DiscipleshipProgramForPerson,
-    DiscipleshipProgramsForPerson
-} from '@features/admin/discipleship/discipleship.models';
+import { DiscipleshipProgramsForPerson } from '@features/admin/discipleship/discipleship.models';
 
 @Component({
     selector     : 'profile-discipleship',

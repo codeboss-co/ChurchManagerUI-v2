@@ -7,7 +7,7 @@ import { PersonAutocompletes } from '@ui/layout/common/search/search-bar.models'
 import { PersonSearchService } from '@ui/controls/person-autocomplete-control/person-search.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { Identifiable } from '@shared/shared.models';
-import { containsIdValidation } from '@shared/validators/common-forms.validators';
+import { containsIdValidation, isAutocompleteOption } from '@shared/validators/common-forms.validators';
 
 @Component({
     selector: 'person-autocomplete-control',
@@ -63,9 +63,9 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         this._unsubscribeAll = new Subject();
 
         if ( this.required ) {
-            this.inputControl = new FormControl('', [Validators.required, containsIdValidation]);
+            this.inputControl = new FormControl(null, [Validators.required, containsIdValidation]);
         } else {
-            this.inputControl = new FormControl('', [containsIdValidation]);
+            this.inputControl = new FormControl(null, [containsIdValidation]);
         }
     }
 
@@ -76,7 +76,7 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         if (value) {
             this.inputControl.setValue(value, { emitEvent: false });
         } else {
-            this.inputControl.reset('');
+            this.inputControl.reset(null);
         }
     }
 
@@ -90,7 +90,14 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
             .pipe(takeUntil(this._unsubscribeAll))
             // This is what is returned to the formControl binding
             // We map to return only the id and the label
-            .pipe(map( ({id, label}) => ({id, label}) ))
+            .pipe(map( (value: any) => {
+                // return the id and the label
+                // on the parent form we can check for this and set state invalid by adding containsIdValidation
+                // Example:  add-group-member-form-dialog.component.ts
+                if(value && isAutocompleteOption(value)) return {id: value.id, label: value.label};
+                // return the value
+                return value;
+            } ))
             .subscribe(fn);
     }
 
@@ -116,7 +123,7 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         if ( event.code === 'Escape' )
         {
             // Clear the search input
-            this.inputControl.setValue('');
+            this.inputControl.setValue(null);
         }
     }
 
@@ -166,10 +173,5 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-    }
-
-    selectPerson( id: string | number ): void
-    {
-
     }
 }
