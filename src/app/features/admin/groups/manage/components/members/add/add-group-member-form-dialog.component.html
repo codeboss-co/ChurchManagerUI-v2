@@ -4,12 +4,19 @@
 
     <div class="flex flex-col w-full mt-6">
 
+        <!--Record Status-->
+        <record-status-select-control
+            formControlName="recordStatus"
+            required>
+        </record-status-select-control>
+
         <!--Person-->
         <person-autocomplete-control
             formControlName="person"
             required>
         </person-autocomplete-control>
 
+        <!--Group Role-->
         <div class="flex flex-col mt-6">
             <mat-label>Group Role</mat-label>
             <mat-button-toggle-group  formControlName="groupRole">
@@ -24,6 +31,7 @@
             </mat-error>
         </div>
 
+        <!--Communication Preference-->
         <div class="flex flex-col mt-6">
             <mat-label>Communication Preference</mat-label>
             <mat-button-toggle-group  formControlName="communicationPreference">
@@ -35,7 +43,7 @@
             </mat-error>
         </div>
 
-        <!-- Birthday -->
+        <!-- First Visit Date -->
         <div class="flex items-center mt-6 w-full">
             <mat-form-field class="fuse-mat-no-subscript flex-auto">
                 <mat-label>First Visit Date</mat-label>
@@ -86,5 +94,6 @@
             Update
         </button>
     </div>
+    
 </form>
 

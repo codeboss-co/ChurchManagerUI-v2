@@ -91,11 +91,12 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
      */
     get groupMemberForm(): GroupMemberForm
     {
-        const {person, groupRole, communicationPreference, firstVisitDate} = this.form.value;
+        const {person, groupRole, communicationPreference, firstVisitDate,recordStatus} = this.form.value;
 
         return {
-            person, groupRole, communicationPreference, firstVisitDate,
-            groupId: this.group.id
+            person, groupRole, communicationPreference, firstVisitDate, recordStatus,
+            groupId: this.group.id,
+            groupMemberId: this.groupMember.groupMemberId
         };
     }
 
@@ -107,6 +108,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
         return this._formBuilder.group({
             person: [null, [Validators.required, containsIdValidation]],
             groupRole: [null, Validators.required],
+            recordStatus: ['Active', Validators.required],
             communicationPreference: ['Email', Validators.required],
             firstVisitDate: [null],
         });

@@ -111,6 +111,8 @@ export interface GroupMemberForm
     groupRole: number;
     communicationPreference?: string;
     firstVisitDate?: Moment;
+    recordStatus?: string;
 
+    groupMemberId?: number; // Used for editing
     groupId?: number;
 }
