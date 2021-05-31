@@ -1,19 +1,12 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpBaseService } from '@shared/api/http-base.service';
-import { HttpClient } from '@angular/common/http';
-import { ENV } from '@shared/constants';
-import { Environment } from '@shared/environment.model';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GroupWithChildren } from '@features/admin/groups';
-import { ApiResponse } from '@shared/shared.models';
-import { map, tap } from 'rxjs/operators';
+import { GroupsDataService, GroupWithChildren } from '@features/admin/groups';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class GroupsManageService extends HttpBaseService
+export class GroupsManageService
 {
     private _groups: BehaviorSubject<GroupWithChildren[]> = new BehaviorSubject([]);
-
-    private _apiUrl = this._environment.baseUrls.apiUrl;
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -27,10 +20,7 @@ export class GroupsManageService extends HttpBaseService
         return this._groups.asObservable();
     }
 
-    constructor(
-        private http: HttpClient,
-        @Inject( ENV ) private _environment: Environment ) {
-        super( http );
+    constructor( private _data: GroupsDataService ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -42,9 +32,8 @@ export class GroupsManageService extends HttpBaseService
      */
     getGroupsTree$(): Observable<GroupWithChildren[]>
     {
-        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/tree`, null)
+        return this._data.getGroupsTree$()
             .pipe(
-                map(response => response.data),
                 tap(groups => this._groups.next(groups))
             );
     }
@@ -54,9 +43,8 @@ export class GroupsManageService extends HttpBaseService
      */
     getGroupTree$(groupId: number): Observable<GroupWithChildren[]>
     {
-        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupId}/tree`, null)
+        return this._data.getGroupTree$(groupId)
             .pipe(
-                map(response => response.data),
                 tap(groups => this._groups.next(groups))
             );
     }

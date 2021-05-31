@@ -8,13 +8,15 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
-import { Group, GroupWithChildren } from '@features/admin/groups';
+import { GroupWithChildren } from '@features/admin/groups';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { MatDialog } from '@angular/material/dialog';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
+import { filter } from 'rxjs/operators';
+import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
-interface FlatNode {
+export interface FlatNode {
     expandable: boolean;
     name: string;
     level: number;
@@ -31,11 +33,12 @@ export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
-    @Output() addedGroup = new EventEmitter<Group>();
+    @Output() addedGroup = new EventEmitter<NewGroupForm>();
 
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
     dataSource: MatTreeFlatDataSource<GroupWithChildren, FlatNode>;
+
 
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
     flatNodeMap = new Map<number, GroupWithChildren>();
@@ -59,6 +62,7 @@ export class GroupsViewerComponent implements OnChanges
 
     ngOnChanges( changes: SimpleChanges ): void
     {
+        console.log('changed');
         if ( changes['groups'] ) {
             this.dataSource.data = changes['groups'].currentValue;
         }
@@ -77,19 +81,37 @@ export class GroupsViewerComponent implements OnChanges
     /**
      * Open new group dialog
      */
-    openAddGroupDialog({ item }: FlatNode): void
+    openAddGroupDialog(node: FlatNode): void
     {
         // Open the dialog
         const dialogRef = this._matDialog.open(NewGroupDialogComponent, {
             data : {
-                parentGroup: item
+                parentGroup: node.item
             }
         });
 
         dialogRef.afterClosed()
-            .subscribe((result) => {
-                console.log('Compose dialog was closed!', result);
+            .pipe(filter(result => !!result))
+            .subscribe((group: NewGroupForm) => {
+                // Signal the added group details
+                this.addedGroup.emit(group);
             });
+    }
+
+    /**
+     * Expands tree from given node to all its parent
+     * https://stackblitz.com/edit/angular-icfxva?file=src%2Fapp%2Ftree-nested-overview-example.ts
+     */
+    expandTree( data: FlatNode[], id: number): any {
+        data.forEach(node => {
+            if (node.item.groups && node.item.groups.find(c => c.id === id)) {
+                this.treeControl.expand(node);
+                this.expandTree(this.treeControl.dataNodes, node.item.id);
+            }
+            else if (node.item.groups && node.item.groups.find(c => c.groups)) {
+                this.expandTree(node.item.groups.map(this._transformer), id);
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

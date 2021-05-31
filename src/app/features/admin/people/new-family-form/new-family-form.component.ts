@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonFormDialogComponent } from './person-form/person-form-dialog.component';
 import { fuseAnimations } from '@fuse/animations';
-import { PersonBasicDetailsForm, FamilyMember, NewFamilyForm } from './person-form/person-form.model';
+import { FamilyMember, NewFamilyForm, PersonBasicDetailsForm } from './person-form/person-form.model';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';

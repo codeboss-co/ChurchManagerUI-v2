@@ -7,12 +7,13 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren, NewGroupMemberForm } from '../group.model';
+import { GroupMemberForm, GroupMemberSimple, GroupType, GroupTypeRole, GroupWithChildren } from '../group.model';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '@shared/shared.models';
+import { ApiResponse, FormAction, FormActions } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
-import { GroupAttendanceForm } from '../group-attendance.model';
+import { GroupAttendanceForm } from '@features/admin/groups';
+import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 
 @Injectable()
 export class GroupsDataService extends HttpBaseService
@@ -42,6 +43,17 @@ export class GroupsDataService extends HttpBaseService
     }
 
     /**
+     * Get group member
+     */
+    getGroupMember$(groupMemberId: number): Observable<GroupMemberForm>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/members/${groupMemberId}`, null)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
+    /**
      * Get group roles for group
      */
     getGroupRoles$(groupTypeId: number): Observable<GroupTypeRole[]>
@@ -55,19 +67,35 @@ export class GroupsDataService extends HttpBaseService
     /**
      * Add new group member
      */
-    addGroupMember$(model: NewGroupMemberForm): Observable<any>
+    addOrUpdateGroupMember$(model: GroupMemberForm, action: FormAction = FormActions.New): Observable<any>
     {
         const personId = model.person.id;
-        const groupId = model.groupId;
         const groupRoleId = model.groupRole;
-        const communicationPreference = model.communicationPreference;
-        const firstVisitDate = model.firstVisitDate;
+        const {groupId, groupMemberId, communicationPreference, firstVisitDate} = model;
 
         const body = {
-            personId, groupId, groupRoleId, communicationPreference, firstVisitDate
+            personId, groupId,groupMemberId, groupRoleId, communicationPreference, firstVisitDate
         };
 
-        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/${model.groupId}/add-member`, body)
+        let url;
+        if (action === FormActions.New) {
+            url = `${this._apiUrl}/v1/groups/${model.groupId}/add-member`;
+        } else {
+           url = `${this._apiUrl}/v1/groups/update-member`;
+        }
+
+        return super.post<ApiResponse>(url, body)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
+    /**
+     * Remove group member from group
+     */
+    deleteGroupMember$( body: {groupMemberId: number; groupId: number} )
+    {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/${body.groupId}/remove-member`, body)
             .pipe(
                 map(response => response.data)
             );
@@ -85,4 +113,39 @@ export class GroupsDataService extends HttpBaseService
                 map(response => response.data)
             );
     }
+
+    /**
+     * @returns the newly created group id
+     */
+    addGroup$(model: NewGroupForm): Observable<number>
+    {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups`, model)
+            .pipe(
+                map(response => response.data),
+            );;
+    }
+
+    /**
+     * Get groups with their children in the form of a tree
+     */
+    getGroupsTree$(): Observable<GroupWithChildren[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/tree`, null)
+            .pipe(
+                map(response => response.data),
+            );
+    }
+
+    /**
+     * Get group by id with their children in the form of a tree
+     */
+    getGroupTree$(groupId: number): Observable<GroupWithChildren[]>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/${groupId}/tree`, null)
+            .pipe(
+                map(response => response.data),
+            );
+    }
+
+
 }

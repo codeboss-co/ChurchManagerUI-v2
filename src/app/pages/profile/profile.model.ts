@@ -1,4 +1,4 @@
-import { BaptismStatus, BirthDate, Email, FullName, PhoneNumber, Church } from '@features/admin/people';
+import { BaptismStatus, BirthDate, Church, Email, FullName, PhoneNumber } from '@features/admin/people';
 
 export interface FamilyMember {
     personId?: number;
