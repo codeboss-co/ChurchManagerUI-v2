@@ -22,7 +22,8 @@
             [mode]="drawerMode"
             [opened]="drawerOpened"
             #drawer>
-                <people-advanced-search></people-advanced-search>
+                <people-advanced-search (searchChanged)="onSearchChanged($event)">
+                </people-advanced-search>
         </mat-drawer>
 
         <mat-drawer-content class="flex flex-col">

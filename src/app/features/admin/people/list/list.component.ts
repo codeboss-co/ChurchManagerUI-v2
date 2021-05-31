@@ -15,7 +15,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Country } from '../contacts.types';
+import { Country, PersonAdvancedSearchQuery } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
 import { PeopleSearchQuery, Person } from '@features/admin/people';
@@ -226,5 +226,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
     {
         // Toggle the drawer
         this._drawer.toggle();
+    }
+
+    onSearchChanged( query: PersonAdvancedSearchQuery )
+    {
+        console.log('query', query)
     }
 }

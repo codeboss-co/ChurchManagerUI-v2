@@ -35,3 +35,11 @@ export interface Tag
     id?: string;
     title?: string;
 }
+
+
+export interface PersonAdvancedSearchQuery
+{
+    connectionStatus?: any;
+    ageClassification?: any;
+    gender?: any;
+}

@@ -1,14 +1,69 @@
 <div class="flex flex-col flex-auto min-h-full p-8">
-    <div class="pb-6 text-xl font-extrabold tracking-tight">Advanced Search</div>
+    <div class="text-xl font-extrabold tracking-tight">Advanced Search</div>
 
-    <div class="group flex items-center justify-between mb-3">
+    <form *ngIf="searchForm" [formGroup]="searchForm">
+
+        <!-- Connection Status -->
+        <div class="group flex items-center justify-between mb-3 mt-2">
+            <span class="text-lg font-medium">Connection Status</span>
+        </div>
+
+        <div [formGroupName]="'connectionStatus'">
+            <ng-container *ngFor="let key of connectionStatusMap.keys()">
+                <div class="group flex items-center justify-between mt-2">
+                    <div
+                        class="flex items-center">
+                        <mat-checkbox formControlName="{{key}}">{{connectionStatusMap.get(key)}}</mat-checkbox>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="group flex items-center justify-between mb-3 mt-2">
+            <span class="text-lg font-medium">Age Classification</span>
+        </div>
+
+        <div [formGroupName]="'ageClassification'">
+            <ng-container *ngFor="let key of ageClassificationMap.keys()">
+                <div class="group flex items-center justify-between mt-2">
+                    <div
+                        class="flex items-center">
+                        <mat-checkbox formControlName="{{key}}">{{ageClassificationMap.get(key)}}</mat-checkbox>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="group flex items-center justify-between mb-3 mt-2">
+            <span class="text-lg font-medium">Gender</span>
+        </div>
+
+        <div [formGroupName]="'gender'">
+            <ng-container *ngFor="let key of genderMap.keys()">
+                <div class="group flex items-center justify-between mt-2">
+                    <div
+                        class="flex items-center">
+                        <mat-checkbox formControlName="{{key}}">{{genderMap.get(key)}}</mat-checkbox>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
 
 
-        <mat-button-toggle-group name="fontStyle" multiple>
-            <mat-button-toggle value="bold">Bold</mat-button-toggle>
-            <mat-button-toggle value="italic">Italic</mat-button-toggle>
-            <mat-button-toggle value="underline">Underline</mat-button-toggle>
-        </mat-button-toggle-group>
+        <!-- Settings -->
+        <div class="-mx-4 mt-auto">
+            <a
+                class="flex items-center w-full py-3 px-4 rounded-full hover:bg-hover cursor-pointer"
+                (click)="updateSearch()">
+                <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+                <span class="ml-2 font-medium leading-none">Apply</span>
+            </a>
+        </div>
 
-    </div>
+
+        {{searchForm.value | json}}
+
+    </form>
+
+
 </div>
