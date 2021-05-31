@@ -7,9 +7,13 @@ export function tokenGetter() {
 
 export const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     hasProgressBar: false,
-    fgsType: 'cube-grid',
+    fgsType: 'cube-grid'
 };
 
 export const routerLoaderConfig: NgxUiLoaderRouterConfig = {
-    exclude: ['/apps/people', '/pages/profile']
+    exclude: [
+        '/apps/people',
+        '/apps/groups/cell-ministry/attendance-reports',
+        '/pages/profile'
+    ]
 }

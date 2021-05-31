@@ -39,6 +39,7 @@ import { CalendarModule } from '../../../pages/calendar/calendar.module';
 import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RecordStatusSelectControlModule } from '@ui/controls/record-status-select-control/record-status-select-control.module';
 
 @NgModule({
     declarations: [
@@ -82,6 +83,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         PersonAutocompleteControlModule,
         GroupTypesSelectControlModule,
         ChurchesSelectControlModule,
+        RecordStatusSelectControlModule,
 
         // 3rd Party
         NgxMatNativeDateModule,

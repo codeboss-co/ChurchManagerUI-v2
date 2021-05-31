@@ -1,0 +1,16 @@
+<mat-form-field>
+    <mat-label>Record Status</mat-label>
+    <mat-select
+        [required]="required"
+        (selectionChange)="onSelectionChange($event)"
+        [formControl]="selectListControl">
+        <mat-option *ngFor="let item of items" [value]="item">
+            {{ item }}
+        </mat-option>
+    </mat-select>
+    <mat-icon
+        class="icon-size-5"
+        matPrefix
+        [svgIcon]="'heroicons_solid:archive'"></mat-icon>
+    <mat-error *ngIf="selectListControl.hasError('required')">Required</mat-error>
+</mat-form-field>

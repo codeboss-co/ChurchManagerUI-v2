@@ -2,15 +2,9 @@
 
 Church Manager frontend based on Angular Material
 
-## AWS
-
-Edit user attributes in AWS Cognito User Pool for specific user.
-
-```
-aws cognito-idp admin-update-user-attributes --user-pool-id us-east-1_i6pWJxu8q --username dillan --user-attributes Name="custom:picture",Value="https://secure.gravatar.com/avatar/6fdc48b6ec4d95f2fd682fc2982eb01b" --profile personal
-```
-
 ## Running
+
+> ng serve
 
 ### Docker
 
