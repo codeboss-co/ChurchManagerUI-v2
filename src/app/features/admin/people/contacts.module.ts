@@ -38,6 +38,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [

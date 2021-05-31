@@ -15,6 +15,16 @@
             <router-outlet></router-outlet>
         </mat-drawer>
 
+        <!-- Advanced Search Drawer -->
+        <mat-drawer
+            class="w-60 dark:bg-gray-900"
+            [autoFocus]="false"
+            [mode]="drawerMode"
+            [opened]="drawerOpened"
+            #drawer>
+
+        </mat-drawer>
+
         <mat-drawer-content class="flex flex-col">
 
             <!-- Main -->
@@ -22,6 +32,25 @@
 
                 <!-- Header -->
                 <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
+
+                    <!-- Advanced Search Drawer Toggle -->
+                    <button
+                        class="mb-2"
+                        [class.w-20]="drawer.opened"
+                        [class.w-40]="!drawer.opened"
+                        mat-flat-button
+                        [color]="'accent'"
+                        (click)="toggleDrawer()">
+                        <mat-icon *ngIf="drawer.opened"
+                            class="fuse-vertical-navigation-item-arrow icon-size-4"
+                            [svgIcon]="'heroicons_solid:chevron-left'">
+                        </mat-icon>
+                        <mat-icon *ngIf="!drawer.opened"
+                                  class="fuse-vertical-navigation-item-arrow icon-size-4"
+                                  [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        {{drawer.opened ? 'Close' : 'Advanced Search'}}
+                    </button>
 
                     <!-- Title -->
                     <div>

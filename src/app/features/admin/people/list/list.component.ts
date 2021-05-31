@@ -31,9 +31,11 @@ import { PeopleDataService } from '@features/admin/people/_services/people-data.
 export class ContactsListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+    @ViewChild('drawer') private _drawer: MatDrawer;
 
     countries: Country[];
     drawerMode: 'side' | 'over';
+    drawerOpened: boolean = false;
     searchInputControl: FormControl = new FormControl();
     selectedContact: Person;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -188,14 +190,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
     createContact(): void
     {
         // Create the contact
-        this._contactsService.createContact().subscribe((newContact) => {
-
-            // Go to new contact
-            this._router.navigate(['./', newContact.id], {relativeTo: this._activatedRoute});
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
+        this._router.navigate(['/apps/people/new-family']);
     }
 
     /**
@@ -222,5 +217,14 @@ export class ContactsListComponent implements OnInit, OnDestroy
     trackByFn(index: number, item: Person): any
     {
         return item.personId || index;
+    }
+
+    /**
+     * Toggle Drawer
+     */
+    toggleDrawer(): void
+    {
+        // Toggle the drawer
+        this._drawer.toggle();
     }
 }
