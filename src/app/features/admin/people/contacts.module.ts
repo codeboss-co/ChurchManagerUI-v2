@@ -38,7 +38,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { PeopleAdvancedSearchComponent } from './list/advanced-search/people-advanced-search.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
         // People
         NewFamilyFormComponent,
         PersonFormDialogComponent,
-        FamilyMembersListComponent
+        FamilyMembersListComponent,
+        PeopleAdvancedSearchComponent
     ],
     imports     : [
         RouterModule.forChild(contactsRoutes),
@@ -71,6 +73,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatSidenavModule,
         MatStepperModule,
         MatTableModule,
+        MatButtonToggleModule,
         MatToolbarModule,
         MatTooltipModule,
 
