@@ -102,5 +102,19 @@ export interface PeopleSearchQuery
     searchTerm?: string;
 }
 
+export interface PeopleAdvancedSearchQuery
+{
+    searchTerm?: string;
+    connectionStatus?:  string[];
+    ageClassification?:  string[];
+    gender?: string[];
+}
+
+export interface SearchItem  {
+    group: string;
+    key: string;
+}
+
+
 
 

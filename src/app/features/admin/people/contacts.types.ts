@@ -36,10 +36,3 @@ export interface Tag
     title?: string;
 }
 
-
-export interface PersonAdvancedSearchQuery
-{
-    connectionStatus?: any;
-    ageClassification?: any;
-    gender?: any;
-}

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { PersonAdvancedSearchQuery } from '@features/admin/people/contacts.types';
+import { PeopleAdvancedSearchQuery, SearchItem } from '@features/admin/people';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'people-advanced-search',
@@ -10,26 +11,14 @@ import { PersonAdvancedSearchQuery } from '@features/admin/people/contacts.types
 })
 export class PeopleAdvancedSearchComponent implements OnInit {
 
+    @Output() searchChanged = new EventEmitter<PeopleAdvancedSearchQuery>();
+
+    selection = new SelectionModel<SearchItem>(true, []);
     searchForm: FormGroup;
 
-    @Output() searchChanged = new EventEmitter<PersonAdvancedSearchQuery>();
-
-    connectionStatusMap = new Map<string, string>([
-        ['member', 'Member'],
-        ['firstTimer', 'First Timer'],
-        ['newConvert', 'New Convert']
-    ]);
-
-    ageClassificationMap = new Map<string, string>([
-        ['adult', 'Adult'],
-        ['children', 'Children']
-    ]);
-
-    genderMap = new Map<string, string>([
-        ['male', 'Male'],
-        ['female', 'Female'],
-        ['unknown', 'Unknown']
-    ]);
+    connectionStatusMap = ['Member',  'First Timer',  'New Convert'];
+    ageClassificationMap = ['Adult', 'Child'];
+    genderMap = ['Male', 'Female', 'Unknown'];
 
     constructor(private _formBuilder: FormBuilder)
     {
@@ -42,30 +31,45 @@ export class PeopleAdvancedSearchComponent implements OnInit {
 
     updateSearch()
     {
-        this.searchChanged.emit(this.searchForm.getRawValue())
-        console.log('updateSearch');
+        const model: PeopleAdvancedSearchQuery = {
+            connectionStatus: this._selectedItemsByGroup('connectionStatus'),
+            ageClassification: this._selectedItemsByGroup('ageClassification'),
+            gender: this._selectedItemsByGroup('gender'),
+        };
+
+        this.searchChanged.emit(model)
+    }
+
+    selectSearchItem( group: string, key: string,  checked: boolean )
+    {
+        // SelectionModel works by checking object references
+        // This code makes sure we only add an item to selected if its not already there
+        // If we are changing from selected to deselected we find the selection and update
+        if ( checked ) {
+           if ( !this.selection.selected.find( x => x.key === key) ) {
+               this.selection.select( { group, key });
+           }
+        }
+         else {
+             const selection = this.selection.selected.find( x => x.key === key)
+            this.selection.deselect(selection);
+        }
+
+         console.log('selection', this.selection.selected);
     }
 
     private _createForm(): FormGroup
     {
         return this._formBuilder.group({
-            connectionStatus : this._formBuilder.group({
-                member  : [false],
-                firstTimer      : [false],
-                newConvert: [false]
-            }),
 
-            ageClassification : this._formBuilder.group({
-                adult  : [false],
-                children      : [false]
-            }),
-
-            gender : this._formBuilder.group({
-                male  : [false],
-                female      : [false],
-                unknown: [false]
-            })
 
         });
+    }
+
+    private _selectedItemsByGroup(group: string): string[]
+    {
+        return  this.selection.selected
+            .filter(x => x.group === group)
+            .map(x => x.key)
     }
 }

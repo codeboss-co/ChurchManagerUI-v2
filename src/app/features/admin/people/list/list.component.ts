@@ -15,12 +15,12 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Country, PersonAdvancedSearchQuery } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
-import { PeopleSearchQuery, Person } from '@features/admin/people';
+import { PeopleAdvancedSearchQuery, PeopleSearchQuery, Person } from '@features/admin/people';
 import { Sort } from '@shared/data/pagination.models';
 import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
+import { Country } from '@features/admin/people/contacts.types';
 
 @Component({
     selector       : 'contacts-list',
@@ -38,9 +38,11 @@ export class ContactsListComponent implements OnInit, OnDestroy
     drawerOpened: boolean = false;
     searchInputControl: FormControl = new FormControl();
     selectedContact: Person;
+    // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _searchQuery$ = new Subject<PeopleAdvancedSearchQuery>();
 
-    dataSource: PaginatedDataSource<Person, PeopleSearchQuery> | null;
+    dataSource: PaginatedDataSource<Person, PeopleAdvancedSearchQuery> | null;
 
     /**
      * Constructor
@@ -101,6 +103,13 @@ export class ContactsListComponent implements OnInit, OnDestroy
                 this.dataSource.queryBy({searchTerm});
             });
 
+        // Subscribe to advanced search changes
+        this._searchQuery$
+            .pipe( takeUntil(this._unsubscribeAll))
+            .subscribe(query => {
+                this.dataSource.queryBy(query);
+            });
+
         // Subscribe to MatDrawer opened change
         this.matDrawer.openedChange.subscribe((opened) => {
             if ( !opened )
@@ -150,7 +159,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         const initialSort: Sort<any> = {property: 'FullName.LastName', order: 'asc'};
         const initialQuery: PeopleSearchQuery = {searchTerm: ''};
 
-        this.dataSource =  new PaginatedDataSource<Person, PeopleSearchQuery>(
+        this.dataSource =  new PaginatedDataSource<Person, PeopleAdvancedSearchQuery>(
             (request, query) => this._data.pagePeople$(request, query),
             initialSort,
             initialQuery,
@@ -228,8 +237,9 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._drawer.toggle();
     }
 
-    onSearchChanged( query: PersonAdvancedSearchQuery )
+    onSearchChanged( query: PeopleAdvancedSearchQuery )
     {
-        console.log('query', query)
+        console.log(query);
+        this._searchQuery$.next(query);
     }
 }

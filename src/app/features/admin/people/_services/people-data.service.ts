@@ -8,7 +8,7 @@ import { ApiResponse } from '@shared/shared.models';
 import { NewFamilyForm } from '../new-family-form/person-form/person-form.model';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
-import { People, PeopleSearchQuery, Person } from '@features/admin/people';
+import { People, PeopleAdvancedSearchQuery, Person } from '@features/admin/people';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -82,7 +82,7 @@ export class PeopleDataService extends HttpBaseService
     // @ Paging methods
     // -----------------------------------------------------------------------------------------------------
 
-    pagePeople$(request: PagedRequest<Person>, query: PeopleSearchQuery): Observable<PagedResult<Person>>
+    pagePeople$(request: PagedRequest<Person>, query: PeopleAdvancedSearchQuery): Observable<PagedResult<Person>>
     {
         return this._browsePeople$(request, query)
             .pipe(
@@ -97,7 +97,7 @@ export class PeopleDataService extends HttpBaseService
     /**
      * Browse people
      */
-    private _browsePeople$(paging: PagedRequest<Person>, query: PeopleSearchQuery): Observable<PagedResult<Person>>
+    private _browsePeople$(paging: PagedRequest<Person>, query: PeopleAdvancedSearchQuery): Observable<PagedResult<Person>>
     {
         const body = {
             ...query,

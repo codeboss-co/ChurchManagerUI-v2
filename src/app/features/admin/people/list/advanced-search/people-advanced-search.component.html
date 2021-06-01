@@ -1,69 +1,67 @@
-<div class="flex flex-col flex-auto min-h-full p-8">
-    <div class="text-xl font-extrabold tracking-tight">Advanced Search</div>
+<div
+    *ngIf="searchForm"
+    [formGroup]="searchForm"
+    class="flex flex-col flex-auto min-h-full p-8">
 
-    <form *ngIf="searchForm" [formGroup]="searchForm">
+    <!-- Title -->
+    <div class="pb-2 text-xl font-extrabold tracking-tight">Advanced Search</div>
 
-        <!-- Connection Status -->
-        <div class="group flex items-center justify-between mb-3 mt-2">
-            <span class="text-lg font-medium">Connection Status</span>
+    <!-- Connection Status -->
+    <div class="group flex items-center justify-between mb-1">
+        <span class="text-lg font-medium">Connection Status</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of connectionStatusMap"
+            class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('connectionStatus', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
         </div>
+    </ng-container>
 
-        <div [formGroupName]="'connectionStatus'">
-            <ng-container *ngFor="let key of connectionStatusMap.keys()">
-                <div class="group flex items-center justify-between mt-2">
-                    <div
-                        class="flex items-center">
-                        <mat-checkbox formControlName="{{key}}">{{connectionStatusMap.get(key)}}</mat-checkbox>
-                    </div>
-                </div>
-            </ng-container>
+    <!-- Age Classification -->
+    <div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Age Classification</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of ageClassificationMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('ageClassification', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
         </div>
+    </ng-container>
 
-        <div class="group flex items-center justify-between mb-3 mt-2">
-            <span class="text-lg font-medium">Age Classification</span>
+    <!-- Gender -->
+    <div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Gender</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of genderMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('gender', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
         </div>
+    </ng-container>
 
-        <div [formGroupName]="'ageClassification'">
-            <ng-container *ngFor="let key of ageClassificationMap.keys()">
-                <div class="group flex items-center justify-between mt-2">
-                    <div
-                        class="flex items-center">
-                        <mat-checkbox formControlName="{{key}}">{{ageClassificationMap.get(key)}}</mat-checkbox>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
-
-        <div class="group flex items-center justify-between mb-3 mt-2">
-            <span class="text-lg font-medium">Gender</span>
-        </div>
-
-        <div [formGroupName]="'gender'">
-            <ng-container *ngFor="let key of genderMap.keys()">
-                <div class="group flex items-center justify-between mt-2">
-                    <div
-                        class="flex items-center">
-                        <mat-checkbox formControlName="{{key}}">{{genderMap.get(key)}}</mat-checkbox>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
-
-
-        <!-- Settings -->
-        <div class="-mx-4 mt-auto">
-            <a
-                class="flex items-center w-full py-3 px-4 rounded-full hover:bg-hover cursor-pointer"
-                (click)="updateSearch()">
-                <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
-                <span class="ml-2 font-medium leading-none">Apply</span>
-            </a>
-        </div>
-
-
-        {{searchForm.value | json}}
-
-    </form>
-
+    <!-- Settings -->
+    <div class="-mx-4 mt-auto">
+        <a
+            class="flex items-center w-full py-3 px-4 rounded-full hover:bg-hover"
+            (click)="updateSearch()">
+            <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+            <span class="ml-2 font-medium leading-none">Apply</span>
+        </a>
+    </div>
 
 </div>
