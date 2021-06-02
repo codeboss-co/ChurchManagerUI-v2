@@ -42,6 +42,7 @@ import { PeopleAdvancedSearchComponent } from './list/advanced-search/people-adv
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatDatepickerModule,
         MatDialogModule,
         MatDividerModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
