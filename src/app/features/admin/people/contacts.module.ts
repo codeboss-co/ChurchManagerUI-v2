@@ -40,6 +40,8 @@ import { PeopleResolver } from '@features/admin/people/_services/people.resolver
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 import { PeopleAdvancedSearchComponent } from './list/advanced-search/people-advanced-search.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     declarations: [
@@ -55,8 +57,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ],
     imports     : [
         RouterModule.forChild(contactsRoutes),
+
+        MatAutocompleteModule,
         MatButtonModule,
         MatCheckboxModule,
+        MatChipsModule,
         MatDatepickerModule,
         MatDialogModule,
         MatDividerModule,

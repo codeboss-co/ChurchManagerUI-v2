@@ -1,7 +1,4 @@
-<div
-    *ngIf="searchForm"
-    [formGroup]="searchForm"
-    class="flex flex-col flex-auto min-h-full p-8">
+<div class="flex flex-col flex-auto min-h-full p-8">
 
     <!-- Title -->
     <div class="pb-2 text-xl font-extrabold tracking-tight">Advanced Search</div>
@@ -53,6 +50,55 @@
             </mat-checkbox>
         </div>
     </ng-container>
+
+    <!-- Record Status -->
+    <div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Record Status</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of recordStatusMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('recordStatus', key, $event.checked)">
+                {{key}}
+            </mat-checkbox>
+        </div>
+    </ng-container>
+
+    <ng-container>
+        <mat-form-field class="mt-3">
+            <mat-label>Additional Filters</mat-label>
+            <mat-chip-list #chipList>
+                <mat-chip
+                    *ngFor="let filter of selectedChipFilters"
+                    [selectable]="false"
+                    [removable]="true"
+                    (removed)="remove(filter)"
+                    [color]="(filter | fuseFindByKey:'label':chipFilterTooltipMap).color">
+                    {{filter}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input
+                    placeholder="Type to select filter..."
+                    #chipInput
+                    [formControl]="chipFiltersCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option matTooltip="{{(filter | fuseFindByKey:'label':chipFilterTooltipMap).description}}" *ngFor="let filter of filteredChips | async" [value]="filter">
+                    {{filter}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </ng-container>
+
+
+
 
     <!-- Settings -->
     <div class="-mx-4 mt-auto">

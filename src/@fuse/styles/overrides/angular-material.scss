@@ -426,6 +426,30 @@
     font-weight: 500 !important;
 }
 
+@mixin _chip-remove() {
+    .mat-chip-remove {
+        color: white !important;
+        opacity: 0.9 !important;
+    }
+}
+
+.mat-chip.mat-standard-chip {
+    &.mat-primary {
+        @apply bg-primary text-on-primary #{'!important'};
+        @include _chip-remove();
+    }
+
+    &.mat-warn {
+        @apply bg-warn text-on-primary #{'!important'};
+        @include _chip-remove();
+    }
+
+    &.mat-accent {
+        @apply bg-accent text-on-primary #{'!important'};
+        @include _chip-remove();
+    }
+}
+
 /* ----------------------------------------------------------------------------------------------------- */
 /*  @ Drawer
 /* ----------------------------------------------------------------------------------------------------- */
