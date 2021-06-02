@@ -26,7 +26,6 @@ export class PeopleAdvancedSearchComponent implements OnInit {
 
     @Output() searchChanged = new EventEmitter<PeopleAdvancedSearchQuery>();
 
-    searchForm: FormGroup;
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
     selection = new SelectionModel<SearchItem>(true, []);
@@ -36,7 +35,7 @@ export class PeopleAdvancedSearchComponent implements OnInit {
     filteredChips: Observable<string[]>;
     selectedChipFilters: string[] = [];
     // Chip map with tool tip description
-    chipFilterTooltipMap: FilterItem[] =  [
+    chipFilterItems: FilterItem[] =  [
         {key: 'baptised', label: 'Baptised', description:  'Is Baptised', color: 'primary'},
         {key: 'notBaptised', label: 'Not Baptised', description:  'Not Baptised', color: 'accent'},
         {key: 'holySpirit', label: 'Holy Spirit', description:  'Received Holy Spirit', color: 'primary'},
@@ -44,7 +43,7 @@ export class PeopleAdvancedSearchComponent implements OnInit {
         {key: 'noPhoto', label: 'No Photo', description:  'No Photo', color: 'warn'},
     ]
 
-    chipFilterMap: string[] = this.chipFilterTooltipMap.map(x => x.label);
+    chipFilterLabels: string[] = this.chipFilterItems.map( x => x.label);
 
     @ViewChild('chipInput') fruitInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -54,18 +53,17 @@ export class PeopleAdvancedSearchComponent implements OnInit {
     readonly genderMap = ['Male', 'Female', 'Unknown'];
     readonly recordStatusMap = ['Active', 'Pending', 'Inactive'];
 
-    constructor(private _formBuilder: FormBuilder)
+    constructor()
     {
         this.filteredChips = this.chipFiltersCtrl.valueChanges
             .pipe(
                 startWith(<string>null),
-                map((fruit: string | null) => fruit ? this._filter(fruit) : this.chipFilterMap.slice()
+                map((fruit: string | null) => fruit ? this._filter(fruit) : this.chipFilterLabels.slice()
             ));
     }
 
     ngOnInit(): void
     {
-        this.searchForm = this._createForm();
     }
 
     updateSearch()
@@ -76,7 +74,7 @@ export class PeopleAdvancedSearchComponent implements OnInit {
             gender: this._selectedItemsByGroup('gender'),
             recordStatus: this._selectedItemsByGroup('recordStatus'),
             filters: this.selectedChipFilters
-                .map(x => this.chipFilterTooltipMap.find( f => f.label === x))
+                .map(x => this.chipFilterItems.find( f => f.label === x))
                 .map(x => x.key)
         };
 
@@ -99,7 +97,8 @@ export class PeopleAdvancedSearchComponent implements OnInit {
         }
     }
 
-    add(event: MatChipInputEvent): void {
+    add(event: MatChipInputEvent): void
+    {
         const value = (event.value || '').trim();
 
         // Add our fruit
@@ -113,7 +112,8 @@ export class PeopleAdvancedSearchComponent implements OnInit {
         this.chipFiltersCtrl.setValue(null);
     }
 
-    remove(fruit: string): void {
+    remove(fruit: string): void
+    {
         const index = this.selectedChipFilters.indexOf(fruit);
 
         if (index >= 0) {
@@ -121,18 +121,11 @@ export class PeopleAdvancedSearchComponent implements OnInit {
         }
     }
 
-    selected(event: MatAutocompleteSelectedEvent): void {
+    selected(event: MatAutocompleteSelectedEvent): void
+    {
         this.selectedChipFilters.push(event.option.viewValue);
         this.fruitInput.nativeElement.value = '';
         this.chipFiltersCtrl.setValue(null);
-    }
-
-    private _createForm(): FormGroup
-    {
-        return this._formBuilder.group({
-
-
-        });
     }
 
     private _selectedItemsByGroup(group: string): string[]
@@ -142,9 +135,10 @@ export class PeopleAdvancedSearchComponent implements OnInit {
             .map(x => x.key)
     }
 
-    private _filter(value: string): string[] {
+    private _filter(value: string): string[]
+    {
         const filterValue = value.toLowerCase();
 
-        return this.chipFilterMap.filter( fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+        return this.chipFilterLabels.filter( fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
     }
 }

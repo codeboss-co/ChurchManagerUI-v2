@@ -79,7 +79,7 @@
                     Gender
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div  *ngFor="let key of ageClassificationMap"
+            <div  *ngFor="let key of genderMap"
                   class="group flex items-center justify-between mt-2">
                 <mat-checkbox
                     [checked]="false"
@@ -148,7 +148,7 @@
                     [selectable]="false"
                     [removable]="true"
                     (removed)="remove(filter)"
-                    [color]="(filter | fuseFindByKey:'label':chipFilterTooltipMap).color">
+                    [color]="(filter | fuseFindByKey:'label':chipFilterItems).color">
                     {{filter}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
@@ -162,7 +162,7 @@
                     (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option matTooltip="{{(filter | fuseFindByKey:'label':chipFilterTooltipMap).description}}" *ngFor="let filter of filteredChips | async" [value]="filter">
+                <mat-option matTooltip="{{(filter | fuseFindByKey:'label':chipFilterItems).description}}" *ngFor="let filter of filteredChips | async" [value]="filter">
                     {{filter}}
                 </mat-option>
             </mat-autocomplete>
