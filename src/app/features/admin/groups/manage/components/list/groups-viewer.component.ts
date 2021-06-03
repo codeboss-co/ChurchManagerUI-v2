@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -35,10 +35,11 @@ export class GroupsViewerComponent implements OnChanges
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
     @Output() addedGroup = new EventEmitter<NewGroupForm>();
 
+    selected: GroupWithChildren;
+
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
     dataSource: MatTreeFlatDataSource<GroupWithChildren, FlatNode>;
-
 
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
     flatNodeMap = new Map<number, GroupWithChildren>();
@@ -62,7 +63,6 @@ export class GroupsViewerComponent implements OnChanges
 
     ngOnChanges( changes: SimpleChanges ): void
     {
-        console.log('changed');
         if ( changes['groups'] ) {
             this.dataSource.data = changes['groups'].currentValue;
         }
@@ -75,6 +75,7 @@ export class GroupsViewerComponent implements OnChanges
     onSelectGroup( { item }: FlatNode ): void
     {
         const selectedGroup = this.flatNodeMap.get(item.id);
+        this.selected = selectedGroup;
         this.selectedGroup.emit(selectedGroup);
     }
 

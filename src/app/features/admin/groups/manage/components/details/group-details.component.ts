@@ -10,4 +10,5 @@ import { GroupWithChildren } from '@features/admin/groups';
 export class GroupDetailsComponent
 {
     @Input() group: GroupWithChildren;
+    @Input() expanded = true;
 }

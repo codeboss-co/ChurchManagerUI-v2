@@ -35,7 +35,7 @@ import { NewGroupDialogComponent } from '@features/admin/groups/manage/component
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
-import { CalendarModule } from '../../../pages/calendar/calendar.module';
+import { CalendarModule } from '../../../pages/calendar';
 import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
