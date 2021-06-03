@@ -8,6 +8,7 @@ import { BirthDateEditorModule } from '../birthdate-editor-control/birthdate-edi
 import { GenderControlModule } from '../gender-options-control/gender-control.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { PersonValidationService } from '@ui/controls/person-editor-control/duplicate-person.validator';
 
 @NgModule( {
     declarations: [PersonEditorComponent],
@@ -25,7 +26,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
 
         // Fuse
         FuseAlertModule
-    ]
+    ],
+    providers: [PersonValidationService]
 } )
 export class PersonEditorControlModule {
 }
