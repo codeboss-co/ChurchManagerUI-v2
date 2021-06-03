@@ -13,6 +13,9 @@ import {
 import { fromEvent, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { PersonFormValue } from '@ui/controls/person-editor-control/person-editor.model';
+import {
+    PersonValidationService
+} from '@ui/controls/person-editor-control/duplicate-person.validator';
 
 @Component( {
     selector: 'cm-person-editor',
@@ -31,16 +34,16 @@ import { PersonFormValue } from '@ui/controls/person-editor-control/person-edito
         }
     ]
 } )
-export class PersonEditorComponent implements ControlValueAccessor, Validator, OnDestroy {
-
+export class PersonEditorComponent implements ControlValueAccessor, Validator, OnDestroy
+{
     private readonly _destroyed$: Subject<void> = new Subject();
 
     private readonly _phoneNumberPattern = '^((?:\\+27|27)|0)([0-9]{2})(\\d{7})$';
 
     public form = new FormGroup( {
-        firstName: new FormControl( null, [Validators.required] ),
+        firstName: new FormControl( null, [Validators.minLength(3), Validators.required] ),
         middleName: new FormControl( null ),
-        lastName: new FormControl( null, [Validators.required] ),
+        lastName: new FormControl( null, [Validators.minLength(3), Validators.required] ),
         gender: new FormControl( null ),
         ageClassification: new FormControl( null, [Validators.required] ),
         occupation: new FormControl( null ),
@@ -48,26 +51,29 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
         phoneNumber: new FormControl( null, [Validators.required, Validators.pattern(this._phoneNumberPattern)] ),
         birthDate: new FormControl( null ),
         receivedHolySpirit: new FormControl( false )
-    } );
+    }, { asyncValidators: this._validation.duplicatePerson() }
+    );
 
-    constructor( private _elementRef: ElementRef ) { }
+    constructor(
+        private _elementRef: ElementRef,
+        private _validation: PersonValidationService) { }
 
-    writeValue( person: PersonFormValue ): void {
+    writeValue( person: PersonFormValue ): void
+    {
         if ( person ) {
             this.form.patchValue( person );
         }
     }
 
-    registerOnChange( fn: any ): void {
+    registerOnChange( fn: any ): void
+    {
         this.form.valueChanges
-            .pipe(
-                tap(x => console.log('person control changed')),
-                takeUntil( this._destroyed$ )
-            )
+            .pipe(takeUntil( this._destroyed$))
             .subscribe( fn );
     }
 
-    registerOnTouched( fn: any ): void {
+    registerOnTouched( fn: any ): void
+    {
         this._elementRef.nativeElement.querySelectorAll( '*' ).forEach(
             ( element: HTMLElement ) => {
                 fromEvent( element, 'blur' )
@@ -79,7 +85,8 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
         );
     }
 
-    validate( control: AbstractControl ): ValidationErrors {
+    validate( control: AbstractControl ): ValidationErrors
+    {
         return this.form.valid
             ? null
             : Object.keys( this.form.controls ).reduce( ( accumulatedErrors, formControlName ) => {
@@ -95,11 +102,13 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
             }, {} );
     }
 
-    setDisabledState?( isDisabled: boolean ): void {
+    setDisabledState?( isDisabled: boolean ): void
+    {
         isDisabled ? this.form.disable() : this.form.enable();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy()
+    {
         this._destroyed$.next();
         this._destroyed$.complete();
     }

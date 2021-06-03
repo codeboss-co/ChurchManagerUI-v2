@@ -38,6 +38,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullNamePipeModule } from '@shared/pipes/fullname/full-name-pipe.module';
 import { PeopleResolver } from '@features/admin/people/_services/people.resolvers';
 import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
+import { PeopleAdvancedSearchComponent } from './list/advanced-search/people-advanced-search.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -48,15 +53,20 @@ import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
         // People
         NewFamilyFormComponent,
         PersonFormDialogComponent,
-        FamilyMembersListComponent
+        FamilyMembersListComponent,
+        PeopleAdvancedSearchComponent
     ],
     imports     : [
         RouterModule.forChild(contactsRoutes),
+
+        MatAutocompleteModule,
         MatButtonModule,
         MatCheckboxModule,
+        MatChipsModule,
         MatDatepickerModule,
         MatDialogModule,
         MatDividerModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
@@ -70,6 +80,7 @@ import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
         MatSidenavModule,
         MatStepperModule,
         MatTableModule,
+        MatButtonToggleModule,
         MatToolbarModule,
         MatTooltipModule,
 

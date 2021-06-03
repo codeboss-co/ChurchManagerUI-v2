@@ -1,3 +1,5 @@
+import { ThemePalette } from '@angular/material/core';
+
 export interface FullName {
     title?: any;
     firstName: string;
@@ -101,6 +103,32 @@ export interface PeopleSearchQuery
 {
     searchTerm?: string;
 }
+
+export interface PeopleAdvancedSearchQuery
+{
+    searchTerm?: string;
+
+    connectionStatus?:  string[];
+    ageClassification?:  string[];
+    gender?: string[];
+    recordStatus?: string[];
+    filters?: string[];
+}
+
+export interface SearchItem
+{
+    group: string;
+    key: string;
+}
+
+export interface FilterItem
+{
+    key: string;
+    label: string;
+    description: string;
+    color?: ThemePalette;
+}
+
 
 
 
