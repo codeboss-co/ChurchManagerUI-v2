@@ -1,0 +1,185 @@
+<div class="flex flex-col flex-auto min-h-full p-2">
+
+    <!-- Title -->
+    <div class="px-6 pb-2 text-xl font-extrabold tracking-tight">Advanced Search</div>
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Connection Status
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div  *ngFor="let key of connectionStatusMap"
+                  class="group flex items-center justify-between mt-2">
+                <mat-checkbox
+                    [checked]="false"
+                    (change)="selectSearchItem('connectionStatus', key, $event.checked)">
+                    {{key}}
+                </mat-checkbox>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- Connection Status -->
+   <!-- <div class="group flex items-center justify-between mb-1">
+        <span class="text-lg font-medium">Connection Status</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of connectionStatusMap"
+            class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('connectionStatus', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
+        </div>
+    </ng-container>-->
+
+    <!-- Age Classification -->
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Age Classification
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div  *ngFor="let key of ageClassificationMap"
+                  class="group flex items-center justify-between mt-2">
+                <mat-checkbox
+                    [checked]="false"
+                    (change)="selectSearchItem('ageClassification', key, $event.checked)">
+                    {{key}}
+                </mat-checkbox>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <!--<div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Age Classification</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of ageClassificationMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('ageClassification', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
+        </div>
+    </ng-container>-->
+
+    <!-- Gender -->
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Gender
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div  *ngFor="let key of genderMap"
+                  class="group flex items-center justify-between mt-2">
+                <mat-checkbox
+                    [checked]="false"
+                    (change)="selectSearchItem('gender', key, $event.checked)">
+                    {{key}}
+                </mat-checkbox>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <!--<div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Gender</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of genderMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('gender', key, $event.checked)">
+                    {{key}}
+            </mat-checkbox>
+        </div>
+    </ng-container>-->
+
+    <!-- Record Status -->
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Record Status
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div  *ngFor="let key of recordStatusMap"
+                  class="group flex items-center justify-between mt-2">
+                <mat-checkbox
+                    [checked]="false"
+                    (change)="selectSearchItem('recordStatus', key, $event.checked)">
+                    {{key}}
+                </mat-checkbox>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+   <!-- <div class="group flex items-center justify-between mb-1 mt-2">
+        <span class="text-lg font-medium">Record Status</span>
+    </div>
+
+    <ng-container>
+        <div  *ngFor="let key of recordStatusMap"
+              class="group flex items-center justify-between mt-2">
+            <mat-checkbox
+                [checked]="false"
+                (change)="selectSearchItem('recordStatus', key, $event.checked)">
+                {{key}}
+            </mat-checkbox>
+        </div>
+    </ng-container>-->
+
+    <ng-container>
+        <mat-form-field class="mt-3">
+            <mat-label>Additional Filters</mat-label>
+            <mat-chip-list #chipList>
+                <mat-chip
+                    *ngFor="let filter of selectedChipFilters"
+                    [selectable]="false"
+                    [removable]="true"
+                    (removed)="remove(filter)"
+                    [color]="(filter | fuseFindByKey:'label':chipFilterItems).color">
+                    {{filter}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input
+                    placeholder="Type to select filter..."
+                    #chipInput
+                    [formControl]="chipFiltersCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option matTooltip="{{(filter | fuseFindByKey:'label':chipFilterItems).description}}" *ngFor="let filter of filteredChips | async" [value]="filter">
+                    {{filter}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </ng-container>
+
+
+
+
+    <!-- Buttons -->
+    <div class="mx-4 mt-auto">
+        <a
+            class="flex items-center w-full py-3 px-4 rounded-full hover:bg-hover"
+            (click)="updateSearch()">
+            <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+            <span class="ml-2 font-medium leading-none">Apply</span>
+        </a>
+    </div>
+
+</div>

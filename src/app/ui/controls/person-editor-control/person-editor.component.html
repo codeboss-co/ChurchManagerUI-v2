@@ -1,5 +1,11 @@
 <form class="flex flex-col px-4" name="form" [formGroup]="form">
 
+    <!-- Warning -->
+    <fuse-alert class="-mt-4" *ngIf="form.hasError('duplicateError')" [type]="'warning'">
+        <span fuseAlertTitle>Duplicate Person</span>
+        A matching record was found for this person already. Are you sure you want to continue?
+    </fuse-alert>
+
     <div class="font-medium">Personal</div>
 
     <div class="md:flex flex-0">
@@ -80,6 +86,5 @@
 
     </div>
     <!--CONTACT INFO-->
-
 
 </form>

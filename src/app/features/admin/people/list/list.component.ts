@@ -15,12 +15,12 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Country } from '../contacts.types';
 import { ContactsService } from '../_services/contacts.service';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
-import { PeopleSearchQuery, Person } from '@features/admin/people';
+import { PeopleAdvancedSearchQuery, PeopleSearchQuery, Person } from '@features/admin/people';
 import { Sort } from '@shared/data/pagination.models';
 import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
+import { Country } from '@features/admin/people/contacts.types';
 
 @Component({
     selector       : 'contacts-list',
@@ -31,14 +31,18 @@ import { PeopleDataService } from '@features/admin/people/_services/people-data.
 export class ContactsListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+    @ViewChild('drawer') private _drawer: MatDrawer;
 
     countries: Country[];
     drawerMode: 'side' | 'over';
+    drawerOpened: boolean = false;
     searchInputControl: FormControl = new FormControl();
     selectedContact: Person;
+    // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _searchQuery$ = new Subject<PeopleAdvancedSearchQuery>();
 
-    dataSource: PaginatedDataSource<Person, PeopleSearchQuery> | null;
+    dataSource: PaginatedDataSource<Person, PeopleAdvancedSearchQuery> | null;
 
     /**
      * Constructor
@@ -99,6 +103,13 @@ export class ContactsListComponent implements OnInit, OnDestroy
                 this.dataSource.queryBy({searchTerm});
             });
 
+        // Subscribe to advanced search changes
+        this._searchQuery$
+            .pipe( takeUntil(this._unsubscribeAll))
+            .subscribe(query => {
+                this.dataSource.queryBy(query);
+            });
+
         // Subscribe to MatDrawer opened change
         this.matDrawer.openedChange.subscribe((opened) => {
             if ( !opened )
@@ -148,7 +159,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         const initialSort: Sort<any> = {property: 'FullName.LastName', order: 'asc'};
         const initialQuery: PeopleSearchQuery = {searchTerm: ''};
 
-        this.dataSource =  new PaginatedDataSource<Person, PeopleSearchQuery>(
+        this.dataSource =  new PaginatedDataSource<Person, PeopleAdvancedSearchQuery>(
             (request, query) => this._data.pagePeople$(request, query),
             initialSort,
             initialQuery,
@@ -188,14 +199,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
     createContact(): void
     {
         // Create the contact
-        this._contactsService.createContact().subscribe((newContact) => {
-
-            // Go to new contact
-            this._router.navigate(['./', newContact.id], {relativeTo: this._activatedRoute});
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
+        this._router.navigate(['/apps/people/new-family']);
     }
 
     /**
@@ -222,5 +226,20 @@ export class ContactsListComponent implements OnInit, OnDestroy
     trackByFn(index: number, item: Person): any
     {
         return item.personId || index;
+    }
+
+    /**
+     * Toggle Drawer
+     */
+    toggleDrawer(): void
+    {
+        // Toggle the drawer
+        this._drawer.toggle();
+    }
+
+    onSearchChanged( query: PeopleAdvancedSearchQuery )
+    {
+        console.log(query);
+        this._searchQuery$.next(query);
     }
 }
