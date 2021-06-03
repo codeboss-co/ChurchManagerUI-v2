@@ -9,6 +9,7 @@ import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-g
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 import { FormActions } from '@shared/shared.models';
 import { MatDrawer } from '@angular/material/sidenav';
+import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 @Component({
     selector       : 'groups-manage',
@@ -23,6 +24,8 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     selectedGroup: GroupWithChildren;
     members$: Observable<GroupMembersSimple>;
     loading$ = new BehaviorSubject(true);
+
+    isScreenSmall: boolean;
 
     @ViewChild(GroupsViewerComponent) viewer!: GroupsViewerComponent;
     @ViewChild('drawer') private _drawer: MatDrawer;
@@ -40,6 +43,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _service: GroupsManageService,
         private _data: GroupsDataService,
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _toastr: ToastrService)
     {
     }
@@ -168,6 +172,15 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             );
 
         updateMemberAndReload$.subscribe();
+
+        // Subscribe to media changes
+        this._fuseMediaWatcherService.onMediaChange$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({matchingAliases}) => {
+
+                // Check if the screen is small
+                this.isScreenSmall = !matchingAliases.includes('md');
+            });
     }
 
 

@@ -6,7 +6,7 @@
         <mat-drawer
             class="w-1/2 md:w-1/3 dark:bg-gray-900"
             [autoFocus]="false"
-            [mode]="'side'"
+            [mode]="isScreenSmall ? 'over' : 'side'"
             [opened]="true"
             #drawer>
                 <groups-viewer
