@@ -8,6 +8,7 @@ import { ToastrService } from '@core/notifications/toastr.service';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 import { FormActions } from '@shared/shared.models';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     selector       : 'groups-manage',
@@ -24,6 +25,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     loading$ = new BehaviorSubject(true);
 
     @ViewChild(GroupsViewerComponent) viewer!: GroupsViewerComponent;
+    @ViewChild('drawer') private _drawer: MatDrawer;
 
     // Private trigger streams
     private _groupAdded$ = new Subject<NewGroupForm>();
@@ -182,6 +184,15 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Toggle Drawer
+     */
+    toggleDrawer(): void
+    {
+        // Toggle the drawer
+        this._drawer.toggle();
+    }
 
     onGroupSelected( selected: GroupWithChildren ): void
     {
