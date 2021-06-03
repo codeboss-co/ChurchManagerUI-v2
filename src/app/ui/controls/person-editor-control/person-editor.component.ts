@@ -13,6 +13,10 @@ import {
 import { fromEvent, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { PersonFormValue } from '@ui/controls/person-editor-control/person-editor.model';
+import {
+    DuplicatePersonValidator, UsernameValidationService,
+    ZipcodeValidator
+} from '@ui/controls/person-editor-control/duplicate-person.validator';
 
 @Component( {
     selector: 'cm-person-editor',
@@ -28,7 +32,8 @@ import { PersonFormValue } from '@ui/controls/person-editor-control/person-edito
             provide: NG_VALIDATORS,
             useExisting: forwardRef( () => PersonEditorComponent ),
             multi: true
-        }
+        },
+        DuplicatePersonValidator
     ]
 } )
 export class PersonEditorComponent implements ControlValueAccessor, Validator, OnDestroy {
@@ -38,9 +43,9 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
     private readonly _phoneNumberPattern = '^((?:\\+27|27)|0)([0-9]{2})(\\d{7})$';
 
     public form = new FormGroup( {
-        firstName: new FormControl( null, [Validators.required] ),
+        firstName: new FormControl( null, [Validators.minLength(3), Validators.required] ),
         middleName: new FormControl( null ),
-        lastName: new FormControl( null, [Validators.required] ),
+        lastName: new FormControl( null, [Validators.minLength(3), Validators.required] ),
         gender: new FormControl( null ),
         ageClassification: new FormControl( null, [Validators.required] ),
         occupation: new FormControl( null ),
@@ -48,9 +53,11 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
         phoneNumber: new FormControl( null, [Validators.required, Validators.pattern(this._phoneNumberPattern)] ),
         birthDate: new FormControl( null ),
         receivedHolySpirit: new FormControl( false )
-    } );
+    }, { asyncValidators: this.usernameService.usernameValidator() }
+    );
 
-    constructor( private _elementRef: ElementRef ) { }
+    constructor( private _elementRef: ElementRef, private _duplicateCheck: DuplicatePersonValidator,
+                 private usernameService: UsernameValidationService) { }
 
     writeValue( person: PersonFormValue ): void {
         if ( person ) {
