@@ -67,10 +67,7 @@ export class PersonEditorComponent implements ControlValueAccessor, Validator, O
 
     registerOnChange( fn: any ): void {
         this.form.valueChanges
-            .pipe(
-                tap(x => console.log('person control changed')),
-                takeUntil( this._destroyed$ )
-            )
+            .pipe(takeUntil( this._destroyed$ ))
             .subscribe( fn );
     }
 

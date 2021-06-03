@@ -7,6 +7,7 @@ import { PersonEditorComponent } from './person-editor.component';
 import { BirthDateEditorModule } from '../birthdate-editor-control/birthdate-editor.module';
 import { GenderControlModule } from '../gender-options-control/gender-control.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule( {
     declarations: [PersonEditorComponent],
@@ -20,7 +21,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         SharedModule,
 
         BirthDateEditorModule,
-        GenderControlModule
+        GenderControlModule,
+
+        // Fuse
+        FuseAlertModule
     ]
 } )
 export class PersonEditorControlModule {
