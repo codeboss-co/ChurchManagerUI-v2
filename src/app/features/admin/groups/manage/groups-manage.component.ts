@@ -37,7 +37,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     private _groupMemberUpdated$ = new Subject<GroupMemberForm>();
 
     // Private
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _unsubscribeAll = new Subject<void>();
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -113,7 +113,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
                 const viewer = this.viewer;
                 // Update the data
                 viewer.dataSource.data = groups;
-                // Expand the tree to from the new node
+                // Expand the tree from the new node
                 viewer.expandTree(viewer.treeControl.dataNodes, groupId);
                 // Show the new groups details
                 const newGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
@@ -231,5 +231,10 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     onMemberUpdated(member: GroupMemberForm)
     {
         this._groupMemberUpdated$.next(member);
+    }
+
+    onLoadChildren(node: GroupWithChildren)
+    {
+        console.log('node', node, '');
     }
 }

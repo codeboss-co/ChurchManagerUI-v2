@@ -1,7 +1,14 @@
+<!-- Loader -->
+{{isLoading$ | async}}
+<div
+    *ngIf="isLoading$ | async">
+    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+</div>
+
 <!-- Items list -->
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
-    <!-- This is the tree node template for leaf nodes -->
+    <!-- Leaf node -->
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
@@ -9,17 +16,17 @@
                   [svgIcon]="node.item.groupType.iconCssClass"></mat-icon>
         <span
             class="cursor-pointer"
-            (click)="onSelectGroup(node)"
+            (click)="onSelectGroup(node);loadChildren(node)"
              [ngClass]="{ 'font-bold text-secondary': selected?.id === node.item?.id }">
                 {{node?.item?.name}}
         </span>
         <button mat-icon-button matTooltip="Add New Group"  (click)="openAddGroupDialog(node)"><mat-icon>add</mat-icon></button>
     </mat-tree-node>
 
-    <!-- This is the tree node template for expandable nodes -->
+    <!-- Expandable node -->
     <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
         <button mat-icon-button matTreeNodeToggle
-                [attr.aria-label]="'toggle ' + node.item.name">
+                (click)="loadChildren(node)">
             <mat-icon class="mat-icon-rtl-mirror">
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     Input,
@@ -8,13 +8,14 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
-import { GroupWithChildren } from '@features/admin/groups';
+import { GroupsDataService, GroupWithChildren } from '@features/admin/groups';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { MatDialog } from '@angular/material/dialog';
 import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
-import { filter } from 'rxjs/operators';
+import { filter, finalize, first, tap } from 'rxjs/operators';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
+import { BehaviorSubject } from 'rxjs';
 
 export interface FlatNode {
     expandable: boolean;
@@ -33,10 +34,11 @@ export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
+    @Output() loadedChildren = new EventEmitter<GroupWithChildren>();
     @Output() addedGroup = new EventEmitter<NewGroupForm>();
 
     selected: GroupWithChildren;
-
+    isLoading$ = new BehaviorSubject(false);
     treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
 
     dataSource: MatTreeFlatDataSource<GroupWithChildren, FlatNode>;
@@ -46,10 +48,13 @@ export class GroupsViewerComponent implements OnChanges
     hasChild = (_: number, node: FlatNode) => node.expandable;
     private _treeFlattener: MatTreeFlattener<GroupWithChildren, FlatNode>;
 
+    // Map from parent to its children. This gets filled as we load data lazily
+    parentChildrenMap = new Map<number, GroupWithChildren[]>();
+
     /**
      * Constructor
      */
-    constructor(private _matDialog: MatDialog)
+    constructor(private _matDialog: MatDialog, private _data: GroupsDataService)
     {
         this._treeFlattener = new MatTreeFlattener(
             this._transformer, node => node.level, node => node.expandable, node => node.groups);
@@ -64,7 +69,14 @@ export class GroupsViewerComponent implements OnChanges
     ngOnChanges( changes: SimpleChanges ): void
     {
         if ( changes['groups'] ) {
+            // Update data source
             this.dataSource.data = changes['groups'].currentValue;
+            // Add groups to the loaded map
+            this.dataSource.data.forEach(group => {
+                if (!this.parentChildrenMap.has(group.parentGroupId)) {
+                    this.parentChildrenMap.set(group.parentGroupId, group.groups)
+                }
+            });
         }
     }
 
@@ -118,7 +130,7 @@ export class GroupsViewerComponent implements OnChanges
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
-    private _transformer = (node: GroupWithChildren, level: number) => {
+    private _transformer = (node: GroupWithChildren, level: number): FlatNode => {
         // While transforming add the item to the map
         this.flatNodeMap.set(node.id, node);
 
@@ -129,5 +141,44 @@ export class GroupsViewerComponent implements OnChanges
             // optional
             item: node
         };
+    }
+
+    loadChildren(node: FlatNode)
+    {
+        this.loadedChildren.emit(node.item);
+        if (!this.flatNodeMap.has(node.item.id)) {
+            return;
+        }
+
+        const parent = this.flatNodeMap.get(node.item.id)!;
+        let children = this.parentChildrenMap.get(node.item.id)!;
+
+        // Already loaded
+        if (parent.groups!.length > 0) {
+            return;
+        }
+
+        // Fetch parent with children from server
+        if (!children) {
+            this.isLoading$.next(true);
+            this._data.getGroupTree$(node.item.id)
+                .pipe(first())
+                .subscribe(group => {
+                    children = group[0].groups;
+                    // Update children map
+                    this.parentChildrenMap.set(node.item.id, children);
+                    // Update the node with the children
+                    const foundNode = this.treeControl.dataNodes.find(x => x.item.id === node.item.id);
+                    foundNode.expandable = true;
+                    foundNode.item.groups = children;
+                    // Update data source
+                    this.dataSource.data = this.groups;
+                    // Expand the tree from the new node
+                    this.expandTree(this.treeControl.dataNodes, node.item.id);
+
+                    this.isLoading$.next(false);
+                })
+        }
+
     }
 }
