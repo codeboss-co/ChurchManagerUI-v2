@@ -17,7 +17,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
 {
     form: FormGroup;
     group: GroupWithChildren;
-    groupMember: GroupMemberForm
+    groupMember: GroupMemberForm = null;
     action: FormAction;
     // Streams
     groupMemberId$ = new BehaviorSubject<number>(null);
@@ -96,7 +96,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
         return {
             person, groupRole, communicationPreference, firstVisitDate, recordStatus,
             groupId: this.group.id,
-            groupMemberId: this.groupMember.groupMemberId
+            groupMemberId: this.groupMember?.groupMemberId
         };
     }
 

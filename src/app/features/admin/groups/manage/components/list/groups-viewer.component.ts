@@ -143,6 +143,8 @@ export class GroupsViewerComponent implements OnChanges
         };
     }
 
+    // https://docs.google.com/presentation/d/1BoJ-jq-O9zQHAps7LVciiiH9WI9dDqqv-LAlQ6iMh5o/htmlpresent
+    // https://stackblitz.com/edit/material-tree-dynamic?file=app%2Fapp.component.ts
     loadChildren(node: FlatNode)
     {
         this.loadedChildren.emit(node.item);
