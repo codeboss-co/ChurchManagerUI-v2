@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { GroupMemberForm, GroupMembersSimple, GroupsDataService, GroupWithChildren } from '@features/admin/groups';
 import { filter, finalize, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -35,9 +35,10 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     private _groupMemberDeleted$ = new Subject<{groupMemberId: number; groupId: number}>();
     private _groupMemberAdded$ = new Subject<GroupMemberForm>();
     private _groupMemberUpdated$ = new Subject<GroupMemberForm>();
+    private _groupMembersReloadTrigger$ = new BehaviorSubject<void>(null);
 
     // Private
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _unsubscribeAll = new Subject<void>();
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -65,59 +66,80 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(withLatestFrom(this.groups$))
             .pipe(filter(([groupId, _])  => !!groupId))
-            .pipe(tap(([_, groups])  => this.onGroupSelected(groups[0])));
+            .pipe(tap(([_, groups])  => {
+                this.onGroupSelected(groups[0]);
+            }));
 
         displaySelectedGroup$.subscribe();
 
-        // load group members
-        this.members$ = this.selectedGroup$
+        const reloadGroupMembers$ = this._groupMembersReloadTrigger$
             .pipe(takeUntil(this._unsubscribeAll))
-            // might be null because we using behavior subject
-            .pipe(filter(groups => !!groups))
+            .pipe(withLatestFrom(this.selectedGroup$))
+            .pipe(filter(([_, group]) => !!group));
+
+        // load group members
+        this.members$ = reloadGroupMembers$
             .pipe(tap(_ => this.loading$.next(true)))
             .pipe(
-                switchMap(group => {
+                switchMap(([_, group]) => {
                     return this._data.getGroupMembers$(group.id)
                         .pipe(finalize(() => this.loading$.next(false)));
                 })
             );
 
         // add group and reload the tree
-        const addGroupAndUpdateTree$ = this._groupAdded$
+        const addGroupAndReloadGroupWithChildren$ = this._groupAdded$
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap((group: NewGroupForm) => {
                     return this._data.addGroup$(group)
-                        .pipe(
+                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) ))
+  /*                      .pipe(
                             switchMap((groupId: number) => {
+                                // Load the parent group with children details
+                                return this._data.getGroupTree$(group.parentGroupId)
+                                    .pipe(
+                                        map( groups => ({groupId, groups}) )
+                                    );
+
                                 // Depending on where we are coming from
-                                if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
-                                    return this._data.getGroupTree$(this._activatedRoute.snapshot.params["groupId"])
-                                        .pipe(
-                                            map( groups => ({groupId, groups}) )
-                                        );
+                                /!*if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
+
                                 } else {
-                                    return this._data.getGroupsTree$()
+                                    return this._data.getGroupTree$(groupId)
                                         .pipe(
                                             map( groups => ({groupId, groups}) )
                                         );
-                                }
+                                }*!/
                             })
-                        )
+                        )*/
                 })
             )
 
         // once that is done - expand the tree to the new group
-        addGroupAndUpdateTree$
+        addGroupAndReloadGroupWithChildren$
+            .pipe(
+                switchMap(({ groupId, parentGroupId}) => this._data.getGroupTree$(parentGroupId)
+                    .pipe(map(groups => ({groupId, groups}) ))
+                )
+            )
             .subscribe(({groupId, groups}) => {
                 const viewer = this.viewer;
+
                 // Update the data
-                viewer.dataSource.data = groups;
-                // Expand the tree to from the new node
+                const parent = groups[0];
+                const parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parent.id);
+                parentNode.expandable = true;
+                parentNode.item.groups = parent.groups;
+
+                // Reload the group data
+                const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
+                viewer.dataSource.data = updatedGroups;
+                // Expand the tree from the new node
                 viewer.expandTree(viewer.treeControl.dataNodes, groupId);
                 // Show the new groups details
                 const newGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
-                this.selectedGroup$.next(newGroup);
+                this.onGroupSelected(newGroup)
             });
 
         // add group member and reload the members
@@ -177,9 +199,8 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({matchingAliases}) => {
-
                 // Check if the screen is small
-                this.isScreenSmall = !matchingAliases.includes('md');
+                this.isScreenSmall = !matchingAliases.includes('sm'); // was "md"
             });
     }
 
@@ -211,6 +232,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     {
         this.selectedGroup = selected;
         this.selectedGroup$.next(selected);
+        this._groupMembersReloadTrigger$.next();
     }
 
     onMemberAdded( member: GroupMemberForm )
@@ -231,5 +253,9 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     onMemberUpdated(member: GroupMemberForm)
     {
         this._groupMemberUpdated$.next(member);
+    }
+
+    onLoadChildren(node: GroupWithChildren)
+    {
     }
 }

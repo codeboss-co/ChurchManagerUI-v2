@@ -71,10 +71,10 @@ export class GroupsDataService extends HttpBaseService
     {
         const personId = model.person.id;
         const groupRoleId = model.groupRole;
-        const {groupId, groupMemberId, communicationPreference, firstVisitDate} = model;
+        const {groupId, groupMemberId, communicationPreference, firstVisitDate, recordStatus} = model;
 
         const body = {
-            personId, groupId,groupMemberId, groupRoleId, communicationPreference, firstVisitDate
+            personId, groupId,groupMemberId, groupRoleId, communicationPreference, firstVisitDate, recordStatus
         };
 
         let url;

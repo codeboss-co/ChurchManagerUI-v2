@@ -90,6 +90,7 @@ export class NewFamilyFormComponent {
     // Adds a new Family Member Form Array item
     private _addFamilyMember(model: FamilyMember)
     {
+        console.log('_addFamilyMember', model, '');
         this.familyMembersFormArray.push(this._formBuilder.control(model));
         // We need to create a new reference for OnPush to work on the other side
         const newMergedFamily = [...this.familyMembers, model.person];

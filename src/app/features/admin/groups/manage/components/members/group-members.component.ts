@@ -47,7 +47,7 @@ export class GroupMembersComponent implements OnChanges
 
     dialogRef: any;
 
-    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole', 'recordStatus', 'actions'];
+    displayedColumns: string[] = ['select', 'photoUrl', 'firstName', 'lastName', 'gender', 'groupMemberRole', 'recordStatus', 'buttons'];
 
     dataSource: MatTableDataSource<GroupMemberSimple> = new MatTableDataSource([]);
 

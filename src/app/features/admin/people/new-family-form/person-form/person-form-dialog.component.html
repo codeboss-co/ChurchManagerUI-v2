@@ -25,10 +25,7 @@
                         <mat-label>Church</mat-label>
                         <mat-select formControlName="church" required>
                             <mat-option [value]="1">
-                                Cape Town
-                            </mat-option>
-                            <mat-option [value]="2">
-                                North
+                                Waterfront
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -81,6 +78,8 @@
 
         </form>
 
+
+        {{form?.get('lastName')?.value}}
 
     </div>
 
