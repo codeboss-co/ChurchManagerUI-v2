@@ -91,6 +91,7 @@ export interface GroupWithChildren
     isOnline?: boolean;
     createdDate?: Date;
     groups?: GroupWithChildren[];
+    level?: number;
 }
 
 export interface GroupTypeRole

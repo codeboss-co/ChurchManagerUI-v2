@@ -34,7 +34,7 @@
             <ng-container matColumnDef="buttons">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let group">
-                    <div fxFlex="row" fxLayoutAlign="end center">
+                    <div class="flex items-center">
                         <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
                                 (click)="$event.stopPropagation();">
                             <mat-icon class="secondary-text">more_vert</mat-icon>
