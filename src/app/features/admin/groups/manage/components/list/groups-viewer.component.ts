@@ -166,6 +166,7 @@ export class GroupsViewerComponent implements OnChanges
             this._data.getGroupTree$(node.item.id)
                 .pipe(first())
                 .subscribe(group => {
+                    // Assign loaded children to parent
                     children = group[0].groups;
                     // Update children map
                     this.parentChildrenMap.set(node.item.id, children);
@@ -177,10 +178,14 @@ export class GroupsViewerComponent implements OnChanges
                     this.dataSource.data = this.groups;
                     // Expand the tree from the new node
                     this.expandTree(this.treeControl.dataNodes, node.item.id);
-
+                    // Stop loading indicator
                     this.isLoading$.next(false);
                 })
         }
+    }
 
+    reload(groups: GroupWithChildren[]) {
+        // Update data source
+        this.dataSource.data = groups;
     }
 }

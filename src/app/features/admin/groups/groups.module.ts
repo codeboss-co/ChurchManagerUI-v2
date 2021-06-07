@@ -40,6 +40,7 @@ import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-materia
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RecordStatusSelectControlModule } from '@ui/controls/record-status-select-control/record-status-select-control.module';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { RecordStatusSelectControlModule } from '@ui/controls/record-status-sele
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatMenuModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatSidenavModule,
