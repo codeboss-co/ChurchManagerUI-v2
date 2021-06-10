@@ -2,7 +2,7 @@
 
     <mat-toolbar>
         <!-- Title -->
-        <div class="text-2xl font-medium tracking-tight">Members</div>
+        <div class="text-xl font-medium tracking-tight">Group Members</div>
         <span class="flex flex-auto"></span>
         <!-- Actions -->
         <!-- Search -->
@@ -20,10 +20,10 @@
         <button mat-icon-button matTooltip="Add Group Member" (click)="addGroupMember()">
             <mat-icon>person_add_alt_1</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Move to another group">
+        <button mat-icon-button matTooltip="Move to another group" disabled>
             <mat-icon>swap_horiz</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Communicate">
+        <button mat-icon-button matTooltip="Communicate" disabled>
             <mat-icon>message</mat-icon>
         </button>
     </mat-toolbar>

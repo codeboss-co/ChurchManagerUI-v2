@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ClaimType } from '@core/auth/auth.model';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +43,16 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    get roles(): string[] {
+        const token: string = this.accessToken;
+        if (token && !this._jwtHelper.isTokenExpired(token)) {
+            return this._jwtHelper.decodeToken(this.accessToken)[ClaimType.Roles]
+
+        }
+
+        return [];
     }
 
     // -----------------------------------------------------------------------------------------------------

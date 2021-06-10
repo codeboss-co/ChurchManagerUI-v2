@@ -4,8 +4,10 @@ import { ProfileDiscipleshipResolver, ProfileResolver } from './profile.resolver
 import { ProfileAboutComponent } from '../tabs/about/profile-about.component';
 import { ProfileGroupsComponent } from '../tabs/groups/groups.component';
 import { ProfileDiscipleshipComponent } from '../tabs/discipleship/profile-discipleship.component';
+import { ProfileMyDashboardComponent } from '../components/my-dashboard/my-dashboard.component';
 
 export const profileRoutes: Route[] = [
+    {path: 'dashboard', component: ProfileMyDashboardComponent, pathMatch : 'full' },
     {
         path     : '',
         component: ProfileComponent,
@@ -19,7 +21,7 @@ export const profileRoutes: Route[] = [
                 resolve: {
                     programs: ProfileDiscipleshipResolver
                 }
-            },
+            }
         ]
     },
     {
@@ -37,5 +39,6 @@ export const profileRoutes: Route[] = [
                 }
             },
         ]
-    }
+    },
+
 ];
