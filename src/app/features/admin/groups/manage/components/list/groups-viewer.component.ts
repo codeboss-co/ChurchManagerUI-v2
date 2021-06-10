@@ -16,6 +16,7 @@ import { NewGroupDialogComponent } from '@features/admin/groups/manage/component
 import { filter, finalize, first, tap } from 'rxjs/operators';
 import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
 import { BehaviorSubject } from 'rxjs';
+import { FormActions } from '@shared/shared.models';
 
 export interface FlatNode {
     expandable: boolean;
@@ -99,6 +100,7 @@ export class GroupsViewerComponent implements OnChanges
         // Open the dialog
         const dialogRef = this._matDialog.open(NewGroupDialogComponent, {
             data : {
+                action: FormActions.New,
                 parentGroup: node.item
             }
         });

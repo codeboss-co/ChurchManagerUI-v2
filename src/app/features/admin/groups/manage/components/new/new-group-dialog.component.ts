@@ -15,6 +15,7 @@ import { CalendarRecurrenceComponent, CalendarSettings, settings } from '../../.
 import RRule from 'rrule';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
+import { FormAction, FormActions } from '@shared/shared.models';
 
 
 @Component({
@@ -26,10 +27,15 @@ import { Observable, Subject } from 'rxjs';
 export class NewGroupDialogComponent implements OnInit, OnDestroy
 {
     form: FormGroup;
+    action: FormAction;
+
     settings: CalendarSettings = settings;
 
     groupType: GroupType;
-    parentGroup: GroupWithChildren
+    // new
+    parentGroup?: GroupWithChildren
+    // edit
+    editGroup?: GroupWithChildren
 
     recurrenceStatus$: Observable<string>;
 
@@ -40,14 +46,23 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
      */
     constructor(
         public matDialogRef: MatDialogRef<NewGroupDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private data: { parentGroup: GroupWithChildren },
+        @Inject(MAT_DIALOG_DATA) private data: { action: FormAction, parentGroup?: GroupWithChildren, group?: GroupWithChildren },
         private _changeDetectorRef: ChangeDetectorRef,
         private _matDialog: MatDialog,
         private _formBuilder: FormBuilder,
         private _data: GroupsDataService
     )
     {
-        this.parentGroup = data.parentGroup;
+        this.action = data.action;
+
+        if (this.action === FormActions.New)
+        {
+            this.parentGroup = data.parentGroup;
+        }
+        else
+        {
+            this.editGroup = data.group;
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -59,9 +74,11 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        const churchId = this.action === FormActions.New ? this.parentGroup?.churchId : this.editGroup?.churchId;
+        console.log('this.this.editGroup ', this.editGroup , '');
         // Create the form
         this.form = this._formBuilder.group({
-            churchId: [this.parentGroup?.churchId, Validators.required],
+            churchId: [churchId, Validators.required],
             groupTypeId: [null, Validators.required],
             parentGroupId: [this.parentGroup?.id, Validators.required],
             name: [null, Validators.required],

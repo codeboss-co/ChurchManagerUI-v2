@@ -39,6 +39,7 @@ import { AgePluralizeModule } from '@shared/pipes/age/age-pluralize.module';
 import { ProfileDiscipleshipService } from './tabs/discipleship/profile-discipleship.service';
 import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discipleship.component';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
+import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashboard.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
         // Edit Dialogs
         ProfileGeneralInfoFormDialogComponent,
         ProfileConnectionInfoFormDialogComponent,
-        ProfilePersonalInfoFormDialogComponent
+        ProfilePersonalInfoFormDialogComponent,
+        ProfileMyDashboardComponent
     ],
     imports     : [
         RouterModule.forChild(profileRoutes),
