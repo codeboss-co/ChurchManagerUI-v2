@@ -92,6 +92,7 @@ export interface GroupWithChildren
     createdDate?: Date;
     groups?: GroupWithChildren[];
     level?: number;
+    scheduleText?: string;
 }
 
 export interface GroupTypeRole

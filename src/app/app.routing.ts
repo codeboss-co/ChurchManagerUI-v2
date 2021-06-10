@@ -10,7 +10,7 @@ import { AdminLayoutComponent } from '@ui/layout/layouts/admin-layout/admin-layo
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboard'
-    {path: '', pathMatch : 'full', redirectTo: 'dashboard'},
+    {path: '', pathMatch : 'full', redirectTo: 'pages/profile/dashboard'},
 
     // Redirect signed in user to the '/example'
     //
