@@ -79,6 +79,14 @@ export const compactNavigation: FuseNavigationItem[] = [
                         icon    : 'heroicons_outline:clipboard-check',
                         link : '/apps/groups/cell-ministry/attendance-reports',
                         exactMatch: true,
+                    },
+                    {
+                        id   : 'groups.cell-ministry.attendance-analytics',
+                        title: 'Attendance Analytics',
+                        type : 'basic',
+                        icon    : 'heroicons_outline:presentation-chart-line',
+                        link : '/apps/groups/cell-ministry/attendance-analytics',
+                        exactMatch: true,
                     }
                 ]
             }

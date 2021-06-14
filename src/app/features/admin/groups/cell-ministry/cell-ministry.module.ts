@@ -26,6 +26,7 @@ import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/ce
 import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
+import { AttendanceAnalyticsComponent } from './reporting/attendance-analytics/attendance-analytics.component';
 
 const routes: Routes = [
     {
@@ -43,6 +44,10 @@ const routes: Routes = [
         ]
     },
     {
+        path     : 'attendance-analytics',
+        component: AttendanceAnalyticsComponent
+    },
+    {
         path     : '**',
         component: CellMinistryComponent
     }
@@ -52,7 +57,8 @@ const routes: Routes = [
     declarations: [
         CellMinistryComponent,
         CellAttendanceReportsComponent,
-        AttendanceReportFeedbackComponent
+        AttendanceReportFeedbackComponent,
+        AttendanceAnalyticsComponent
     ],
     imports: [
         RouterModule.forChild(routes),
