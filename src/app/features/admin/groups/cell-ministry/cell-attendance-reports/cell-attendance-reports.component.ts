@@ -30,7 +30,6 @@ export class CellAttendanceReportsComponent implements OnInit
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
     drawerMode: 'over' | 'side';

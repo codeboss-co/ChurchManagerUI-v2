@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'groups-attendance-report-grid',
@@ -8,6 +10,20 @@ import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.compone
 export class AttendanceReportGridComponent {
 
     @ViewChild('pivot1') child: WebdatarocksComponent;
+
+    searchForm: FormGroup;
+    searchBtnClicked = new Subject();
+
+    /**
+     * Constructor
+     */
+    constructor(private _formBuilder: FormBuilder)
+    {
+        this.searchForm = this._formBuilder.group({
+            groupTypeGroup: [null, [Validators.required]],
+            reportingDate: [null, [Validators.required]]
+        });
+    }
 
     onPivotReady(pivot: WebDataRocks.Pivot): void {
         console.log('[ready] WebdatarocksComponent', this.child);

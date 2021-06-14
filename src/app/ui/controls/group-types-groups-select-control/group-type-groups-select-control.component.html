@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Group Type</mat-label>
+            <mat-select formControlName="groupTypeId" required>
+                <mat-option *ngFor="let item of groupTypes$ | async" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Group</mat-label>
+            <mat-select formControlName="groupId" required multiple>
+                <mat-option value="0">-- All Groups --</mat-option>
+                <mat-option *ngFor="let group of groups$ | async" [value]="group.id">{{group.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+</form>

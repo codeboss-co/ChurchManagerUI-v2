@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GroupsReportsDataService } from '@features/admin/groups/reports/groups-reports-data.service';
 
 @Component({
   selector: 'cell-ministry-attendance-analytics',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttendanceAnalyticsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _data: GroupsReportsDataService) { }
 
   ngOnInit(): void {
   }
