@@ -1,14 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { WebdatarocksComponent } from '@shared/webdatarocks.component';
 
 @Component({
   selector: 'groups-attendance-report-grid',
   templateUrl: './attendance-report-grid.component.html'
 })
-export class AttendanceReportGridComponent implements OnInit {
+export class AttendanceReportGridComponent {
 
-  constructor() { }
+    @ViewChild('pivot1') child: WebdatarocksComponent;
 
-  ngOnInit(): void {
-  }
+    onPivotReady(pivot: WebDataRocks.Pivot): void {
+        console.log('[ready] WebdatarocksComponent', this.child);
+    }
+
+    onCustomizeCell(
+        cell: WebDataRocks.CellBuilder,
+        data: WebDataRocks.CellData
+    ): void {
+        if (data.isClassicTotalRow) {
+            cell.addClass('fm-total-classic-r');
+        }
+        if (data.isGrandTotalRow) {
+            cell.addClass('fm-grand-total-r');
+        }
+        if (data.isGrandTotalColumn) {
+            cell.addClass('fm-grand-total-c');
+        }
+    }
+
+    onReportComplete(): void {
+        this.child.webDataRocks.off('reportcomplete');
+        this.child.webDataRocks.setReport({
+            dataSource: {
+                filename: 'https://cdn.webdatarocks.com/data/data.json',
+            },
+        });
+    }
 
 }

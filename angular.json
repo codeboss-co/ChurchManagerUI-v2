@@ -52,9 +52,13 @@
                             "src/styles/vendors.scss",
                             "src/@fuse/styles/main.scss",
                             "src/styles/styles.scss",
-                            "src/styles/tailwind.scss"
+                            "src/styles/tailwind.scss",
+                            "./node_modules/webdatarocks/webdatarocks.min.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "./node_modules/webdatarocks/webdatarocks.toolbar.min.js",
+                            "./node_modules/webdatarocks/webdatarocks.js"
+                        ],
                         "serviceWorker": true,
                         "ngswConfigPath": "ngsw-config.json"
                     },
