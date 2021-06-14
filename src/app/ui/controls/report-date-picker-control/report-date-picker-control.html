@@ -1,0 +1,17 @@
+<mat-form-field
+    class="fuse-mat-emphasized-affix">
+    <mat-label>Date Range</mat-label>
+    <mat-select
+        [required]="required"
+        (selectionChange)="onSelectionChange($event)"
+        [formControl]="selectListControl">
+        <mat-option *ngFor="let item of items" [value]="item.value">
+            {{ item.label }}
+        </mat-option>
+    </mat-select>
+    <mat-icon
+        class="icon-size-5"
+        matPrefix
+        [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+    <mat-error *ngIf="selectListControl.hasError('required')">Required</mat-error>
+</mat-form-field>
