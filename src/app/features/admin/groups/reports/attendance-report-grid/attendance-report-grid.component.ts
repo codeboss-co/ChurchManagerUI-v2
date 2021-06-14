@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { WebdatarocksComponent } from '@shared/webdatarocks.component';
+import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
 
 @Component({
   selector: 'groups-attendance-report-grid',
