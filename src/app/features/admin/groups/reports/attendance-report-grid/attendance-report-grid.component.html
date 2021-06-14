@@ -12,9 +12,17 @@
             required>
         </report-date-picker-control>
 
-        {{searchForm.value | json}}
+        <button mat-raised-button color="primary"
+                [disabled]="!searchForm.valid"
+                (click)="searchBtnClicked.next()">
+            <mat-icon>search</mat-icon>
+            Search
+        </button>
 
     </div>
+
+    {{searchForm.value | json}}
+
 </form>
 
 <wbr-pivot #pivot1 [toolbar]="true"

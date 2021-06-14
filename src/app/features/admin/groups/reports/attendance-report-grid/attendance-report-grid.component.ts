@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { CustomValidators } from '@shared/validators/common-forms.validators';
 
 @Component({
   selector: 'groups-attendance-report-grid',
@@ -20,7 +21,7 @@ export class AttendanceReportGridComponent {
     constructor(private _formBuilder: FormBuilder)
     {
         this.searchForm = this._formBuilder.group({
-            groupTypeGroup: [null, [Validators.required]],
+            groupTypeGroup: [null, [Validators.required, CustomValidators.groupAndGroupType]],
             reportingDate: [null, [Validators.required]]
         });
     }
@@ -52,5 +53,4 @@ export class AttendanceReportGridComponent {
             },
         });
     }
-
 }

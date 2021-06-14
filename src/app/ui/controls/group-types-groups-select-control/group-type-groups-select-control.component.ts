@@ -56,8 +56,9 @@ export class GroupTypeGroupsSelectControlComponent implements ControlValueAccess
     registerOnChange(fn: any): void
     {
         this.form.valueChanges
-            .pipe(takeUntil( this._destroyed$ ))
-            .subscribe( fn );
+            .pipe(takeUntil( this._destroyed$))
+            .pipe(tap(x => console.log('form changes',x)))
+            .subscribe(fn);
     }
 
     registerOnTouched(fn: any): void
