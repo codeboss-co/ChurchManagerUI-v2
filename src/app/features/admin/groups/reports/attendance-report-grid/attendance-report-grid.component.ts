@@ -1,12 +1,12 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CustomValidators } from '@shared/validators/common-forms.validators';
 import { Observable } from 'rxjs/internal/Observable';
 import {
-    GroupAttendanceQuery,
-    GroupAttendanceReportGridQuery, GroupAttendanceReportGridRow
+    GroupAttendanceReportGridQuery,
+    GroupAttendanceReportGridRow
 } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { GroupsReportsDataService } from '@features/admin/groups/reports/groups-reports-data.service';
@@ -66,8 +66,6 @@ export class AttendanceReportGridComponent implements OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(
                 (results: GroupAttendanceReportGridRow[]) => {
-                    console.log('getAttendanceReportGrid$', results);
-
                     this.child.webDataRocks.setReport({
                         dataSource: {
                             data: results,

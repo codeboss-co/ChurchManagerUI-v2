@@ -1,6 +1,6 @@
 <!-- Search -->
 <form [formGroup]="searchForm">
-    <div class="flex flex-wrap justify-between items-baseline">
+    <div class="flex flex-wrap justify-between items-baseline px-4 pt-4">
 
         <cm-group-type-groups-control
             formControlName="groupTypeGroup"
@@ -23,11 +23,15 @@
 
 </form>
 
-<wbr-pivot #pivot1 [toolbar]="true"
+<div class="px-4">
+    <wbr-pivot #pivot1 [toolbar]="true"
                [width]="'100%'"
                [height]="700"
                [customizeCell]="onCustomizeCell"
                (ready)="onPivotReady($event)"
                (reportcomplete)="onReportComplete()">
-    WebDataRocks will appear here
-</wbr-pivot>
+        WebDataRocks will appear here
+    </wbr-pivot>
+</div>
+
+
