@@ -28,15 +28,16 @@ export class GroupsReportsDataService extends HttpBaseService
     /**
      * Get group attendance grid records
      */
-    getAttendanceReportGrid$(groupTypeId: number, groupId: number, from: Moment, to: Moment) : Observable<GroupType>
+    getAttendanceReportGrid$(groupTypeId: number, groupId: number[], from: Moment, to: Moment) : Observable<GroupType>
     {
-        const params = new HttpParams()
-            .set('groupTypeId', groupTypeId)
-            .set('groupId', groupId)
-            .set('from', from.toDate().toUTCString())
-            .set('to', to.toDate().toUTCString());
+        const body = {
+            groupTypeId,
+            groupId,
+            from: from.toDate(),
+            to: to.toDate()
+        };
 
-        return super.get<ApiResponse>(`${this._apiUrl}/v1/groups/attendance-report-grid`, params)
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/attendance-report-grid`, body)
             .pipe(
                 map(response => response.data)
             );

@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export interface GroupAttendanceRecord {
     id: number;
     groupName: string;
@@ -54,6 +56,13 @@ export interface GroupAttendanceQuery {
     withFeedBack?: boolean;
     from?: Date;
     to?: Date;
+}
+
+export interface GroupAttendanceReportGridQuery {
+    groupTypeId: number;
+    groupId: number[];
+    from: Moment;
+    to: Moment;
 }
 
 export interface CellGroupsWeeklyBreakdown {
