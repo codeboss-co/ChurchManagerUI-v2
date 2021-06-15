@@ -21,13 +21,11 @@
 
     </div>
 
-    {{searchForm.value | json}}
-
 </form>
 
 <wbr-pivot #pivot1 [toolbar]="true"
                [width]="'100%'"
-               [height]="500"
+               [height]="700"
                [customizeCell]="onCustomizeCell"
                (ready)="onPivotReady($event)"
                (reportcomplete)="onReportComplete()">

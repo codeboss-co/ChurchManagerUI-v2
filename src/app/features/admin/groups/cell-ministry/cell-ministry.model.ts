@@ -65,6 +65,26 @@ export interface GroupAttendanceReportGridQuery {
     to: Moment;
 }
 
+export class GroupAttendanceReportGridRow {
+    Date: Date;
+    Church: string;
+    Group: string;
+    Attendance: number;
+    FirstTimers: number;
+    NewConverts: number;
+    ReceivedHolySpirit: number;
+
+    constructor(model: any) {
+        this.Date = model.attendanceDate;
+        this.Church = model.churchName;
+        this.Group = model.groupName;
+        this.Attendance = model.attendanceCount;
+        this.FirstTimers = model.firstTimerCount;
+        this.NewConverts = model.newConvertCount;
+        this.ReceivedHolySpirit = model.receivedHolySpiritCount;
+    }
+}
+
 export interface CellGroupsWeeklyBreakdown {
     week: number;
     totalAttendance?: number;

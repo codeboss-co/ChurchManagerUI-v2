@@ -8,6 +8,7 @@ import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { Moment } from 'moment';
+import { GroupAttendanceReportGridRow } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Injectable()
 export class GroupsReportsDataService extends HttpBaseService
@@ -28,7 +29,7 @@ export class GroupsReportsDataService extends HttpBaseService
     /**
      * Get group attendance grid records
      */
-    getAttendanceReportGrid$(groupTypeId: number, groupId: number[], from: Moment, to: Moment) : Observable<GroupType>
+    getAttendanceReportGrid$(groupTypeId: number, groupId: number[], from: Moment, to: Moment) : Observable<GroupAttendanceReportGridRow[]>
     {
         const body = {
             groupTypeId,
@@ -39,7 +40,7 @@ export class GroupsReportsDataService extends HttpBaseService
 
         return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/attendance-report-grid`, body)
             .pipe(
-                map(response => response.data)
+                map(response => response.data.map(x => new GroupAttendanceReportGridRow(x)))
             );
     }
 

@@ -6,7 +6,7 @@ import { CustomValidators } from '@shared/validators/common-forms.validators';
 import { Observable } from 'rxjs/internal/Observable';
 import {
     GroupAttendanceQuery,
-    GroupAttendanceReportGridQuery
+    GroupAttendanceReportGridQuery, GroupAttendanceReportGridRow
 } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { GroupsReportsDataService } from '@features/admin/groups/reports/groups-reports-data.service';
@@ -65,7 +65,15 @@ export class AttendanceReportGridComponent implements OnDestroy
         data$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(
-                value => console.log('getAttendanceReportGrid$', value)
+                (results: GroupAttendanceReportGridRow[]) => {
+                    console.log('getAttendanceReportGrid$', results);
+
+                    this.child.webDataRocks.setReport({
+                        dataSource: {
+                            data: results,
+                        },
+                    });
+                }
             );
     }
 
@@ -100,10 +108,10 @@ export class AttendanceReportGridComponent implements OnDestroy
 
     onReportComplete(): void {
         this.child.webDataRocks.off('reportcomplete');
-        this.child.webDataRocks.setReport({
+       /* this.child.webDataRocks.setReport({
             dataSource: {
                 filename: 'https://cdn.webdatarocks.com/data/data.json',
             },
-        });
+        });*/
     }
 }
