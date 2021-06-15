@@ -53,7 +53,8 @@
                             "src/@fuse/styles/main.scss",
                             "src/styles/styles.scss",
                             "src/styles/tailwind.scss",
-                            "./node_modules/webdatarocks/webdatarocks.min.css"
+                            "./node_modules/webdatarocks/webdatarocks.min.css",
+                            "./node_modules/flexmonster/flexmonster.min.css"
                         ],
                         "scripts": [
                             "./node_modules/webdatarocks/webdatarocks.toolbar.min.js",

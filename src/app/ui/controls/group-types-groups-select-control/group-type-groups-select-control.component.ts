@@ -57,7 +57,6 @@ export class GroupTypeGroupsSelectControlComponent implements ControlValueAccess
     {
         this.form.valueChanges
             .pipe(takeUntil( this._destroyed$))
-            .pipe(tap(x => console.log('form changes',x)))
             .subscribe(fn);
     }
 
