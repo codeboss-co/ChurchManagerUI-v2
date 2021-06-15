@@ -6,7 +6,11 @@
         <!-- CONTENT GOES HERE -->
         <div class="w-full max-w-screen-xl mx-auto bg-card">
 
-            <groups-attendance-report-grid></groups-attendance-report-grid>
+            <!-- Search -->
+            <groups-reports-search (updated)="onSearchUpdated($event)"></groups-reports-search>
+
+            <!-- Report Grid -->
+            <groups-attendance-report-grid [data]="reports$ | async"></groups-attendance-report-grid>
 
         </div>
     </div>

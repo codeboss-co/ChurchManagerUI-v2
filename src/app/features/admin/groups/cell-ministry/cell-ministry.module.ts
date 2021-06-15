@@ -28,6 +28,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { AttendanceAnalyticsComponent } from './reporting/attendance-analytics/attendance-analytics.component';
 import { AttendanceReportGridModule } from '@features/admin/groups/reports/attendance-report-grid/attendance-report-grid.module';
+import { GroupsReportsSearchModule } from '@features/admin/groups/reports/groups-reports-search/groups-reports-search.module';
 
 const routes: Routes = [
     {
@@ -89,6 +90,8 @@ const routes: Routes = [
         // Controls
         ChurchGroupsSelectControlModule,
 
+        // Features
+        GroupsReportsSearchModule,
         AttendanceReportGridModule
     ],
     providers: [CellMinistryDataService, CellMinistryAttendanceReportResolver]

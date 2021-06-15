@@ -1,104 +1,42 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { CustomValidators } from '@shared/validators/common-forms.validators';
-import { Observable } from 'rxjs/internal/Observable';
-import {
-    GroupAttendanceReportGridQuery,
-    GroupAttendanceReportGridRow
-} from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
-import { GroupsReportsDataService } from '@features/admin/groups/reports/groups-reports-data.service';
+import { GroupAttendanceReportGridRow } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { FlexmonsterPivot } from 'ng-flexmonster';
 
 @Component( {
     selector: 'groups-attendance-report-grid',
-    templateUrl: './attendance-report-grid.component.html'
+    templateUrl: './attendance-report-grid.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 } )
-export class AttendanceReportGridComponent implements OnDestroy {
+export class AttendanceReportGridComponent implements OnChanges {
+    @Input() data: GroupAttendanceReportGridRow[] = [];
+
     @ViewChild( 'pivot1' ) child: WebdatarocksComponent;
-    @ViewChild( 'pivot2' ) flexPivot: FlexmonsterPivot;
+    @ViewChild( 'pivot2' ) pivot: FlexmonsterPivot;
 
-    searchForm: FormGroup;
-    searchBtnClicked = new Subject();
-
-    // Private
-    private _unsubscribeAll = new Subject();
-
-    /**
-     * Constructor
-     */
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _data: GroupsReportsDataService ) {
-        this.searchForm = this._formBuilder.group( {
-            groupTypeGroup: [null, [Validators.required, CustomValidators.groupAndGroupType]],
-            reportingDate: [null, [Validators.required]]
-        } );
-
-        const query$: Observable<GroupAttendanceReportGridQuery> = this.searchBtnClicked
-            .pipe(
-                filter( () => this.searchForm.valid ),
-                takeUntil( this._unsubscribeAll ),
-                map( () => {
-
-                    const { groupTypeGroup, reportingDate } = this.searchForm.value;
-
-                    const { groupTypeId, groupId } = groupTypeGroup;
-                    const from = reportingDate[0];
-                    const to = reportingDate[1];
-
-                    return { groupTypeId, groupId, from, to };
-                } )
-            );
-
-        const data$ = query$
-            .pipe(
-                switchMap( ( query: GroupAttendanceReportGridQuery ) => {
-                    const { groupTypeId, groupId, from, to } = query;
-                    return this._data.getAttendanceReportGrid$( groupTypeId, groupId, from, to );
-                } )
-            );
-
-        data$
-            .pipe( takeUntil( this._unsubscribeAll ) )
-            .subscribe(
-                ( results: GroupAttendanceReportGridRow[] ) => {
-                    this.flexPivot.flexmonster.setReport( {
-                        dataSource: {
-                            data: results
-                        }
-                    } );
-                }
-            );
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+    ngOnChanges(changes: SimpleChanges): void
+    {
+        // Grid is not ready when initial empty data is passed
+        // this checks that there are actual records
+        // which gives the grid time to be initialized
+        if (changes['data']?.currentValue?.length) {
+            this.pivot.flexmonster.updateData({ data: changes['data'].currentValue });
+        }
     }
 
     onPivotReady( pivot: WebDataRocks.Pivot ): void {
         console.log( '[ready] WebdatarocksComponent', this.child );
     }
 
-    onCustomizeCell(
-        cell: WebDataRocks.CellBuilder,
-        data: WebDataRocks.CellData
-    ): void {
-        if ( data.isClassicTotalRow ) {
-            cell.addClass( 'bg-gray-100 font-medium' );
+    onCustomizeCell(cell: Flexmonster.CellBuilder, data: Flexmonster.CellData): void {
+        if (data.isClassicTotalRow) {
+            cell.addClass('fm-total-classic-r');
         }
-        if ( data.isGrandTotalRow ) {
-            cell.addClass( 'bg-gray-100 font-medium' );
+        if (data.isGrandTotalRow) {
+            cell.addClass('fm-grand-total-r');
         }
-        if ( data.isGrandTotalColumn ) {
-            cell.addClass( 'bg-gray-100 font-medium' );
+        if (data.isGrandTotalColumn) {
+            cell.addClass('fm-grand-total-c');
         }
     }
 
@@ -110,6 +48,11 @@ export class AttendanceReportGridComponent implements OnDestroy {
              },
          });*/
 
-        this.flexPivot.flexmonster.off( 'reportcomplete' );
+        this.pivot.flexmonster.off( 'reportcomplete' );
+        this.pivot.flexmonster.setReport( {
+            dataSource: {
+                data: []
+            }
+        } );
     }
 }
