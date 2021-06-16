@@ -27,8 +27,8 @@ import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cel
 import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { AttendanceAnalyticsComponent } from './reporting/attendance-analytics/attendance-analytics.component';
-import { AttendanceReportGridModule } from '@features/admin/groups/reports/attendance-report-grid/attendance-report-grid.module';
-import { GroupsReportsSearchModule } from '@features/admin/groups/reports/groups-reports-search/groups-reports-search.module';
+import { AttendanceReportGridModule } from '@features/common/reports/attendance-report-grid/attendance-report-grid.module';
+import { GroupsReportsSearchModule } from '@features/common/reports/groups-reports-search/groups-reports-search.module';
 
 const routes: Routes = [
     {

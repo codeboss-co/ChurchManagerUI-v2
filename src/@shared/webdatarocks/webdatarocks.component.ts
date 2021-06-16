@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import * as WebDataRocks from 'webdatarocks';
+//import * as WebDataRocks from 'webdatarocks';
 
 @Component({
     selector: 'wbr-pivot',
     template: `<div><div class='wbr-ng-wrapper'></div></div>`
 })
-export class WebdatarocksComponent implements OnInit{
-    // params
+export class WebdatarocksComponent// implements OnInit
+{
+ /*   // params
     @Input() toolbar: boolean;
     @Input() width: string | number;
     @Input() height: string | number;
@@ -89,5 +90,5 @@ export class WebdatarocksComponent implements OnInit{
             aftergriddraw: (event: object) => this.aftergriddraw.next(event),
             beforegriddraw: (event: object) => this.beforegriddraw.next(event)
         });
-    }
+    }*/
 }

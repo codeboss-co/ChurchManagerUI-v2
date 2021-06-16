@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { GroupType } from '../group.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';

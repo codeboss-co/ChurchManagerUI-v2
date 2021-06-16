@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupsReportsDataService } from '@features/admin/groups/reports/groups-reports-data.service';
+import { GroupsReportsDataService } from '@features/common/reports/_services/groups-reports-data.service';
 import {
     GroupAttendanceReportGridQuery,
     GroupAttendanceReportGridRow
 } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { ReportTemplatesDataService } from '@features/common/reports/_services/report-templates-data.service';
 
 @Component( {
     selector: 'cell-ministry-attendance-analytics',
@@ -21,8 +22,12 @@ export class AttendanceAnalyticsComponent implements OnInit
     reports$ = this._reports.asObservable();
     report$ = new Subject<Flexmonster.Report>();
 
-    constructor( private _data: GroupsReportsDataService )
+    constructor(
+        private _data: GroupsReportsDataService,
+        private _reportTemplates: ReportTemplatesDataService)
     {
+        this._reportTemplates.getReport$('group-attendance-report')
+            .subscribe(value => console.log('getReport$', value));
     }
 
     ngOnInit(): void
@@ -36,93 +41,19 @@ export class AttendanceAnalyticsComponent implements OnInit
                 } )
             );
 
+        const reportTemplate$ = this._reportTemplates.getReport$('group-attendance-report');
+
         data$
-            .pipe( takeUntil( this._unsubscribeAll ) )
+            .pipe(takeUntil( this._unsubscribeAll ))
+            .pipe(withLatestFrom(reportTemplate$))
             .subscribe(
-                ( results: GroupAttendanceReportGridRow[] ) => {
+                ( [results, report ]) => {
 
-                    // this._reports.next(results)
-                    this.report$.next( {
-                        dataSource: {
-                            data:results,
-                            mapping: {
-                                "Date": {
-                                    "type": "year/quarter/month/day"
-                                },
-                                "Church": {
-                                    "type": "string",
-                                    "hierarchy": "Structure"
-                                },
-                                "Group": {
-                                    "type": "string",
-                                    "parent": "Church",
-                                    "hierarchy": "Structure"
-                                },
-                                "Attendance": {
-                                    "type": "number",
-                                    "caption": "Attendance"
-                                },
-                                "FirstTimers": {
-                                    "type": "number",
-                                    "caption": "FT"
-                                },
-                                "NewConverts": {
-                                    "type": "number",
-                                    "caption": "NC"
-                                }
-                            }
-                        },
+                    console.log('loaded template', report)
 
-                        "slice": {
-                            "rows": [
-                                {
-                                    "uniqueName": "Structure",
-                                    "levelName": "Group"
-                                }
-                            ],
-                            "columns": [
-                                {
-                                    "uniqueName": "Date",
-                                    "levelName": "Date.Year"
-                                },
-                                {
-                                    "uniqueName": "[Measures]"
-                                }
-                            ],
-                            "measures": [
-                                {
-                                    "uniqueName": "Attendance",
-                                    "aggregation": "sum"
-                                },
-                                {
-                                    "uniqueName": "NewConverts",
-                                    "aggregation": "sum"
-                                },
-                                {
-                                    "uniqueName": "FirstTimers",
-                                    "aggregation": "sum"
-                                },
-                                {
-                                    "uniqueName": "ReceivedHolySpirit",
-                                    "aggregation": "sum"
-                                }
-                            ],
-                            "drills": {
-                                "columns": [
-                                    {
-                                        "tuple": [
-                                            "date.[2021]"
-                                        ]
-                                    },
-                                    {
-                                        "tuple": [
-                                            "date.[2021].[quarter 1]"
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    })
+                    report.dataSource.data = results;
+
+                    this.report$.next(report)
                 }
             );
     }
