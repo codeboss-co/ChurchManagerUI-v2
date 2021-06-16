@@ -19,6 +19,7 @@ export class AttendanceAnalyticsComponent implements OnInit
     private _unsubscribeAll = new Subject();
 
     reports$ = this._reports.asObservable();
+    report$ = new Subject<Flexmonster.Report>();
 
     constructor( private _data: GroupsReportsDataService )
     {
@@ -38,7 +39,91 @@ export class AttendanceAnalyticsComponent implements OnInit
         data$
             .pipe( takeUntil( this._unsubscribeAll ) )
             .subscribe(
-                ( results: GroupAttendanceReportGridRow[] ) => this._reports.next(results)
+                ( results: GroupAttendanceReportGridRow[] ) => {
+
+                    // this._reports.next(results)
+                    this.report$.next( {
+                        dataSource: {
+                            data:results,
+                            mapping: {
+                                "Date": {
+                                    "type": "year/quarter/month/day"
+                                },
+                                "Church": {
+                                    "type": "string",
+                                    "hierarchy": "Structure"
+                                },
+                                "Group": {
+                                    "type": "string",
+                                    "parent": "Church",
+                                    "hierarchy": "Structure"
+                                },
+                                "Attendance": {
+                                    "type": "number",
+                                    "caption": "Attendance"
+                                },
+                                "FirstTimers": {
+                                    "type": "number",
+                                    "caption": "FT"
+                                },
+                                "NewConverts": {
+                                    "type": "number",
+                                    "caption": "NC"
+                                }
+                            }
+                        },
+
+                        "slice": {
+                            "rows": [
+                                {
+                                    "uniqueName": "Structure",
+                                    "levelName": "Group"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "Date",
+                                    "levelName": "Date.Year"
+                                },
+                                {
+                                    "uniqueName": "[Measures]"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "Attendance",
+                                    "aggregation": "sum"
+                                },
+                                {
+                                    "uniqueName": "NewConverts",
+                                    "aggregation": "sum"
+                                },
+                                {
+                                    "uniqueName": "FirstTimers",
+                                    "aggregation": "sum"
+                                },
+                                {
+                                    "uniqueName": "ReceivedHolySpirit",
+                                    "aggregation": "sum"
+                                }
+                            ],
+                            "drills": {
+                                "columns": [
+                                    {
+                                        "tuple": [
+                                            "date.[2021]"
+                                        ]
+                                    },
+                                    {
+                                        "tuple": [
+                                            "date.[2021].[quarter 1]"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    })
+                }
             );
     }
 

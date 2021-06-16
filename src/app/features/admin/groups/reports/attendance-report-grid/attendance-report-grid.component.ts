@@ -10,6 +10,7 @@ import { FlexmonsterPivot } from 'ng-flexmonster';
 } )
 export class AttendanceReportGridComponent implements OnChanges {
     @Input() data: GroupAttendanceReportGridRow[] = [];
+    @Input() report:  Flexmonster.Report;
 
     @ViewChild( 'pivot1' ) child: WebdatarocksComponent;
     @ViewChild( 'pivot2' ) pivot: FlexmonsterPivot;
@@ -21,6 +22,11 @@ export class AttendanceReportGridComponent implements OnChanges {
         // which gives the grid time to be initialized
         if (changes['data']?.currentValue?.length) {
             this.pivot.flexmonster.updateData({ data: changes['data'].currentValue });
+        }
+
+        if (changes['report']?.currentValue) {
+            console.log(changes['report']?.currentValue)
+            this.pivot.flexmonster.setReport(changes['report'].currentValue);
         }
     }
 

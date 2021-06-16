@@ -10,7 +10,10 @@
             <groups-reports-search (updated)="onSearchUpdated($event)"></groups-reports-search>
 
             <!-- Report Grid -->
-            <groups-attendance-report-grid [data]="reports$ | async"></groups-attendance-report-grid>
+            <groups-attendance-report-grid
+                [data]="reports$ | async"
+                [report]="report$| async "
+            ></groups-attendance-report-grid>
 
         </div>
     </div>
