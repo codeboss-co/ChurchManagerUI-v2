@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -8,7 +8,10 @@ import { tap } from 'rxjs/operators';
 })
 export class ReportTemplatesDataService
 {
-    private _reports = new ReplaySubject<Flexmonster.Report[]>(1);
+    // All report templates loaded
+    private _reportTemplates = new ReplaySubject<Flexmonster.Report[]>(1);
+    // Single report loaded
+    private _reportTemplate = new BehaviorSubject<Flexmonster.Report>(null);
 
     /**
      * Constructor
@@ -25,9 +28,17 @@ export class ReportTemplatesDataService
     /**
      * Getter for reports
      */
-    get reports$(): Observable<Flexmonster.Report[]>
+    get templates$(): Observable<Flexmonster.Report[]>
     {
-        return this._reports.asObservable();
+        return this._reportTemplates.asObservable();
+    }
+
+    /**
+     * Getter for reports
+     */
+    get template$(): Observable<Flexmonster.Report>
+    {
+        return this._reportTemplate.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -42,7 +53,7 @@ export class ReportTemplatesDataService
     {
         return this._httpClient.get<Flexmonster.Report[]>('api/common/reports')
             .pipe(
-                tap(reports => this._reports.next(reports))
+                tap(reports => this._reportTemplates.next(reports))
             );
     }
 
@@ -53,6 +64,9 @@ export class ReportTemplatesDataService
      */
     getReport$(name: string): Observable<Flexmonster.Report>
     {
-        return this._httpClient.get<Flexmonster.Report>('api/common/reports', {params: {name}});
+        return this._httpClient.get<Flexmonster.Report>('api/common/reports', {params: {name}})
+            .pipe(
+                tap(report => this._reportTemplate.next(report))
+            );;
     }
 }

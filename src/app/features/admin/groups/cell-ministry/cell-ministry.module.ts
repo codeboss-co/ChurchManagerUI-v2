@@ -29,6 +29,7 @@ import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { AttendanceAnalyticsComponent } from './reporting/attendance-analytics/attendance-analytics.component';
 import { AttendanceReportGridModule } from '@features/common/reports/attendance-report-grid/attendance-report-grid.module';
 import { GroupsReportsSearchModule } from '@features/common/reports/groups-reports-search/groups-reports-search.module';
+import { ReportTemplateResolver } from '@features/common/reports/_services/report-template.resolver';
 
 const routes: Routes = [
     {
@@ -47,7 +48,13 @@ const routes: Routes = [
     },
     {
         path     : 'attendance-analytics',
-        component: AttendanceAnalyticsComponent
+        component: AttendanceAnalyticsComponent,
+        data: {
+            report: 'group-attendance-report' // Report name we will extract template for
+        },
+        resolve: {
+            reportTemplate: ReportTemplateResolver
+        }
     },
     {
         path     : '**',

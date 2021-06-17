@@ -1,33 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GroupsReportsDataService } from '@features/common/reports/_services/groups-reports-data.service';
-import {
-    GroupAttendanceReportGridQuery,
-    GroupAttendanceReportGridRow
-} from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { GroupAttendanceReportGridQuery } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { ReportTemplatesDataService } from '@features/common/reports/_services/report-templates-data.service';
 
 @Component( {
     selector: 'cell-ministry-attendance-analytics',
-    templateUrl: './attendance-analytics.component.html'
+    templateUrl: './attendance-analytics.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 } )
 export class AttendanceAnalyticsComponent implements OnInit
 {
+    //  Grid report
+    report$ = new Subject<Flexmonster.Report>();
+
     // Private
     private _query = new Subject<GroupAttendanceReportGridQuery>()
-    private _reports = new Subject<GroupAttendanceReportGridRow[]>()
     private _unsubscribeAll = new Subject();
-
-    reports$ = this._reports.asObservable();
-    report$ = new Subject<Flexmonster.Report>();
 
     constructor(
         private _data: GroupsReportsDataService,
         private _reportTemplates: ReportTemplatesDataService)
     {
-        this._reportTemplates.getReport$('group-attendance-report')
-            .subscribe(value => console.log('getReport$', value));
     }
 
     ngOnInit(): void
@@ -41,18 +36,15 @@ export class AttendanceAnalyticsComponent implements OnInit
                 } )
             );
 
-        const reportTemplate$ = this._reportTemplates.getReport$('group-attendance-report');
-
+        // load data with the report template
         data$
+            .pipe(withLatestFrom(this._reportTemplates.template$))
             .pipe(takeUntil( this._unsubscribeAll ))
-            .pipe(withLatestFrom(reportTemplate$))
             .subscribe(
-                ( [results, report ]) => {
-
-                    console.log('loaded template', report)
-
-                    report.dataSource.data = results;
-
+                ( [data, report ]) => {
+                    // set the data on the report
+                    report.dataSource.data = data;
+                    // notify the report change
                     this.report$.next(report)
                 }
             );
