@@ -1,0 +1,23 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Main -->
+    <div class="flex-auto overflow-y-auto" cdkScrollable>
+
+        <!-- CONTENT GOES HERE -->
+        <div class="w-full max-w-screen-xl mx-auto bg-card">
+
+            <!-- Search -->
+            <groups-reports-search (updated)="onSearchUpdated($event)"></groups-reports-search>
+
+            <!-- Loader -->
+            <mat-progress-bar *ngIf="isLoading" [mode]="'indeterminate'"></mat-progress-bar>
+
+            <!-- Report Grid -->
+            <groups-attendance-report-grid [report]="report$| async ">
+            </groups-attendance-report-grid>
+
+        </div>
+    </div>
+
+</div>
+

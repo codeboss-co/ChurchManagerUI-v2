@@ -27,6 +27,9 @@ import { Observable } from 'rxjs';
          * @summary this is specified on the route i.e. 'cell-ministry.module.ts'
          */
         const reportName = route.data['report'];
+        
+        if (!reportName) throw new Error('report name is required');
+
         return this._data.getReport$(reportName);
     }
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { GroupsReportsDataService } from '@features/common/reports/_services/groups-reports-data.service';
+import { GroupsReportsDataService } from '@features/admin/groups/reporting/groups-reports-data.service';
 import { CustomValidators } from '@shared/validators/common-forms.validators';
 import { Observable } from 'rxjs/internal/Observable';
 import { GroupAttendanceReportGridQuery } from '@features/admin/groups/cell-ministry/cell-ministry.model';

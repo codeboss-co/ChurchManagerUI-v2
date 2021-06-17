@@ -26,10 +26,6 @@ import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/ce
 import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
-import { AttendanceAnalyticsComponent } from './reporting/attendance-analytics/attendance-analytics.component';
-import { AttendanceReportGridModule } from '@features/common/reports/attendance-report-grid/attendance-report-grid.module';
-import { GroupsReportsSearchModule } from '@features/common/reports/groups-reports-search/groups-reports-search.module';
-import { ReportTemplateResolver } from '@features/common/reports/_services/report-template.resolver';
 
 const routes: Routes = [
     {
@@ -47,16 +43,6 @@ const routes: Routes = [
         ]
     },
     {
-        path     : 'attendance-analytics',
-        component: AttendanceAnalyticsComponent,
-        data: {
-            report: 'group-attendance-report' // Report name we will extract template for
-        },
-        resolve: {
-            reportTemplate: ReportTemplateResolver
-        }
-    },
-    {
         path     : '**',
         component: CellMinistryComponent
     }
@@ -66,8 +52,7 @@ const routes: Routes = [
     declarations: [
         CellMinistryComponent,
         CellAttendanceReportsComponent,
-        AttendanceReportFeedbackComponent,
-        AttendanceAnalyticsComponent
+        AttendanceReportFeedbackComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -95,11 +80,7 @@ const routes: Routes = [
         FuseAutogrowModule,
 
         // Controls
-        ChurchGroupsSelectControlModule,
-
-        // Features
-        GroupsReportsSearchModule,
-        AttendanceReportGridModule
+        ChurchGroupsSelectControlModule
     ],
     providers: [CellMinistryDataService, CellMinistryAttendanceReportResolver]
 })
