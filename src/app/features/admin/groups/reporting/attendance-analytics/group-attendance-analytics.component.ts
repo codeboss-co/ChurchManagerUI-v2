@@ -4,6 +4,7 @@ import { GroupAttendanceReportGridQuery } from '@features/admin/groups/cell-mini
 import { Subject } from 'rxjs';
 import { finalize, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ReportTemplatesDataService } from '@features/common/reports/_services/report-templates-data.service';
+import * as WebDataRocks from 'webdatarocks';
 
 @Component( {
     selector: 'group-attendance-analytics',
@@ -13,7 +14,7 @@ import { ReportTemplatesDataService } from '@features/common/reports/_services/r
 export class GroupAttendanceAnalyticsComponent implements OnInit
 {
     //  Grid report
-    report$ = new Subject<Flexmonster.Report>();
+    report$ = new Subject<WebDataRocks.Report>();
     isLoading = false;
 
     // Private
@@ -36,7 +37,7 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
                     const { groupTypeId, groupId, from, to } = query;
                     return this._data.getAttendanceReportGrid$( groupTypeId, groupId, from, to )
                         .pipe(finalize(() => this.isLoading = false));
-                } )                
+                } )
             );
 
         // load data with the report template
@@ -45,8 +46,9 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
             .pipe(takeUntil( this._unsubscribeAll))
             .subscribe(
                 ( [data, report ]) => {
-                    // set the data on the report
-                    report.dataSource.data = data;
+                    console.log('report', report, '');
+                    // add the data to the report definition 'mock-api/common/reports/data.ts'
+                    report.dataSource.data.push(...data);
                     // notify the report change
                     this.report$.next(report)
                 }

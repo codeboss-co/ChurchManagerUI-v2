@@ -8,7 +8,6 @@ import { GroupTypeGroupsSelectControlModule } from '@ui/controls/group-types-gro
 import { GroupsReportsDataService } from '@features/admin/groups/reporting/groups-reports-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FlexmonsterPivotModule } from 'ng-flexmonster';
 
 @NgModule({
     declarations: [
@@ -23,7 +22,6 @@ import { FlexmonsterPivotModule } from 'ng-flexmonster';
 
         // 3rd party
         WebdatarocksModule,
-        FlexmonsterPivotModule,
         // Controls
         ReportDatePickerControlModule,
         GroupTypeGroupsSelectControlModule

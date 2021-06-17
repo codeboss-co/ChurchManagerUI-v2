@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { reportsData } from './data';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
 import { cloneDeep } from 'lodash-es';
+import * as WebDataRocks from 'webdatarocks';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReportsMockApi
 {
-    private _reports: Flexmonster.Report[] = reportsData;
+    private _reports: Map<string, WebDataRocks.Report> = reportsData;
 
     /**
      * Constructor
@@ -41,16 +42,10 @@ export class ReportsMockApi
         this._fuseMockApiService
             .onGet('api/common/reports')
             .reply(({request}) => {
-
                 // Get the name
                 const name = request.params.get('name');
-                console.log('name', name, 'reports api')
                 // Find the report
-                const index = this._reports.findIndex((item: Flexmonster.Report) => item.dataSource.type === name);
-
-                // Store the deleted report
-                const foundReport = cloneDeep(this._reports[index]);
-
+                const foundReport = cloneDeep(this._reports.get(name));
                 // Return the response
                 return [200, foundReport];
             });

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
-import { GroupAttendanceReportGridRow } from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { FlexmonsterPivot } from 'ng-flexmonster';
+import * as WebDataRocks from 'webdatarocks';
 
 @Component( {
     selector: 'groups-attendance-report-grid',
@@ -10,10 +9,9 @@ import { FlexmonsterPivot } from 'ng-flexmonster';
 } )
 export class AttendanceReportGridComponent implements OnChanges {
     //@Input() data: GroupAttendanceReportGridRow[] = [];
-    @Input() report:  Flexmonster.Report;
+    @Input() report:  WebDataRocks.Report;
 
-    @ViewChild( 'pivot1' ) child: WebdatarocksComponent;
-    @ViewChild( 'pivot2' ) pivot: FlexmonsterPivot;
+    @ViewChild( 'pivot1' ) pivot: WebdatarocksComponent;
 
     ngOnChanges(changes: SimpleChanges): void
     {
@@ -25,15 +23,15 @@ export class AttendanceReportGridComponent implements OnChanges {
         }*/
 
         if (changes['report']?.currentValue) {
-            this.pivot.flexmonster.setReport(changes['report'].currentValue);
+            this.pivot.webDataRocks.setReport(changes['report'].currentValue);
         }
     }
 
     onPivotReady( pivot: any ): void {
-        console.log( '[ready] WebdatarocksComponent', this.child );
+        console.log( '[ready] WebdatarocksComponent', this.pivot );
     }
 
-    onCustomizeCell(cell: Flexmonster.CellBuilder, data: Flexmonster.CellData): void {
+    onCustomizeCell(cell: WebDataRocks.CellBuilder, data: WebDataRocks.CellData): void {
         if (data.isClassicTotalRow) {
             cell.addClass('fm-total-classic-r');
         }
@@ -46,15 +44,8 @@ export class AttendanceReportGridComponent implements OnChanges {
     }
 
     onReportComplete(): void {
-        //this.child.webDataRocks.off('reportcomplete');
-        /* this.child.webDataRocks.setReport({
-             dataSource: {
-                 filename: 'https://cdn.webdatarocks.com/data/data.json',
-             },
-         });*/
-
-        this.pivot.flexmonster.off( 'reportcomplete' );
-        this.pivot.flexmonster.setReport( {
+        this.pivot.webDataRocks.off( 'reportcomplete' );
+        this.pivot.webDataRocks.setReport( {
             dataSource: {
                 data: []
             }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import * as WebDataRocks from 'webdatarocks';
 
 @Injectable({
     providedIn: 'root'
@@ -9,9 +10,9 @@ import { tap } from 'rxjs/operators';
 export class ReportTemplatesDataService
 {
     // All report templates loaded
-    private _reportTemplates = new ReplaySubject<Flexmonster.Report[]>(1);
+    private _reportTemplates = new ReplaySubject<WebDataRocks.Report[]>(1);
     // Single report loaded
-    private _reportTemplate = new BehaviorSubject<Flexmonster.Report>(null);
+    private _reportTemplate = new BehaviorSubject<WebDataRocks.Report>(null);
 
     /**
      * Constructor
@@ -28,7 +29,7 @@ export class ReportTemplatesDataService
     /**
      * Getter for reports
      */
-    get templates$(): Observable<Flexmonster.Report[]>
+    get templates$(): Observable<WebDataRocks.Report[]>
     {
         return this._reportTemplates.asObservable();
     }
@@ -36,7 +37,7 @@ export class ReportTemplatesDataService
     /**
      * Getter for reports
      */
-    get template$(): Observable<Flexmonster.Report>
+    get template$(): Observable<WebDataRocks.Report>
     {
         return this._reportTemplate.asObservable();
     }
@@ -49,9 +50,9 @@ export class ReportTemplatesDataService
      * Get the reports
      *
      */
-    getAllReports$(): Observable<Flexmonster.Report[]>
+    getAllReports$(): Observable<WebDataRocks.Report[]>
     {
-        return this._httpClient.get<Flexmonster.Report[]>('api/common/reports')
+        return this._httpClient.get<WebDataRocks.Report[]>('api/common/reports')
             .pipe(
                 tap(reports => this._reportTemplates.next(reports))
             );
@@ -62,9 +63,9 @@ export class ReportTemplatesDataService
      *
      * @param name
      */
-    getReport$(name: string): Observable<Flexmonster.Report>
+    getReport$(name: string): Observable<WebDataRocks.Report>
     {
-        return this._httpClient.get<Flexmonster.Report>('api/common/reports', {params: {name}})
+        return this._httpClient.get<WebDataRocks.Report>('api/common/reports', {params: {name}})
             .pipe(
                 tap(report => this._reportTemplate.next(report))
             );;
