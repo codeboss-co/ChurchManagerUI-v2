@@ -79,12 +79,12 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
         // Create the form
         this.form = this._formBuilder.group({
             churchId: [churchId, Validators.required],
-            groupTypeId: [null, Validators.required],
+            groupTypeId: [this.editGroup.groupType.id, Validators.required],
             parentGroupId: [this.parentGroup?.id, Validators.required],
-            name: [null, Validators.required],
-            description: [null],
-            address: [null],
-            isOnline: [false],
+            name: [this.editGroup.name, Validators.required],
+            description: [this.editGroup.description],
+            address: [this.editGroup.address],
+            isOnline: [this.editGroup.isOnline],
             // Event
             meetingTime: [null],
             start           : [new Date()],

@@ -9,12 +9,11 @@
             <!-- Search -->
             <groups-reports-search (updated)="onSearchUpdated($event)"></groups-reports-search>
 
-            <!-- Loader -->
-            <mat-progress-bar *ngIf="isLoading" [mode]="'indeterminate'"></mat-progress-bar>
-
             <!-- Report Grid -->
-            <groups-attendance-report-grid [report]="report$| async ">
-            </groups-attendance-report-grid>
+            <report-grid
+                [report]="report$| async "
+                [isLoading]="isLoading$| async ">
+            </report-grid>
 
         </div>
     </div>
