@@ -1,11 +1,13 @@
-export interface ApiResponse {
+export interface ApiResponse
+{
     succeeded: boolean;
     message?: any;
     errors?: any;
     data?: any;
 }
 
-export interface Identifiable {
+export interface Identifiable
+{
     id: string | number;
     label: string;
 }
