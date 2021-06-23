@@ -112,7 +112,7 @@
                     class="flex flex-auto items-center h-12 px-4 rounded-md border cursor-pointer shadow-sm border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500"
                     (click)="openRecurrenceDialog()">
                     <div class="flex-auto">
-                        {{(recurrenceStatus$ | async) || 'Does not repeat'}}
+                        {{(recurrenceText$ | async) || 'Does not repeat'}}
                     </div>
                 </div>
             </div>

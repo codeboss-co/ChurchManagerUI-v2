@@ -1,3 +1,5 @@
+import RRule from 'rrule';
+
 export interface Calendar
 {
     id: string;
@@ -62,4 +64,15 @@ export const settings: CalendarSettings = {
     dateFormat : 'll', // Aug 20, 2019
     timeFormat : '24', // 24-hour format
     startWeekOn: 1 // Monday
+};
+
+
+// Convert the recurrence rule to friendly text
+export const recurrenceRuleFriendlyText = (recurrence: string): string => {
+    // Convert the recurrence rule to text
+    let ruleText = RRule.fromString(recurrence).toText();
+    ruleText = ruleText.charAt(0).toUpperCase() + ruleText.slice(1);
+
+    // Return the rule text
+    return ruleText;
 };

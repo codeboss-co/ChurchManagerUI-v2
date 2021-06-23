@@ -19,10 +19,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { FuseDateRangeModule } from '@fuse/components/date-range';
 import { CalendarRecurrenceComponent } from './recurrence/recurrence.component';
 import { SharedModule } from '@shared/shared.module';
+import { CalendarRecurrenceRuleFriendlyPipe } from './calendar.pipes';
 
 @NgModule({
     declarations: [
-        CalendarRecurrenceComponent
+        CalendarRecurrenceComponent,
+        CalendarRecurrenceRuleFriendlyPipe
     ],
     imports     : [
         ScrollingModule,
@@ -44,7 +46,7 @@ import { SharedModule } from '@shared/shared.module';
         FuseDateRangeModule,
         SharedModule
     ],
-    exports: [CalendarRecurrenceComponent, FuseDateRangeModule],
+    exports: [CalendarRecurrenceComponent, FuseDateRangeModule, CalendarRecurrenceRuleFriendlyPipe],
     providers   : [
         {
             provide : MAT_DATE_FORMATS,

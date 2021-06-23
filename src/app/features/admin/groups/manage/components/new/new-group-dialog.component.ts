@@ -11,10 +11,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GroupsDataService, GroupType, GroupWithChildren } from '@features/admin/groups';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
-import { CalendarRecurrenceComponent, CalendarSettings, settings } from '../../../../../../pages/calendar';
+import {
+    CalendarRecurrenceComponent,
+    CalendarSettings,
+    recurrenceRuleFriendlyText,
+    settings
+} from '../../../../../../pages/calendar';
 import RRule from 'rrule';
 import * as moment from 'moment';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FormAction, FormActions } from '@shared/shared.models';
 
 
@@ -38,6 +43,7 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
     editGroup?: GroupWithChildren
 
     recurrenceStatus$: Observable<string>;
+    recurrenceText$ = new BehaviorSubject<string>(null);
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -75,20 +81,20 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         const churchId = this.action === FormActions.New ? this.parentGroup?.churchId : this.editGroup?.churchId;
-        console.log('this.this.editGroup ', this.editGroup , '');
+        console.log('this.editGroup ', this.editGroup , '');
         // Create the form
         this.form = this._formBuilder.group({
             churchId: [churchId, Validators.required],
-            groupTypeId: [this.editGroup.groupType.id, Validators.required],
+            groupTypeId: [null, Validators.required],
             parentGroupId: [this.parentGroup?.id, Validators.required],
-            name: [this.editGroup.name, Validators.required],
-            description: [this.editGroup.description],
-            address: [this.editGroup.address],
-            isOnline: [this.editGroup.isOnline],
+            name: [this.editGroup?.name, Validators.required],
+            description: [this.editGroup?.description],
+            address: [this.editGroup?.address],
+            isOnline: [this.editGroup?.isOnline],
             // Event
             meetingTime: [null],
-            start           : [new Date()],
-            end             : [null],
+            start           : [moment(this.editGroup?.schedule?.startDate) ?? new Date()],
+            end             : [moment(this.editGroup?.schedule?.endDate)],
             recurrence      : [null]
         });
 
@@ -112,7 +118,7 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
         });
 
         //  Event's recurrence status in plain english
-        this.recurrenceStatus$ = this.form.get('recurrence').valueChanges
+        this.form.get('recurrence').valueChanges
             .pipe(
                 map(recurrence => {
                     // Return null, if there is no recurrence on the event
@@ -120,15 +126,19 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
                     {
                         return null;
                     }
-
                     // Convert the recurrence rule to text
-                    let ruleText = RRule.fromString(recurrence).toText();
-                    ruleText = ruleText.charAt(0).toUpperCase() + ruleText.slice(1);
-
-                    // Return the rule text
-                    return ruleText;
+                    return recurrenceRuleFriendlyText(recurrence);
                 })
-            );
+            ).subscribe(value => this.recurrenceText$.next(value));
+
+        if (this.action == FormActions.Edit) {
+            this.form.get('groupTypeId').setValue(this.editGroup?.groupType?.id);
+            this.form.get('recurrence').setValue(this.editGroup?.schedule?.recurrenceRule);
+            const meetingTimeSplit = this.editGroup?.schedule?.meetingTime.split(':')
+            if (Array.isArray(meetingTimeSplit)) {
+                this.form.get('meetingTime').setValue(new Date(2018, 11, 24, +meetingTimeSplit[0], +meetingTimeSplit[1]));
+            }
+        }
     }
 
     /**
@@ -160,7 +170,6 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
 
         // After dialog closed
         dialogRef.afterClosed().subscribe((result) => {
-            console.log('result', result, '');
             // Return if canceled
             if ( !result || !result.recurrence )
             {
