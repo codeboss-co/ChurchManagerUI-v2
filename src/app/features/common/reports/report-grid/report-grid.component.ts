@@ -3,12 +3,13 @@ import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.compone
 import * as WebDataRocks from 'webdatarocks';
 
 @Component( {
-    selector: 'groups-attendance-report-grid',
-    templateUrl: './attendance-report-grid.component.html',
+    selector: 'report-grid',
+    templateUrl: './report-grid.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 } )
-export class AttendanceReportGridComponent implements OnChanges {
-    //@Input() data: GroupAttendanceReportGridRow[] = [];
+export class ReportGridComponent implements OnChanges {
+
+    @Input() isLoading = false;
     @Input() report:  WebDataRocks.Report;
 
     @ViewChild( 'pivot1' ) pivot: WebdatarocksComponent;

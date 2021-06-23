@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GroupsReportsDataService } from '@features/admin/groups/reporting/groups-reports-data.service';
 import { GroupAttendanceReportGridQuery } from '@features/admin/groups/cell-ministry/cell-ministry.model';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { finalize, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ReportTemplatesDataService } from '@features/common/reports/_services/report-templates-data.service';
 import * as WebDataRocks from 'webdatarocks';
@@ -15,7 +15,7 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
 {
     //  Grid report
     report$ = new Subject<WebDataRocks.Report>();
-    isLoading = false;
+    isLoading$ = new BehaviorSubject<boolean>(false);
 
     // Private
     private _query = new Subject<GroupAttendanceReportGridQuery>()
@@ -31,12 +31,12 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
     {
         // Fetch data based on query
         const data$ = this._query
-            .pipe(tap(_ => this.isLoading = true))
+            .pipe(tap(_ => this.isLoading$.next(true)))
             .pipe(
                 switchMap( ( query: GroupAttendanceReportGridQuery ) => {
                     const { groupTypeId, groupId, from, to } = query;
                     return this._data.getAttendanceReportGrid$( groupTypeId, groupId, from, to )
-                        .pipe(finalize(() => this.isLoading = false));
+                        .pipe(finalize(() => this.isLoading$.next(false)));
                 } )
             );
 
@@ -46,7 +46,6 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
             .pipe(takeUntil( this._unsubscribeAll))
             .subscribe(
                 ( [data, report ]) => {
-                    console.log('report', report, '');
                     // add the data to the report definition 'mock-api/common/reports/data.ts'
                     report.dataSource.data.push(...data);
                     // notify the report change

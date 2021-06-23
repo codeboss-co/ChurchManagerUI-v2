@@ -92,7 +92,7 @@ export interface GroupWithChildren
     createdDate?: Date;
     groups?: GroupWithChildren[];
     level?: number;
-    scheduleText?: string;
+    schedule?: ScheduleViewModel
 }
 
 export interface GroupTypeRole
@@ -117,4 +117,14 @@ export interface GroupMemberForm
 
     groupMemberId?: number; // Used for editing
     groupId?: number;
+}
+
+export interface ScheduleViewModel
+{
+    scheduleText?: string;
+    iCalendarContent?: string;
+    startDate?: Date;
+    endDate?: Date;
+    meetingTime?: string;
+    recurrenceRule?: string;
 }
