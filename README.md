@@ -6,6 +6,13 @@ Church Manager frontend based on Angular Material
 
 > ng serve
 
+## Locally with domain
+
+ - Open the hosts file `C:\Windows\System32\drivers\etc\hosts`
+ - Add `127.0.0.1 localhost test-churchmanager.codeboss.tech` (remove other entries if there are)
+ - Build and run as `Service worker` below
+ - Accessible at  `http://test-churchmanager.codeboss.tech:8080`
+
 ### Docker
 
 > docker build -t church-manager-ui:prod .

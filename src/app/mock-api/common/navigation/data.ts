@@ -55,8 +55,9 @@ export const compactNavigation: FuseNavigationItem[] = [
                 title: 'Manage Groups',
                 subtitle: 'View, create & edit groups',
                 type : 'basic',
-                icon : 'heroicons_outline:view-grid',
-                link : '/apps/groups'
+                icon : 'heroicons_outline:view-grid-add',
+                link : '/apps/groups',
+                exactMatch: true
             },
             {
                 id      : 'groups.cell-ministry',
@@ -79,6 +80,22 @@ export const compactNavigation: FuseNavigationItem[] = [
                         icon    : 'heroicons_outline:clipboard-check',
                         link : '/apps/groups/cell-ministry/attendance-reports',
                         exactMatch: true,
+                    }
+                ]
+            },
+            {
+                id      : 'groups.reporting',
+                title   : 'Reports',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:document-report',
+                children: [
+                    {
+                        id   : 'groups.reporting.attendance-analytics',
+                        title: 'Attendance Analytics',
+                        type : 'basic',
+                        icon    : 'heroicons_outline:trending-up',
+                        link : '/apps/groups/reports/attendance-analytics',
+                        exactMatch: true
                     }
                 ]
             }

@@ -30,7 +30,6 @@ export class CellAttendanceReportsComponent implements OnInit
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
     drawerMode: 'over' | 'side';
@@ -119,6 +118,16 @@ export class CellAttendanceReportsComponent implements OnInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
