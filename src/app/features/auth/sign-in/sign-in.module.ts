@@ -11,6 +11,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from '@shared/shared.module';
 import { AuthSignInComponent } from 'app/features/auth/sign-in/sign-in.component';
 import { authSignInRoutes } from 'app/features/auth/sign-in/sign-in.routing';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,8 @@ import { authSignInRoutes } from 'app/features/auth/sign-in/sign-in.routing';
         MatIconModule,
         MatInputModule,
         MatProgressSpinnerModule,
+        MatSelectModule,
+
         FuseCardModule,
         FuseAlertModule,
         SharedModule

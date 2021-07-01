@@ -73,6 +73,21 @@
                     </mat-error>
                 </mat-form-field>
 
+                <mat-form-field
+                     class="w-full">
+                    <mat-label>Tenant</mat-label>
+                    <mat-select [formControlName]="'tenant'">
+                        <mat-option *ngFor="let tenant of tenants$ | async"
+                            [value]="tenant.name">
+                                 {{tenant.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:library'"></mat-icon>
+                </mat-form-field>
+
                 <!-- Actions -->
                 <div class="inline-flex items-end justify-between w-full mt-1.5">
                     <mat-checkbox
@@ -91,7 +106,7 @@
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="signInForm.disabled"
+                    [disabled]="signInForm.disabled || signInForm.invalid"
                     (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         Sign in

@@ -84,9 +84,9 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { username: string, password: string }): Observable<any>
+    signIn(credentials: { username: string, password: string, tenant?:string }): Observable<any>
     {
-        return this._httpClient.post(`${this._apiUrl}/v1/auth/login`, credentials)
+        return this._httpClient.post(`${this._apiUrl}/v1/auth/login/?tenant=${credentials.tenant}`, credentials)
             .pipe(
                 map((response) => {
                     const token = (<any>response).accessToken;
@@ -143,5 +143,13 @@ export class AuthService
     */
     public getToken$(): Observable<any> {
         return of(this.accessToken);
+    }
+
+    /*
+    * Retrieves tenant info
+    */
+    tenants$(): Observable<any>
+    {
+        return this._httpClient.get(`${this._apiUrl}/v1/tenants`);
     }
 }
