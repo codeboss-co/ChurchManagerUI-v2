@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from '@core/auth/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector     : 'auth-sign-in',
@@ -21,6 +22,8 @@ export class AuthSignInComponent implements OnInit
     };
     signInForm: FormGroup;
     showAlert: boolean = false;
+
+    tenants$: Observable<any> = this._authService.tenants$();
 
     /**
      * Constructor
@@ -47,6 +50,7 @@ export class AuthSignInComponent implements OnInit
         this.signInForm = this._formBuilder.group({
             username     : ['', [Validators.required]],
             password  : ['', Validators.required],
+            tenant  : ['', Validators.required],
             rememberMe: ['']
         });
     }
