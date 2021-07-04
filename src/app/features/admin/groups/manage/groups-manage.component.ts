@@ -5,7 +5,7 @@ import { GroupMemberForm, GroupMembersSimple, GroupsDataService, GroupWithChildr
 import { filter, finalize, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from '@core/notifications/toastr.service';
-import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
+import { EditGroupForm, NewGroupForm } from '@features/admin/groups/manage/components/group-detail/group-detail.model';
 import { GroupsViewerComponent } from '@features/admin/groups/manage/components/list/groups-viewer.component';
 import { FormActions } from '@shared/shared.models';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -32,6 +32,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
 
     // Private trigger streams
     private _groupAdded$ = new Subject<NewGroupForm>();
+    private _groupEdited$ = new Subject<EditGroupForm>();
     private _groupMemberDeleted$ = new Subject<{groupMemberId: number; groupId: number}>();
     private _groupMemberAdded$ = new Subject<GroupMemberForm>();
     private _groupMemberUpdated$ = new Subject<GroupMemberForm>();
@@ -88,33 +89,48 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             );
 
         // add group and reload the tree
+        const editGroupAndReloadGroupWithChildren$ = this._groupEdited$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap((group: EditGroupForm) => this._data.editGroup$(group)
+                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) )))
+            );
+
+        editGroupAndReloadGroupWithChildren$
+            .pipe(
+                switchMap(({ groupId, parentGroupId}) => this._data.getGroupTree$(parentGroupId)
+                    .pipe(map(groups => ({groupId, groups}) ))
+                )
+            )
+            .subscribe(({groupId, groups}) => {
+                const viewer = this.viewer;
+
+                // Update the data
+                const parent = groups[0];
+                const parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parent.id);
+                parentNode.expandable = true;
+                parentNode.item.groups = parent.groups;
+
+                // Reload the group data
+                const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
+                viewer.dataSource.data = updatedGroups;
+                // Expand the tree from the new node
+                viewer.expandTree(viewer.treeControl.dataNodes, groupId);
+                // Show the new groups details
+                const editedGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
+                this.onGroupSelected(editedGroup);
+            });
+
+
+        // add group and reload the tree
         const addGroupAndReloadGroupWithChildren$ = this._groupAdded$
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap((group: NewGroupForm) => {
                     return this._data.addGroup$(group)
-                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) ))
-  /*                      .pipe(
-                            switchMap((groupId: number) => {
-                                // Load the parent group with children details
-                                return this._data.getGroupTree$(group.parentGroupId)
-                                    .pipe(
-                                        map( groups => ({groupId, groups}) )
-                                    );
-
-                                // Depending on where we are coming from
-                                /!*if ( this._activatedRoute.snapshot?.data?.from === 'profile' ) {
-
-                                } else {
-                                    return this._data.getGroupTree$(groupId)
-                                        .pipe(
-                                            map( groups => ({groupId, groups}) )
-                                        );
-                                }*!/
-                            })
-                        )*/
+                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) ));
                 })
-            )
+            );
 
         // once that is done - expand the tree to the new group
         addGroupAndReloadGroupWithChildren$
@@ -139,7 +155,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
                 viewer.expandTree(viewer.treeControl.dataNodes, groupId);
                 // Show the new groups details
                 const newGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
-                this.onGroupSelected(newGroup)
+                this.onGroupSelected(newGroup);
             });
 
         // add group member and reload the members
@@ -243,6 +259,11 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     onGroupAdded(group: NewGroupForm)
     {
        this._groupAdded$.next(group);
+    }
+
+    onGroupEdited(group: EditGroupForm)
+    {
+        this._groupEdited$.next(group);
     }
 
     onMemberDeleted( memberInfo: { groupMemberId: number; groupId: number } )

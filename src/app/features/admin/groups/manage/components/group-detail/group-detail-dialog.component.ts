@@ -25,11 +25,11 @@ import { FormAction, FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'new-group-dialog',
-    templateUrl    : './new-group-dialog.component.html',
+    templateUrl    : './group-detail-dialog.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewGroupDialogComponent implements OnInit, OnDestroy
+export class GroupDetailDialogComponent implements OnInit, OnDestroy
 {
     form: FormGroup;
     action: FormAction;
@@ -38,9 +38,9 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
 
     groupType: GroupType;
     // new
-    parentGroup?: GroupWithChildren
+    parentGroup?: Partial<GroupWithChildren>;
     // edit
-    editGroup?: GroupWithChildren
+    editGroup?: GroupWithChildren;
 
     recurrenceStatus$: Observable<string>;
     recurrenceText$ = new BehaviorSubject<string>(null);
@@ -51,8 +51,8 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        public matDialogRef: MatDialogRef<NewGroupDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private data: { action: FormAction, parentGroup?: GroupWithChildren, group?: GroupWithChildren },
+        public matDialogRef: MatDialogRef<GroupDetailDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) private data: { action: FormAction; parentGroup?: GroupWithChildren; group?: GroupWithChildren },
         private _changeDetectorRef: ChangeDetectorRef,
         private _matDialog: MatDialog,
         private _formBuilder: FormBuilder,
@@ -68,6 +68,8 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
         else
         {
             this.editGroup = data.group;
+            this.parentGroup = {id: this.editGroup.parentGroupId, name: this.editGroup.parentGroupName};
+            console.log('this.editGroup ', this.editGroup , '');
         }
     }
 
@@ -81,9 +83,9 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         const churchId = this.action === FormActions.New ? this.parentGroup?.churchId : this.editGroup?.churchId;
-        console.log('this.editGroup ', this.editGroup , '');
         // Create the form
         this.form = this._formBuilder.group({
+            groupId: [null], // only used on edit
             churchId: [churchId, Validators.required],
             groupTypeId: [null, Validators.required],
             parentGroupId: [this.parentGroup?.id, Validators.required],
@@ -120,7 +122,7 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
         //  Event's recurrence status in plain english
         this.form.get('recurrence').valueChanges
             .pipe(
-                map(recurrence => {
+                map((recurrence) => {
                     // Return null, if there is no recurrence on the event
                     if ( !recurrence )
                     {
@@ -131,11 +133,16 @@ export class NewGroupDialogComponent implements OnInit, OnDestroy
                 })
             ).subscribe(value => this.recurrenceText$.next(value));
 
-        if (this.action == FormActions.Edit) {
+        /*
+        * Update various controls if we are in editing
+        * */
+        if (this.action === FormActions.Edit) {
+            this.form.get('groupId').setValue(this.editGroup?.id);
             this.form.get('groupTypeId').setValue(this.editGroup?.groupType?.id);
             this.form.get('recurrence').setValue(this.editGroup?.schedule?.recurrenceRule);
-            const meetingTimeSplit = this.editGroup?.schedule?.meetingTime.split(':')
+            const meetingTimeSplit = this.editGroup?.schedule?.meetingTime.split(':');
             if (Array.isArray(meetingTimeSplit)) {
+                // Insert dummy date as all we need is the time
                 this.form.get('meetingTime').setValue(new Date(2018, 11, 24, +meetingTimeSplit[0], +meetingTimeSplit[1]));
             }
         }

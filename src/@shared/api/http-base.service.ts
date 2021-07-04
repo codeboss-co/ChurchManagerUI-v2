@@ -32,6 +32,12 @@ export abstract class HttpBaseService {
             .pipe( map( response => response.body ) );
     }
 
+    protected put<T>( url: string, data: any ): Observable<T> {
+        return this
+            .request<T>( 'PUT', url, data, null )
+            .pipe( map( response => response.body ) );
+    }
+
     protected delete<T>( url: string, data: any ): Observable<T> {
         return this
             .request<T>( 'DELETE', url, data, null )

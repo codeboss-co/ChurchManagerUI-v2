@@ -32,7 +32,10 @@
                     </button>
                 </div>
 
-                <group-details [group]="selectedGroup$ | async"></group-details>
+                <group-details
+                    [group]="selectedGroup$ | async"
+                    (editedGroup)="onGroupEdited($event)">
+                </group-details>
 
                 <group-members
                     [members]="members$ | async"

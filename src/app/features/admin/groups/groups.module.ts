@@ -31,7 +31,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
-import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
+import { GroupDetailDialogComponent } from '@features/admin/groups/manage/components/group-detail/group-detail-dialog.component';
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
@@ -51,7 +51,7 @@ import { MatMenuModule } from '@angular/material/menu';
         GroupMembersComponent,
         // Dialogs
         AddGroupMemberFormDialogComponent,
-        NewGroupDialogComponent
+        GroupDetailDialogComponent
     ],
     imports: [
         RouterModule.forChild(groupsRoutes),

@@ -1,13 +1,19 @@
 import { Moment } from 'moment';
 
-export interface NewGroupForm {
+export interface NewGroupForm
+{
     churchId: number;
     groupTypeId: number;
     parentGroupId?: number | null;
     name: string;
-    description: string;
+    description?: string;
     meetingTime: Moment;
     start?: Moment;
     end?: Moment;
     recurrence?: string;
+}
+
+export interface EditGroupForm extends NewGroupForm
+{
+    groupId: number;
 }
