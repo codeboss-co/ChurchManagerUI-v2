@@ -41,6 +41,7 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RecordStatusSelectControlModule } from '@ui/controls/record-status-select-control/record-status-select-control.module';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 
 @NgModule({
     declarations: [
@@ -85,6 +86,7 @@ import { MatMenuModule } from '@angular/material/menu';
         PersonAutocompleteControlModule,
         GroupTypesSelectControlModule,
         ChurchesSelectControlModule,
+        ChurchGroupsSelectControlModule,
         RecordStatusSelectControlModule,
 
         // 3rd Party

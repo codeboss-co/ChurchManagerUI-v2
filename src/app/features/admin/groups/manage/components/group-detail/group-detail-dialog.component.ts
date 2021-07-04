@@ -22,7 +22,6 @@ import * as moment from 'moment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FormAction, FormActions } from '@shared/shared.models';
 
-
 @Component({
     selector       : 'new-group-dialog',
     templateUrl    : './group-detail-dialog.component.html',
@@ -39,6 +38,7 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
     groupType: GroupType;
     // new
     parentGroup?: Partial<GroupWithChildren>;
+    parentChurchGroup?: Partial<{churchId: number; groupId: number | null}>;
     // edit
     editGroup?: GroupWithChildren;
 
@@ -46,6 +46,7 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
     recurrenceText$ = new BehaviorSubject<string>(null);
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _noParentGroupId = 0;
 
     /**
      * Constructor
@@ -64,13 +65,22 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
         if (this.action === FormActions.New)
         {
             this.parentGroup = data.parentGroup;
+            this.parentChurchGroup = {
+                churchId: this.parentGroup?.churchId,
+                groupId: this.parentGroup?.id ?? null,
+            };
         }
         else
         {
             this.editGroup = data.group;
             this.parentGroup = {id: this.editGroup.parentGroupId, name: this.editGroup.parentGroupName};
             console.log('this.editGroup ', this.editGroup , '');
+            this.parentChurchGroup = {
+                churchId: this.editGroup.churchId,
+                groupId: this.editGroup.parentGroupId ?? this._noParentGroupId
+            };
         }
+        console.log('parentChurchGroup ', this.parentChurchGroup , '');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,9 +96,10 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
         // Create the form
         this.form = this._formBuilder.group({
             groupId: [null], // only used on edit
-            churchId: [churchId, Validators.required],
+            //churchId: [churchId, Validators.required],
             groupTypeId: [null, Validators.required],
-            parentGroupId: [this.parentGroup?.id, Validators.required],
+            //parentGroupId: [this.parentGroup?.id, Validators.required],
+            churchParentGroup: [this.parentChurchGroup, [Validators.required]],
             name: [this.editGroup?.name, Validators.required],
             description: [this.editGroup?.description],
             address: [this.editGroup?.address],

@@ -93,7 +93,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap((group: EditGroupForm) => this._data.editGroup$(group)
-                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) )))
+                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentChurchGroup.groupId }) )))
             );
 
         editGroupAndReloadGroupWithChildren$
@@ -128,7 +128,7 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             .pipe(
                 switchMap((group: NewGroupForm) => {
                     return this._data.addGroup$(group)
-                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentGroupId }) ));
+                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentChurchGroup.groupId }) ));
                 })
             );
 
