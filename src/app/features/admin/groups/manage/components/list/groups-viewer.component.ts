@@ -34,6 +34,16 @@ export interface FlatNode {
 export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
+    @Input() set currentSelectedGroup(value: GroupWithChildren) {
+        this._currentSelectedGroup = value;
+        this.selected = value;
+        this.selectedGroup.emit(value);
+    }
+    get currentSelectedGroup(): GroupWithChildren {
+        return this._currentSelectedGroup;
+    }
+    private _currentSelectedGroup: GroupWithChildren;
+
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
     @Output() loadedChildren = new EventEmitter<GroupWithChildren>();
     @Output() addedGroup = new EventEmitter<NewGroupForm>();

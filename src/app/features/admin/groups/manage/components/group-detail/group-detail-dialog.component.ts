@@ -99,7 +99,7 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
             //churchId: [churchId, Validators.required],
             groupTypeId: [null, Validators.required],
             //parentGroupId: [this.parentGroup?.id, Validators.required],
-            churchParentGroup: [this.parentChurchGroup, [Validators.required]],
+            parentChurchGroup: [this.parentChurchGroup, [Validators.required]],
             name: [this.editGroup?.name, Validators.required],
             description: [this.editGroup?.description],
             address: [this.editGroup?.address],

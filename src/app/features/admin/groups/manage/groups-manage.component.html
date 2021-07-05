@@ -11,6 +11,7 @@
             #drawer>
             <groups-viewer
                 [groups]="groups$ | async"
+                [currentSelectedGroup]="selectedGroup$ | async"
                 (selectedGroup)="onGroupSelected($event)"
                 (addedGroup)="onGroupAdded($event)"
                 (loadedChildren)="onLoadChildren($event)"
