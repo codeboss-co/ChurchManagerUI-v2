@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { GroupsManageService } from '@features/admin/groups/_services/groups-manage.service';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { GroupMemberForm, GroupMembersSimple, GroupsDataService, GroupWithChildren } from '@features/admin/groups';
@@ -46,7 +54,8 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         private _service: GroupsManageService,
         private _data: GroupsDataService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _toastr: ToastrService)
+        private _toastr: ToastrService,
+        private _cdRef: ChangeDetectorRef)
     {
     }
 
@@ -98,27 +107,48 @@ export class GroupsManageComponent implements OnInit, OnDestroy
 
         editGroupAndReloadGroupWithChildren$
             .pipe(
-                switchMap(({ groupId, parentGroupId}) => this._data.getGroupTree$(parentGroupId)
-                    .pipe(map(groups => ({groupId, groups}) ))
+                switchMap(({ groupId, parentGroupId}) => this._data.getGroupsTree$()
+                    .pipe(map(groups => ({groupId, parentGroupId, groups}) ))
                 )
             )
-            .subscribe(({groupId, groups}) => {
+            .subscribe(({groupId, parentGroupId, groups}) => {
                 const viewer = this.viewer;
+                // Reload the group data
+                viewer.dataSource.data = groups;
+                // Load nodes until we find the parent
+                let parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parentGroupId);
+                console.log('groupId', groupId);
+                console.log('parentNode', parentNode);
+                console.log('parentGroupId', parentGroupId);
 
-                // Update the data
-                const parent = groups[0];
-                const parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parent.id);
-                parentNode.expandable = true;
-                parentNode.item.groups = parent.groups;
+                while (!parentNode) {
+                    for ( const node of viewer.treeControl.dataNodes ) {
+                        console.log('loadChildren', node.name);
+                        viewer.loadChildren(node, groups);
+                        parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parentGroupId);
+                        if (parentNode) {
+                            break;
+                        }
+                    }
+                }
+
+                // Load parents children as we might not have them
+                if (parentNode) {
+                    parentNode.expandable = true;
+                    viewer.loadChildren(parentNode, groups);
+                }
 
                 // Reload the group data
-                const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
-                viewer.dataSource.data = updatedGroups;
-                // Expand the tree from the new node
+                //const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
+                //viewer.dataSource.data = updatedGroups;
+                // Expand the tree from the edited node
                 viewer.expandTree(viewer.treeControl.dataNodes, groupId);
                 // Show the new groups details
                 const editedGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
+                console.log('editedGroup', editedGroup);
                 this.onGroupSelected(editedGroup);
+                // So that the newly selected is the only one selected
+                this._cdRef.markForCheck();
             });
 
 
@@ -156,6 +186,8 @@ export class GroupsManageComponent implements OnInit, OnDestroy
                 // Show the new groups details
                 const newGroup = viewer.treeControl.dataNodes.find(x => x.item.id === groupId)?.item;
                 this.onGroupSelected(newGroup);
+                // So that the newly selected is the only one selected
+                this._cdRef.markForCheck();
             });
 
         // add group member and reload the members

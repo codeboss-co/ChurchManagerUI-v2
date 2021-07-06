@@ -126,7 +126,7 @@ export class GroupsViewerComponent implements OnChanges
     }
 
     /**
-     * Expands tree from given node to all its parent
+     * Expands tree from given node to its parent
      * https://stackblitz.com/edit/angular-icfxva?file=src%2Fapp%2Ftree-nested-overview-example.ts
      */
     expandTree( data: FlatNode[], id: number): any {
@@ -159,7 +159,7 @@ export class GroupsViewerComponent implements OnChanges
 
     // https://docs.google.com/presentation/d/1BoJ-jq-O9zQHAps7LVciiiH9WI9dDqqv-LAlQ6iMh5o/htmlpresent
     // https://stackblitz.com/edit/material-tree-dynamic?file=app%2Fapp.component.ts
-    loadChildren(node: FlatNode)
+    loadChildren(node: FlatNode, updatedGroups: GroupWithChildren[] = null)
     {
         this.loadedChildren.emit(node.item);
         if (!this.flatNodeMap.has(node.item.id)) {
@@ -189,7 +189,7 @@ export class GroupsViewerComponent implements OnChanges
                     foundNode.expandable = true;
                     foundNode.item.groups = children;
                     // Update data source
-                    this.dataSource.data = this.groups;
+                    this.dataSource.data = updatedGroups ?? this.groups;
                     // Expand the tree from the new node
                     this.expandTree(this.treeControl.dataNodes, node.item.id);
                     // Stop loading indicator
