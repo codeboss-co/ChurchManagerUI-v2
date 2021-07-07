@@ -80,7 +80,6 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
                 groupId: this.editGroup.parentGroupId ?? this._noParentGroupId
             };
         }
-        console.log('parentChurchGroup ', this.parentChurchGroup , '');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,14 +91,13 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        const churchId = this.action === FormActions.New ? this.parentGroup?.churchId : this.editGroup?.churchId;
         // Create the form
         this.form = this._formBuilder.group({
             groupId: [null], // only used on edit
             //churchId: [churchId, Validators.required],
             groupTypeId: [null, Validators.required],
             //parentGroupId: [this.parentGroup?.id, Validators.required],
-            parentChurchGroup: [this.parentChurchGroup, [Validators.required]],
+            parentChurchGroup: [{value: this.parentChurchGroup, disabled: this.action === FormActions.Edit}, [Validators.required]],
             name: [this.editGroup?.name, Validators.required],
             description: [this.editGroup?.description],
             address: [this.editGroup?.address],
