@@ -31,7 +31,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSortModule } from '@angular/material/sort';
-import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
+import { GroupDetailDialogComponent } from '@features/admin/groups/manage/components/group-detail/group-detail-dialog.component';
 import { GroupTypesSelectControlModule } from '@ui/controls/group-types-select-control/group-types-select-control.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
@@ -41,6 +41,7 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RecordStatusSelectControlModule } from '@ui/controls/record-status-select-control/record-status-select-control.module';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 
 @NgModule({
     declarations: [
@@ -51,7 +52,7 @@ import { MatMenuModule } from '@angular/material/menu';
         GroupMembersComponent,
         // Dialogs
         AddGroupMemberFormDialogComponent,
-        NewGroupDialogComponent
+        GroupDetailDialogComponent
     ],
     imports: [
         RouterModule.forChild(groupsRoutes),
@@ -85,6 +86,7 @@ import { MatMenuModule } from '@angular/material/menu';
         PersonAutocompleteControlModule,
         GroupTypesSelectControlModule,
         ChurchesSelectControlModule,
+        ChurchGroupsSelectControlModule,
         RecordStatusSelectControlModule,
 
         // 3rd Party

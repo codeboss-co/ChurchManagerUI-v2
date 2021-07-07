@@ -5,11 +5,13 @@
     /*sm*/
     @media (min-width: 640px) {
         width: 100%;
+        height: 100%;
     }
 
     /*>= md*/
     @media (min-width: 768px) {
         width: 650px;
+        height: 80vh;
     }
 
     input {
@@ -18,11 +20,12 @@
 
     .mat-dialog-container {
         padding: 0;
+        overflow-y: hidden;
     }
 
     .dialog-content-wrapper {
         max-height: 85vh;
-        height: 55vh;
+        //height: 55vh;
         display: flex;
         flex-direction: column;
     }

@@ -33,13 +33,13 @@
         </div>
 
         <div class="flex flex-row justify-between">
-            <churches-select-control formControlName="churchId" required></churches-select-control>
+            <!--<churches-select-control formControlName="churchId" required></churches-select-control>-->
             <group-types-select-control formControlName="groupTypeId" required> </group-types-select-control>
             <mat-slide-toggle formControlName="isOnline">{{form.get('isOnline').value ? 'Online' : 'Not Online'}}</mat-slide-toggle>
         </div>
 
         <!-- Parent Group -->
-        <mat-form-field>
+        <!--<mat-form-field>
             <mat-label>Parent Group</mat-label>
             <mat-select formControlName="parentGroupId" >
                 <mat-option [value]="parentGroup?.id">{{parentGroup?.name}}</mat-option>
@@ -49,7 +49,14 @@
                 class="icon-size-5"
                 matPrefix
                 [svgIcon]="'heroicons_solid:link'"></mat-icon>
-        </mat-form-field>
+        </mat-form-field>-->
+
+        <label class="font-medium">Parent Group</label>
+        <cm-church-groups-control
+            [noSelectionLabel]="'-- No Parent --'"
+            formControlName="parentChurchGroup">
+        </cm-church-groups-control>
+
 
         <!-- Name & Description -->
         <mat-form-field>
@@ -135,9 +142,9 @@
                 class="ml-2"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || !form.touched"
                 [matTooltip]="'Save'"
-                (click)="matDialogRef.close(form.getRawValue())">
+                (click)="matDialogRef.close([action, form.getRawValue()])">
                 Save
             </button>
         </div>
