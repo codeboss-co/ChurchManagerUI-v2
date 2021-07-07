@@ -102,50 +102,20 @@ export class GroupsManageComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 switchMap((group: EditGroupForm) => this._data.editGroup$(group)
-                        .pipe(map(groupId => ({ groupId, parentGroupId: group.parentChurchGroup.groupId }) )))
+                        .pipe(map(editedGroup => ({ editedGroup, parentGroupId: group.parentChurchGroup.groupId }) )))
             );
 
         editGroupAndReloadGroupWithChildren$
-            .pipe(
-                switchMap(({ groupId, parentGroupId}) => this._data.getGroupsTree$()
-                    .pipe(map(groups => ({groupId, parentGroupId, groups}) ))
-                )
-            )
-            .subscribe(({groupId, parentGroupId, groups}) => {
+            .subscribe(({editedGroup, parentGroupId}) => {
                 const viewer = this.viewer;
-                // Reload the group data
-                viewer.dataSource.data = groups;
-                // Load nodes until we find the parent
-                let parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parentGroupId);
-
-                while (!parentNode) {
-                    for ( const node of viewer.treeControl.dataNodes ) {
-                        viewer.loadChildren(node, groups);
-                        parentNode = viewer.treeControl.dataNodes.find(x => x.item.id === parentGroupId);
-                        if (parentNode) {
-                            break;
-                        }
-                    }
-                }
-
-                // Load parents children as we might not have them
-                if (parentNode) {
-                    parentNode.expandable = true;
-                    viewer.loadChildren(parentNode, groups);
-                }
-
-                // Reload the group data
-                //const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
-                //viewer.dataSource.data = updatedGroups;
-                // Expand the tree from the edited node
-                viewer.expandTree(viewer.treeControl.dataNodes, parentGroupId);
-                // Show the new groups details
-                const editedGroup = viewer.treeControl.dataNodes.find(x => x.item.id === parentGroupId)?.item;
-                this.onGroupSelected(editedGroup);
-                // So that the newly selected is the only one selected
-                this._cdRef.markForCheck();
+                // Copy return data to the group in the tree
+                const group = viewer.treeControl.dataNodes.find(x => x.item.id === editedGroup.id)?.item;
+                Object.assign(group, editedGroup);
+                // Reload the group data to update the tree
+                viewer.refreshTree();
+                // Expand the tree from the node
+                viewer.expandTree(viewer.treeControl.dataNodes, group.id);
             });
-
 
         // add group and reload the tree
         const addGroupAndReloadGroupWithChildren$ = this._groupAdded$

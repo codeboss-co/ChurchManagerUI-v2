@@ -128,11 +128,11 @@ export class GroupsDataService extends HttpBaseService
     /**
      * @returns the edited group id
      */
-    editGroup$(model: EditGroupForm): Observable<number>
+    editGroup$(model: EditGroupForm): Observable<GroupWithChildren>
     {
         return super.put<ApiResponse>(`${this._apiUrl}/v1/groups`, model)
             .pipe(
-                map(response => model.groupId),
+                map(response => response.data),
             );
     }
 
