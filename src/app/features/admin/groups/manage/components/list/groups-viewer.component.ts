@@ -12,11 +12,11 @@ import { GroupsDataService, GroupWithChildren } from '@features/admin/groups';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { MatDialog } from '@angular/material/dialog';
-import { NewGroupDialogComponent } from '@features/admin/groups/manage/components/new/new-group-dialog.component';
-import { filter, finalize, first, tap } from 'rxjs/operators';
-import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
+import { GroupDetailDialogComponent } from '@features/admin/groups/manage/components/group-detail/group-detail-dialog.component';
+import { filter, first } from 'rxjs/operators';
+import { NewGroupForm } from '@features/admin/groups/manage/components/group-detail/group-detail.model';
 import { BehaviorSubject } from 'rxjs';
-import { FormActions } from '@shared/shared.models';
+import { FormAction, FormActions } from '@shared/shared.models';
 
 export interface FlatNode {
     expandable: boolean;
@@ -34,6 +34,16 @@ export interface FlatNode {
 export class GroupsViewerComponent implements OnChanges
 {
     @Input() groups: GroupWithChildren[] = [];
+    @Input() set currentSelectedGroup(value: GroupWithChildren) {
+        this._currentSelectedGroup = value;
+        this.selected = value;
+        this.selectedGroup.emit(value);
+    }
+    get currentSelectedGroup(): GroupWithChildren {
+        return this._currentSelectedGroup;
+    }
+    private _currentSelectedGroup: GroupWithChildren;
+
     @Output() selectedGroup = new EventEmitter<GroupWithChildren>();
     @Output() loadedChildren = new EventEmitter<GroupWithChildren>();
     @Output() addedGroup = new EventEmitter<NewGroupForm>();
@@ -98,7 +108,7 @@ export class GroupsViewerComponent implements OnChanges
     openAddGroupDialog(node: FlatNode): void
     {
         // Open the dialog
-        const dialogRef = this._matDialog.open(NewGroupDialogComponent, {
+        const dialogRef = this._matDialog.open(GroupDetailDialogComponent, {
             data : {
                 action: FormActions.New,
                 parentGroup: node.item
@@ -107,14 +117,16 @@ export class GroupsViewerComponent implements OnChanges
 
         dialogRef.afterClosed()
             .pipe(filter(result => !!result))
-            .subscribe((group: NewGroupForm) => {
+            .subscribe(([action, group]: [FormAction, NewGroupForm]) => {
                 // Signal the added group details
-                this.addedGroup.emit(group);
+                if (action === FormActions.New) {
+                    this.addedGroup.emit(group);
+                }
             });
     }
 
     /**
-     * Expands tree from given node to all its parent
+     * Expands tree from given node to its parent
      * https://stackblitz.com/edit/angular-icfxva?file=src%2Fapp%2Ftree-nested-overview-example.ts
      */
     expandTree( data: FlatNode[], id: number): any {
@@ -189,5 +201,9 @@ export class GroupsViewerComponent implements OnChanges
     reload(groups: GroupWithChildren[]) {
         // Update data source
         this.dataSource.data = groups;
+    }
+
+    refreshTree(){
+        this.dataSource.data = [...this.dataSource.data];
     }
 }

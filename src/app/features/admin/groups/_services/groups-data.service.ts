@@ -13,7 +13,7 @@ import { ApiResponse, FormAction, FormActions } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { HttpBaseService } from '@shared/api/http-base.service';
 import { GroupAttendanceForm } from '@features/admin/groups';
-import { NewGroupForm } from '@features/admin/groups/manage/components/new/new-group.model';
+import { EditGroupForm, NewGroupForm } from '@features/admin/groups/manage/components/group-detail/group-detail.model';
 
 @Injectable()
 export class GroupsDataService extends HttpBaseService
@@ -122,7 +122,18 @@ export class GroupsDataService extends HttpBaseService
         return super.post<ApiResponse>(`${this._apiUrl}/v1/groups`, model)
             .pipe(
                 map(response => response.data),
-            );;
+            );
+    }
+
+    /**
+     * @returns the edited group id
+     */
+    editGroup$(model: EditGroupForm): Observable<GroupWithChildren>
+    {
+        return super.put<ApiResponse>(`${this._apiUrl}/v1/groups`, model)
+            .pipe(
+                map(response => response.data),
+            );
     }
 
     /**

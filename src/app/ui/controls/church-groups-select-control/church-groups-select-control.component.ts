@@ -1,4 +1,4 @@
-import { Component, ElementRef, forwardRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -22,6 +22,8 @@ import { SelectItem } from '@shared/shared.models';
 } )
 export class ChurchGroupsSelectControlComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
+    @Input() noSelectionLabel = '-- All Groups --';
+
     public form = new FormGroup( {
         churchId: new FormControl( null, [Validators.required] ),
         groupId: new FormControl( null),
@@ -29,6 +31,7 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
 
     churches$: Observable<SelectItem[]> = this._data.getChurches$();
     groups$: Observable<SelectItem[]>;
+    groups: SelectItem[] = [];
 
     private readonly _destroyed$: Subject<void> = new Subject();
 
@@ -45,12 +48,23 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
                 distinctUntilChanged(),
                 switchMap( (churchId: number) => this._data.getGroups$(churchId))
             );
+
+        this.form.get('churchId')
+            .valueChanges
+            .pipe(takeUntil(this._destroyed$))
+            .pipe(
+                switchMap( (churchId: number) => this._data.getGroups$(churchId))
+            ).subscribe(groups =>  this.groups = groups);
     }
 
-    writeValue( churchAndGroup: any ): void
+    writeValue( churchAndGroup: {churchId: number; groupId: number} ): void
     {
         if ( churchAndGroup ) {
-            this.form.patchValue( churchAndGroup );
+            console.log('churchAndGroup', churchAndGroup);
+            this.form.get('churchId').setValue(churchAndGroup.churchId);
+            this.form.get('groupId').setValue(churchAndGroup.groupId);
+
+            //this.form.patchValue( churchAndGroup );
         }
     }
 
