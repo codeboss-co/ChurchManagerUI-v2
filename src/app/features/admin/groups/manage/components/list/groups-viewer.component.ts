@@ -203,7 +203,10 @@ export class GroupsViewerComponent implements OnChanges
         this.dataSource.data = groups;
     }
 
+    // https://github.com/angular/components/issues/11381#issuecomment-562935253
     refreshTree(){
-        this.dataSource.data = [...this.dataSource.data];
+        this.treeControl.collapse(this.treeControl.dataNodes[0]);
+        this.treeControl.expand(this.treeControl.dataNodes[0]);
+        //this.dataSource.data = [...this.dataSource.data];
     }
 }
