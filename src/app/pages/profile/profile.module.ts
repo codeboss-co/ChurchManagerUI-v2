@@ -29,7 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import {
-    ProfileConnectionInfoFormDialogComponent,
+    ProfileConnectionInfoFormDialogComponent, ProfileDiscipleshipInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,
     ProfilePersonalInfoFormDialogComponent
 } from './tabs/about/components';
@@ -40,6 +40,7 @@ import { ProfileDiscipleshipService } from './tabs/discipleship/profile-disciple
 import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discipleship.component';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashboard.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashbo
         ProfileGeneralInfoFormDialogComponent,
         ProfileConnectionInfoFormDialogComponent,
         ProfilePersonalInfoFormDialogComponent,
+        ProfileDiscipleshipInfoFormDialogComponent,
         ProfileMyDashboardComponent
     ],
     imports     : [
@@ -71,6 +73,7 @@ import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashbo
         MatMenuModule,
         MatPaginatorModule,
         MatSelectModule,
+        MatSlideToggleModule,
         MatTableModule,
         MatTooltipModule,
         MatToolbarModule,
