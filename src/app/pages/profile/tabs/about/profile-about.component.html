@@ -232,7 +232,7 @@
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #discipleshipActionsMenu="matMenu">
-                                <button mat-menu-item>
+                                <button mat-menu-item  (click)="onEditDiscipleshipInfo()">
                                     <mat-icon>edit</mat-icon>
                                     <span>Edit</span>
                                 </button>

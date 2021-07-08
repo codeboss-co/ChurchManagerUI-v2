@@ -6,7 +6,7 @@ import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import {
     Profile,
-    ProfileConnectionInfo,
+    ProfileConnectionInfo, ProfileDiscipleshipInfo,
     ProfileGeneralInfo,
     ProfileModel,
     ProfilePersonalInfo
@@ -129,6 +129,15 @@ export class ProfileService
     editGeneralInfo$(personId: number, model: ProfileGeneralInfo): Observable<ApiResponse>
     {
         return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/general-info`, model);
+    }
+
+    /**
+     * Edit person discipleship information
+     *
+     */
+    editDiscipleshipInfo$(personId: number, model: ProfileDiscipleshipInfo): Observable<ApiResponse>
+    {
+        return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/discipleship-info`, model);
     }
 
 }

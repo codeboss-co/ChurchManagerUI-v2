@@ -117,6 +117,15 @@ export interface ProfileGeneralInfo
     birthDate?: { day?: number, month?: number, year?: number };
 }
 
+export interface ProfileDiscipleshipInfo
+{
+    receivedHolySpirit?: boolean;
+    isBaptised?: boolean;
+    baptismDate?: Date | null;
+    isCompleteFoundationSchool?: boolean;
+    foundationSchoolDate?: Date | null;
+}
+
 
 
 

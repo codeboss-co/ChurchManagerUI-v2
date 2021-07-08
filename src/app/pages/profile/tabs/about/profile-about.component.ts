@@ -9,11 +9,12 @@ import { fuseAnimations } from '@fuse/animations';
 import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfilePersonalInfo } from '../../profile.model';
 import { ProfileService } from '../../_services/profile.service';
 import {
-    ProfileConnectionInfoFormDialogComponent,
+    ProfileConnectionInfoFormDialogComponent, ProfileDiscipleshipInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,
     ProfilePersonalInfoFormDialogComponent
 } from './components';
 import { ActivatedRoute } from '@angular/router';
+import { FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'profile-main',
@@ -186,7 +187,6 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                          * Save
                          */
                         case 'save':
-                            const model: ProfileConnectionInfo = formData.getRawValue();
                             return this._profileService.editConnectionInfo$(profile.personId, formData.getRawValue())
                                 .pipe(
                                     map(_ => profile)
@@ -206,5 +206,50 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
             error => {},
             () => console.log('ConnectionInfo completed')
         );
+    }
+
+    onEditDiscipleshipInfo()
+    {
+        this.dialogRef = this._matDialog.open(ProfileDiscipleshipInfoFormDialogComponent, {
+            panelClass: 'discipleship-info-form-form-dialog',
+            data : {
+                action: FormActions.Edit,
+                profile: this.profile$.getValue()
+            }
+        });
+
+        const afterClosed$ =  this.dialogRef.afterClosed()
+            .pipe(withLatestFrom(this.profile$))
+            .pipe(
+                filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
+                first(), // <-- completes the observable and unsubscribes,
+                switchMap(([response, profile]) => {
+                    const actionType: string = response[0];
+                    const formData: FormGroup = response[1];
+                    switch ( actionType )
+                    {
+                        /**
+                         * Save
+                         */
+                        case 'save':
+                            return this._profileService.editDiscipleshipInfo$(profile.personId, formData.getRawValue())
+                                .pipe(
+                                    map(_ => profile)
+                                );
+                    }
+                })
+            );
+
+        afterClosed$
+            .pipe(
+                switchMap((profile: Profile) => {
+                    // Calls the endpoint to update the profile
+                    return this._profileService.getUserProfile$(+profile.personId);
+                } ))
+            .subscribe(
+                value => {},
+                error => {},
+                () => console.log('Discipleship completed')
+            );
     }
 }

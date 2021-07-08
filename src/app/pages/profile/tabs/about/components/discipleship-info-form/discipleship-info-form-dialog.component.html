@@ -1,0 +1,75 @@
+<div class="dialog-content-wrapper">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">{{dialogTitle}}</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
+
+        <form [formGroup]="form" *ngIf="form">
+
+            <label class="font-medium">Holy Spirit</label>
+            <div class="flex flex-row items-start justify-start space-x-4 mb-8">
+                <mat-slide-toggle formControlName="receivedHolySpirit">{{form.get('receivedHolySpirit').value ? 'Received' : 'Not Received'}}</mat-slide-toggle>
+            </div>
+
+            <label class="font-medium">Baptism</label>
+            <div class="flex flex-row items-baseline justify-start space-x-4 mb-8">
+                <mat-slide-toggle formControlName="isBaptised">{{form.get('isBaptised').value ? 'Baptised' : 'Not Baptised'}}</mat-slide-toggle>
+
+                <mat-form-field appearance="outline" *ngIf="form.get('isBaptised').value">
+                    <mat-label>Baptism Date</mat-label>
+                    <input matInput [matDatepicker]="baptismDatePicker" name="baptismDate" formControlName="baptismDate">
+                    <mat-datepicker-toggle matSuffix [for]="baptismDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #baptismDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <label class="font-medium">Foundation School</label>
+            <div class="flex flex-row items-baseline justify-start space-x-4">
+                <mat-slide-toggle formControlName="isCompleteFoundationSchool">{{form.get('isCompleteFoundationSchool').value ? 'Completed' : 'Not Completed'}}</mat-slide-toggle>
+
+                <mat-form-field appearance="outline" *ngIf="form.get('isCompleteFoundationSchool').value">
+                    <mat-label>Foundation School Date</mat-label>
+                    <input matInput [matDatepicker]="foundationSchoolDatePicker" name="foundationSchoolDate" formControlName="foundationSchoolDate">
+                    <mat-datepicker-toggle matSuffix [for]="foundationSchoolDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #foundationSchoolDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
+        </button>
+        <!-- Save -->
+        <button *ngIf="action === 'edit'"
+                class="ml-2"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="form.invalid || !form.touched"
+                [matTooltip]="'Save'"
+                aria-label="Save"
+                (click)="matDialogRef.close(['save',form])">
+            Save
+        </button>
+    </div>
+
+</div>
