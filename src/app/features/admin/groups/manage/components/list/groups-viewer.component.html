@@ -5,7 +5,7 @@
 </div>
 
 <!-- Items list -->
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" [trackBy]="trackBy">
 
     <!-- Leaf node -->
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>

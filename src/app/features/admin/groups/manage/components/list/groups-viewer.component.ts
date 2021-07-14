@@ -5,7 +5,7 @@ import {
     Input,
     OnChanges,
     Output,
-    SimpleChanges,
+    SimpleChanges, TrackByFunction,
     ViewEncapsulation
 } from '@angular/core';
 import { GroupsDataService, GroupWithChildren } from '@features/admin/groups';
@@ -61,6 +61,8 @@ export class GroupsViewerComponent implements OnChanges
 
     // Map from parent to its children. This gets filled as we load data lazily
     parentChildrenMap = new Map<number, GroupWithChildren[]>();
+
+    trackBy: TrackByFunction<FlatNode> = (index, node) => node.item.id;
 
     /**
      * Constructor

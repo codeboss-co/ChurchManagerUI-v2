@@ -7,9 +7,23 @@
         <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
 
 
-
             <report-date-picker-control></report-date-picker-control>
 
+            <mat-google-maps-autocomplete></mat-google-maps-autocomplete>
+
+<!--
+            <input type="text" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" #search>
+-->
+
+
+            <mat-form-field class="full-width" [appearance]="'outline'">
+                <mat-label>Search Address</mat-label>
+                <input matInput
+                       [(ngModel)]="address"
+                       class="form-control"
+                       #search
+                       required>
+            </mat-form-field>
 
         </div>
 
