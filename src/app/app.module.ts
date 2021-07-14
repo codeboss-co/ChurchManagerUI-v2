@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
-import { MarkdownModule } from 'ngx-markdown';
 import { FuseModule } from '@fuse';
 import { FuseConfigModule } from '@fuse/services/config';
 import { FuseMockApiModule } from '@fuse/lib/mock-api';
@@ -41,7 +40,6 @@ const routerConfig: ExtraOptions = {
         LayoutModule,
 
         // 3rd party modules
-        MarkdownModule.forRoot({}),
 
         // Service Worker
         ServiceWorkerModule.register('ngsw-worker.js', {
