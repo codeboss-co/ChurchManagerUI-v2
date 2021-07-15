@@ -15,7 +15,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FullCalendarModule } from '@fullcalendar/angular';
 import { FuseDateRangeModule } from '@fuse/components/date-range';
 import { CalendarRecurrenceComponent } from './recurrence/recurrence.component';
 import { SharedModule } from '@shared/shared.module';
@@ -42,7 +41,6 @@ import { CalendarRecurrenceRuleFriendlyPipe } from './calendar.pipes';
         MatSelectModule,
         MatSidenavModule,
         MatTooltipModule,
-        FullCalendarModule,
         FuseDateRangeModule,
         SharedModule
     ],
