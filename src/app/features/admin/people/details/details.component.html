@@ -46,14 +46,15 @@
                     <div class="flex items-center ml-auto mb-1 space-x-1">
                         <button
                             mat-stroked-button
-                            (click)="toggleEditMode(true)">
+                            (click)="deleteContact(person.personId)">
                             <mat-icon
                                 class="icon-size-5"
-                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                            <span class="ml-2">Edit</span>
+                                [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                            <span class="ml-2">Delete</span>
                         </button>
                         <button
-                            mat-stroked-button
+                            mat-flat-button
+                            [color]="'primary'"
                             [routerLink]="['/pages', 'profile', person.personId]">
                             <mat-icon
                                 class="icon-size-5"
