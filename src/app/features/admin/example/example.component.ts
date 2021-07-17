@@ -1,10 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { DialogService } from '@ui/components/mat-confirm-dialog/mat-dialog.service';
 
 @Component({
     selector     : 'example',
     templateUrl  : './example.component.html',
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExampleComponent
 {

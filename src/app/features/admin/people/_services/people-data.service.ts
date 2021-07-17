@@ -77,6 +77,17 @@ export class PeopleDataService extends HttpBaseService
         return super.post<ApiResponse>(`${this._apiUrl}/v1/people/family/new`, model);
     }
 
+    /**
+     * Delete person
+     *
+     * @returns {Observable<boolean>}
+     */
+    deletePerson$(personId: number): Observable<boolean>
+    {
+        return this.http.delete<ApiResponse>(`${this._apiUrl}/v1/people/${personId}`)
+            .pipe(map(x => x.succeeded));
+    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Paging methods

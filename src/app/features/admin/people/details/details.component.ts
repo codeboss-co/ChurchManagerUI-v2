@@ -16,13 +16,14 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { debounceTime, first, switchMap, takeUntil } from 'rxjs/operators';
 import { Contact, Country, Tag } from '../contacts.types';
 import { ContactsListComponent } from '../list/list.component';
 import { ContactsService } from '../_services/contacts.service';
 import { People, Person, PhoneNumber } from '@features/admin/people';
 import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
+import { DialogService } from '@ui/components/mat-confirm-dialog/mat-dialog.service';
 
 @Component({
     selector       : 'contacts-details',
@@ -64,7 +65,8 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         private _renderer2: Renderer2,
         private _router: Router,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef
+        private _viewContainerRef: ViewContainerRef,
+        private _dialogService: DialogService
     )
     {
         this.background = this.randomBackground;
@@ -100,8 +102,8 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         // Get the contacts
         this._data.people$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: People) => {
-                this.people = contacts;
+            .subscribe((people: People) => {
+                this.people = people;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -298,19 +300,25 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
     /**
      * Delete the contact
      */
-    deleteContact(): void
+    deleteContact(personId: number): void
     {
-        // Get the current contact's id
-        const id = this.contact.id;
+        this._dialogService
+            .confirmDialog$(
+                {
+                    title: 'Confirm Delete',
+                    message: 'Are you sure you want to delete this person?' +
+                        ' They will be removed from all groups as well.'
+                })
+            .pipe(first())
+            .pipe(
+                switchMap((confirmed: boolean) => {
+                    if (confirmed) {
+                        return this._data.deletePerson$(personId);
+                    }
 
-        // Get the next/previous contact's id
-        const currentContactIndex = this.contacts.findIndex(item => item.id === id);
-        const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-        const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
-
-        // Delete the contact
-        this._contactsService.deleteContact(id)
-            .subscribe((isDeleted) => {
+                    return EMPTY;
+                }))
+            .subscribe( (isDeleted: boolean) => {
 
                 // Return if the contact wasn't deleted...
                 if ( !isDeleted )
@@ -318,19 +326,26 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                     return;
                 }
 
-                // Navigate to the next contact if available
-                if ( nextContactId )
+                // Get the next/previous persons's id
+                const currentPersonIndex = this.people.findIndex(item => item.personId === personId);
+                const nextPersonIndex = currentPersonIndex + ((currentPersonIndex === (this.people.length - 1)) ? -1 : 1);
+                const nextPersonId = (this.people.length === 1 && this.people[0].personId === personId) ? null : this.people[nextPersonIndex].personId;
+                // Remove from list
+                if ( this.people.length )
                 {
-                    this._router.navigate(['../', nextContactId], {relativeTo: this._activatedRoute});
+                    this.people.splice(currentPersonIndex, 1);
+                }
+
+                // Navigate to the next contact if available
+                if ( nextPersonId )
+                {
+                    this._router.navigate(['../', nextPersonId], {relativeTo: this._activatedRoute});
                 }
                 // Otherwise, navigate to the parent
                 else
                 {
                     this._router.navigate(['../'], {relativeTo: this._activatedRoute});
                 }
-
-                // Toggle the edit mode off
-                this.toggleEditMode(false);
             });
 
         // Mark for check
