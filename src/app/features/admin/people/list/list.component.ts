@@ -239,7 +239,6 @@ export class ContactsListComponent implements OnInit, OnDestroy
 
     onSearchChanged( query: PeopleAdvancedSearchQuery )
     {
-        console.log(query);
         this._searchQuery$.next(query);
     }
 }
