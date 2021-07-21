@@ -7,11 +7,10 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build --prod",
+        "build": "ng build --configuration production",
         "test": "ng test",
         "server": "http-server -p 8080 --proxy http://localhost:5001 -c-1 dist/church-manager-ui",
-        "lint": "ng lint",
-        "e2e": "ng e2e"
+        "lint": "ng lint"
     },
     "dependencies": {
         "@angular/animations": "12.1.2",

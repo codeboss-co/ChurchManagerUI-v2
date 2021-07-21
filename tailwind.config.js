@@ -313,7 +313,11 @@ const config = {
                         },
                         'tbody tr'         : {
                             borderBottomColor: 'var(--fuse-border)'
-                        }
+                        },
+                        'ol[type="A" s]'   : false,
+                        'ol[type="a" s]'   : false,
+                        'ol[type="I" s]'   : false,
+                        'ol[type="i" s]'   : false
                     }
                 },
                 sm     : {
@@ -340,19 +344,19 @@ const config = {
         animation               : [],
         backgroundAttachment    : [],
         backgroundClip          : [],
-        backgroundColor         : ['dark', 'responsive', 'group-hover', 'hover'],
+        backgroundColor         : ['dark', 'responsive', 'group-hover', 'hover', 'focus', 'focus-within'],
         backgroundImage         : [],
         backgroundOpacity       : ['dark', 'hover'],
         backgroundPosition      : [],
         backgroundRepeat        : [],
         backgroundSize          : [],
         borderCollapse          : [],
-        borderColor             : ['dark', 'group-hover', 'hover'],
+        borderColor             : ['dark', 'group-hover', 'hover', 'focus', 'focus-within'],
         borderOpacity           : ['group-hover', 'hover'],
         borderRadius            : ['responsive'],
         borderStyle             : [],
         borderWidth             : ['dark', 'responsive', 'first', 'last', 'odd', 'even'],
-        boxShadow               : ['dark', 'responsive', 'hover'],
+        boxShadow               : ['dark', 'responsive', 'hover', 'focus-within'],
         boxSizing               : [],
         cursor                  : [],
         display                 : ['dark', 'responsive', 'hover', 'group-hover'],
@@ -412,7 +416,7 @@ const config = {
         pointerEvents           : ['responsive'],
         position                : ['responsive'],
         resize                  : [],
-        ringColor               : ['dark'],
+        ringColor               : ['dark', 'group-hover'],
         ringOffsetColor         : ['dark'],
         ringOffsetWidth         : [],
         ringOpacity             : [],

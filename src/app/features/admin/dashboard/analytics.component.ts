@@ -26,17 +26,9 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     chartAge: ApexOptions;
-    averagePurchaseValueOptions: ApexOptions;
-    browsersOptions: ApexOptions;
-    channelsOptions: ApexOptions;
-    devicesOptions: ApexOptions;
     chartGender: ApexOptions;
     chartLanguage: ApexOptions;
     chartNewVsReturning: ApexOptions;
-    refundsOptions: ApexOptions;
-    totalVisitsOptions: ApexOptions;
-    uniqueVisitorsOptions: ApexOptions;
-    uniquePurchasesOptions: ApexOptions;
 
     /**
      * Constructor
