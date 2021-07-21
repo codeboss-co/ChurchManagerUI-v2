@@ -184,7 +184,7 @@ export class NotificationsComponent implements OnChanges, OnInit, OnDestroy
             scrollStrategy  : this._overlay.scrollStrategies.block(),
             positionStrategy: this._overlay.position()
                                   .flexibleConnectedTo(this._notificationsOrigin._elementRef.nativeElement)
-                                  .withLockedPosition()
+                                  .withLockedPosition(true)
                                   .withPush(true)
                                   .withPositions([
                                       {

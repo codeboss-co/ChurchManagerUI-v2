@@ -1,18 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    EventEmitter,
-    HostBinding,
-    HostListener,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    Renderer2,
-    SimpleChanges,
-    ViewEncapsulation
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
 import { FuseDrawerMode, FuseDrawerPosition } from '@fuse/components/drawer/drawer.types';
 import { FuseDrawerService } from '@fuse/components/drawer/drawer.service';
@@ -28,9 +14,11 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
 {
+    /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_fixed: BooleanInput;
     static ngAcceptInputType_opened: BooleanInput;
     static ngAcceptInputType_transparentOverlay: BooleanInput;
+    /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() fixed: boolean = false;
     @Input() mode: FuseDrawerMode = 'side';
@@ -88,6 +76,40 @@ export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
         return {
             'visibility': this.opened ? 'visible' : 'hidden'
         };
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Decorated methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On mouseenter
+     *
+     * @private
+     */
+    @HostListener('mouseenter')
+    private _onMouseenter(): void
+    {
+        // Enable the animations
+        this._enableAnimations();
+
+        // Set the hovered
+        this._hovered = true;
+    }
+
+    /**
+     * On mouseleave
+     *
+     * @private
+     */
+    @HostListener('mouseleave')
+    private _onMouseleave(): void
+    {
+        // Enable the animations
+        this._enableAnimations();
+
+        // Set the hovered
+        this._hovered = false;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -319,6 +341,13 @@ export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
             animate('300ms cubic-bezier(0.25, 0.8, 0.25, 1)', style({opacity: 1}))
         ]).create(this._overlay);
 
+        // Once the animation is done...
+        this._player.onDone(() => {
+
+            // Destroy the player
+            this._player.destroy();
+        });
+
         // Play the animation
         this._player.play();
 
@@ -351,6 +380,9 @@ export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
         // Once the animation is done...
         this._player.onDone(() => {
 
+            // Destroy the player
+            this._player.destroy();
+
             // If the backdrop still exists...
             if ( this._overlay )
             {
@@ -359,36 +391,6 @@ export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
                 this._overlay = null;
             }
         });
-    }
-
-    /**
-     * On mouseenter
-     *
-     * @private
-     */
-    @HostListener('mouseenter')
-    private _onMouseenter(): void
-    {
-        // Enable the animations
-        this._enableAnimations();
-
-        // Set the hovered
-        this._hovered = true;
-    }
-
-    /**
-     * On mouseleave
-     *
-     * @private
-     */
-    @HostListener('mouseleave')
-    private _onMouseleave(): void
-    {
-        // Enable the animations
-        this._enableAnimations();
-
-        // Set the hovered
-        this._hovered = false;
     }
 
     /**

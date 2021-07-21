@@ -74,15 +74,12 @@ const config = {
     darkMode    : 'class',
     important   : true,
     purge       : {
-        // Until AngularCLI team provides a better way to distinguish between
-        // development and production, we will decide whether to purge or not
-        // by looking at the process arguments. If there is a "build" argument
-        // with the "ng" command then we will enable the purge.
-        enabled: process?.argv?.find(arg => arg.includes('ng')) && process?.argv?.indexOf('build') !== -1,
+        enabled: process.env.TAILWIND_MODE === 'build',
         content: ['./src/**/*.{html,scss,ts}'],
         options: {
             safelist: {
-                deep: [/^theme/, /^dark/, /^mat/]
+                standard: ['dark'],
+                deep    : [/^theme/, /^mat/]
             }
         }
     },

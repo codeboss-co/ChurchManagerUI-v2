@@ -184,7 +184,7 @@ export class MessagesComponent implements OnInit, OnChanges, OnDestroy
             scrollStrategy  : this._overlay.scrollStrategies.block(),
             positionStrategy: this._overlay.position()
                                   .flexibleConnectedTo(this._messagesOrigin._elementRef.nativeElement)
-                                  .withLockedPosition()
+                                  .withLockedPosition(true)
                                   .withPush(true)
                                   .withPositions([
                                       {
