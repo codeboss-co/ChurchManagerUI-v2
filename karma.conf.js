@@ -26,7 +26,7 @@ module.exports = function (config)
             suppressAll: true // removes the duplicated traces
         },
         coverageReporter   : {
-            dir      : require('path').join(__dirname, './coverage/angular12'),
+            dir      : require('path').join(__dirname, './coverage/church-manager-ui'),
             subdir   : '.',
             reporters: [
                 {type: 'html'},
