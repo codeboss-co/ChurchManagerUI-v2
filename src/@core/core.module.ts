@@ -11,7 +11,6 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import { ngxUiLoaderConfig, routerLoaderConfig, tokenGetter } from '@core/core.config';
-import { MatConfirmDialogModule } from '@ui/components/mat-confirm-dialog/mat-confirm-dialog.module';
 
 @NgModule({
     imports  : [
@@ -30,9 +29,6 @@ import { MatConfirmDialogModule } from '@ui/components/mat-confirm-dialog/mat-co
         // Loaders
         NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
         NgxUiLoaderRouterModule.forRoot(routerLoaderConfig),
-
-        // App custom modules
-        MatConfirmDialogModule
     ],
     providers: [
         { provide: ENV, useValue: environment },
@@ -41,7 +37,7 @@ import { MatConfirmDialogModule } from '@ui/components/mat-confirm-dialog/mat-co
         // Change the default behaviour to parse dates as UTC
         { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
     ],
-    exports: [NgxUiLoaderModule, NgxUiLoaderRouterModule, MatConfirmDialogModule]
+    exports: [NgxUiLoaderModule, NgxUiLoaderRouterModule]
 })
 export class CoreModule
 {

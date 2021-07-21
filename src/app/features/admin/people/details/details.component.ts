@@ -23,7 +23,7 @@ import { ContactsListComponent } from '../list/list.component';
 import { ContactsService } from '../_services/contacts.service';
 import { People, Person, PhoneNumber } from '@features/admin/people';
 import { PeopleDataService } from '@features/admin/people/_services/people-data.service';
-import { DialogService } from '@ui/components/mat-confirm-dialog/mat-dialog.service';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector       : 'contacts-details',
@@ -66,7 +66,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         private _router: Router,
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef,
-        private _dialogService: DialogService
+        private _fuseConfirmationService: FuseConfirmationService
     )
     {
         this.background = this.randomBackground;
@@ -272,54 +272,35 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Update the contact
-     */
-    updateContact(): void
-    {
-        // Get the contact object
-        const contact = this.contactForm.getRawValue();
-
-        // Go through the contact object and clear empty values
-        contact.emails = contact.emails.filter((email) => {
-            return email.email;
-        });
-
-        contact.phoneNumbers = contact.phoneNumbers.filter((phoneNumber) => {
-            return phoneNumber.number;
-        });
-
-        // Update the contact on the server
-        this._contactsService.updateContact(contact.id, contact).subscribe(() => {
-
-            // Toggle the edit mode off
-            this.toggleEditMode(false);
-        });
-    }
 
     /**
      * Delete the contact
      */
     deleteContact(personId: number): void
     {
-        this._dialogService
-            .confirmDialog$(
-                {
-                    title: 'Confirm Delete',
-                    message: 'Are you sure you want to delete this person?' +
-                        ' They will be removed from all groups as well.'
-                })
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title  : 'Delete',
+            message: 'Do you want to delete this person?',
+            actions: {
+                confirm: {
+                    label: 'Confirm'
+                }
+            }
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed()
             .pipe(first())
             .pipe(
-                switchMap((confirmed: boolean) => {
-                    if (confirmed) {
+                switchMap((result) => {
+                    if ( result === 'confirmed' ) {
                         return this._data.deletePerson$(personId);
                     }
 
                     return EMPTY;
                 }))
             .subscribe( (isDeleted: boolean) => {
-
                 // Return if the contact wasn't deleted...
                 if ( !isDeleted )
                 {
