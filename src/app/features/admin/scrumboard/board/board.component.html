@@ -1,0 +1,63 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <!-- Title -->
+        <div class="flex-1 min-w-0">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                {{board.program.name}}
+            </h2>
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <a
+                mat-stroked-button
+                [routerLink]="['..']">
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>
+                Programs
+            </a>
+            <button
+                class="ml-3"
+                mat-stroked-button>
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div
+        class="flex-auto p-6 sm:p-8 sm:pt-4 overflow-y-auto"
+        cdkScrollable>
+
+        <!-- Lists -->
+        <div
+            class="flex"
+            cdkDropList
+            [cdkDropListData]="board.stepDefinitions"
+            [cdkDropListOrientation]="'horizontal'"
+            (cdkDropListDropped)="listDropped($event)">
+
+            <!-- Group all cdkDropList's after this point together so that the cards can be transferred between lists -->
+            <div
+                class="flex items-start"
+                cdkDropListGroup>
+
+                <!-- List -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Invisible router-outlet for ScrumboardCard component -->
+<div class="absolute invisible w-0 h-0 opacity-0 pointer-events-none">
+    <router-outlet></router-outlet>
+</div>

@@ -102,6 +102,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'apps.discipleship',
+        title: 'Discipleship',
+        type : 'basic',
+        icon : 'heroicons_outline:view-boards',
+        link : '/apps/discipleship'
+    },
+    {
         id   : 'example',
         title: 'Example',
         type : 'basic',

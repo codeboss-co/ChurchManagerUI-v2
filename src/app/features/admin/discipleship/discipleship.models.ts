@@ -5,6 +5,9 @@ export interface DiscipleshipProgram
     name: string;
     category?: string;
     order?: number;
+    iconCssClass?: string;
+    createdDate: Date;
+    modifiedDate?: Date;
 }
 
 export interface StepDefinition
@@ -13,6 +16,8 @@ export interface StepDefinition
     name: string;
     description?: string;
     order?: number;
+    allowMultiple?: boolean;
+    iconCssClass?: string;
 }
 
 export interface DiscipleshipStep
@@ -22,6 +27,12 @@ export interface DiscipleshipStep
     stepDefinition: StepDefinition;
     personId?: number;
     isComplete: boolean;
+}
+
+export interface DiscipleshipProgramSummary
+{
+    program: DiscipleshipProgram;
+    stepDefinitions: StepDefinition[];
 }
 
 export interface DiscipleshipProgramForPerson
@@ -47,3 +58,4 @@ export class DiscipleshipProgramDetailModel
         return this.steps?.find(x => !x.isComplete) === undefined;
     }
 }
+
