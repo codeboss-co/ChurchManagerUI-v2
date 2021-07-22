@@ -18,6 +18,7 @@ export interface StepDefinition
     order?: number;
     allowMultiple?: boolean;
     iconCssClass?: string;
+    statistics?: Statistics;
 }
 
 export interface DiscipleshipStep
@@ -59,3 +60,7 @@ export class DiscipleshipProgramDetailModel
     }
 }
 
+export interface Statistics {
+    started: number;
+    completed: number;
+}

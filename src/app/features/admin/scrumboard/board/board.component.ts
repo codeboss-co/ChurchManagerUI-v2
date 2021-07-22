@@ -168,22 +168,6 @@ export class ScrumboardBoardComponent implements OnInit, OnDestroy
         });
     }
 
-    /**
-     * List dropped
-     *
-     * @param event
-     */
-    listDropped(event: CdkDragDrop<List[]>): void
-    {
-        // Move the item
-        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
-        // Calculate the positions
-        const updated = this._calculatePositions(event);
-
-        // Update the lists
-        this._scrumboardService.updateLists(updated).subscribe();
-    }
 
     /**
      * Card dropped
@@ -194,10 +178,8 @@ export class ScrumboardBoardComponent implements OnInit, OnDestroy
     {
         // Move the item
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        // Calculate the positions
-        const updated = this._calculatePositions(event);
 
-        console.log(updated);
+        console.log(event.container.data);
 
         // Update the cards
         //this._scrumboardService.updateCards(updated).subscribe();
@@ -227,60 +209,4 @@ export class ScrumboardBoardComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Calculate and set item positions
-     * from given CdkDragDrop event
-     *
-     * @param event
-     * @private
-     */
-    private _calculatePositions(event: CdkDragDrop<any[]>): any[]
-    {
-        // Get the items
-        let items = event.container.data;
-        const currentItem = items[event.currentIndex];
-        const prevItem = items[event.currentIndex - 1] || null;
-        const nextItem = items[event.currentIndex + 1] || null;
-
-        // If the item moved to the top...
-        if ( !prevItem )
-        {
-            // If the item moved to an empty container
-            if ( !nextItem )
-            {
-                currentItem.position = this._positionStep;
-            }
-            else
-            {
-                currentItem.position = nextItem.position / 2;
-            }
-        }
-        // If the item moved to the bottom...
-        else if ( !nextItem )
-        {
-            currentItem.position = prevItem.position + this._positionStep;
-        }
-        // If the item moved in between other items...
-        else
-        {
-            currentItem.position = (prevItem.position + nextItem.position) / 2;
-        }
-
-        // Check if all item positions need to be updated
-        if ( !Number.isInteger(currentItem.position) || currentItem.position >= this._maxPosition )
-        {
-            // Re-calculate all orders
-            items = items.map((value, index) => {
-                value.position = (index + 1) * this._positionStep;
-                return value;
-            });
-
-            // Return items
-            return items;
-        }
-
-        // Return currentItem
-        return [currentItem];
-    }
 }
