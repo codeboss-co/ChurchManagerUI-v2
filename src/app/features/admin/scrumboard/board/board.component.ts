@@ -192,26 +192,15 @@ export class ScrumboardBoardComponent implements OnInit, OnDestroy
      */
     cardDropped(event: CdkDragDrop<Card[]>): void
     {
-        // Move or transfer the item
-        if ( event.previousContainer === event.container )
-        {
-            // Move the item
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        }
-        else
-        {
-            // Transfer the item
-            transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-
-            // Update the card's list it
-            event.container.data[event.currentIndex].listId = event.container.id;
-        }
-
+        // Move the item
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         // Calculate the positions
         const updated = this._calculatePositions(event);
 
+        console.log(updated);
+
         // Update the cards
-        this._scrumboardService.updateCards(updated).subscribe();
+        //this._scrumboardService.updateCards(updated).subscribe();
     }
 
     /**
