@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Board, Card } from './scrumboard.models';
 import { ScrumboardService } from './scrumboard.service';
-import { DiscipleshipProgramSummary } from '@features/admin/discipleship/discipleship.models';
+import { DiscipleshipProgramSummary, DiscipleshipStep } from '@features/admin/discipleship/discipleship.models';
 
 @Injectable({
     providedIn: 'root'
@@ -109,9 +108,9 @@ export class ScrumboardCardResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Card>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DiscipleshipStep[]>
     {
-        return this._scrumboardService.getCard(route.paramMap.get('cardId'))
+        return this._scrumboardService.getCard(+route.paramMap.get('definitionId'))
                    .pipe(
                        // Error here means the requested task is not available
                        catchError((error) => {

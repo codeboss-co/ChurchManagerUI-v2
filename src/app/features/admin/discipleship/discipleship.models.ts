@@ -1,3 +1,5 @@
+import { BirthDate, FullName } from '@features/admin/people';
+
 export interface DiscipleshipProgram
 {
     description?: string;
@@ -24,10 +26,14 @@ export interface StepDefinition
 export interface DiscipleshipStep
 {
     completionDate?: Date;
+    startDateTime?: Date;
+    endDateTime?: Date;
     status?: string;
     stepDefinition: StepDefinition;
     personId?: number;
     isComplete: boolean;
+    // Optional
+    person?: DiscipleshipPerson;
 }
 
 export interface DiscipleshipProgramSummary
@@ -63,4 +69,14 @@ export class DiscipleshipProgramDetailModel
 export interface Statistics {
     started: number;
     completed: number;
+}
+
+
+export interface DiscipleshipPerson {
+    personId: number;
+    fullName: FullName;
+    gender: string;
+    ageClassification: string;
+    photoUrl: string;
+    birthDate: BirthDate;
 }

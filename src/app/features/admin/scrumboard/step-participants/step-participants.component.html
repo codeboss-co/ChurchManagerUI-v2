@@ -1,0 +1,9 @@
+<p>step-participants works!</p>
+
+<br />
+<br />
+<br />
+
+<li *ngFor="let step of participants$ | async">
+ {{step.person.fullName.firstName}} -  {{step.status}}
+</li>

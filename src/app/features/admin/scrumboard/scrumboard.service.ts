@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Board, Card, Label, List } from '../scrumboard/scrumboard.models';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { DiscipleshipProgramSummary } from '@features/admin/discipleship/discipleship.models';
+import { DiscipleshipProgramSummary, DiscipleshipStep } from '@features/admin/discipleship/discipleship.models';
 import { ApiResponse } from '@shared/shared.models';
 
 @Injectable({
@@ -19,6 +19,7 @@ export class ScrumboardService
     private _board: BehaviorSubject<DiscipleshipProgramSummary | null>;
     private _boards: BehaviorSubject<DiscipleshipProgramSummary[] | null>;
     private _card: BehaviorSubject<Card | null>;
+    private _cards: BehaviorSubject<DiscipleshipStep[] | null>;
 
     /**
      * Constructor
@@ -32,6 +33,7 @@ export class ScrumboardService
         this._board = new BehaviorSubject(null);
         this._boards = new BehaviorSubject(null);
         this._card = new BehaviorSubject(null);
+        this._cards = new BehaviorSubject(null);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -60,6 +62,14 @@ export class ScrumboardService
     get card$(): Observable<Card>
     {
         return this._card.asObservable();
+    }
+
+    /**
+     * Getter for card
+     */
+    get cards$(): Observable<DiscipleshipStep[]>
+    {
+        return this._cards.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -299,33 +309,11 @@ export class ScrumboardService
     /**
      * Get card
      */
-    getCard(id: string): Observable<Card>
+    getCard(definitionId: number): Observable<DiscipleshipStep[]>
     {
-        return this._board.pipe(
-            take(1),
-            map((board) => {
-
-                // Find the card
-               /* const card = board.lists.find(list => list.cards.some(item => item.id === id))
-                                  .cards.find(item => item.id === id);*/
-
-                // Update the card
-                //this._card.next(card);
-
-                // Return the card
-                //return card;
-
-                return null;
-            }),
-            switchMap((card) => {
-
-                if ( !card )
-                {
-                    return throwError('Could not found the card with id of ' + id + '!');
-                }
-
-                return of(card);
-            })
+        return this._httpClient.get<ApiResponse>(`${this._apiUrl}/v1/discipleship/steps/${definitionId}/people`).pipe(
+            map(response => response.data as DiscipleshipStep[]),
+            tap(steps =>  this._cards.next(steps))
         );
     }
 

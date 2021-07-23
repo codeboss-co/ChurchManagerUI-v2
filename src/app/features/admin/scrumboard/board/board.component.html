@@ -58,7 +58,7 @@
                         <ng-container *ngFor="let card of board.stepDefinitions; trackBy: trackByFn">
                             <a
                                 class="flex items-center mb-3 p-5 space-y-3 shadow rounded-lg overflow-hidden bg-card"
-                                [routerLink]="['card', card.id]"
+                                [routerLink]="['step', card.id]"
                                 cdkDrag>
                                 <!-- Cover image -->
                                 <mat-icon *ngIf="card.iconCssClass"
@@ -93,17 +93,22 @@
                     </div>
                 </div>
 
-
             </div>
 
 
         </div>
 
+        <!-- Output for ScrumboardStepParticipantsComponent -->
+        <div class="mt-20">
+            <router-outlet></router-outlet>
+        </div>
+
     </div>
 
+
 </div>
 
-<!-- Invisible router-outlet for ScrumboardCard component -->
-<div class="absolute invisible w-0 h-0 opacity-0 pointer-events-none">
-    <router-outlet></router-outlet>
-</div>
+
+
+
+

@@ -20,6 +20,7 @@ import { ScrumboardBoardAddCardComponent } from '@features/admin/scrumboard/boar
 import { ScrumboardBoardAddListComponent } from '@features/admin/scrumboard/board/add-list/add-list.component';
 import { scrumboardRoutes } from '@features/admin/scrumboard/scrumboard.routing';
 import { SharedModule } from '@shared/shared.module';
+import { ScrumboardStepParticipantsComponent } from './step-participants/step-participants.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { SharedModule } from '@shared/shared.module';
         ScrumboardBoardComponent,
         ScrumboardBoardAddCardComponent,
         ScrumboardBoardAddListComponent,
+        ScrumboardStepParticipantsComponent,
     ],
     imports     : [
         RouterModule.forChild(scrumboardRoutes),
