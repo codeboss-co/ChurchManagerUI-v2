@@ -66,13 +66,15 @@ export class DiscipleshipProgramDetailModel
     }
 }
 
-export interface Statistics {
-    started: number;
+export interface Statistics
+{
+    inProgress: number;
     completed: number;
 }
 
 
-export interface DiscipleshipPerson {
+export interface DiscipleshipPerson
+{
     personId: number;
     fullName: FullName;
     gender: string;
@@ -80,3 +82,12 @@ export interface DiscipleshipPerson {
     photoUrl: string;
     birthDate: BirthDate;
 }
+
+export enum DiscipleshipStepStatusEnum
+{
+    notStarted= 'Not Started',
+    inProgress= 'In Progress',
+    completed= 'Completed',
+}
+
+export type DiscipleshipStepStatus = DiscipleshipStepStatusEnum;
