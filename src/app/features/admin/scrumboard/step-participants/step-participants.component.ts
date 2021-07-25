@@ -1,20 +1,41 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ScrumboardService } from '@features/admin/scrumboard/scrumboard.service';
 import { Subject } from 'rxjs';
-import { DiscipleshipStep, DiscipleshipStepStatusEnum } from '@features/admin/discipleship/discipleship.models';
+import { DiscipleshipStep } from '@features/admin/discipleship/discipleship.models';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { takeUntil } from 'rxjs/operators';
+import { PaginatedDataSource } from '@shared/data/paginated.data-source';
+import { fuseAnimations } from '@fuse/animations';
+import { FormGroup } from '@angular/forms';
+
+export type StepParticipants = {
+    completionDate?: Date,
+    status: string,
+    personName?: string;
+    isComplete?: boolean;
+}
+
+export interface StepParticipantsQuery {
+    status?: string;
+    from?: Date;
+    to?: Date;
+}
 
 @Component( {
     selector: 'scrumboard-step-participants',
     templateUrl: './step-participants.component.html',
-    styleUrls: ['./step-participants.component.scss']
+    styleUrls: ['./step-participants.component.scss'],
+    animations   : fuseAnimations
 } )
-export class ScrumboardStepParticipantsComponent implements OnInit {
+export class ScrumboardStepParticipantsComponent implements OnInit
+{
+    searchForm: FormGroup;
+    searchBtnClicked = new Subject();
 
-    public notStarted: DiscipleshipStep[] = [];
-    public inProgress: DiscipleshipStep[] = [];
-    public completed: DiscipleshipStep[] = [];
+    displayedColumns: string[] = ['completionDate', 'status', 'personName', 'isComplete'];
+    dataSource: PaginatedDataSource<StepParticipants, StepParticipantsQuery> | null;
+
+    participants: StepParticipants[] = [];
 
     private _unsubscribeAll: Subject<void> = new Subject<void>();
 
@@ -28,9 +49,15 @@ export class ScrumboardStepParticipantsComponent implements OnInit {
         this._scrumboardService.cards$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe( participants => {
-                this.notStarted = participants.filter( x => x.status === DiscipleshipStepStatusEnum.notStarted );
-                this.inProgress = participants.filter( x => x.status === DiscipleshipStepStatusEnum.inProgress );
-                this.completed = participants.filter( x => x.status === DiscipleshipStepStatusEnum.completed );
+
+                this.participants = participants.map(x => (
+                    {
+                        completionDate: x.completionDate,
+                        status: x.status,
+                        isComplete: x.isComplete,
+                        personName: `${x.person.fullName.firstName} ${x.person.fullName.firstName}`
+                    }
+                ));
 
                 this._changeDetectorRef.markForCheck();
             } );

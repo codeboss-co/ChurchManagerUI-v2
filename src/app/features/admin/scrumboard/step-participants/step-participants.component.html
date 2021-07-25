@@ -1,47 +1,7 @@
-<div class="example-container">
-    <h2>Not Started</h2>
+<!-- Table -->
+<!--
+<table mat-table class="mat-elevation-z4 w-full"
+       [dataSource]="dataSource"
+       [@fadeIn]="true">
 
-    <div
-        cdkDropList
-        #notStartedList="cdkDropList"
-        [cdkDropListData]="notStarted"
-        [cdkDropListConnectedTo]="[todoList, doneList]"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let step of notStarted" cdkDrag>
-            {{step.person.fullName.firstName}} - {{step.status}}
-        </div>    </div>
-</div>
-
-<div class="example-container">
-
-    <h2>In Progress</h2>
-
-    <div
-        cdkDropList
-        #todoList="cdkDropList"
-        [cdkDropListData]="inProgress"
-        [cdkDropListConnectedTo]="[doneList, notStartedList]"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let step of inProgress" cdkDrag>
-            {{step.person.fullName.firstName}} - {{step.status}}
-        </div>
-    </div>
-</div>
-
-<div class="example-container">
-    <h2>Completed</h2>
-
-    <div
-        cdkDropList
-        #doneList="cdkDropList"
-        [cdkDropListData]="completed"
-        [cdkDropListConnectedTo]="[todoList, notStartedList]"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let step of completed" cdkDrag>
-            {{step.person.fullName.firstName}} - {{step.status}}
-        </div>    </div>
-</div>
-
+</table>-->

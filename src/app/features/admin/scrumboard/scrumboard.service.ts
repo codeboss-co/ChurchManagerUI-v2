@@ -7,6 +7,9 @@ import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { DiscipleshipProgramSummary, DiscipleshipStep } from '@features/admin/discipleship/discipleship.models';
 import { ApiResponse } from '@shared/shared.models';
+import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
+import { GroupAttendanceQuery, GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { StepParticipantsQuery } from '@features/admin/scrumboard/step-participants/step-participants.component';
 
 @Injectable({
     providedIn: 'root'
@@ -309,12 +312,38 @@ export class ScrumboardService
     /**
      * Get card
      */
-    getCard(definitionId: number): Observable<DiscipleshipStep[]>
+    pageDiscipleshipStepParticipants(
+        definitionId: number, request: PagedRequest<DiscipleshipStep>, query: StepParticipantsQuery
+    ):  Observable<PagedResult<DiscipleshipStep>>
     {
-        return this._httpClient.get<ApiResponse>(`${this._apiUrl}/v1/discipleship/steps/${definitionId}/people`).pipe(
+        /*return this._httpClient.get<ApiResponse>(`${this._apiUrl}/v1/discipleship/steps/${definitionId}/people`).pipe(
             map(response => response.data as DiscipleshipStep[]),
             tap(steps =>  this._cards.next(steps))
-        );
+        );*/
+
+        return this.browseDiscipleshipStepParticipants$(definitionId, request, query)
+            .pipe(
+                map((pagedResult: PagedResult<DiscipleshipStep>) => {
+                    return pagedResult;
+                })
+            );
+    }
+
+    browseDiscipleshipStepParticipants$(
+        definitionId: number, paging: PagedRequest<DiscipleshipStep>, query: StepParticipantsQuery
+    ): Observable<PagedResult<DiscipleshipStep>>
+    {
+        const body = {
+            ...query,
+            // Paging Parameters
+            page: paging.page,
+            results: paging.size,
+            orderBy: paging.sort?.property,
+            sortOrder: paging.sort?.order
+        };
+
+        return this._httpClient.post<PagedResult<DiscipleshipStep>>(
+            `${this._apiUrl}/v1/discipleship/steps/${definitionId}/people/browse`, body);
     }
 
     /**

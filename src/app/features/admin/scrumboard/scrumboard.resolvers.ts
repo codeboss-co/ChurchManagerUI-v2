@@ -4,6 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ScrumboardService } from './scrumboard.service';
 import { DiscipleshipProgramSummary, DiscipleshipStep } from '@features/admin/discipleship/discipleship.models';
+import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
+import { StepParticipantsQuery } from '@features/admin/scrumboard/step-participants/step-participants.component';
 
 @Injectable({
     providedIn: 'root'
@@ -108,9 +110,15 @@ export class ScrumboardCardResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DiscipleshipStep[]>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PagedResult<DiscipleshipStep>>
     {
-        return this._scrumboardService.getCard(+route.paramMap.get('definitionId'))
+        const pagedRequest: PagedRequest<DiscipleshipStep> = { page: 0, size: 10, sort: null };
+        const query: StepParticipantsQuery = {}; 
+
+        return this._scrumboardService.pageDiscipleshipStepParticipants(
+            +route.paramMap.get('definitionId'),
+            pagedRequest,
+            query)
                    .pipe(
                        // Error here means the requested task is not available
                        catchError((error) => {
