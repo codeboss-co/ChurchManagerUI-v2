@@ -113,7 +113,7 @@ export class ScrumboardCardResolver implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PagedResult<DiscipleshipStep>>
     {
         const pagedRequest: PagedRequest<DiscipleshipStep> = { page: 0, size: 10, sort: null };
-        const query: StepParticipantsQuery = {}; 
+        const query: StepParticipantsQuery = {};
 
         return this._scrumboardService.pageDiscipleshipStepParticipants(
             +route.paramMap.get('definitionId'),

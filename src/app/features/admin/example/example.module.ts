@@ -3,6 +3,7 @@ import { Route, RouterModule } from '@angular/router';
 import { ExampleComponent } from 'app/features/admin/example/example.component';
 import { ReportDatePickerControlModule } from '@ui/controls/report-date-picker-control/report-date-picker-control.module';
 import { MatButtonModule } from '@angular/material/button';
+import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 
 const exampleRoutes: Route[] = [
     {
@@ -21,7 +22,8 @@ const exampleRoutes: Route[] = [
         MatButtonModule,
 
         // Controls
-        ReportDatePickerControlModule
+        ReportDatePickerControlModule,
+        GeneralTableModule
     ]
 })
 export class ExampleModule
