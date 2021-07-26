@@ -43,7 +43,15 @@ export class ExampleComponent
         ];
 
         this.pagingColumns = [
-            { columnDef: 'attendanceDate',     header: 'Attendance Date',    cell: (element: GroupAttendanceRecord) => `${element.attendanceDate}` },
+            { columnDef: 'attendanceDate',     header: 'Attendance Date',    cell: (element: GroupAttendanceRecord) => {
+               const dateString = element.attendanceDate as string;
+               const date = new Date(dateString);
+                return `${date.toLocaleString("en-ZA", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                })}`;
+            } },
             { columnDef: 'groupName',     header: 'Group',     cell: (element: GroupAttendanceRecord) => `${element.groupName}` },
             { columnDef: 'attendanceCount',   header: 'Attendance',   cell: (element: GroupAttendanceRecord) => `${element.attendanceCount}` },
             { columnDef: 'firstTimerCount',    header: 'First Timers',    cell: (element: GroupAttendanceRecord) => `${element.firstTimerCount}` },
