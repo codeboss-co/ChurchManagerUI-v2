@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonFormDialogComponent } from './person-form/person-form-dialog.component';
@@ -9,6 +9,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { PeopleDataService } from '../_services/people-data.service';
 import { first } from 'rxjs/operators';
+import { MatSort } from '@angular/material/sort';
+import { MatStepper } from '@angular/material/stepper';
+import { ToastrService } from '@core/notifications/toastr.service';
+import { AddressFormValue } from '@ui/controls/address-editor-control/address-editor.model';
 
 @Component({
     selector     : 'people-family-form-dialog',
@@ -19,6 +23,8 @@ import { first } from 'rxjs/operators';
     viewProviders: [MatExpansionPanel] // <----- Here
 })
 export class NewFamilyFormComponent {
+
+    @ViewChild( MatStepper, { static: true } ) stepper: MatStepper;
 
     dialogRef: any;
 
@@ -34,7 +40,8 @@ export class NewFamilyFormComponent {
     constructor(
         private _formBuilder: FormBuilder,
         private _matDialog: MatDialog,
-        private _data: PeopleDataService)
+        private _data: PeopleDataService,
+        private _toastr: ToastrService)
     {
         this.familyFormStep2 = this.createForm();
 
@@ -108,6 +115,24 @@ export class NewFamilyFormComponent {
 
         this._data.addNewFamily$(family)
             .pipe(first())
-            .subscribe();
+            .subscribe(_ => {
+                // This resets all controls and lists
+                this.resetAddress();
+                this.familyFormStep2.reset();
+                this.familyMembers$.next([]);
+                this.stepper.reset();
+                this._toastr.success('Successfully added new family.', null, {duration: 5000});
+            });
+    }
+
+    resetAddress() {
+        const address: AddressFormValue = {
+            city: '',
+            country: 'South Africa',
+            postalCode: '',
+            province: '',
+            street: ''
+        };
+        this.addressFormStep1.setValue({address});
     }
 }
