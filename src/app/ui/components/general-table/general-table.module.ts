@@ -7,10 +7,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GeneralTableComponent } from '@ui/components/general-table/general-table.component';
+import { PaginatedTableComponent } from '@ui/components/general-table/paginated-general-table/paginated-table.component';
 
 @NgModule( {
-    declarations: [GeneralTableComponent],
-    exports: [GeneralTableComponent],
+    declarations: [GeneralTableComponent, PaginatedTableComponent],
+    exports: [GeneralTableComponent, PaginatedTableComponent],
     imports: [
         MatInputModule,
         MatIconModule,

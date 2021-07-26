@@ -3,6 +3,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TableBtn, TableColumn } from '@ui/components/general-table';
 import { UserData } from '@features/admin/example/mock/interfaces/user-data';
 import { createNewUserData } from '@features/admin/example/mock/functions/mock-data';
+import { GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Component({
     selector     : 'example',
@@ -14,6 +15,7 @@ export class ExampleComponent
 {
     introText = 'Button actions and payloads come here in textual form';
     columns: TableColumn[];   // this will define what you pass over to the table
+    pagingColumns: TableColumn[];   // this will define what you pass over to the table
     buttons: TableBtn[] = [];      // this will define what you pass over to the table
     data: UserData[];         // this is example data but you can use any object to pass to the table
     totalVolume: number = 0;  // this is an example field used to show how you can access filtered data from the table
@@ -38,6 +40,14 @@ export class ExampleComponent
             { columnDef: 'volume',   header: 'Volume',   cell: (element: UserData) => `${element.volume} m³` },
             { columnDef: 'rides',    header: 'Trips',    cell: (element: UserData) => `${element.rides}` },
             { columnDef: 'material', header: 'Material', cell: (element: UserData) => `${element.material}` },
+        ];
+
+        this.pagingColumns = [
+            { columnDef: 'attendanceDate',     header: 'Attendance Date',    cell: (element: GroupAttendanceRecord) => `${element.attendanceDate}` },
+            { columnDef: 'groupName',     header: 'Group',     cell: (element: GroupAttendanceRecord) => `${element.groupName}` },
+            { columnDef: 'attendanceCount',   header: 'Attendance',   cell: (element: GroupAttendanceRecord) => `${element.attendanceCount}` },
+            { columnDef: 'firstTimerCount',    header: 'First Timers',    cell: (element: GroupAttendanceRecord) => `${element.firstTimerCount}` },
+            { columnDef: 'newConvertCount', header: 'New Converts', cell: (element: GroupAttendanceRecord) => `${element.newConvertCount}` },
         ];
     }
 
