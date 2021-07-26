@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 export interface GroupAttendanceRecord {
     id: number;
     groupName: string;
-    attendanceDate: Date;
+    attendanceDate: Date | string;
     didNotOccur?: boolean;
     attendanceCount?: number;
     firstTimerCount?: number;

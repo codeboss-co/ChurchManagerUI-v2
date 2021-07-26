@@ -136,11 +136,8 @@
 .mat-flat-button,
 .mat-raised-button,
 .mat-stroked-button {
-
-    .fuse-mat-rounded & {
-        padding: 0 20px;
-        border-radius: 9999px;
-    }
+    padding: 0 20px !important;
+    border-radius: 9999px !important;
 }
 
 /* Target all buttons */
@@ -178,11 +175,7 @@
 
     /* Add hover and focus style on all buttons */
     .mat-button-focus-overlay {
-        @apply bg-gray-400 bg-opacity-20 #{'!important'};
-
-        .dark & {
-            background-color: rgba(0, 0, 0, 0.05) !important;
-        }
+        @apply bg-gray-400 bg-opacity-20 dark:bg-black dark:bg-opacity-5 #{'!important'};
     }
 
     /* On palette colored buttons, use a darker color */
@@ -253,11 +246,7 @@
 
     /* Add hover and focus styles */
     .mat-button-focus-overlay {
-        @apply bg-gray-400 bg-opacity-20 #{'!important'};
-
-        .dark & {
-            background-color: rgba(0, 0, 0, 0.05) !important;
-        }
+        @apply bg-gray-400 bg-opacity-20 dark:bg-black dark:bg-opacity-5 #{'!important'};
     }
 
     /* On primary colored buttons, use the primary color as focus overlay */
@@ -330,19 +319,11 @@
 
     /* Border color */
     &:not(.mat-button-disabled) {
-        @apply border-gray-300 #{'!important'};
-
-        .dark & {
-            @apply border-gray-500 #{'!important'};
-        }
+        @apply border-gray-300 dark:border-gray-500 #{'!important'};
     }
 
     &.mat-button-disabled {
-        @apply border-gray-200 #{'!important'};
-
-        .dark & {
-            @apply border-gray-600 #{'!important'};
-        }
+        @apply border-gray-200 dark:border-gray-600 #{'!important'};
     }
 }
 
@@ -350,6 +331,8 @@
 /*  @ Button Toggle
 /* ----------------------------------------------------------------------------------------------------- */
 .mat-button-toggle-group {
+    border: none !important;
+    @apply space-x-1;
 
     &.mat-button-toggle-group-appearance-standard {
 
@@ -357,36 +340,27 @@
             background-clip: padding-box;
         }
     }
-}
 
-/* Rounded design */
-.fuse-mat-rounded {
-
-    .mat-button-toggle-group {
+    .mat-button-toggle {
+        border-radius: 9999px;
+        overflow: hidden;
         border: none !important;
-        @apply space-x-1;
+        font-weight: 500;
 
-        .mat-button-toggle {
-            border-radius: 9999px;
-            overflow: hidden;
-            border: none !important;
-            font-weight: 500;
-
-            &.mat-button-toggle-checked {
-
-                .mat-button-toggle-label-content {
-                    @apply text-default #{'!important'};
-                }
-            }
+        &.mat-button-toggle-checked {
 
             .mat-button-toggle-label-content {
-                padding: 0 20px;
-                @apply text-secondary;
+                @apply text-default #{'!important'};
             }
+        }
 
-            .mat-ripple {
-                border-radius: 9999px;
-            }
+        .mat-button-toggle-label-content {
+            padding: 0 20px;
+            @apply text-secondary;
+        }
+
+        .mat-ripple {
+            border-radius: 9999px;
         }
     }
 }
@@ -448,6 +422,13 @@
         @apply bg-accent text-on-primary #{'!important'};
         @include _chip-remove();
     }
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Dialog
+/* ----------------------------------------------------------------------------------------------------- */
+.mat-dialog-container {
+    border-radius: 16px !important;
 }
 
 /* ----------------------------------------------------------------------------------------------------- */
@@ -566,13 +547,7 @@
             border-radius: 6px;
             padding: 0 16px;
             border-width: 1px;
-            background-color: white;
-            @apply border-gray-300 shadow-sm #{'!important'};
-
-            .dark & {
-                background-color: rgba(0, 0, 0, 0.05) !important;
-                @apply border-gray-500 #{'!important'};
-            }
+            @apply shadow-sm bg-white border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500 #{'!important'};
 
             .mat-form-field-prefix {
 
@@ -657,11 +632,27 @@
                     @apply icon-size-6;
                 }
 
-                /* Make mat-select usable as */
-                /* prefix and suffix */
+                /* Make mat-select usable as prefix and suffix */
                 .mat-select {
                     display: flex;
                     align-items: center;
+
+                    &:focus {
+
+                        .mat-select-trigger {
+
+                            .mat-select-value {
+                                @apply text-primary #{'!important'};
+                            }
+
+                            .mat-select-arrow-wrapper {
+
+                                .mat-select-arrow {
+                                    border-top-color: var(--fuse-primary) !important;
+                                }
+                            }
+                        }
+                    }
 
                     .mat-select-trigger {
                         display: flex;
@@ -687,6 +678,7 @@
 
                             .mat-select-arrow {
                                 min-height: 0;
+                                @apply text-gray-500 dark:text-gray-400 #{'!important'};
                             }
                         }
                     }
@@ -712,8 +704,8 @@
                     align-self: stretch;
                     min-height: 36px;
                     height: auto;
-                    margin: 10px 0;
-                    padding: 4px 6px 4px 0 !important;
+                    margin: 14px 0;
+                    padding: 0 6px 0 0;
                     transform: none;
                 }
 
@@ -1056,11 +1048,7 @@
 
                 .mat-form-field-prefix,
                 .mat-form-field-suffix {
-                    @apply border-gray-300 bg-default #{'!important'};
-
-                    .dark & {
-                        @apply border-gray-500 #{'!important'};
-                    }
+                    @apply bg-default border-gray-300 dark:border-gray-500 #{'!important'};
                 }
             }
         }
@@ -1355,60 +1343,53 @@
             opacity: 0 !important;
         }
     }
+
+    .mat-tab-header {
+        border-bottom: none !important;
+
+        .mat-tab-label-container {
+            padding: 0 24px;
+
+            .mat-tab-list {
+
+                .mat-tab-labels {
+
+                    .mat-tab-label {
+                        min-width: 0 !important;
+                        height: 40px !important;
+                        padding: 0 20px !important;
+                        border-radius: 9999px !important;
+                        @apply text-secondary;
+
+                        &.mat-tab-label-active {
+                            @apply bg-gray-700 bg-opacity-10 dark:bg-gray-50 dark:bg-opacity-10 #{'!important'};
+                            @apply text-default #{'!important'};
+                        }
+
+                        + .mat-tab-label {
+                            margin-left: 4px;
+                        }
+
+                        .mat-tab-label-content {
+                            line-height: 20px;
+                        }
+                    }
+                }
+
+                .mat-ink-bar {
+                    display: none !important;
+                }
+            }
+        }
+    }
+
+    .mat-tab-body-content {
+        padding: 24px;
+    }
 }
 
 .mat-tab-label {
     opacity: 1 !important;
-}
-
-/* Rounded design */
-.fuse-mat-rounded {
-
-    .mat-tab-group {
-
-        .mat-tab-header {
-            border-bottom: none !important;
-
-            .mat-tab-label-container {
-                padding: 0 24px;
-
-                .mat-tab-list {
-
-                    .mat-tab-labels {
-
-                        .mat-tab-label {
-                            min-width: 0 !important;
-                            height: 40px !important;
-                            padding: 0 20px !important;
-                            border-radius: 9999px !important;
-                            @apply text-secondary;
-
-                            &.mat-tab-label-active {
-                                @apply bg-gray-700 bg-opacity-10 dark:bg-gray-50 dark:bg-opacity-10 #{'!important'};
-                                @apply text-default #{'!important'};
-                            }
-
-                            + .mat-tab-label {
-                                margin-left: 4px;
-                            }
-
-                            .mat-tab-label-content {
-                                line-height: 20px;
-                            }
-                        }
-                    }
-
-                    .mat-ink-bar {
-                        display: none !important;
-                    }
-                }
-            }
-        }
-
-        .mat-tab-body-content {
-            padding: 24px;
-        }
-    }
 }
 
 /* ----------------------------------------------------------------------------------------------------- */

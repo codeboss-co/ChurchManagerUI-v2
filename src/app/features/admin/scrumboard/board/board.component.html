@@ -1,0 +1,114 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <!-- Title -->
+        <div class="flex-1 min-w-0">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                {{board.program.name}}
+            </h2>
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <a
+                mat-stroked-button
+                [routerLink]="['..']">
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>
+                Programs
+            </a>
+            <button
+                class="ml-3"
+                mat-stroked-button>
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div
+        class="flex-auto p-6 sm:p-8 sm:pt-4 overflow-y-auto"
+        cdkScrollable>
+
+        <!-- Lists -->
+        <div
+            class="flex">
+
+            <!-- Group all cdkDropList's after this point together so that the cards can be transferred between lists -->
+            <div
+                class="flex items-start"
+                cdkDropListGroup>
+
+                <!-- List -->
+
+                <!-- Cards -->
+                <div class="mt-2 rounded-xl bg-gray-400 bg-opacity-12 dark:bg-transparent dark:border">
+                    <div
+                        [id]="board.program.id"
+                        class="p-3 pb-0"
+                        cdkDropList
+                        [cdkDropListData]="board.stepDefinitions"
+                        (cdkDropListDropped)="cardDropped($event)">
+
+                        <!-- Card -->
+                        <ng-container *ngFor="let card of board.stepDefinitions; trackBy: trackByFn">
+                            <a
+                                class="flex items-center mb-3 p-5 space-y-3 shadow rounded-lg overflow-hidden bg-card"
+                                [routerLink]="['step', card.id]"
+                                cdkDrag>
+                                <!-- Cover image -->
+                                <mat-icon *ngIf="card.iconCssClass"
+                                    class="icon-size-8 mr-2"
+                                    [svgIcon]="card.iconCssClass"></mat-icon>
+                                <!-- Title -->
+                                <div class="flex flex-col">
+                                    <div class="text-lg font-medium leading-5">{{card.name}}</div>
+                                    <div class="text-sm leading-5">{{card.description}}</div>
+                                </div>
+                                <!-- Statistics -->
+                                <div>
+                                    <ng-container>
+                                        <div class="flex flex-wrap items-center ml-4">
+                                            <!-- Tag -->
+                                            <ng-container>
+                                                <div class="flex items-center justify-center py-1 px-3 mr-3 rounded-full leading-normal text-gray-500 bg-orange-200 dark:text-gray-300 dark:bg-gray-700">
+                                                    <span class="text-sm font-medium whitespace-nowrap">Started: {{card.statistics.inProgress}}</span>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container>
+                                                <div class="flex items-center justify-center py-1 px-3 mr-3  rounded-full leading-normal text-gray-500 bg-green-200 dark:text-gray-300 dark:bg-gray-700">
+                                                    <span class="text-sm font-medium whitespace-nowrap">Completed: {{card.statistics.completed}}</span>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- Output for ScrumboardStepParticipantsComponent -->
+        <div class="mt-20">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+

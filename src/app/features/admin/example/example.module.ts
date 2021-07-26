@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { ExampleComponent } from 'app/features/admin/example/example.component';
 import { ReportDatePickerControlModule } from '@ui/controls/report-date-picker-control/report-date-picker-control.module';
-import { MatConfirmDialogModule } from '@ui/components/mat-confirm-dialog/mat-confirm-dialog.module';
 import { MatButtonModule } from '@angular/material/button';
+import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
+import { pagingServiceProvider } from './mock/providers/example-paging.providers';
 
 const exampleRoutes: Route[] = [
     {
@@ -11,6 +12,7 @@ const exampleRoutes: Route[] = [
         component: ExampleComponent
     }
 ];
+
 
 @NgModule({
     declarations: [
@@ -23,9 +25,14 @@ const exampleRoutes: Route[] = [
 
         // Controls
         ReportDatePickerControlModule,
-        MatConfirmDialogModule
+        GeneralTableModule
+    ],
+    providers : [
+        pagingServiceProvider
     ]
 })
 export class ExampleModule
 {
 }
+
+

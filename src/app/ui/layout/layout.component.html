@@ -54,7 +54,7 @@
 </div>
 
 <fuse-drawer
-    class="w-100 min-w-100"
+    class="w-screen min-w-screen sm:w-100 sm:min-w-100"
     fixed
     transparentOverlay
     [mode]="'over'"
@@ -70,21 +70,21 @@
             <div class="ml-3 text-2xl font-semibold tracking-tight">Settings</div>
         </div>
 
-        <div class="flex flex-col p-6">
+        ngs er<div class="flex flex-col p-6">
 
             <!-- Theme -->
             <div class="text-md font-semibold text-secondary">THEME</div>
-            <div class="grid grid-cols-3 gap-3 mt-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
                 <ng-container *ngFor="let theme of themes">
                     <div
-                        class="flex items-center px-4 py-3 rounded-full cursor-pointer ring-inset ring-primary bg-hover"
+                        class="flex items-center justify-center px-4 py-3 rounded-full cursor-pointer ring-inset ring-primary bg-hover"
                         [class.ring-2]="config.theme === theme[0]"
                         (click)="setTheme(theme[0])">
                         <div
-                            class="w-4 h-4 rounded-full"
+                            class="flex-0 w-3 h-3 rounded-full"
                             [style.background-color]="theme[1].primary"></div>
                         <div
-                            class="ml-2.5 font-medium leading-5"
+                            class="ml-2.5 font-medium leading-5 truncate"
                             [class.text-secondary]="config.theme !== theme[0]">
                             {{theme[0] | titlecase}}
                         </div>

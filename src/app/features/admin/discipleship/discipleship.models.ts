@@ -1,3 +1,5 @@
+import { BirthDate, FullName } from '@features/admin/people';
+
 export interface DiscipleshipProgram
 {
     description?: string;
@@ -5,6 +7,9 @@ export interface DiscipleshipProgram
     name: string;
     category?: string;
     order?: number;
+    iconCssClass?: string;
+    createdDate: Date;
+    modifiedDate?: Date;
 }
 
 export interface StepDefinition
@@ -13,15 +18,28 @@ export interface StepDefinition
     name: string;
     description?: string;
     order?: number;
+    allowMultiple?: boolean;
+    iconCssClass?: string;
+    statistics?: Statistics;
 }
 
 export interface DiscipleshipStep
 {
     completionDate?: Date;
+    startDateTime?: Date;
+    endDateTime?: Date;
     status?: string;
     stepDefinition: StepDefinition;
     personId?: number;
     isComplete: boolean;
+    // Optional
+    person?: DiscipleshipPerson;
+}
+
+export interface DiscipleshipProgramSummary
+{
+    program: DiscipleshipProgram;
+    stepDefinitions: StepDefinition[];
 }
 
 export interface DiscipleshipProgramForPerson
@@ -47,3 +65,29 @@ export class DiscipleshipProgramDetailModel
         return this.steps?.find(x => !x.isComplete) === undefined;
     }
 }
+
+export interface Statistics
+{
+    inProgress: number;
+    completed: number;
+}
+
+
+export interface DiscipleshipPerson
+{
+    personId: number;
+    fullName: FullName;
+    gender: string;
+    ageClassification: string;
+    photoUrl: string;
+    birthDate: BirthDate;
+}
+
+export enum DiscipleshipStepStatusEnum
+{
+    notStarted= 'Not Started',
+    inProgress= 'In Progress',
+    completed= 'Completed',
+}
+
+export type DiscipleshipStepStatus = DiscipleshipStepStatusEnum;

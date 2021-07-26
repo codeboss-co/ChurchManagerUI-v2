@@ -15,8 +15,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 const routerConfig: ExtraOptions = {
-    scrollPositionRestoration: 'enabled',
-    preloadingStrategy       : PreloadAllModules
+    preloadingStrategy       : PreloadAllModules,
+    scrollPositionRestoration: 'enabled'
 };
 
 @NgModule({
