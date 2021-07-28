@@ -35,7 +35,7 @@ jobs:
         run: |
             echo "ENVIRONMENT=production" >> $GITHUB_ENV
             echo "S3_BUCKET=churchmanager.codeboss.tech" >> $GITHUB_ENV
-            echo "CLOUDFRONT_DISTRIBUTION_ID=NEEDED" >> $GITHUB_ENV
+            echo "CLOUDFRONT_DISTRIBUTION_ID=E1LVFG3G9V14MZ" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
     - name: Build
       run: npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
 
-    - name: Deploy
+    - name: Deploy to S3
       uses: lbertenasco/s3-deploy@v1
       with:
           folder: dist
