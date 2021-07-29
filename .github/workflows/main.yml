@@ -13,7 +13,7 @@ env:
     CONTAINER_NAME: churchmanager-ui
     ECR_REPOSITORY: prod-churchmanager-ui-ecr-repository
 
-name: Deploy to Amazon ECS
+name: Deploy to Amazon S3
 
 jobs:
   deploy:
@@ -26,22 +26,19 @@ jobs:
     -   name: Set env to Test
         if: endsWith(github.ref, '/develop')
         run: |
-            echo "ENVIRONMENT=Test" >> $GITHUB_ENV
-            echo "CLUSTER_NAME=test-Cluster" >> $GITHUB_ENV
-            echo "SERVICE_NAME=test-${{ env.CONTAINER_NAME }}-service" >> $GITHUB_ENV
+            echo "ENVIRONMENT=test" >> $GITHUB_ENV
+            echo "S3_BUCKET=test-churchmanager.codeboss.tech" >> $GITHUB_ENV
+            echo "CLOUDFRONT_DISTRIBUTION_ID=E2TN8HKID6RITO" >> $GITHUB_ENV
 
     -   name: Set env to Production
         if: endsWith(github.ref, '/master')
         run: |
-            echo "ENVIRONMENT=Production" >> $GITHUB_ENV
-            echo "CLUSTER_NAME=prod-Cluster" >> $GITHUB_ENV
-            echo "SERVICE_NAME=prod-${{ env.CONTAINER_NAME }}-service" >> $GITHUB_ENV
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+            echo "S3_BUCKET=churchmanager.codeboss.tech" >> $GITHUB_ENV
+            echo "CLOUDFRONT_DISTRIBUTION_ID=E1LVFG3G9V14MZ" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Install ecs-deploy script
-      run: pip install --upgrade ecs-deploy
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -49,10 +46,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
 
     - name: Set current date
       id: date
@@ -67,20 +60,32 @@ jobs:
           cat ./buildinfo.json # just some logging
       working-directory: ./src/assets
 
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-        IMAGE_TAG: ${{ steps.date.outputs.date }}-${{ github.run_number }}
-      run: |
-        # Build & push a docker container to ECR.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        echo "::set-output name=tag::$IMAGE_TAG"
+    - name: Use Node 14.x
+      uses: actions/setup-node@v1
+      with:
+          node-version: '14.x'
+    - name: Install dependencies
+      run: npm ci --quiet
+    - name: Build
+      run: npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
 
-    - name: Deploy ECS Cluster
-      if: endsWith(github.ref, '/develop') ||  endsWith(github.ref, '/master')
-      run: |
-          ecs deploy ${{ env.CLUSTER_NAME }} ${{ env.SERVICE_NAME }} --tag ${{ steps.build-image.outputs.tag }} -e ${{ env.CONTAINER_NAME }} ANGULAR_ENVIRONMENT ${{ env.ENVIRONMENT }}
+  #  - name: Deploy to S3
+  #    uses: lbertenasco/s3-deploy@v1
+  #    with:
+  #        folder: dist
+  #        bucket: ${{ env.S3_BUCKET }}
+  #        dist-id: ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+  #        invalidation: / *
+
+    - name: Deploy to S3
+      uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
+      with:
+          args: --acl public-read --follow-symlinks --delete
+      env:
+          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_S3_BUCKET: ${{ env.S3_BUCKET }}
+          DISTRIBUTION_ID:  ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+          # AWS_REGION: 'eu-west-1'   # optional: defaults to us-east-1
+          SOURCE_DIR: dist      # optional: defaults to entire repository
+          #DEST_DIR: 'subdirectory'      # optional: defaults to the root of the bucket

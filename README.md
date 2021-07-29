@@ -37,3 +37,7 @@ You are able to pass in the docker environment variable ANGULAR_ENVIRONMENT if n
 - [Form Arrays](https://www.concretepage.com/angular/angular-formarray-validation#:~:text=FormArray%20tracks%20the%20value%20and,FormControl%20or%20FormGroup%20are%20validated.)
 - [Responsive Sidebar](https://zoaibkhan.com/blog/create-a-responsive-sidebar-menu-with-angular-material/)
 - [Material Trees](https://docs.google.com/presentation/d/1BoJ-jq-O9zQHAps7LVciiiH9WI9dDqqv-LAlQ6iMh5o/htmlpresent)
+
+
+### AWS
+- [Host angular web app in aws cloudfront](https://techpearl.com/blog/host-angular-web-app-in-aws-cloudfront/index.html)
