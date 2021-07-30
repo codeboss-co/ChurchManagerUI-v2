@@ -23,7 +23,7 @@
     <div class="flex-auto p-6 sm:p-10">
 
         <!-- Horizontal stepper -->
-        <mat-horizontal-stepper class="p-4 bg-card shadow rounded overflow-hidden" [linear]="true">
+        <mat-stepper class="p-4 bg-card shadow rounded overflow-hidden" [linear]="true" orientation="vertical">
 
             <mat-step [stepControl]="addressFormStep1">
 
@@ -92,7 +92,7 @@
 
             </mat-step>
 
-        </mat-horizontal-stepper>
+        </mat-stepper>
         <!-- Horizontal stepper -->
 
     </div>
