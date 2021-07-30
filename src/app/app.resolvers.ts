@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { InitialData } from 'app/app.types';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
-import { UserDetails } from '@shared/shared.models';
+import { ApiResponse, UserDetails } from '@shared/shared.models';
 import LogRocket from 'logrocket';
 import { AuthService } from '@core/auth/auth.service';
 import { FuseNavigationItem } from '@fuse/components/navigation';
@@ -47,7 +47,7 @@ export class InitialDataResolver implements Resolve<any> {
             this._httpClient.get<any>('api/common/shortcuts'),
             this._httpClient.get<any>(`${this._apiUrl}/v1/userdetails/current-user`)
                 .pipe(
-                    map(response => {
+                    map((response: ApiResponse) => {
                         const userDetails = response.data as UserDetails;
 
                         // LogRocket for production only
@@ -68,15 +68,14 @@ export class InitialDataResolver implements Resolve<any> {
                     }))
         ]).pipe(
             map(([messages, navigation, notifications, shortcuts, user]) => {
-
+                // Feature Permissions
                 let compactNavigation = navigation.compact as FuseNavigationItem[];
-
                 if (!this._auth.roles.includes('Admin')) {
                     const features = ['apps.groups','example'];
                     const filterFeature = (featureId: string, nav: FuseNavigationItem): boolean => nav.id !== featureId;
 
                     for (const feature of features) {
-                        compactNavigation = compactNavigation.filter(n => filterFeature(feature, n))
+                        compactNavigation = compactNavigation.filter(n => filterFeature(feature, n));
                     }
                 }
 
