@@ -12,6 +12,7 @@ import { Profile } from './profile.model';
 export class ProfileComponent
 {
     profile$: Observable<Profile>;
+    hoverOverProfileImage = false;
 
     /**
      * Constructor
@@ -19,5 +20,14 @@ export class ProfileComponent
     constructor(private _profileService: ProfileService)
     {
         this.profile$ = _profileService.profile$;
+    }
+
+    log( $event: MouseEvent )
+    {
+        if ($event.type === 'mouseover') {
+            this.hoverOverProfileImage = true;
+        } else {
+            this.hoverOverProfileImage = false;
+        }
     }
 }
