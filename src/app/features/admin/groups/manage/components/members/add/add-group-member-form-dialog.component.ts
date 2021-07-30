@@ -43,7 +43,7 @@ export class AddGroupMemberFormDialogComponent implements OnInit, OnDestroy
         // If editing - begin the stream to load the group member details
         if (this.action === FormActions.Edit)
         {
-            this.groupMemberId$.next(_data.groupMemberId)
+            this.groupMemberId$.next(_data.groupMemberId);
         }
     }
 
