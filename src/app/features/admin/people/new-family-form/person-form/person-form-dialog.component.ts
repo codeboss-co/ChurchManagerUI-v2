@@ -60,7 +60,8 @@ export class PersonFormDialogComponent implements OnInit {
      */
     createForm(): FormGroup
     {
-        return this._formBuilder.group( {
+        return this._formBuilder.group(
+            {
             church: [1, Validators.required],
             connectionStatus: ['Member', Validators.required],
             source: ['Cell', Validators.required],
