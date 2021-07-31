@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Profile } from '../../../../profile.model';
 import { FormAction } from '@shared/shared.models';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { FileUploadService } from '@shared/api/file-upload.service';
 
 @Component({
     selector     : 'profile-photo-form-dialog',
@@ -13,9 +15,11 @@ import { FormAction } from '@shared/shared.models';
 export class ProfilePhotoFormDialogComponent implements OnInit
 {
     action: FormAction;
-    form: FormGroup;
     profile: Profile;
     dialogTitle: string;
+
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
 
     /**
      * Constructor
@@ -23,8 +27,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
      */
     constructor(
         public matDialogRef: MatDialogRef<ProfilePhotoFormDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private _data: { action: FormAction; profile: Profile },
-        private _formBuilder: FormBuilder
+        @Inject(MAT_DIALOG_DATA) private _data: { action: FormAction; profile: Profile }
     )
     {
         // Set the defaults
@@ -34,9 +37,9 @@ export class ProfilePhotoFormDialogComponent implements OnInit
         if ( this.action === 'edit' )
         {
             this.dialogTitle = `Editing: ${this.profile.fullName.firstName} ${this.profile.fullName.lastName}`;
-        }
 
-        this.form = this.createForm();
+            this.croppedImage = this.profile.photoUrl;
+        }
     }
 
     ngOnInit(): void
@@ -47,14 +50,29 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Create contact form
-     *
-     * @returns {FormGroup}
-     */
-    createForm(): FormGroup
+    fileChangeEvent(event: any): void
     {
-        return this._formBuilder.group({
-        });
+        console.log(event);
+        this.imageChangedEvent = event;
+    }
+
+    imageCropped(event: ImageCroppedEvent)
+    {
+        this.croppedImage = event.base64;
+    }
+
+    imageLoaded(image: LoadedImage)
+    {
+        // show cropper
+    }
+
+    cropperReady()
+    {
+        // cropper ready
+    }
+
+    loadImageFailed()
+    {
+        // show message
     }
 }

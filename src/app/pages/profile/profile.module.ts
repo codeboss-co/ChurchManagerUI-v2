@@ -41,6 +41,7 @@ import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discip
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashboard.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         ChurchesSelectControlModule,
 
         // Extensions
-        AgePluralizeModule
+        AgePluralizeModule,
+        ImageCropperModule
     ],
     providers: [
         ProfileResolver, ProfileDiscipleshipResolver,

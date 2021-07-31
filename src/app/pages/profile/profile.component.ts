@@ -1,11 +1,12 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from './_services/profile.service';
 import { Observable, Subject } from 'rxjs';
-import { Profile } from './profile.model';
+import { Profile, ProfilePersonalInfo } from './profile.model';
 import { ProfilePhotoFormDialogComponent } from './tabs/about/components';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil } from 'rxjs/operators';
+import { filter, first, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { FormActions } from '@shared/shared.models';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector       : 'profile',
@@ -75,5 +76,40 @@ export class ProfileComponent implements OnDestroy
                 profile: this.profile
             }
         });
+
+        const afterClosed$ =  this.dialogRef.afterClosed()
+            .pipe(withLatestFrom(this._profileService.profile$))
+            .pipe(
+                filter(([response, _]) => !!response), // <-- only "truthy" results pass same as if(result)
+                first(), // <-- completes the observable and unsubscribes,
+                switchMap(([response, profile]) => {
+                    console.log(response);
+                    const actionType: string = response[0];
+                    const file: string = response[1];
+                    switch ( actionType )
+                    {
+                        /**
+                         * Save
+                         */
+                        case 'save':
+                            return this._profileService.editPhoto$(profile.personId, file)
+                                .pipe(
+                                    map(_ => profile)
+                                );
+                    }
+                })
+            );
+
+        afterClosed$
+            .pipe(
+                switchMap((profile: Profile) => {
+                    // Calls the endpoint to update the profile
+                    return this._profileService.getUserProfile$(+profile.personId);
+                } ))
+            .subscribe(
+                value => {},
+                error => {},
+                () => console.log('Add Photo completed')
+            );
     }
 }

@@ -3,18 +3,18 @@ export interface Environment {
 
     // Api configuration
     baseUrls: {
-        signalRHub: string,
-        apiUrl: string
+        signalRHub: string;
+        apiUrl: string;
     };
 
     // Contentful CMS
     contentful: {
-        spaceId: string,
+        spaceId: string;
         token: string;
         environment?: string;  // defaults to `master`
     };
 
     push: {
-        publicKey: string
+        publicKey: string;
     };
 }

@@ -14,10 +14,19 @@
 
     <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
 
-        <form [formGroup]="form">
+        <input type="file" (change)="fileChangeEvent($event)" />
 
-
-        </form>
+        <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [resizeToWidth]="800"
+            [resizeToHeight]="800"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
 
     </div>
 
@@ -37,10 +46,10 @@
                 class="ml-2"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="form.invalid || !form.touched"
+                [disabled]="!croppedImage"
                 [matTooltip]="'Save'"
                 aria-label="Save"
-                (click)="matDialogRef.close(['save',form])">
+                (click)="matDialogRef.close(['save',croppedImage])">
             Save
         </button>
     </div>
