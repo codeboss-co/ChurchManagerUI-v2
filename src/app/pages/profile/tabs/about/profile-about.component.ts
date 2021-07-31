@@ -6,10 +6,11 @@ import { filter, first, map, switchMap, takeUntil, tap, withLatestFrom } from 'r
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 
-import { Profile, ProfileConnectionInfo, ProfileGeneralInfo, ProfilePersonalInfo } from '../../profile.model';
+import { Profile, ProfileGeneralInfo, ProfilePersonalInfo } from '../../profile.model';
 import { ProfileService } from '../../_services/profile.service';
 import {
-    ProfileConnectionInfoFormDialogComponent, ProfileDiscipleshipInfoFormDialogComponent,
+    ProfileConnectionInfoFormDialogComponent,
+    ProfileDiscipleshipInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,
     ProfilePersonalInfoFormDialogComponent
 } from './components';

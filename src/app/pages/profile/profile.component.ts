@@ -2,6 +2,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from './_services/profile.service';
 import { Observable } from 'rxjs';
 import { Profile } from './profile.model';
+import { ProfileGeneralInfoFormDialogComponent, ProfilePhotoFormDialogComponent } from './tabs/about/components';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector       : 'profile',
@@ -14,10 +16,15 @@ export class ProfileComponent
     profile$: Observable<Profile>;
     hoverOverProfileImage = false;
 
+    dialogRef: any;
+
+
     /**
      * Constructor
      */
-    constructor(private _profileService: ProfileService)
+    constructor(
+        private _profileService: ProfileService,
+        private _matDialog: MatDialog)
     {
         this.profile$ = _profileService.profile$;
     }
@@ -29,5 +36,16 @@ export class ProfileComponent
         } else {
             this.hoverOverProfileImage = false;
         }
+    }
+
+    onEditPhoto()
+    {
+        this.dialogRef = this._matDialog.open(ProfilePhotoFormDialogComponent, {
+            panelClass: 'photo-form-form-dialog',
+            data : {
+                action: 'edit',
+                //profile: this.profile$.getValue()
+            }
+        });
     }
 }

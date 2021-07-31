@@ -30,7 +30,7 @@ import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import {
     ProfileConnectionInfoFormDialogComponent, ProfileDiscipleshipInfoFormDialogComponent,
-    ProfileGeneralInfoFormDialogComponent,
+    ProfileGeneralInfoFormDialogComponent, ProfilePhotoFormDialogComponent,
     ProfilePersonalInfoFormDialogComponent
 } from './tabs/about/components';
 import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
@@ -57,6 +57,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         ProfileConnectionInfoFormDialogComponent,
         ProfilePersonalInfoFormDialogComponent,
         ProfileDiscipleshipInfoFormDialogComponent,
+        ProfilePhotoFormDialogComponent,
         ProfileMyDashboardComponent
     ],
     imports     : [
