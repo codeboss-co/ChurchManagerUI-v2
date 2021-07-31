@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Profile } from '../../../../profile.model';
+import { FormAction } from '@shared/shared.models';
 
 @Component({
     selector     : 'profile-photo-form-dialog',
@@ -11,7 +12,7 @@ import { Profile } from '../../../../profile.model';
 })
 export class ProfilePhotoFormDialogComponent implements OnInit
 {
-    action: string;
+    action: FormAction;
     form: FormGroup;
     profile: Profile;
     dialogTitle: string;
@@ -22,7 +23,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
      */
     constructor(
         public matDialogRef: MatDialogRef<ProfilePhotoFormDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private _data: { action: string, profile: Profile },
+        @Inject(MAT_DIALOG_DATA) private _data: { action: FormAction; profile: Profile },
         private _formBuilder: FormBuilder
     )
     {

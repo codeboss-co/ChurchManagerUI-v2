@@ -1,9 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from './_services/profile.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Profile } from './profile.model';
-import { ProfileGeneralInfoFormDialogComponent, ProfilePhotoFormDialogComponent } from './tabs/about/components';
+import { ProfilePhotoFormDialogComponent } from './tabs/about/components';
 import { MatDialog } from '@angular/material/dialog';
+import { takeUntil } from 'rxjs/operators';
+import { FormActions } from '@shared/shared.models';
 
 @Component({
     selector       : 'profile',
@@ -11,12 +13,14 @@ import { MatDialog } from '@angular/material/dialog';
     styleUrls: ['./profile.component.scss'],
     encapsulation  : ViewEncapsulation.None
 })
-export class ProfileComponent
+export class ProfileComponent implements OnDestroy
 {
-    profile$: Observable<Profile>;
+    profile: Profile;
     hoverOverProfileImage = false;
 
     dialogRef: any;
+
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
     /**
@@ -26,8 +30,29 @@ export class ProfileComponent
         private _profileService: ProfileService,
         private _matDialog: MatDialog)
     {
-        this.profile$ = _profileService.profile$;
+        _profileService.profile$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => this.profile = data);
     }
+
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     log( $event: MouseEvent )
     {
@@ -38,13 +63,16 @@ export class ProfileComponent
         }
     }
 
+    /**
+     * Opens the Photo Editor Dialog
+     */
     onEditPhoto()
     {
         this.dialogRef = this._matDialog.open(ProfilePhotoFormDialogComponent, {
             panelClass: 'photo-form-form-dialog',
             data : {
-                action: 'edit',
-                //profile: this.profile$.getValue()
+                action: FormActions.Edit,
+                profile: this.profile
             }
         });
     }
