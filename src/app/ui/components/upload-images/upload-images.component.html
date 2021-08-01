@@ -1,0 +1,20 @@
+<mat-form-field>
+    <div>
+        <mat-toolbar>
+            <input matInput [value]="selectedFileNames.length ? selectedFileNames : 'Select Images'" />
+        </mat-toolbar>
+
+        <input
+            type="file"
+            id="fileInput"
+            name="fileInput"
+            accept="image/*" [multiple]="multiple"
+            (change)="selectFiles($event)"
+        />
+    </div>
+</mat-form-field>
+
+<div>
+    <img *ngFor='let preview of previews' [src]="preview" class="preview">
+</div>
+

@@ -42,6 +42,7 @@ import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashboard.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { UploadImagesModule } from '@ui/components/upload-images/upload-images.module';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
         // Extensions
         AgePluralizeModule,
+        UploadImagesModule
         //ImageCropperModule
     ],
     providers: [

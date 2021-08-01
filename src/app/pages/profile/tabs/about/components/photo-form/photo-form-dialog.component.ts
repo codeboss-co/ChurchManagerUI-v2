@@ -18,8 +18,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     profile: Profile;
     dialogTitle: string;
 
-    imageChangedEvent: any = '';
-    croppedImage: any = '';
+    uploadedFiles: FileList;
 
     /**
      * Constructor
@@ -37,8 +36,6 @@ export class ProfilePhotoFormDialogComponent implements OnInit
         if ( this.action === 'edit' )
         {
             this.dialogTitle = `Editing: ${this.profile.fullName.firstName} ${this.profile.fullName.lastName}`;
-
-            this.croppedImage = this.profile.photoUrl;
         }
     }
 
@@ -50,29 +47,8 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    fileChangeEvent(event: any): void
+    onUploadedFiles( files: FileList )
     {
-        console.log(event);
-        this.imageChangedEvent = event;
-    }
-
-  /*  imageCropped(event: ImageCroppedEvent)
-    {
-        this.croppedImage = event.base64;
-    }
-
-    imageLoaded(image: LoadedImage)
-    {
-        // show cropper
-    }*/
-
-    cropperReady()
-    {
-        // cropper ready
-    }
-
-    loadImageFailed()
-    {
-        // show message
+        this.uploadedFiles = files;
     }
 }

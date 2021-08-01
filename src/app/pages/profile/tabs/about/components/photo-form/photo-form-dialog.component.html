@@ -14,7 +14,7 @@
 
     <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
 
-        <input type="file" (change)="fileChangeEvent($event)" />
+        <!--<input type="file" (change)="fileChangeEvent($event)" />-->
 
        <!-- <image-cropper
             [imageChangedEvent]="imageChangedEvent"
@@ -28,6 +28,10 @@
             (loadImageFailed)="loadImageFailed()"
         ></image-cropper>-->
 
+        <cm-upload-images
+             [multiple]="false"
+             (uploadedFiles)="onUploadedFiles($event)">
+        </cm-upload-images>
     </div>
 
 
@@ -46,10 +50,10 @@
                 class="ml-2"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="!croppedImage"
+                [disabled]="!uploadedFiles"
                 [matTooltip]="'Save'"
                 aria-label="Save"
-                (click)="matDialogRef.close(['save',croppedImage])">
+                (click)="matDialogRef.close(['save', uploadedFiles])">
             Save
         </button>
     </div>
