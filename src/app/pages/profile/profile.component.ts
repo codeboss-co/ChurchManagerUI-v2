@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter, first, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { FormActions } from '@shared/shared.models';
 import { FormGroup } from '@angular/forms';
+import { FileUploadService } from '@shared/api/file-upload.service';
 
 @Component({
     selector       : 'profile',
@@ -29,6 +30,7 @@ export class ProfileComponent implements OnDestroy
      */
     constructor(
         private _profileService: ProfileService,
+        private _uploader: FileUploadService,
         private _matDialog: MatDialog)
     {
         _profileService.profile$

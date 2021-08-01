@@ -43,6 +43,7 @@ import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashbo
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadImagesModule } from '@ui/components/upload-images/upload-images.module';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { UploadImagesModule } from '@ui/components/upload-images/upload-images.m
         MatInputModule,
         MatMenuModule,
         MatPaginatorModule,
+        MatProgressBarModule,
         MatSelectModule,
         MatSlideToggleModule,
         MatTableModule,

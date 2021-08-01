@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Profile } from '../../../../profile.model';
 import { FormAction } from '@shared/shared.models';
-//import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { FileUploadService } from '@shared/api/file-upload.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
+//import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
     selector     : 'profile-photo-form-dialog',
@@ -19,6 +20,8 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     dialogTitle: string;
 
     uploadedFiles: FileList;
+    progressInfos: { value?: number; fileName?: string };
+    message: string[] = [];
 
     /**
      * Constructor
@@ -26,6 +29,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
      */
     constructor(
         public matDialogRef: MatDialogRef<ProfilePhotoFormDialogComponent>,
+        private  _uploader: FileUploadService,
         @Inject(MAT_DIALOG_DATA) private _data: { action: FormAction; profile: Profile }
     )
     {
@@ -50,5 +54,31 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     onUploadedFiles( files: FileList )
     {
         this.uploadedFiles = files;
+        this.upload(files[0]);
+    }
+
+    upload(file: File): void {
+        this.progressInfos = { value: 0, fileName: file.name };
+
+        if (file) {
+            this._uploader.upload(file, `people/edit/${this.profile.personId}/photo`)
+                .subscribe(
+                (event: any) => {
+                    if (event.type === HttpEventType.UploadProgress) {
+                        this.progressInfos.value = Math.round(
+                            (100 * event.loaded) / event.total
+                        );
+                    } else if (event instanceof HttpResponse) {
+                        const msg = 'Uploaded the file successfully: ' + file.name;
+                        this.message.push(msg);
+                    }
+                },
+                (err: any) => {
+                    this.progressInfos.value = 0;
+                    const msg = 'Could not upload the file: ' + file.name;
+                    this.message.push(msg);
+                }
+            );
+        }
     }
 }

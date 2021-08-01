@@ -14,6 +14,17 @@
 
     <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
 
+        <div *ngIf="progressInfos">
+            <span>{{ progressInfos.fileName }}</span>
+            <mat-toolbar class="progress-bar">
+                <mat-progress-bar
+                    color="accent"
+                    [value]="progressInfos.value"
+                ></mat-progress-bar>
+                <span class="progress">{{ progressInfos.value }}%</span>
+            </mat-toolbar>
+        </div>
+
         <!--<input type="file" (change)="fileChangeEvent($event)" />-->
 
        <!-- <image-cropper
