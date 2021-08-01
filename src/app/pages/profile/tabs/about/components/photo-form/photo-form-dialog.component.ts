@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Profile } from '../../../../profile.model';
 import { FormAction } from '@shared/shared.models';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+//import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { FileUploadService } from '@shared/api/file-upload.service';
 
 @Component({
@@ -56,7 +56,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
         this.imageChangedEvent = event;
     }
 
-    imageCropped(event: ImageCroppedEvent)
+  /*  imageCropped(event: ImageCroppedEvent)
     {
         this.croppedImage = event.base64;
     }
@@ -64,7 +64,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
     imageLoaded(image: LoadedImage)
     {
         // show cropper
-    }
+    }*/
 
     cropperReady()
     {

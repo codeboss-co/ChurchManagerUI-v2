@@ -94,7 +94,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
         // Extensions
         AgePluralizeModule,
-        ImageCropperModule
+        //ImageCropperModule
     ],
     providers: [
         ProfileResolver, ProfileDiscipleshipResolver,
