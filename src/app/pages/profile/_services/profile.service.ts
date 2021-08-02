@@ -122,12 +122,9 @@ export class ProfileService
         return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/discipleship-info`, model);
     }
 
-    editPhoto$( personId: number | string, base64FileString: string )
+    deletePhoto$(personId: number): Observable<any>
     {
-        const body = {
-            base64FileString
-        };
-        return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/photo`, body);
+        return this._httpClient.delete<any>(`${this._apiUrl}/v1/people/edit/${personId}/photo`);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -149,4 +146,5 @@ export class ProfileService
             results: size
         } );
     }
+
 }

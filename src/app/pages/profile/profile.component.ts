@@ -1,13 +1,14 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from './_services/profile.service';
-import { Observable, Subject } from 'rxjs';
-import { Profile, ProfilePersonalInfo } from './profile.model';
+import { Subject } from 'rxjs';
+import { Profile } from './profile.model';
 import { ProfilePhotoFormDialogComponent } from './tabs/about/components';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, first, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { filter, first, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { FormActions } from '@shared/shared.models';
-import { FormGroup } from '@angular/forms';
 import { FileUploadService } from '@shared/api/file-upload.service';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ToastrService } from '@core/notifications/toastr.service';
 
 @Component({
     selector       : 'profile',
@@ -31,7 +32,10 @@ export class ProfileComponent implements OnDestroy
     constructor(
         private _profileService: ProfileService,
         private _uploader: FileUploadService,
-        private _matDialog: MatDialog)
+        private _matDialog: MatDialog,
+        private _fuseConfirmationService: FuseConfirmationService,
+        private _toastr: ToastrService
+    )
     {
         _profileService.profile$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -105,5 +109,48 @@ export class ProfileComponent implements OnDestroy
                 error => {},
                 () => console.log('Add Photo completed')
             );
+    }
+
+    onDeletePhoto()
+    {
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title  : 'Delete Picture',
+            message: 'Do you want to remove the profile picture?',
+            actions: {
+                confirm: {
+                    label: 'Confirm'
+                }
+            }
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        const deletePhoto$ = confirmation.afterClosed()
+            .pipe(withLatestFrom(this._profileService.profile$))
+            .pipe(
+                switchMap(([result, profile]) => {
+                    // If the confirm button pressed...
+                    if ( result === 'confirmed' )
+                    {
+                        return this._profileService.deletePhoto$(+profile.personId);
+                    }
+                })
+            );
+
+        deletePhoto$
+            .pipe(withLatestFrom(this._profileService.profile$))
+            .pipe(
+                switchMap(([_, profile])  => this._profileService.getUserProfile$(+profile.personId))
+            )
+            .subscribe((result) => {
+                // let the user know they are successfully subscribed
+                this._toastr.success(
+                    'Picture successfully deleted.',
+                    null,
+                    {
+                        duration: 2000
+                    }
+                );
+            });
     }
 }

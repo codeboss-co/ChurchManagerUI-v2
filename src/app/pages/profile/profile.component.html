@@ -33,8 +33,9 @@
                             </button>
                         </div>
                         <div>
-                            <button
+                            <button *ngIf="profile.photoUrl !== 'assets/images/avatars/profile-blank.jpg'"
                                 mat-icon-button
+                                (click)="onDeletePhoto()"
                                 >
                                 <mat-icon
                                     class="text-white"
