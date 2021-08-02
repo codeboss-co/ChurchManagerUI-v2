@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ENV } from '@shared/constants';
@@ -86,24 +86,6 @@ export class ProfileService
             );
     }
 
-
-    /**
-     * This is where you call your server,
-     * you can pass your start page and end page
-     */
-    private _browseGroupsApi( page: number, size: number, search: string, personId?: number ): Observable<any> {
-        const groupsUrl = personId === undefined
-            ? `${this._apiUrl}/v1/groups/browse/current-user`  // Current User
-            : `${this._apiUrl}/v1/groups/browse/person/${personId}`;  // Person Id
-
-        return this._httpClient.post<any>( groupsUrl, {
-            searchTerm: search,
-            page,
-            results: size
-        } );
-    }
-
-
     /**
      * Edit person connection information
      *
@@ -138,6 +120,31 @@ export class ProfileService
     editDiscipleshipInfo$(personId: number, model: ProfileDiscipleshipInfo): Observable<ApiResponse>
     {
         return this._httpClient.post<ApiResponse>(`${this._apiUrl}/v1/people/edit/${personId}/discipleship-info`, model);
+    }
+
+    deletePhoto$(personId: number): Observable<any>
+    {
+        return this._httpClient.delete<any>(`${this._apiUrl}/v1/people/edit/${personId}/photo`);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * This is where you call your server,
+     * you can pass your start page and end page
+     */
+    private _browseGroupsApi( page: number, size: number, search: string, personId?: number ): Observable<any> {
+        const groupsUrl = personId === undefined
+            ? `${this._apiUrl}/v1/groups/browse/current-user`  // Current User
+            : `${this._apiUrl}/v1/groups/browse/person/${personId}`;  // Person Id
+
+        return this._httpClient.post<any>( groupsUrl, {
+            searchTerm: search,
+            page,
+            results: size
+        } );
     }
 
 }

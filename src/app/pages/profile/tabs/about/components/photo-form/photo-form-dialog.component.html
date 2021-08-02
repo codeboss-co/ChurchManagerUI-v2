@@ -1,0 +1,69 @@
+<div class="dialog-content-wrapper">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">{{dialogTitle}}</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div mat-dialog-content class="pb-0 m-0" cdkScrollable>
+
+        <div *ngIf="progressInfos">
+            <span>{{ progressInfos.fileName }}</span>
+            <mat-toolbar class="p-0">
+                <mat-progress-bar
+                    color="accent"
+                    [value]="progressInfos.value"
+                ></mat-progress-bar>
+                <span class="progress">{{ progressInfos.value }}%</span>
+            </mat-toolbar>
+        </div>
+
+        <cm-upload-images
+             [multiple]="false"
+             (uploadedFiles)="onUploadedFiles($event)">
+        </cm-upload-images>
+
+        <div *ngIf="messages.length" class="pt-4">
+            <fuse-alert *ngFor="let msg of messages; let i = index"
+                        [type]="'accent'"
+                        [appearance]="'outline'">
+                <span fuseAlertTitle>Upload status</span>
+                {{ msg }}
+            </fuse-alert>
+        </div>
+
+    </div>
+
+
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
+        </button>
+        <!-- Save -->
+        <button *ngIf="action === 'edit'"
+                class="ml-2"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="!uploadedFiles"
+                [matTooltip]="'Done'"
+                aria-label="Done"
+                (click)="matDialogRef.close(['save', uploadedFiles])">
+            Done
+        </button>
+    </div>
+
+
+</div>
