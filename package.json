@@ -13,6 +13,7 @@
         "lint": "ng lint"
     },
     "dependencies": {
+        "@angular-material-components/datetime-picker": "6.0.3",
         "@angular/animations": "12.1.2",
         "@angular/cdk": "12.1.2",
         "@angular/common": "12.1.2",
@@ -25,7 +26,6 @@
         "@angular/platform-browser-dynamic": "12.1.2",
         "@angular/router": "12.1.2",
         "@angular/service-worker": "12.1.2",
-        "@angular-material-components/datetime-picker": "6.0.3",
         "@auth0/angular-jwt": "5.0.2",
         "@microsoft/signalr": "5.0.4",
         "apexcharts": "3.27.2",

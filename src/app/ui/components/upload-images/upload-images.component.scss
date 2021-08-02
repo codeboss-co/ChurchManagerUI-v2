@@ -1,0 +1,33 @@
+.mat-input-element {
+    font-size: medium;
+    font-weight: 200;
+}
+
+#fileInput {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+    padding: 0;
+}
+
+.mat-toolbar-single-row button {
+    width: 100px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.preview {
+    max-width: 200px;
+    vertical-align: middle;
+}

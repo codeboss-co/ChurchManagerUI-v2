@@ -29,9 +29,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import {
-    ProfileConnectionInfoFormDialogComponent, ProfileDiscipleshipInfoFormDialogComponent,
+    ProfileConnectionInfoFormDialogComponent,
+    ProfileDiscipleshipInfoFormDialogComponent,
     ProfileGeneralInfoFormDialogComponent,
-    ProfilePersonalInfoFormDialogComponent
+    ProfilePersonalInfoFormDialogComponent,
+    ProfilePhotoFormDialogComponent
 } from './tabs/about/components';
 import { BirthDateEditorModule } from '@ui/controls/birthdate-editor-control/birthdate-editor.module';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
@@ -41,6 +43,9 @@ import { ProfileDiscipleshipComponent } from './tabs/discipleship/profile-discip
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashboard.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { UploadImagesModule } from '@ui/components/upload-images/upload-images.module';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 
 @NgModule({
@@ -57,6 +62,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         ProfileConnectionInfoFormDialogComponent,
         ProfilePersonalInfoFormDialogComponent,
         ProfileDiscipleshipInfoFormDialogComponent,
+        ProfilePhotoFormDialogComponent,
         ProfileMyDashboardComponent
     ],
     imports     : [
@@ -72,6 +78,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatInputModule,
         MatMenuModule,
         MatPaginatorModule,
+        MatProgressBarModule,
         MatSelectModule,
         MatSlideToggleModule,
         MatTableModule,
@@ -81,6 +88,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         // Fuse
         FuseCardModule,
         FuseAutogrowModule,
+        FuseAlertModule,
         FuseScrollbarModule,
         FuseFindByKeyPipeModule,
         SharedModule,
@@ -91,7 +99,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         ChurchesSelectControlModule,
 
         // Extensions
-        AgePluralizeModule
+        AgePluralizeModule,
+        UploadImagesModule
+        //ImageCropperModule
     ],
     providers: [
         ProfileResolver, ProfileDiscipleshipResolver,
