@@ -21,7 +21,7 @@ Church Manager frontend based on Angular Material
 
 ### Service worker
 
-> Service workers do not work with `ng serve`! :stars: so we need a local web server 
+> Service workers do not work with `ng serve`, so we need a local web server 
 
 `npm run build`
 
@@ -41,3 +41,7 @@ You are able to pass in the docker environment variable ANGULAR_ENVIRONMENT if n
 
 ### AWS
 - [Host angular web app in aws cloudfront](https://techpearl.com/blog/host-angular-web-app-in-aws-cloudfront/index.html)
+
+### Service worker
+
+- [Angular’s PWA: SwPush and SwUpdate](https://arjenbrandenburgh.medium.com/angulars-pwa-swpush-and-swupdate-15a7e5c154ac)
