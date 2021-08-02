@@ -21,7 +21,7 @@ export class ProfilePhotoFormDialogComponent implements OnInit
 
     uploadedFiles: FileList;
     progressInfos: { value?: number; fileName?: string };
-    message: string[] = [];
+    messages: string[] = [];
 
     /**
      * Constructor
@@ -70,13 +70,13 @@ export class ProfilePhotoFormDialogComponent implements OnInit
                         );
                     } else if (event instanceof HttpResponse) {
                         const msg = 'Uploaded the file successfully: ' + file.name;
-                        this.message.push(msg);
+                        this.messages.push(msg);
                     }
                 },
                 (err: any) => {
                     this.progressInfos.value = 0;
                     const msg = 'Could not upload the file: ' + file.name;
-                    this.message.push(msg);
+                    this.messages.push(msg);
                 }
             );
         }

@@ -16,7 +16,7 @@
 
         <div *ngIf="progressInfos">
             <span>{{ progressInfos.fileName }}</span>
-            <mat-toolbar class="progress-bar">
+            <mat-toolbar class="p-0">
                 <mat-progress-bar
                     color="accent"
                     [value]="progressInfos.value"
@@ -25,24 +25,20 @@
             </mat-toolbar>
         </div>
 
-        <!--<input type="file" (change)="fileChangeEvent($event)" />-->
-
-       <!-- <image-cropper
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [resizeToWidth]="800"
-            [resizeToHeight]="800"
-            format="png"
-            (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded($event)"
-            (cropperReady)="cropperReady()"
-            (loadImageFailed)="loadImageFailed()"
-        ></image-cropper>-->
-
         <cm-upload-images
              [multiple]="false"
              (uploadedFiles)="onUploadedFiles($event)">
         </cm-upload-images>
+
+        <div *ngIf="messages.length" class="pt-4">
+            <fuse-alert *ngFor="let msg of messages; let i = index"
+                        [type]="'accent'"
+                        [appearance]="'outline'">
+                <span fuseAlertTitle>Upload status</span>
+                {{ msg }}
+            </fuse-alert>
+        </div>
+
     </div>
 
 
@@ -62,10 +58,10 @@
                 mat-flat-button
                 [color]="'primary'"
                 [disabled]="!uploadedFiles"
-                [matTooltip]="'Save'"
-                aria-label="Save"
+                [matTooltip]="'Done'"
+                aria-label="Done"
                 (click)="matDialogRef.close(['save', uploadedFiles])">
-            Save
+            Done
         </button>
     </div>
 

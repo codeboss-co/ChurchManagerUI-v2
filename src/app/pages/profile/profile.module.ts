@@ -45,6 +45,7 @@ import { ProfileMyDashboardComponent } from './components/my-dashboard/my-dashbo
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UploadImagesModule } from '@ui/components/upload-images/upload-images.module';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 
 @NgModule({
@@ -87,6 +88,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         // Fuse
         FuseCardModule,
         FuseAutogrowModule,
+        FuseAlertModule,
         FuseScrollbarModule,
         FuseFindByKeyPipeModule,
         SharedModule,

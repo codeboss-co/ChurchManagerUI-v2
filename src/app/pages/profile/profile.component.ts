@@ -94,10 +94,7 @@ export class ProfileComponent implements OnDestroy
                          * Save
                          */
                         case 'save':
-                            return this._profileService.editPhoto$(profile.personId, file)
-                                .pipe(
-                                    map(_ => profile)
-                                );
+                            return this._profileService.profile$;
                     }
                 })
             );
