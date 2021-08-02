@@ -65,11 +65,12 @@ export class ProfilePhotoFormDialogComponent implements OnInit
                 (event: any) => {
                     if (event.type === HttpEventType.UploadProgress) {
                         this.progressInfos.value = Math.round(
-                            (100 * event.loaded) / event.total
+                            (90 * event.loaded) / event.total // 90% as we need  to wait for Cloudinary storage call also
                         );
                     } else if (event instanceof HttpResponse) {
                         const msg = 'Uploaded the file successfully: ' + file.name;
                         this.messages.push(msg);
+                        this.progressInfos.value = 100; // Complete 100% upload to Cloudinary
                     }
                 },
                 (err: any) => {

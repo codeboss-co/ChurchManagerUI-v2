@@ -42,5 +42,6 @@ export class UploadImagesComponent
     uploadFiles()
     {
         this.uploadedFiles.emit(this.selectedFiles);
+        this.selectedFiles = null;
     }
 }
