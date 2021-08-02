@@ -5,8 +5,6 @@ import { FormAction } from '@shared/shared.models';
 import { FileUploadService } from '@shared/api/file-upload.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 
-//import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
-
 @Component({
     selector     : 'profile-photo-form-dialog',
     templateUrl  : './photo-form-dialog.component.html',
@@ -57,7 +55,8 @@ export class ProfilePhotoFormDialogComponent implements OnInit
         this.upload(files[0]);
     }
 
-    upload(file: File): void {
+    upload(file: File): void
+    {
         this.progressInfos = { value: 0, fileName: file.name };
 
         if (file) {

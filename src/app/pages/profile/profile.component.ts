@@ -94,17 +94,12 @@ export class ProfileComponent implements OnDestroy
                          * Save
                          */
                         case 'save':
-                            return this._profileService.profile$;
+                            return this._profileService.getUserProfile$(+profile.personId);
                     }
                 })
             );
 
         afterClosed$
-            .pipe(
-                switchMap((profile: Profile) => {
-                    // Calls the endpoint to update the profile
-                    return this._profileService.getUserProfile$(+profile.personId);
-                } ))
             .subscribe(
                 value => {},
                 error => {},
