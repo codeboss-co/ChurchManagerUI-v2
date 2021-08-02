@@ -1,10 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
+import { ApplicationRef, Inject, Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { PushSubscriptionService } from '@core/notifications/push-subscription.service';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, concat, Subject } from 'rxjs';
+import { delay, first } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,12 +17,12 @@ export class PushNotificationsService {
     private _subscription: PushSubscription;
     public isSubscribed$ = new Subject<boolean>();
     public isEnabled$ = new BehaviorSubject(this._swPush.isEnabled);
-    public operationName: string;
 
     constructor(
         private _swPush: SwPush,
         private _subsService: PushSubscriptionService,
         private _snackBar: MatSnackBar,
+        private _appRef: ApplicationRef,
         @Inject(ENV) private _environment: Environment) {
 
         _swPush.subscription.subscribe((subscription) => {
@@ -29,6 +30,13 @@ export class PushNotificationsService {
             this._subscription = subscription;
             this._subscription === null ? this.isSubscribed$.next(false) : this.isSubscribed$.next(true);
         });
+
+        // After 10s attempt to subscribe
+        setTimeout(() => {
+            if (!this._subscription && this._swPush.isEnabled) {
+                this.subscribeToPushNotifications();
+            }
+        }, 10000);
     }
 
     subscribeToPushNotifications(): void {
