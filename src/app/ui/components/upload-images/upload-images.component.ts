@@ -21,12 +21,11 @@ export class UploadImagesComponent
         this.selectedFiles = event.target.files;
 
         this.previews = [];
-        if (this.selectedFiles && this.selectedFiles[0]) {
-
-            this.uploadedFiles.emit(this.selectedFiles);
-
+        if (this.selectedFiles && this.selectedFiles[0])
+        {
             const numberOfFiles = this.selectedFiles.length;
-            for (let i = 0; i < numberOfFiles; i++) {
+            for (let i = 0; i < numberOfFiles; i++)
+            {
                 const reader = new FileReader();
 
                 reader.onload = (e: any) => {
@@ -40,4 +39,8 @@ export class UploadImagesComponent
         }
     }
 
+    uploadFiles()
+    {
+        this.uploadedFiles.emit(this.selectedFiles);
+    }
 }
