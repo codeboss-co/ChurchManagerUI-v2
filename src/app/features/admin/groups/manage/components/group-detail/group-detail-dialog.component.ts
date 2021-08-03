@@ -155,6 +155,11 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
                 this.form.get('meetingTime').setValue(new Date(2018, 11, 24, +meetingTimeSplit[0], +meetingTimeSplit[1]));
             }
         }
+
+        // This was a hack to get the form to update - ngx-mat-timepicker wasn't responding to being changed
+        this.form.get('meetingTime').valueChanges
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(value => this.form.markAllAsTouched());
     }
 
     /**
@@ -210,6 +215,8 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
                 // Update the recurrence field with the result
                 this.form.get('recurrence').setValue(result.recurrence);
             }
+
+            this.form.markAllAsTouched();
         });
     }
 

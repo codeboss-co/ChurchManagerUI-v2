@@ -38,19 +38,6 @@
             <mat-slide-toggle formControlName="isOnline">{{form.get('isOnline').value ? 'Online' : 'Not Online'}}</mat-slide-toggle>
         </div>
 
-        <!-- Parent Group -->
-        <!--<mat-form-field>
-            <mat-label>Parent Group</mat-label>
-            <mat-select formControlName="parentGroupId" >
-                <mat-option [value]="parentGroup?.id">{{parentGroup?.name}}</mat-option>
-                <mat-option value="0">No Parent</mat-option>
-            </mat-select>
-            <mat-icon
-                class="icon-size-5"
-                matPrefix
-                [svgIcon]="'heroicons_solid:link'"></mat-icon>
-        </mat-form-field>-->
-
         <label class="font-medium">Parent Group</label>
         <cm-church-groups-control
             [noSelectionLabel]="'-- No Parent --'"
@@ -101,7 +88,7 @@
                         matInput
                         [matDatepicker]="startDatepicker"
                         [formControlName]="'start'"
-                        [placeholder]="'Birthday'">
+                        [placeholder]="'Meeting Start Date'">
                     <mat-datepicker-toggle
                         matSuffix
                         [for]="startDatepicker">
