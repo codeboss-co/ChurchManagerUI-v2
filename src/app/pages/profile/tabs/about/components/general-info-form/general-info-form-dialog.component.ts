@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Profile } from '../../../../profile.model';
+import { BirthDateModel, Profile, ProfileGeneralInfo } from '../../../../profile.model';
+import { FormAction, FormActions } from '@shared/shared.models';
+import { BirthDate } from '@features/admin/people';
 
 @Component({
     selector     : 'profile-general-info-form-dialog',
@@ -11,7 +13,7 @@ import { Profile } from '../../../../profile.model';
 })
 export class ProfileGeneralInfoFormDialogComponent implements OnInit
 {
-    action: string;
+    action: FormAction;
     form: FormGroup;
     profile: Profile;
     dialogTitle: string;
@@ -22,7 +24,7 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
      */
     constructor(
         public matDialogRef: MatDialogRef<ProfileGeneralInfoFormDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private _data: { action: string, profile: Profile },
+        @Inject(MAT_DIALOG_DATA) private _data: { action: FormAction; profile: Profile },
         private _formBuilder: FormBuilder
     )
     {
@@ -30,7 +32,7 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
         this.action = _data.action;
         this.profile = _data.profile;
         // We might support more actions in future
-        if ( this.action === 'edit' )
+        if ( this.action === FormActions.Edit )
         {
             this.dialogTitle = `Editing: ${this.profile.fullName.firstName} ${this.profile.fullName.lastName}`;
         }
@@ -65,5 +67,13 @@ export class ProfileGeneralInfoFormDialogComponent implements OnInit
                     year: this.profile.birthDate?.birthYear,
                 }]
         });
+    }
+
+    formValues(): ProfileGeneralInfo
+    {
+        const {occupation, phoneNumber, email, maritalStatus, birthDate} = this.form.value;
+        // We need day, month, year as null if left blank
+        const birthDateModel = new BirthDateModel(birthDate);
+        return {occupation, phoneNumber, email, maritalStatus, birthDate: birthDateModel};
     }
 }
