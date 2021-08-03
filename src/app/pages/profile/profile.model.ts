@@ -1,4 +1,5 @@
 import { BaptismStatus, BirthDate, Church, Email, FullName, PhoneNumber } from '@features/admin/people';
+import { publicDecrypt } from 'crypto';
 
 export interface FamilyMember {
     personId?: number;
@@ -114,7 +115,23 @@ export interface ProfileGeneralInfo
     phoneNumber: string;
     email?: string;
     maritalStatus?: string;
-    birthDate?: { day?: number, month?: number, year?: number };
+    birthDate?: BirthDateType;
+}
+
+export type BirthDateType = { day?: number; month?: number; year?: number };
+
+export class BirthDateModel implements BirthDateType
+{
+    day?: number;
+    month?: number;
+    year?: number;
+
+    constructor(model: Partial<BirthDateType>)
+    {
+        this.day = model?.day || null;
+        this.month = model?.month || null;
+        this.year = model?.year || null;
+    }
 }
 
 export interface ProfileDiscipleshipInfo

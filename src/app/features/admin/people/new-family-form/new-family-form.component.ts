@@ -119,6 +119,7 @@ export class NewFamilyFormComponent {
                 // This resets all controls and lists
                 this.resetAddress();
                 this.familyFormStep2.reset();
+                this.familyMembers = [];
                 this.familyMembers$.next([]);
                 this.stepper.reset();
                 this._toastr.success('Successfully added new family.', null, {duration: 5000});

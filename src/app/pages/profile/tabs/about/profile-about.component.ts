@@ -79,7 +79,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
         this.dialogRef = this._matDialog.open(ProfileGeneralInfoFormDialogComponent, {
             panelClass: 'general-info-form-form-dialog',
             data : {
-                action: 'edit',
+                action: FormActions.Edit,
                 profile: this.profile$.getValue()
             }
         });
@@ -91,14 +91,15 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
                 first(), // <-- completes the observable and unsubscribes,
                 switchMap(([response, profile]) => {
                     const actionType: string = response[0];
-                    const formData: FormGroup = response[1];
+                    const formData: ProfileGeneralInfo = response[1];
                     switch ( actionType )
                     {
                         /**
                          * Save
                          */
                         case 'save':
-                            const model: ProfileGeneralInfo = formData.getRawValue();
+                            const model: ProfileGeneralInfo = formData;
+                            console.log(model);
                             return this._profileService.editGeneralInfo$(profile.personId, model)
                                 .pipe(
                                     map(_ => profile)

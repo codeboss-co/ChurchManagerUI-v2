@@ -112,6 +112,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit
             firstName: [null, Validators.required],
             lastName: [null, Validators.required],
             gender: [null, Validators.required],
+            ageClassification: ['Adult', Validators.required],
             phoneNumber: [null, [Validators.required, Validators.pattern(this._phoneNumberPattern)]],
             receivedHolySpirit   : [false],
             newConvert   : [false]

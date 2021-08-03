@@ -102,6 +102,21 @@
                                             <cm-gender-field formControlName="gender" [showLabel]="true"></cm-gender-field>
 
                                             <mat-form-field appearance="standard">
+                                                <mat-label>Age Classification</mat-label>
+                                                <mat-select formControlName="ageClassification" required>
+                                                    <mat-option [value]="'Adult'">
+                                                        Adult
+                                                    </mat-option>
+                                                    <mat-option [value]="'Child'">
+                                                        Child
+                                                    </mat-option>
+                                                    <mat-option [value]="'Unknown'">
+                                                        Unknown
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="standard">
                                                 <input matInput formControlName="phoneNumber" placeholder="0821111234" required>
                                                 <mat-error *ngIf="firstTimersFormArray.controls[i].get('phoneNumber').hasError('pattern')">
                                                     Please enter valid phone number
