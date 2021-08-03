@@ -111,6 +111,8 @@ export class GroupsManageComponent implements OnInit, OnDestroy
                 // Copy return data to the group in the tree
                 const group = viewer.treeControl.dataNodes.find(x => x.item.id === editedGroup.id)?.item;
                 Object.assign(group, editedGroup);
+                // Update the group detail panel also
+                this.selectedGroup$.next(editedGroup);
                 // Reload the group data to update the tree
                 viewer.refreshTree();
                 // Expand the tree from the node

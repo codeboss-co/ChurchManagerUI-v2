@@ -6,7 +6,7 @@ export interface NewGroupForm
     groupTypeId: number;
     name: string;
     description?: string;
-    meetingTime: Moment;
+    meetingTime: Moment | Date;
     start?: Moment;
     end?: Moment;
     recurrence?: string;
