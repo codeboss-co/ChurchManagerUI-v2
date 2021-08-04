@@ -262,7 +262,8 @@
                         [color]="'primary'"
                         [disabled]="feedbackControl.pristine"
                         [matTooltip]="'Save'"
-                        (click)="updateAttendance()">
+                        (click)="updateAttendance()"
+                        [routerLink]="['../']">
                         Save
                     </button>
                 </div>
