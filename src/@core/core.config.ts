@@ -6,8 +6,9 @@ export function tokenGetter() {
 }
 
 export const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-    hasProgressBar: false,
-    fgsType: 'cube-grid'
+    hasProgressBar: true,
+    logoUrl: 'assets/images/logo/logo.svg',
+    //fgsType: 'cube-grid'
 };
 
 export const routerLoaderConfig: NgxUiLoaderRouterConfig = {
