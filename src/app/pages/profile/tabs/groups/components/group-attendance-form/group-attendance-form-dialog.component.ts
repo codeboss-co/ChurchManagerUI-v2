@@ -3,11 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 import { Moment } from 'moment';
-
-import { GroupAttendanceForm } from './group-attendance.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { fuseAnimations } from '@fuse/animations';
-import { Group, GroupMemberSimple, GroupsDataService } from '@features/admin/groups';
+import { Group, GroupAttendanceForm, GroupMemberSimple, GroupsDataService } from '@features/admin/groups';
 
 @Component({
     selector     : 'profile-groups-attendance-form-dialog',
@@ -24,6 +22,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit
     didNotOccur$: Observable<boolean>;
 
     private readonly _phoneNumberPattern = '^((?:\\+27|27)|0)([0-9]{2})(\\d{7})$';
+    private readonly _numbersOnlyPattern = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
 
     /**
      * Constructor
@@ -75,6 +74,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit
             didNotOccur: [false],
             members: this._formBuilder.array([]),
             firstTimers: this._formBuilder.array([]),
+            offering   : [0, Validators.pattern(this._numbersOnlyPattern)],
             note   : [null]
         });
     }
@@ -155,6 +155,7 @@ export class GroupAttendanceFormDialogComponent implements OnInit
             didNotOccur: this.form.get('didNotOccur').value,
             members: this.form.get('members').dirty ? this.form.get('members').value : [],
             firstTimers: this.form.get('firstTimers').value,
+            offering:  this.form.get('offering').value,
             notes:  this.form.get('note').value
         };
 
