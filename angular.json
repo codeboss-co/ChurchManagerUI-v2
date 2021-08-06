@@ -105,6 +105,27 @@
                             ],
                             "outputHashing": "all"
                         },
+                        "local": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "5mb",
+                                    "maximumError": "8mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "100kb",
+                                    "maximumError": "150kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.local.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
                         "development": {
                             "buildOptimizer": false,
                             "optimization": false,
@@ -123,7 +144,10 @@
                             "browserTarget": "church-manager-ui:build:production"
                         },
                         "test": {
-                            "browserTarget": "church-manager-ui:build:production"
+                            "browserTarget": "church-manager-ui:build:test"
+                        },
+                        "local": {
+                            "browserTarget": "church-manager-ui:build:local"
                         },
                         "development": {
                             "browserTarget": "church-manager-ui:build:development"

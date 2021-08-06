@@ -4,8 +4,8 @@ import { PushSubscriptionService } from '@core/notifications/push-subscription.s
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, concat, Subject } from 'rxjs';
-import { delay, first } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -26,14 +26,20 @@ export class PushNotificationsService {
         @Inject(ENV) private _environment: Environment) {
 
         _swPush.subscription.subscribe((subscription) => {
-            console.log('[Push Subscription] sub changed', subscription);
+            console.log('[Push Subscription] sub', subscription);
             this._subscription = subscription;
             this._subscription === null ? this.isSubscribed$.next(false) : this.isSubscribed$.next(true);
+
+
+            if (this._subscription === null) {
+                this._subsService.deleteExpiredSubscription().pipe(first()).subscribe();
+            }
         });
 
         // After 10s attempt to subscribe
         setTimeout(() => {
             if (!this._subscription && this._swPush.isEnabled) {
+                console.log('[Push Subscription] auto subscription run.');
                 this.subscribeToPushNotifications();
             }
         }, 10000);

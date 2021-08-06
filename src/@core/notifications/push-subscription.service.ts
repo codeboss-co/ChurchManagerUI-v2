@@ -26,6 +26,12 @@ export class PushSubscriptionService
         console.log('[Push Subscription Service] Deleting subscriber');
         return this._http.post(`${this._apiUrl}/v1/webpush/unsubscribe`, { subscription: subscription });
     }
+
+    deleteExpiredSubscription(): Observable<any>
+    {
+        console.log('[Push Subscription Service] Remove expired (null) subscription');
+        return this._http.post(`${this._apiUrl}/v1/webpush/remove-subscription`, null);
+    }
 }
 
 /**

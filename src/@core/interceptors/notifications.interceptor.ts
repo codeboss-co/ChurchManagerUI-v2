@@ -22,7 +22,7 @@ export class NotificationsInterceptor implements HttpInterceptor {
             tap((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse && event.status === 202) {
                     console.log('\t - Successfully Accepted');
-                    this.messenger.success( 'Your request is processing.', 'Successfully Accepted');
+                    this.messenger.success( 'Successfully Submitted');
                 }
             })
         );

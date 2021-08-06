@@ -23,7 +23,7 @@ Church Manager frontend based on Angular Material
 
 > Service workers do not work with `ng serve`, so we need a local web server 
 
-`npm run build`
+`ng build --configuration local` -> for localhost backend
 
 `npm run server`
 

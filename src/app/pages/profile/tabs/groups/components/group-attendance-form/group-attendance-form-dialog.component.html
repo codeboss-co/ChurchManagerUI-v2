@@ -137,6 +137,26 @@
 
                 </mat-accordion>
 
+                <!-- Offering -->
+                <div class="mt-8">
+                    <mat-form-field
+                        class="fuse-mat-no-subscript w-40">
+                        <mat-label>Offering</mat-label>
+                        <input matInput formControlName="offering">
+                        <span matPrefix>R</span>
+                        <!--<mat-select
+                            [value]="'ZAR'"
+                            matPrefix>
+                            <mat-option [value]="'ZAR'">R</mat-option>
+                        </mat-select>-->
+                    </mat-form-field>
+
+                    <mat-error *ngIf="form.get('offering').hasError('pattern')">
+                        Please enter numbers only
+                    </mat-error>
+                </div>
+
+
             </div>
 
             <!-- Notes -->
