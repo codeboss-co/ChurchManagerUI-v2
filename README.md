@@ -34,7 +34,8 @@ You are able to pass in the docker environment variable ANGULAR_ENVIRONMENT if n
 ## Documentation
 
 ### Forms
-- [Form Arrays](https://www.concretepage.com/angular/angular-formarray-validation#:~:text=FormArray%20tracks%20the%20value%20and,FormControl%20or%20FormGroup%20are%20validated.)
+- [Form Arrays](https://blog.sreyaj.dev/implement-complex-forms-in-angular-using-formarray)
+- [Form Arrays Validation](https://www.concretepage.com/angular/angular-formarray-validation#:~:text=FormArray%20tracks%20the%20value%20and,FormControl%20or%20FormGroup%20are%20validated.)
 - [Responsive Sidebar](https://zoaibkhan.com/blog/create-a-responsive-sidebar-menu-with-angular-material/)
 - [Material Trees](https://docs.google.com/presentation/d/1BoJ-jq-O9zQHAps7LVciiiH9WI9dDqqv-LAlQ6iMh5o/htmlpresent)
 
