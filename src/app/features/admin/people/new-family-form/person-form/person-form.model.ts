@@ -6,7 +6,7 @@ export interface FamilyMember {
     source: string;
     firstVisitDate?: Date;
     person: PersonBasicDetailsForm;
-    assignedFollowUpPerson: Identifiable | null;
+    assignedFollowUpPerson?: Identifiable | null;
 }
 
 export interface PersonBasicDetailsForm {

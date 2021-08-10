@@ -29,7 +29,6 @@ export class NewFamilyFormComponent {
     addressFormStep1: FormGroup;
     familyFormStep2: FormGroup;
 
-    familyMembers: PersonBasicDetailsForm[] = [];
     familyMembers$ = new BehaviorSubject<FamilyMember[]>([]);
 
     constructor(
@@ -95,13 +94,7 @@ export class NewFamilyFormComponent {
         console.log('_addFamilyMember', model, '');
         this.familyMembersFormArray.push(this._formBuilder.control(model));
         // We need to create a new reference for OnPush to work on the other side
-        const newMergedFamily = [...this.familyMembers, model.person];
-        this.familyMembers = newMergedFamily;
-
         const updated = [...this.familyMembers$.getValue(), model];
-
-        console.log('updated', updated, '');
-
         this.familyMembers$.next(updated);
     }
 
@@ -119,7 +112,6 @@ export class NewFamilyFormComponent {
                 // This resets all controls and lists
                 this.resetAddress();
                 this.familyFormStep2.reset();
-                this.familyMembers = [];
                 this.familyMembers$.next([]);
                 this.stepper.reset();
                 this._toastr.success('Successfully added new family.', null, {duration: 5000});

@@ -30,6 +30,7 @@
         <div *ngIf="searchResults$ | async as searchResults">
             <mat-option *ngFor="let result of searchResults" [value]="result">
                 <div class="flex items-center">
+                    <div class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-indigo-50 bg-indigo-600">{{result.connectionStatus}}</div>
                     <div class="text-sm">{{result.label}}</div>
                     <div
                         class="flex flex-shrink-0 items-center justify-center w-6 h-6 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">

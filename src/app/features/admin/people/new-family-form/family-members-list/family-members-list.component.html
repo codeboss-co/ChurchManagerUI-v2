@@ -34,16 +34,13 @@
 
         <!-- Follow Up Person Column -->
         <ng-container matColumnDef="followUpPerson">
-            <th mat-header-cell *matHeaderCellDef> Assigned Follow Up </th>
+            <th mat-header-cell *matHeaderCellDef>Assigned Follow Up (Optonal)</th>
             <td mat-cell *matCellDef="let element; let rowIndex = index" [formGroupName]="rowIndex">
                 <!--Person-->
                 <person-autocomplete-control
-                    formControlName="assignedFollowUpPersonId"
+                    formControlName="assignedFollowUpPerson"
                     [required]="false">
                 </person-autocomplete-control>
-
-               <!-- {{rowIndex}} - {{familyMembersFormArray.at(rowIndex).value | json}}-->
-
             </td>
         </ng-container>
 
@@ -53,7 +50,8 @@
 
 </form>
 
-
-{{tableForm.get('members')?.value | json}}
+<div *ngIf="debug">
+    {{tableForm.get('members')?.value | json}}
+</div>
 
 <!-- FAMILY MEMBERS -->

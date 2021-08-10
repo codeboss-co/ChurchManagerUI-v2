@@ -5,6 +5,7 @@ import { ReportDatePickerControlModule } from '@ui/controls/report-date-picker-c
 import { MatButtonModule } from '@angular/material/button';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 import { pagingServiceProvider } from './mock/providers/example-paging.providers';
+import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
 
 const exampleRoutes: Route[] = [
     {
@@ -25,7 +26,8 @@ const exampleRoutes: Route[] = [
 
         // Controls
         ReportDatePickerControlModule,
-        GeneralTableModule
+        GeneralTableModule,
+        PersonAutocompleteControlModule
     ],
     providers : [
         pagingServiceProvider

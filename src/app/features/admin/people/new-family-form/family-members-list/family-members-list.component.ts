@@ -16,6 +16,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 export class FamilyMembersListComponent implements OnChanges
 {
     @Input() familyMembers: FormArray;
+    @Input() debug = false;
 
     displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'ageClassification', 'followUpPerson'];
     dataSource: MatTableDataSource<FamilyMember> = new MatTableDataSource([]);
@@ -32,22 +33,22 @@ export class FamilyMembersListComponent implements OnChanges
     ngOnChanges( changes: SimpleChanges ): void
     {
         if ( changes['familyMembers'] ) {
-            console.log(changes['familyMembers'].currentValue);
             this.dataSource.data = changes['familyMembers'].currentValue as FamilyMember[];
-            console.log( 'this.dataSource.data', this.dataSource.data, '' );
-
             this._setForm(changes['familyMembers'].currentValue);
         }
     }
 
-    /*
-  * Access to the Groups Members Form item
-  */
+   /*
+    * Access to the Groups Members Form item
+    */
     public get familyMembersFormArray(): FormArray
     {
         return this.tableForm.get('members') as FormArray;
     }
 
+    /*
+    * Creates & initializes the form controls
+    * */
     private _setForm(members: FamilyMember[]){
         const formArrayControl = this.familyMembersFormArray;
 
@@ -56,6 +57,9 @@ export class FamilyMembersListComponent implements OnChanges
         });
     };
 
+    /*
+    * Initializes the form array items
+    * */
     private _setFormArray(member: FamilyMember)
     {
         return this._formBuilder.group({
@@ -64,7 +68,7 @@ export class FamilyMembersListComponent implements OnChanges
             source:[member.source],
             firstVisitDate:[member.firstVisitDate],
             person:[member.person],
-            assignedFollowUpPersonId:[member.assignedFollowUpPerson]
+            assignedFollowUpPerson:[member.assignedFollowUpPerson]
         });
     }
 }
