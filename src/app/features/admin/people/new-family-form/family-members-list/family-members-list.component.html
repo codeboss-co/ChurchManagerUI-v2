@@ -1,33 +1,59 @@
 <!-- FAMILY MEMBERS -->
+<form [formGroup]="tableForm">
 
-<table mat-table *ngIf="dataSource?.data?.length" [dataSource]="dataSource" class="bg-transparent">
+    <table
+            mat-table
+            formArrayName="members"
+           *ngIf="dataSource?.data?.length"
+           [dataSource]="dataSource"
+            class="bg-transparent">
 
-    <!-- First Name Column -->
-    <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef> First Name</th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-    </ng-container>
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> First Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.person.firstName}} </td>
+        </ng-container>
 
-    <!-- Last Name Column -->
-    <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef> Last Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-    </ng-container>
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.person.lastName}} </td>
+        </ng-container>
 
-    <!-- Gender Column -->
-    <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef> Gender </th>
-        <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
-    </ng-container>
+        <!-- Gender Column -->
+        <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef> Gender </th>
+            <td mat-cell *matCellDef="let element"> {{element.person.gender}} </td>
+        </ng-container>
 
-    <!-- Age Classification Column -->
-    <ng-container matColumnDef="ageClassification">
-        <th mat-header-cell *matHeaderCellDef> Age Classification </th>
-        <td mat-cell *matCellDef="let element"> {{element.ageClassification}} </td>
-    </ng-container>
+        <!-- Age Classification Column -->
+        <ng-container matColumnDef="ageClassification">
+            <th mat-header-cell *matHeaderCellDef> Age Classification </th>
+            <td mat-cell *matCellDef="let element"> {{element.person.ageClassification}} </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <!-- Follow Up Person Column -->
+        <ng-container matColumnDef="followUpPerson">
+            <th mat-header-cell *matHeaderCellDef> Assigned Follow Up </th>
+            <td mat-cell *matCellDef="let element; let rowIndex = index" [formGroupName]="rowIndex">
+                <!--Person-->
+                <person-autocomplete-control
+                    formControlName="assignedFollowUpPersonId"
+                    [required]="false">
+                </person-autocomplete-control>
+
+               <!-- {{rowIndex}} - {{familyMembersFormArray.at(rowIndex).value | json}}-->
+
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</form>
+
+
+{{tableForm.get('members')?.value | json}}
 
 <!-- FAMILY MEMBERS -->

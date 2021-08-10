@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -24,6 +24,8 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
 {
     @Input() debounce: number = 300;
     @Input() minLength: number = 2;
+    @Input() debug = false;
+
     /**
      * required
      *
@@ -146,8 +148,11 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         this.searchResults$ = this.inputControl.valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
+                tap((value) => {
+                    this._updateValueAndValidity( value );
+                }),
                 filter((value: string) => value && value.length >= this.minLength),
-                tap(() => {
+                tap((value) => {
                     this.isSearching = true;
                     this.noResults = false; // reset
                 }),
@@ -173,5 +178,26 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    /**
+     * Dynamically set validation on the control
+     */
+    private _updateValueAndValidity( value ) {
+        let validators: ValidatorFn[] = [];
+        // If there a value it must be an autocomplete value to be valid
+        // this forces a dropdown selection before the form becomes valid
+        if ( value ) {
+            validators.push( containsIdValidation );
+        } else {
+            validators = [];
+        }
+
+        if ( this._required ) {
+            validators.push( Validators.required );
+        }
+
+        this.inputControl.setValidators( validators );
+        this.inputControl.updateValueAndValidity( { emitEvent: false } ); // emitting stopped the control from working
     }
 }

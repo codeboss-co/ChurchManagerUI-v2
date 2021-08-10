@@ -45,10 +45,15 @@
             </mat-option>
         </div>
 
-        <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
+        <mat-option *ngIf="inputControl.value && !isSearching && noResults" value="" disabled="true">
             No results found
         </mat-option>
 
     </mat-autocomplete>
+
+    <div *ngIf="debug">
+        {{inputControl.value | json}}
+        {{inputControl.errors | json}}
+    </div>
 
 </div>

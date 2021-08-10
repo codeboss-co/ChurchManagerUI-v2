@@ -1,9 +1,12 @@
+import { Identifiable } from '@shared/shared.models';
+
 export interface FamilyMember {
     churchId: number;
     connectionStatus: string;
     source: string;
     firstVisitDate?: Date;
     person: PersonBasicDetailsForm;
+    assignedFollowUpPerson: Identifiable | null;
 }
 
 export interface PersonBasicDetailsForm {

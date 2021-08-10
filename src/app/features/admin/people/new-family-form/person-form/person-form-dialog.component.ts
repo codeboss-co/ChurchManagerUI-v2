@@ -85,7 +85,8 @@ export class PersonFormDialogComponent implements OnInit {
             connectionStatus,
             source,
             firstVisitDate,
-            person
+            person,
+            assignedFollowUpPerson: null
         };
 
         this.matDialogRef.close( model );

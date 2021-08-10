@@ -5,11 +5,9 @@ import { PersonFormDialogComponent } from './person-form/person-form-dialog.comp
 import { fuseAnimations } from '@fuse/animations';
 import { FamilyMember, NewFamilyForm, PersonBasicDetailsForm } from './person-form/person-form.model';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { PeopleDataService } from '../_services/people-data.service';
 import { first } from 'rxjs/operators';
-import { MatSort } from '@angular/material/sort';
 import { MatStepper } from '@angular/material/stepper';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { AddressFormValue } from '@ui/controls/address-editor-control/address-editor.model';
@@ -32,10 +30,7 @@ export class NewFamilyFormComponent {
     familyFormStep2: FormGroup;
 
     familyMembers: PersonBasicDetailsForm[] = [];
-    familyMembers$ = new BehaviorSubject<PersonBasicDetailsForm[]>([]);
-
-    displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'ageClassification'];
-    dataSource: MatTableDataSource<PersonBasicDetailsForm> = new MatTableDataSource([]);
+    familyMembers$ = new BehaviorSubject<FamilyMember[]>([]);
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -102,7 +97,12 @@ export class NewFamilyFormComponent {
         // We need to create a new reference for OnPush to work on the other side
         const newMergedFamily = [...this.familyMembers, model.person];
         this.familyMembers = newMergedFamily;
-        this.familyMembers$.next(newMergedFamily);
+
+        const updated = [...this.familyMembers$.getValue(), model];
+
+        console.log('updated', updated, '');
+
+        this.familyMembers$.next(updated);
     }
 
     saveFamily()
