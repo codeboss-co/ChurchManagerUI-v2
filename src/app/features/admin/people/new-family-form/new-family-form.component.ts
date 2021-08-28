@@ -88,7 +88,7 @@ export class NewFamilyFormComponent {
         return this.familyFormStep2.get('members') as FormArray;
     }
 
-    // Adds a new Family Member Form Array item
+    // Adds a new Family Member Form Array items
     private _addFamilyMember(model: FamilyMember)
     {
         console.log('_addFamilyMember', model, '');

@@ -10,8 +10,8 @@ import { FamilyMember } from './person-form.model';
     styleUrls: ['./person-form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None
 } )
-export class PersonFormDialogComponent implements OnInit {
-
+export class PersonFormDialogComponent implements OnInit
+{
     action: string;
     familyName: string;
     person: Person;
@@ -71,14 +71,15 @@ export class PersonFormDialogComponent implements OnInit {
                     lastName: this.familyName
                 },
                 Validators.required
-            ]
+            ],
+            assignedFollowUpPerson: [null]
         } );
     }
 
     addPerson(): void
     {
         const churchId = this.form.get( 'church' ).value;
-        const {connectionStatus, source, firstVisitDate, person} = this.form.value;
+        const {connectionStatus, source, firstVisitDate, person, assignedFollowUpPerson} = this.form.value;
 
         const model: FamilyMember = {
             churchId,
@@ -86,7 +87,7 @@ export class PersonFormDialogComponent implements OnInit {
             source,
             firstVisitDate,
             person,
-            assignedFollowUpPerson: null
+            assignedFollowUpPerson
         };
 
         this.matDialogRef.close( model );

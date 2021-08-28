@@ -1,5 +1,13 @@
 import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    ControlValueAccessor,
+    FormControl,
+    NG_VALIDATORS,
+    NG_VALUE_ACCESSOR, ValidationErrors, Validator,
+    ValidatorFn,
+    Validators
+} from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -17,11 +25,18 @@ import { containsIdValidation, isAutocompleteOption } from '@shared/validators/c
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => PersonAutocompleteControl),
             multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PersonAutocompleteControl),
+            multi: true
         }
     ]
 })
-export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, OnDestroy
+export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, OnDestroy, Validator
 {
+    @Input() appearance = 'outline'; // | 'standard';
+    @Input() label;
     @Input() debounce: number = 300;
     @Input() minLength: number = 2;
     @Input() debug = false;
@@ -55,20 +70,14 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
     noResults: boolean = false;
     isSearching: boolean = false;
 
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * Constructor
      */
     constructor(private _search: PersonSearchService)
     {
-        this._unsubscribeAll = new Subject();
-
-        if ( this.required ) {
-            this.inputControl = new FormControl(null, [Validators.required, containsIdValidation]);
-        } else {
-            this.inputControl = new FormControl(null, [containsIdValidation]);
-        }
+        this.inputControl = new FormControl(null, []);
     }
 
     /**
@@ -199,5 +208,16 @@ export class PersonAutocompleteControl implements ControlValueAccessor, OnInit, 
 
         this.inputControl.setValidators( validators );
         this.inputControl.updateValueAndValidity( { emitEvent: false } ); // emitting stopped the control from working
+    }
+
+    validate( control: AbstractControl ): ValidationErrors | null
+    {
+        // Special case when its not required
+        // for some reason `this.inputControl.valid` wasnt working
+        if (!this.required && (!this.inputControl.value || this.inputControl.value === '')) {
+            return null;
+        }
+
+        return this.inputControl.valid ? null : { invalidForm: {valid: false, message: 'person autocomplete is invalid'}};
     }
 }

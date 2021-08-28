@@ -30,7 +30,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex>
+                    <mat-form-field appearance="outline">
                         <mat-label>Connection Status</mat-label>
                         <mat-select formControlName="connectionStatus" required>
                             <mat-option [value]="'New Convert'">
@@ -64,7 +64,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex>
+                    <mat-form-field appearance="outline">
                         <mat-label>First Visit Date (Optional)</mat-label>
                         <input matInput [matDatepicker]="visitDatePicker" name="firstVisitDate" formControlName="firstVisitDate">
                         <mat-datepicker-toggle matSuffix [for]="visitDatePicker"></mat-datepicker-toggle>
@@ -76,10 +76,18 @@
 
             <cm-person-editor formControlName="person"></cm-person-editor>
 
+            <div class="m-4 mt-1 w-50">
+                <div class="font-medium">Assigned Follow Up (Optional)</div>
+                <div class="md:flex">
+                    <person-autocomplete-control
+                        formControlName="assignedFollowUpPerson"
+                        [debug]="false"
+                        [required]="false">
+                    </person-autocomplete-control>
+                </div>
+            </div>
+
         </form>
-
-
-        {{form?.get('lastName')?.value}}
 
     </div>
 
