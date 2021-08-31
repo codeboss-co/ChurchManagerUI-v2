@@ -28,15 +28,25 @@ jobs:
         run: |
             echo "ENVIRONMENT=test" >> $GITHUB_ENV
             echo "NETLIFY_SITE_ID=b4fb3361-8503-409a-a30c-c792e6740972" >> $GITHUB_ENV  #  API ID is NETLIFY_SITE_ID
+            echo "S3_BUCKET=test-churchmanager.codeboss.tech" >> $GITHUB_ENV
+            echo "CLOUDFRONT_DISTRIBUTION_ID=E2TN8HKID6RITO" >> $GITHUB_ENV
 
     -   name: Set env to Production
         if: endsWith(github.ref, '/master')
         run: |
             echo "ENVIRONMENT=production" >> $GITHUB_ENV
-            echo "NETLIFY_SITE_ID=6b92198d-66b1-4dac-9466-74cf906d305d" >> $GITHUB_ENV  #  API ID is NETLIFY_SITE_ID
+            echo "S3_BUCKET=churchmanager.codeboss.tech" >> $GITHUB_ENV
+            echo "CLOUDFRONT_DISTRIBUTION_ID=E1LVFG3G9V14MZ" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
     - name: Set current date
       id: date
@@ -60,13 +70,34 @@ jobs:
     - name: Build
       run: npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
 
+  #  - name: Deploy to S3
+  #    uses: lbertenasco/s3-deploy@v1
+  #    with:
+  #        folder: dist
+  #        bucket: ${{ env.S3_BUCKET }}
+  #        dist-id: ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+  #        invalidation: / *
+
+  #  - name: Deploy to S3
+  #    uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
+  #    with:
+  #        args: --acl public-read --follow-symlinks --delete
+  #    env:
+  #        # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #        # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #        AWS_S3_BUCKET: ${{ env.S3_BUCKET }}
+  #        DISTRIBUTION_ID:  ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+  #        # AWS_REGION: 'eu-west-1'   # optional: defaults to us-east-1
+  #        SOURCE_DIR: dist      # optional: defaults to entire repository
+  #        #DEST_DIR: 'subdirectory'      # optional: defaults to the root of the bucket
+
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.2
       with:
           publish-dir: './dist'
           production-branch: master
           #github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: ${{ github.event.pull_request.title }}
+          deploy-message: "Deploy from GitHub Actions"
           #enable-pull-request-comment: false
           #enable-commit-comment: true
           #overwrites-pull-request-comment: true
