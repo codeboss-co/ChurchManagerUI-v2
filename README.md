@@ -1,5 +1,9 @@
 # ChurchManagerUI - Angular
 
+Test: [![Netlify Status](https://api.netlify.com/api/v1/badges/b4fb3361-8503-409a-a30c-c792e6740972/deploy-status)](https://app.netlify.com/sites/churchmanager-test/deploys)
+
+Prod: [![Netlify Status](https://api.netlify.com/api/v1/badges/6b92198d-66b1-4dac-9466-74cf906d305d/deploy-status)](https://app.netlify.com/sites/churchmanager/deploys)
+
 Church Manager frontend based on Angular Material
 
 ## Running
