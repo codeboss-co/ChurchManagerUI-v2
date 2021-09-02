@@ -102,20 +102,23 @@ export class NewFamilyFormComponent {
     {
         const address = this.addressFormStep1.get('address').value;
         const familyName = this.familyFormStep2.get('familyName').value;
-        const members = this.familyFormStep2.get('members').value;
+        const members = this.familyMembers$.getValue();
 
         const family: NewFamilyForm = { familyName, address, members };
 
         this._data.addNewFamily$(family)
             .pipe(first())
             .subscribe(_ => {
-                // This resets all controls and lists
-                this.resetAddress();
-                this.familyFormStep2.reset();
-                this.familyMembers$.next([]);
-                this.stepper.reset();
                 this._toastr.success('Successfully added new family.', null, {duration: 5000});
             });
+
+        // This resets all controls and lists
+        this.resetAddress();
+        this.familyFormStep2.reset();
+        this.familyMembers$.next([]);
+        this.stepper.reset();
+        console.log('familyMembers', this.familyMembers$.getValue(), 'saveFamily');
+
     }
 
     resetAddress() {

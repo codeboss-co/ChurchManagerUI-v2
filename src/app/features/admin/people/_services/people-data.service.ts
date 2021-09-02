@@ -74,6 +74,7 @@ export class PeopleDataService extends HttpBaseService
      */
     addNewFamily$(model: NewFamilyForm): Observable<ApiResponse>
     {
+        console.log('addNewFamily', model);
         return super.post<ApiResponse>(`${this._apiUrl}/v1/people/family/new`, model);
     }
 
