@@ -43,6 +43,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
 
 @NgModule({
     declarations: [
@@ -93,6 +94,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         // Controls
         AddressEditorControlModule,
         PersonEditorControlModule,
+        PersonAutocompleteControlModule,
 
         // Extensions
         FullNamePipeModule,

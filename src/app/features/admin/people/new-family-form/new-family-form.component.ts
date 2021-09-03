@@ -5,11 +5,9 @@ import { PersonFormDialogComponent } from './person-form/person-form-dialog.comp
 import { fuseAnimations } from '@fuse/animations';
 import { FamilyMember, NewFamilyForm, PersonBasicDetailsForm } from './person-form/person-form.model';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { PeopleDataService } from '../_services/people-data.service';
 import { first } from 'rxjs/operators';
-import { MatSort } from '@angular/material/sort';
 import { MatStepper } from '@angular/material/stepper';
 import { ToastrService } from '@core/notifications/toastr.service';
 import { AddressFormValue } from '@ui/controls/address-editor-control/address-editor.model';
@@ -31,11 +29,7 @@ export class NewFamilyFormComponent {
     addressFormStep1: FormGroup;
     familyFormStep2: FormGroup;
 
-    familyMembers: PersonBasicDetailsForm[] = [];
-    familyMembers$ = new BehaviorSubject<PersonBasicDetailsForm[]>([]);
-
-    displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'ageClassification'];
-    dataSource: MatTableDataSource<PersonBasicDetailsForm> = new MatTableDataSource([]);
+    familyMembers$ = new BehaviorSubject<FamilyMember[]>([]);
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -94,36 +88,37 @@ export class NewFamilyFormComponent {
         return this.familyFormStep2.get('members') as FormArray;
     }
 
-    // Adds a new Family Member Form Array item
+    // Adds a new Family Member Form Array items
     private _addFamilyMember(model: FamilyMember)
     {
         console.log('_addFamilyMember', model, '');
         this.familyMembersFormArray.push(this._formBuilder.control(model));
         // We need to create a new reference for OnPush to work on the other side
-        const newMergedFamily = [...this.familyMembers, model.person];
-        this.familyMembers = newMergedFamily;
-        this.familyMembers$.next(newMergedFamily);
+        const updated = [...this.familyMembers$.getValue(), model];
+        this.familyMembers$.next(updated);
     }
 
     saveFamily()
     {
         const address = this.addressFormStep1.get('address').value;
         const familyName = this.familyFormStep2.get('familyName').value;
-        const members = this.familyFormStep2.get('members').value;
+        const members = this.familyMembers$.getValue();
 
         const family: NewFamilyForm = { familyName, address, members };
 
         this._data.addNewFamily$(family)
             .pipe(first())
             .subscribe(_ => {
-                // This resets all controls and lists
-                this.resetAddress();
-                this.familyFormStep2.reset();
-                this.familyMembers = [];
-                this.familyMembers$.next([]);
-                this.stepper.reset();
                 this._toastr.success('Successfully added new family.', null, {duration: 5000});
             });
+
+        // This resets all controls and lists
+        this.resetAddress();
+        this.familyFormStep2.reset();
+        this.familyMembers$.next([]);
+        this.stepper.reset();
+        console.log('familyMembers', this.familyMembers$.getValue(), 'saveFamily');
+
     }
 
     resetAddress() {

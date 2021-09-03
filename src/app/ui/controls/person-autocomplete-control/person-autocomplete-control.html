@@ -1,7 +1,8 @@
 <div class="flex items-center">
 
     <!--Search input-->
-    <mat-form-field class="fuse-mat-no-subscript flex-grow">
+    <mat-form-field class="fuse-mat-no-subscript flex-grow" [appearance]="appearance">
+        <mat-label *ngIf="label">{{label}}</mat-label>
         <input matInput
                [matAutocomplete]="auto"
                matAutocompletePosition="below"
@@ -30,6 +31,8 @@
         <div *ngIf="searchResults$ | async as searchResults">
             <mat-option *ngFor="let result of searchResults" [value]="result">
                 <div class="flex items-center">
+                    <div
+                        class="px-1.5 py-1 mr-4 text-xs font-semibold leading-normal rounded text-indigo-50 bg-indigo-600">{{result.connectionStatus}}</div>
                     <div class="text-sm">{{result.label}}</div>
                     <div
                         class="flex flex-shrink-0 items-center justify-center w-6 h-6 ml-auto rounded-full overflow-hidden bg-primary-100 dark:bg-black dark:bg-opacity-5">
@@ -45,10 +48,19 @@
             </mat-option>
         </div>
 
-        <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
+        <mat-option *ngIf="inputControl.value && !isSearching && noResults" value="" disabled="true">
             No results found
         </mat-option>
 
     </mat-autocomplete>
+
+    <div *ngIf="debug">
+          <pre>
+              <code>
+                  {{inputControl.value | json}}
+                  {{inputControl.errors | json}}
+              </code>
+          </pre>
+    </div>
 
 </div>
