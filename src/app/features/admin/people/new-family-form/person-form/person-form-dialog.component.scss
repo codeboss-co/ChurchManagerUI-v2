@@ -1,6 +1,7 @@
 .person-form-dialog {
 
     max-width: 100% !important;
+    height: 100%;
 
     /*sm*/
     @media (min-width: 640px) {
@@ -22,7 +23,7 @@
     }
 
     .dialog-content-wrapper {
-        max-height: 85vh;
+        max-height: 100vh;
         display: flex;
         flex-direction: column;
     }

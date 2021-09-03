@@ -19,7 +19,7 @@ export class PersonSearchService
 
     lookup(value: string): Observable<PersonAutocompletes> {
         return this._searchApi(value.toLowerCase()).pipe(
-            // map the date property of the api results
+            // map the data property of the api results
             map(response => response.data.map(person => person)),
             // catch errors
             catchError(_ => {

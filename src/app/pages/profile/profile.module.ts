@@ -46,6 +46,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UploadImagesModule } from '@ui/components/upload-images/upload-images.module';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { ProfileFollowUpComponent } from './tabs/followup/follow-up.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
         ProfileAboutComponent,
         ProfileGroupsComponent,
         ProfileDiscipleshipComponent,
+        ProfileFollowUpComponent,
         // Dialogs
         GroupAttendanceFormDialogComponent,
         // Edit Dialogs
