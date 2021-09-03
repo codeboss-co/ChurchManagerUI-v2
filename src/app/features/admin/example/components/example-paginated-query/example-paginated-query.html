@@ -1,0 +1,38 @@
+<!-- Search -->
+<form [formGroup]="searchForm">
+    <div class="flex flex-wrap justify-between items-baseline">
+
+        <cm-church-groups-control formControlName="churchGroup"></cm-church-groups-control>
+
+        <mat-checkbox formControlName="withFeedBack">
+            With Feedback?
+        </mat-checkbox>
+
+        <mat-form-field appearance="outline" style='width: 280px'>
+            <mat-label>Date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="from" placeholder="Start date">
+                <input matEndDate formControlName="to" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error *ngIf="searchForm.controls.from.hasError('matStartDateInvalid')">Invalid
+                start date
+            </mat-error>
+            <mat-error *ngIf="searchForm.controls.to.hasError('matEndDateInvalid')">Invalid end
+                date
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary"
+                [disabled]="!searchForm.valid"
+                (click)="searchBtnClicked.next()">
+            <mat-icon>search</mat-icon>
+            Search
+        </button>
+
+    </div>
+
+</form>
+<!-- Search -->
