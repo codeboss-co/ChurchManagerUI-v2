@@ -1,6 +1,6 @@
 import {
     AfterContentInit,
-    AfterViewInit,
+    AfterViewInit, ChangeDetectionStrategy,
     Component,
     ContentChild,
     EventEmitter,
@@ -9,7 +9,7 @@ import {
     OnChanges,
     Output,
     SimpleChanges,
-    ViewChild
+    ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { PAGING_SERVICE, TableBtn, TableColumn, TableQuery } from '..';
 import { Sort } from '@shared/data/pagination.models';
 import { tap } from 'rxjs/operators';
 import { IPaginatedTableService } from '@ui/components/general-table/paginated-general-table/paginated-general-table.service';
+import { fuseAnimations } from '@fuse/animations';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -25,8 +26,11 @@ import { IPaginatedTableService } from '@ui/components/general-table/paginated-g
     selector: 'paginated-general-table',
     styleUrls: ['paginated-general-table.component.css'],
     templateUrl: 'paginated-general-table.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations   : fuseAnimations
 } )
-export class PaginatedTableComponent implements OnChanges, AfterViewInit, AfterContentInit
+export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit, AfterContentInit
 {
     @Input() columns: TableColumn[] = [];
     @Input() buttons: TableBtn[] = [];
@@ -34,7 +38,7 @@ export class PaginatedTableComponent implements OnChanges, AfterViewInit, AfterC
     @Input() filterPlaceholder: string = 'Filter';
     @Input() footer: string = null;
     @Input() pagination: number[] = [];
-    @Input() pageSize: number;
+    @Input() pageSize: number = 10;
     @Input() tableMinWidth: number = 500;
     @Output() filteredData = new EventEmitter<any[]>();
     @Output() buttonClick = new EventEmitter<string[]>();
