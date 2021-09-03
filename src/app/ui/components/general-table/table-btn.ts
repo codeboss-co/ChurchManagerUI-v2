@@ -5,6 +5,7 @@ export interface TableBtn {
   icon: string;
   payload: (any) => string;
   action: string;
+  text?: string;
 }
 
 

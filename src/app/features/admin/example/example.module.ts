@@ -6,6 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 import { pagingServiceProvider } from './mock/providers/example-paging.providers';
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
 
 const exampleRoutes: Route[] = [
     {

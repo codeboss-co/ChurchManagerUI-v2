@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GeneralTableComponent } from '@ui/components/general-table/general-table.component';
 import { PaginatedTableComponent } from '@ui/components/general-table/paginated-general-table/paginated-table.component';
+import { MatMenuModule } from '@angular/material/menu';
+
+// https://github.com/JamesDepret/angular-generic-mat-table/blob/master/src/app/app.component.html
 
 @NgModule( {
     declarations: [GeneralTableComponent, PaginatedTableComponent],
@@ -19,6 +22,7 @@ import { PaginatedTableComponent } from '@ui/components/general-table/paginated-
         MatSelectModule,
         MatSortModule,
         MatTableModule,
+        MatMenuModule,
 
         SharedModule
     ]

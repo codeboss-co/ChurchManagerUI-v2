@@ -22,7 +22,8 @@
                             [footer]="footer"
                             [pagination]="[5, 25, 100]"
                             [pageSize]="5"
-                            [tableMinWidth]="400">
+                            [tableMinWidth]="400"
+                            (buttonClick)="onButtonClicked($event)">
                 <!-- columns: required,
                      data: required
                      filter: not required, if null => no filter
