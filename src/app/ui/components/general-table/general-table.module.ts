@@ -9,6 +9,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { GeneralTableComponent } from '@ui/components/general-table/general-table.component';
 import { PaginatedGeneralTableComponent } from '@ui/components/general-table/paginated-general-table/paginated-general-table.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 /**
  * @credit JamesDepret
@@ -21,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
     declarations: [GeneralTableComponent, PaginatedGeneralTableComponent],
     exports: [GeneralTableComponent, PaginatedGeneralTableComponent],
     imports: [
+        MatCheckboxModule,
         MatInputModule,
         MatIconModule,
         MatPaginatorModule,

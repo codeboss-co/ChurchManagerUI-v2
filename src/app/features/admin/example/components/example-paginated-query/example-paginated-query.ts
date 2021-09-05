@@ -2,26 +2,21 @@
  * @title Paginated filter query example
  */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/internal/Observable';
+import { FormBuilder, Validators } from '@angular/forms';
 import { GroupAttendanceQuery } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 import { filter, map } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { QueryBase } from '@shared/query-base';
 
 @Component( {
     selector: 'example-paginated-query',
     templateUrl: 'example-paginated-query.html',
 } )
-export class ExamplePaginatedQueryComponent implements OnInit {
+export class ExamplePaginatedQueryComponent extends QueryBase<GroupAttendanceQuery> implements OnInit
+{
+    constructor(private _formBuilder: FormBuilder)
+    {
+        super();
 
-    searchForm: FormGroup;
-    searchBtnClicked = new Subject();
-
-    query$: Observable<GroupAttendanceQuery>;
-
-    constructor(
-        private _formBuilder: FormBuilder
-    ) {
         this.searchForm = this._formBuilder.group({
             churchGroup: [null, [Validators.required]],
             withFeedBack: [false],

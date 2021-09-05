@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 
-export interface GroupAttendanceRecord {
+export interface GroupAttendanceRecord
+{
     id: number;
     groupName: string;
     attendanceDate: Date | string;
@@ -13,7 +14,8 @@ export interface GroupAttendanceRecord {
     photoUrls: string[];
 }
 
-export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
+export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord
+{
     didAttendCount: number;
     attendanceCount: number;
     attendanceEntered: boolean;
@@ -25,7 +27,8 @@ export interface GroupAttendanceRecordDetail extends  GroupAttendanceRecord {
 
 export type GroupAttendees = GroupAttendee[];
 
-export interface GroupAttendee {
+export interface GroupAttendee
+{
     groupMemberId: number;
     didAttend: boolean;
     isFirstTime?: any;
@@ -35,13 +38,15 @@ export interface GroupAttendee {
     groupMember: GroupMemberPerson;
 }
 
-interface AttendanceReview {
+interface AttendanceReview
+{
     isReviewed?: boolean;
     feedback?: string;
     reviewedBy?: string;
 }
 
-interface GroupMemberPerson {
+interface GroupMemberPerson
+{
     personId: number;
     firstName: string;
     middleName?: any;
@@ -50,7 +55,8 @@ interface GroupMemberPerson {
     photoUrl: string;
 }
 
-export interface GroupAttendanceQuery {
+export interface GroupAttendanceQuery
+{
     churchId: number;
     groupId?: number;
     withFeedBack?: boolean;
@@ -58,14 +64,16 @@ export interface GroupAttendanceQuery {
     to?: Date;
 }
 
-export interface GroupAttendanceReportGridQuery {
+export interface GroupAttendanceReportGridQuery
+{
     groupTypeId: number;
     groupId: number[];
     from: Moment;
     to: Moment;
 }
 
-export class GroupAttendanceReportGridRow {
+export class GroupAttendanceReportGridRow
+{
     Date: Date;
     Church: string;
     Group: string;
@@ -85,7 +93,8 @@ export class GroupAttendanceReportGridRow {
     }
 }
 
-export interface CellGroupsWeeklyBreakdown {
+export interface CellGroupsWeeklyBreakdown
+{
     week: number;
     totalAttendance?: number;
     totalNewConverts?: number;

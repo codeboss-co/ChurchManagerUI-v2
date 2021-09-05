@@ -18,13 +18,14 @@ import { PagedResult, Sort } from '@shared/data/pagination.models';
 import { tap } from 'rxjs/operators';
 import { IPaginatedTableService } from '@ui/components/general-table/paginated-general-table/paginated-general-table.service';
 import { fuseAnimations } from '@fuse/animations';
+import { SelectionModel } from '@angular/cdk/collections';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component( {
     selector: 'paginated-general-table',
-    styleUrls: ['paginated-general-table.component.css'],
+    //styleUrls: ['paginated-general-table.component.css'],
     templateUrl: 'paginated-general-table.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,14 +33,16 @@ import { fuseAnimations } from '@fuse/animations';
 } )
 export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit, AfterContentInit
 {
+    @Input() debug: boolean = true;
+
     @Input() columns: TableColumn[] = [];
     @Input() buttons: TableBtn[] = [];
+    @Input() selectable: boolean = true;
     @Input() filter: boolean = false;
     @Input() filterPlaceholder: string = 'Filter';
     @Input() footer: string = null;
     @Input() pagination: number[] = [];
     @Input() pageSize: number = 10;
-    @Input() tableMinWidth: number = 500;
     @Output() filteredData = new EventEmitter<any[]>();
     @Output() buttonClick = new EventEmitter<string[]>();
 
@@ -68,6 +71,7 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
         {
             this.displayedColumns = [...this.columns.map(c => c.columnDef)];
             if (this.buttons && this.buttons.length > 0 ) this.displayedColumns = [...this.displayedColumns, 'actions'];
+            if (this.selectable) this.displayedColumns = ['select', ...this.displayedColumns];
         }
     }
 
@@ -100,6 +104,55 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     }
 
 
+    selection = new SelectionModel<string>(true, []);
+    docsOnThisPage = [];
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+
+        const numSelected = this.docsOnThisPage.length;
+
+        // this is the list of items retrieved from the server for any single pagination event
+        const numRows = this.page.resultsPerPage;
+        //console.log(numSelected,numRows);
+
+        console.log('isAllSelected', numSelected === numRows, numSelected, numRows);
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            (
+                    this.docsOnThisPage.length = 0,
+                    this.page.data.forEach(
+                        (row) => {
+                            this.selection.deselect(row['id']);
+                        }
+                    )
+            ):
+            this.page.data.forEach(
+                (row) => {
+                    this.selection.select(row['id']);
+                    this.docsOnThisPage.push(row['id']);
+                }
+            );
+    }
+
+
+    isSomeSelected(id: string)
+    {
+        this.docsOnThisPage.push(id);
+    }
+
+    logSelection()
+    {
+        console.log('selected', this.selection.selected);
+    }
+
+    fetch(pageIndex: number) {
+        this.service.fetch(pageIndex);
+        this.docsOnThisPage.length = 0;
+    }
 }
 
 
