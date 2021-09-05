@@ -40,8 +40,11 @@
 
 
 
-            <paginated-general-table [columns]="pagingColumns">
-                <example-paginated-query #query></example-paginated-query>
+            <paginated-general-table
+                [columns]="pagingColumns"
+                [buttons]="buttons"
+                (buttonClick)="onButtonClicked($event)">
+                    <example-paginated-query #query></example-paginated-query>
             </paginated-general-table>
 
 

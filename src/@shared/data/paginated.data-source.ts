@@ -4,7 +4,8 @@ import { finalize, map, share, startWith, switchMap } from 'rxjs/operators';
 import { PagedResult, PaginatedEndpoint, Sort } from './pagination.models';
 import { SimpleDataSource } from './simple.data-source';
 
-export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TModel>, IPaginatedDataSource {
+export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TModel>, IPaginatedDataSource
+{
     private _pageNumber = new Subject<number>();
     private _sort: BehaviorSubject<Sort<TModel>>;
     private _query: BehaviorSubject<TQuery>;
@@ -47,6 +48,7 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
     queryBy( query: Partial<TQuery> ): void {
         const lastQuery = this._query.getValue();
         const nextQuery = { ...lastQuery, ...query };
+        this._pageNumber.next(0);
         this._query.next( nextQuery );
     }
 
@@ -88,7 +90,7 @@ export interface IPaginatedDataSource
 
     //sortBy( sort: Partial<Sort<any>> ): void;
 
-    queryBy( query: Partial<any> ): void;
+    queryBy(query: Partial<any>): void;
 
-    fetch( page: number ): void;
+    fetch(page: number): void;
 }

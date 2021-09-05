@@ -14,7 +14,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PAGING_SERVICE, TableBtn, TableColumn, TableQuery } from '..';
-import { Sort } from '@shared/data/pagination.models';
+import { PagedResult, Sort } from '@shared/data/pagination.models';
 import { tap } from 'rxjs/operators';
 import { IPaginatedTableService } from '@ui/components/general-table/paginated-general-table/paginated-general-table.service';
 import { fuseAnimations } from '@fuse/animations';
@@ -48,6 +48,8 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
 
     displayedColumns: string[];
 
+    page: PagedResult<any> = {totalResults: 0, totalPages: 0, data: []};
+
     // ContentChildren includes only elements that exists within the ng-content
     @ContentChild('query', { static: true }) contentChild: TableQuery;
 
@@ -57,21 +59,30 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
 
     constructor(@Inject(PAGING_SERVICE) public service: IPaginatedTableService)
     {
+        this.service.page$.subscribe(page => this.page = page);
     }
 
     ngOnChanges( changes: SimpleChanges ): void
     {
-        this.displayedColumns = [...this.columns.map(c => c.columnDef)];
+        if(changes.columns)
+        {
+            this.displayedColumns = [...this.columns.map(c => c.columnDef)];
+            if (this.buttons && this.buttons.length > 0 ) this.displayedColumns = [...this.displayedColumns, 'actions'];
+        }
     }
 
     applyFilter( filterValue: string )
     {
     }
 
-    ngAfterViewInit(): void {
+    ngAfterViewInit(): void
+    {
+        console.log('Paginator', this.paginator);
+
     }
 
-    ngAfterContentInit(): void {
+    ngAfterContentInit(): void
+    {
         console.log('ContentChild', this.contentChild);
         this.contentChild.query$.subscribe(
             value => console.log('query result', value)
@@ -79,7 +90,10 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
 
         const afterInitDatasource$ = this.contentChild.query$
             .pipe(
-                tap(query =>  this.service.queryBy(query))
+                tap((query) =>  {
+                    this.paginator.firstPage();
+                    this.service.queryBy(query);
+                })
             );
 
         afterInitDatasource$.subscribe();

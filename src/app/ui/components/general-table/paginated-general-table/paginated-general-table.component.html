@@ -74,7 +74,7 @@
     </table>
     <!-- Table -->
 
-    <mat-paginator *ngIf="service?.page$ | async as page"
+    <mat-paginator
                    class="flex justify-end"
                    [ngStyle]="{ 'min-width': + tableMinWidth + 'px' }"
                    [pageSizeOptions]="pagination"
