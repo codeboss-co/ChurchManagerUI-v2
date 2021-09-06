@@ -51,7 +51,8 @@ export class FuseConfirmationService
         return this._matDialog.open(FuseConfirmationDialogComponent, {
             autoFocus   : false,
             disableClose: !userConfig.dismissible,
-            data        : userConfig
+            data        : userConfig,
+            panelClass  : 'fuse-confirmation-dialog-panel'
         });
     }
 }

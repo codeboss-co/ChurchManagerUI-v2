@@ -4,7 +4,8 @@ import { finalize, map, share, startWith, switchMap } from 'rxjs/operators';
 import { PagedResult, PaginatedEndpoint, Sort } from './pagination.models';
 import { SimpleDataSource } from './simple.data-source';
 
-export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TModel> {
+export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TModel>, IPaginatedDataSource
+{
     private _pageNumber = new Subject<number>();
     private _sort: BehaviorSubject<Sort<TModel>>;
     private _query: BehaviorSubject<TQuery>;
@@ -12,10 +13,10 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
     private _loading = new Subject<boolean>();
 
     public loading$ = this._loading.asObservable();
-    public page$: Observable<PagedResult<TModel>>;
+    page$: Observable<PagedResult<TModel>>;
 
     constructor(
-        private endpoint: PaginatedEndpoint<TModel, TQuery>,
+        public endpoint: PaginatedEndpoint<TModel, TQuery>,
         initialSort: Sort<TModel>,
         initialQuery: TQuery,
         public pageSize = 10) {
@@ -38,16 +39,17 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
             );
     }
 
-    sortBy(sort: Partial<Sort<TModel>>): void {
+    sortBy( sort: Partial<Sort<TModel>> ): void {
         const lastSort = this._sort.getValue();
-        const nextSort = {...lastSort, ...sort};
-        this._sort.next(nextSort);
+        const nextSort = { ...lastSort, ...sort };
+        this._sort.next( nextSort );
     }
 
-    queryBy(query: Partial<TQuery>): void {
+    queryBy( query: Partial<TQuery> ): void {
         const lastQuery = this._query.getValue();
-        const nextQuery = {...lastQuery, ...query};
-        this._query.next(nextQuery);
+        const nextQuery = { ...lastQuery, ...query };
+        this._pageNumber.next(0);
+        this._query.next( nextQuery );
     }
 
     fetch( page: number ): void {
@@ -78,4 +80,17 @@ export function indicate<T>(indicator: Subject<boolean>): (source: Observable<T>
         prepare(() => indicator.next(true)),
         finalize(() => indicator.next(false))
     );
+}
+
+export interface IPaginatedDataSource
+{
+    page$: Observable<PagedResult<any>>;
+    //endpoint: PaginatedEndpoint<any, any>;
+    //pageSize: number;
+
+    //sortBy( sort: Partial<Sort<any>> ): void;
+
+    queryBy(query: Partial<any>): void;
+
+    fetch(page: number): void;
 }

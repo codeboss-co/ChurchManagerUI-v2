@@ -5,6 +5,20 @@ import { FuseConfirmationConfig } from '@fuse/services/confirmation/confirmation
 @Component({
     selector     : 'fuse-confirmation-dialog',
     templateUrl  : './dialog.component.html',
+    styles       : [
+        /* language=SCSS */
+        `
+            .fuse-confirmation-dialog-panel {
+                @screen md {
+                    @apply w-128;
+                }
+
+                .mat-dialog-container {
+                    padding: 0 !important;
+                }
+            }
+        `
+    ],
     encapsulation: ViewEncapsulation.None
 })
 export class FuseConfirmationDialogComponent implements OnInit
