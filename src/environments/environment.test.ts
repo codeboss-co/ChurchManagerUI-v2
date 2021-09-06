@@ -3,8 +3,8 @@ import { Environment } from '@shared/environment.model';
 export const environment: Environment  = {
     production: true,
     baseUrls: {
-        signalRHub: 'https://mm.codeboss.co.za/signalr-hub',
-        apiUrl: 'https://mm.codeboss.co.za/api'
+        signalRHub: 'https://cm-test.codeboss.co.za/signalr-hub',
+        apiUrl: 'https://cm-test.codeboss.co.za/api'
     },
     contentful: {
         spaceId: 'od8d9ub5fano',
