@@ -26,9 +26,8 @@ import { Subject } from 'rxjs';
  */
 @Component( {
     selector: 'paginated-general-table',
-    //styleUrls: ['paginated-general-table.component.css'],
+    styleUrls: ['paginated-general-table.component.css'],
     templateUrl: 'paginated-general-table.component.html',
-    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations   : fuseAnimations
 } )

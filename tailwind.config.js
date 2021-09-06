@@ -63,10 +63,6 @@ const themes = {
 
 /**
  * Tailwind configuration
- *
- * @param isProd
- * This will be automatically supplied by the custom Angular builder
- * based on the current environment of the application (prod, dev etc.)
  */
 const config = {
     experimental: {},

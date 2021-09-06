@@ -13,7 +13,7 @@
 </pre>
 
     <!-- Table -->
-    <table class="mat-elevation-z4 w-full"
+    <mat-table class="mat-elevation-z4 w-full"
         mat-table
         matSort
         [dataSource]="service.dataSource"
@@ -22,7 +22,7 @@
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox #ref
+                <mat-checkbox
                    (change)="$event ? masterToggle() : null;"
                     [checked]="selection.hasValue() && isAllSelected()"
                     [indeterminate]="selection.hasValue() && !isAllSelected()">
@@ -83,7 +83,7 @@
         <ng-container *ngIf="footer"> <!-- Make footer nullable -->
             <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"></tr>
         </ng-container>
-    </table>
+    </mat-table>
     <!-- Table -->
 
     <mat-paginator
