@@ -15,10 +15,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PAGING_SERVICE, TableBtn, TableColumn, TableQuery } from '..';
 import { PagedResult, Sort } from '@shared/data/pagination.models';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { IPaginatedTableService } from '@ui/components/general-table/paginated-general-table/paginated-general-table.service';
 import { fuseAnimations } from '@fuse/animations';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Subject } from 'rxjs';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -46,23 +47,28 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     @Output() filteredData = new EventEmitter<any[]>();
     @Output() buttonClick = new EventEmitter<string[]>();
 
-    //@Input() query: any;
-    @Input() initialSort: Sort<any>;
-
-    displayedColumns: string[];
-
-    page: PagedResult<any> = {totalResults: 0, totalPages: 0, data: []};
-
     // ContentChildren includes only elements that exists within the ng-content
-    @ContentChild('query', { static: true }) contentChild: TableQuery;
+    @ContentChild('query', { static: true }) tableQuery: TableQuery;
 
     // ViewChildren don’t include elements that exist within the ng-content tag.
     @ViewChild( MatPaginator, { static: true } ) paginator: MatPaginator;
     @ViewChild( MatSort, { static: true } ) sort: MatSort;
 
+    displayedColumns: string[];
+
+    page: PagedResult<any> = {totalResults: 0, totalPages: 0, data: []};
+    selection = new SelectionModel<string>(true, []);
+    resultsOnThisPage = [];
+
+
+    // Private
+    private _unsubscribeAll = new Subject();
+
     constructor(@Inject(PAGING_SERVICE) public service: IPaginatedTableService)
     {
-        this.service.page$.subscribe(page => this.page = page);
+        this.service.page$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(page => this.page = page);
     }
 
     ngOnChanges( changes: SimpleChanges ): void
@@ -82,17 +88,12 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     ngAfterViewInit(): void
     {
         console.log('Paginator', this.paginator);
-
     }
 
     ngAfterContentInit(): void
     {
-        console.log('ContentChild', this.contentChild);
-        this.contentChild.query$.subscribe(
-            value => console.log('query result', value)
-        );
-
-        const afterInitDatasource$ = this.contentChild.query$
+        const afterInitDatasource$ = this.tableQuery.query$
+            .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 tap((query) =>  {
                     this.paginator.firstPage();
@@ -104,18 +105,16 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     }
 
 
-    selection = new SelectionModel<string>(true, []);
-    docsOnThisPage = [];
+
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
 
-        const numSelected = this.docsOnThisPage.length;
+        const numSelected = this.resultsOnThisPage.length;
 
         // this is the list of items retrieved from the server for any single pagination event
         const numRows = this.page.resultsPerPage;
         //console.log(numSelected,numRows);
 
-        console.log('isAllSelected', numSelected === numRows, numSelected, numRows);
         return numSelected === numRows;
     }
 
@@ -123,7 +122,7 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     masterToggle() {
         this.isAllSelected() ?
             (
-                    this.docsOnThisPage.length = 0,
+                    this.resultsOnThisPage.length = 0,
                     this.page.data.forEach(
                         (row) => {
                             this.selection.deselect(row['id']);
@@ -133,15 +132,15 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
             this.page.data.forEach(
                 (row) => {
                     this.selection.select(row['id']);
-                    this.docsOnThisPage.push(row['id']);
+                    this.resultsOnThisPage.push(row['id']);
                 }
             );
     }
 
 
-    isSomeSelected(id: string)
+    select( id: string)
     {
-        this.docsOnThisPage.push(id);
+        this.resultsOnThisPage.push(id);
     }
 
     logSelection()
@@ -151,7 +150,7 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
 
     fetch(pageIndex: number) {
         this.service.fetch(pageIndex);
-        this.docsOnThisPage.length = 0;
+        this.resultsOnThisPage.length = 0;
     }
 }
 
