@@ -9,7 +9,7 @@ import {TableColumn, TableBtn} from '.';
  */
 @Component({
   selector: 'general-table',
-  styleUrls: ['general-table.component.css'],
+  //styleUrls: ['general-table.component.css'],
   templateUrl: 'general-table.component.html',
 })
 export class GeneralTableComponent implements OnChanges {

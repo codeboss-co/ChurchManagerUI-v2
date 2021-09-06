@@ -5,6 +5,7 @@ import { FuseSplashScreenModule } from '@fuse/services/splash-screen/splash-scre
 import { FuseTailwindConfigModule } from '@fuse/services/tailwind/tailwind.module';
 import { FuseUtilsModule } from '@fuse/services/utils/utils.module';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 @NgModule({
     imports  : [
@@ -15,6 +16,15 @@ import { FuseConfirmationModule } from '@fuse/services/confirmation';
         FuseUtilsModule
     ],
     providers: [
+        {
+            // Disable 'theme' sanity check
+            provide : MATERIAL_SANITY_CHECKS,
+            useValue: {
+                doctype: true,
+                theme  : false,
+                version: true
+            }
+        },
         {
             // Use the 'fill' appearance on Angular Material form fields by default
             provide : MAT_FORM_FIELD_DEFAULT_OPTIONS,

@@ -13,8 +13,8 @@
                 Open Confirm/Cancel Dialog
             </button>
 
-            <h3 class="mt-4">Maxed table</h3>
-            <general-table  [columns]="columns"
+            <h3 class="mb-4">Generic Table</h3>
+            <!--<general-table  [columns]="columns"
                             [buttons]="buttons"
                             [data]="data"
                             [filter]="true"
@@ -22,7 +22,10 @@
                             [footer]="footer"
                             [pagination]="[5, 25, 100]"
                             [pageSize]="5"
-                            [tableMinWidth]="400">
+                            [tableMinWidth]="400"
+                            (buttonClick)="onButtonClicked($event)">
+            </general-table>-->
+
                 <!-- columns: required,
                      data: required
                      filter: not required, if null => no filter
@@ -34,10 +37,15 @@
                      filteredData: not required, passes the filter back
                      buttonClick: not required, passes a action an payload in a string array back to the app.component
                   -->
-            </general-table>
 
 
-            <paginated-general-table [columns]="pagingColumns"> </paginated-general-table>
+
+            <paginated-general-table
+                [columns]="pagingColumns"
+                [buttons]="buttons"
+                (buttonClick)="onButtonClicked($event)">
+                    <example-paginated-query #query></example-paginated-query>
+            </paginated-general-table>
 
 
             <div class="mt-8 w-80">

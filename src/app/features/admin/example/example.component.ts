@@ -42,6 +42,17 @@ export class ExampleComponent
             { columnDef: 'material', header: 'Material', cell: (element: UserData) => `${element.material}` },
         ];
 
+        // build the buttons; styleClass: button style; icon: which material icon should be used; payload: what value from the object should be returned; action: what name should the action have
+        this.buttons = [
+            { styleClass: 'btn btn-success px-2',     icon: 'note_add',    payload: (element: UserData) => `${element.id}`, action: 'add', text: 'Add' },
+            { styleClass: 'btn btn-primary px-2',     icon: 'build',    payload: (element: UserData) => `${element.id}`, action: 'edit', text: 'Edit' },
+            { styleClass: 'btn btn-primary px-2',     icon: 'delete',    payload: (element: UserData) => `${element.id}`, action: 'delete', text: 'Remove' },
+        ];
+
+
+        /*
+        *  Paginated Grid Example
+        * */
         this.pagingColumns = [
             { columnDef: 'attendanceDate',     header: 'Attendance Date',    cell: (element: GroupAttendanceRecord) => {
                const dateString = element.attendanceDate as string;
@@ -84,5 +95,9 @@ export class ExampleComponent
             }
         });
 
+    }
+
+    onButtonClicked( action: string[] ) {
+        console.log('table button clicked: ',  action);
     }
 }

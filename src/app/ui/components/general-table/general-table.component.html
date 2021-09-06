@@ -6,6 +6,7 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{ 'min-width': + tableMinWidth + 'px' }">
 
+        <!-- Columns -->
       <ng-container *ngFor="let column of columns" >
         <ng-container matColumnDef="{{column.columnDef}}">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</th>
@@ -13,7 +14,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="buttons && buttons.length > 0" >
+     <!-- <ng-container *ngIf="buttons && buttons.length > 0" >
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row" [ngStyle]="{ 'min-width': 'calc(55px * ' + buttons.length + ')' }">
@@ -24,7 +25,43 @@
             </div>
           </td>
         </ng-container>
-      </ng-container>
+      </ng-container>-->
+
+        <!-- Buttons Column -->
+        <ng-container *ngIf="buttons && buttons.length > 0" matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <div class="flex items-center">
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                            (click)="$event.stopPropagation();">
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #moreMenu="matMenu">
+                        <div *ngFor="let button of buttons">
+                            <button mat-menu-item (click)="this.buttonClick.emit([button.action, button.payload(row)])">
+                                <mat-icon>{{ button.icon }}</mat-icon>
+                                <span *ngIf="button.text">{{ button.text }}</span>
+                            </button>
+                        </div>
+
+                       <!-- <button mat-menu-item (click)="takeAttendance(group)">
+                            <mat-icon>check_box</mat-icon>
+                            <span>Take attendance</span>
+                        </button>
+                        <button mat-menu-item >
+                            <mat-icon>settings</mat-icon>
+                            <span>Manage</span>
+                        </button>
+                        <button mat-menu-item aria-label="remove" (click)="delete(group)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Remove</span>
+                        </button>-->
+                    </mat-menu>
+                </div>
+
+            </mat-cell>
+        </ng-container>
 
       <!-- Disclaimer column - with nullable approach -->
       <ng-container matColumnDef="disclaimer" *ngIf="footer">

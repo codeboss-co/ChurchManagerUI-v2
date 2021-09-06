@@ -6,6 +6,9 @@ body.light .mat-simple-snackbar-action, body .light .mat-simple-snackbar-action 
     color: #cbd5e1 !important;
 }
 
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Snackbar
+/* ----------------------------------------------------------------------------------------------------- */
 .blue-snackbar {
     background: #2196F3 !important;
 }
@@ -15,3 +18,14 @@ body.light .mat-simple-snackbar-action, body .light .mat-simple-snackbar-action 
 .red-snackbar {
     background: #B00020  !important;
 }
+
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Table
+/* ----------------------------------------------------------------------------------------------------- */
+/*.mat-header-row,
+.mat-footer-row,
+.mat-row {
+    min-height: 48px !important;
+    height: 48px !important;
+}*/
+
