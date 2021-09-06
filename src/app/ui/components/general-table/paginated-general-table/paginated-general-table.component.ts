@@ -33,13 +33,13 @@ import { Subject } from 'rxjs';
 } )
 export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit, AfterContentInit
 {
-    @Input() debug: boolean = true;
+    @Input() debug: boolean = false;
 
     @Input() columns: TableColumn[] = [];
     @Input() buttons: TableBtn[] = [];
-    @Input() selectable: boolean = true;
+    @Input() selectable: boolean = false;
     @Input() filter: boolean = false;
-    @Input() filterPlaceholder: string = 'Filter';
+    @Input() filterPlaceholder: string = 'Filter results';
     @Input() footer: string = null;
     @Input() pagination: number[] = [];
     @Input() pageSize: number = 10;

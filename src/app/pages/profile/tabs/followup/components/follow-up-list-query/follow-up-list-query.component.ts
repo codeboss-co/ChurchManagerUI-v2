@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { QueryBase } from '@shared/query-base';
-import { FollowUpListQuery } from '../../follow-up.models';
+import { FollowUpQuery } from '../../follow-up.models';
 import { FormBuilder } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
 
@@ -9,14 +9,19 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './follow-up-list-query.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FollowUpListQueryComponent extends QueryBase<FollowUpListQuery> implements OnInit
+export class FollowUpListQueryComponent extends QueryBase<FollowUpQuery> implements OnInit
 {
 
-  constructor(private _formBuilder: FormBuilder)
+    followUpTypes: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+    severityList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
+    constructor(private _formBuilder: FormBuilder)
   {
       super();
 
       this.searchForm = this._formBuilder.group({
+          types: [],
+          severity: [],
           assignedToMe: [true],
           withAction: [false],
           from: [null],

@@ -1,16 +1,27 @@
-<!-- Query Filter injection -->
+<pre *ngIf="debug">
+    selection.hasValue(): {{selection.hasValue()}} |  isAllSelected(): {{isAllSelected()}} |  docsOnThisPage: {{resultsOnThisPage.length}} |  selected: {{selection.selected.length}}
+</pre>
+
+<!-- Query injection -->
 <ng-content></ng-content>
 
-<mat-form-field *ngIf="filter">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{filterPlaceholder}}">
-</mat-form-field>
-
-<pre *ngIf="debug">
-    selection.hasValue(): {{selection.hasValue()}}
-    isAllSelected(): {{isAllSelected()}}
-    docsOnThisPage: {{resultsOnThisPage.length}}
-    selected: {{selection.selected.length}}
-</pre>
+<!-- Filter -->
+<div class="flex" *ngIf="filter && page.totalResults > 0">
+    <mat-form-field
+        class="flex-auto">
+        <input
+            matInput
+            (keyup)="applyFilter($event.target.value)"
+            placeholder="{{filterPlaceholder}}">
+        <button
+            mat-icon-button
+            matPrefix>
+            <mat-icon
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:filter'"></mat-icon>
+        </button>
+    </mat-form-field>
+</div>
 
     <!-- Table -->
     <mat-table class="mat-elevation-z4 w-full"
@@ -95,8 +106,10 @@
                    (page)="fetch($event.pageIndex)">
     </mat-paginator>
 
-<br><br>
-<div>
-    <button  mat-raised-button (click)="logSelection()">Console Log Selected</button>
+<div *ngIf="debug">
+    <button
+        mat-raised-button
+        (click)="logSelection()">Console Log Selected
+    </button>
 </div>
 
