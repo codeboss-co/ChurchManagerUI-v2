@@ -11,9 +11,8 @@ import { filter, map } from 'rxjs/operators';
 })
 export class FollowUpListQueryComponent extends QueryBase<FollowUpQuery> implements OnInit
 {
-
-    followUpTypes: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-    severityList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+    followUpTypes: string[] = ['New Convert', 'General Well Being', 'Home Visitation', 'Death'];
+    severityList: string[] = ['Normal' , 'Urgent'];
 
     constructor(private _formBuilder: FormBuilder)
   {

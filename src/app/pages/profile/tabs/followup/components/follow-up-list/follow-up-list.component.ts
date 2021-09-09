@@ -20,15 +20,14 @@ export class FollowUpListComponent implements OnInit {
             { columnDef: 'assignedDate',     header: 'Assigned Date',    cell: (element: FollowUpRecord) => {
                     return parseLocalDate(element.assignedDate);
             } },
-            { columnDef: 'actionDate',     header: 'Action Date',    cell: (element: FollowUpRecord) => {
-                    return parseLocalDate(element.actionDate);
-            } },
             { columnDef: 'type',     header: 'Type',     cell: (element: FollowUpRecord) => `${element.type}` },
             { columnDef: 'severity',   header: 'Severity',   cell: (element: FollowUpRecord) => `${element.severity}` },
-            { columnDef: 'person',    header: 'Person',    cell: (element: FollowUpRecord) => `${element.person}` },
-            { columnDef: 'assignedPerson', header: 'Assigned Person', cell: (element: FollowUpRecord) => `${element.assignedPerson}` },
-            { columnDef: 'note', header: 'Note', cell: (element: FollowUpRecord) => `${element.note}` },
-            { columnDef: 'requiresAdditionalFollowUp', header: 'Additional FollowUp', cell: (element: FollowUpRecord) => `${element.requiresAdditionalFollowUp}` },
+            { columnDef: 'person',    header: 'Person',    cell: (element: FollowUpRecord) => `${element.person.label}` },
+            { columnDef: 'assignedPerson', header: 'Assigned Person', cell: (element: FollowUpRecord) => `${element.assignedPerson.label}` },
+
+            { columnDef: 'actionDate',     header: 'Action Date',    cell: (element: FollowUpRecord) => element.actionDate ? parseLocalDate(element.actionDate) : ''},
+            { columnDef: 'note', header: 'Note', cell: (element: FollowUpRecord) => element.note ? element.note : '' },
+            { columnDef: 'requiresAdditionalFollowUp', header: 'Additional Follow Up?', cell: (element: FollowUpRecord) => element.requiresAdditionalFollowUp ? 'Yes' : 'No' }
         ];
 
         this.buttons = [
