@@ -16,7 +16,7 @@ export class FollowUpDataService extends HttpBaseService
 
     constructor(
         private http: HttpClient,
-        @Inject(ENV) private _environment: Environment )
+        @Inject(ENV) private _environment: Environment)
     {
         super(http);
     }

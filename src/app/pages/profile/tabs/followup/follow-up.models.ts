@@ -4,8 +4,8 @@ import { Identifiable } from '@shared/shared.models';
 export interface FollowUpQuery
 {
     types?: string[];
-    assignedPerson?: Identifiable;
-    person?: Identifiable;
+    assignedPerson?: Partial<Identifiable>;
+    person?: Partial<Identifiable>;
     assignedToMe?: boolean;
     severity?: string[];
     withAction?: boolean;
