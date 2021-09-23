@@ -43,6 +43,9 @@
             <paginated-general-table
                 [columns]="pagingColumns"
                 [buttons]="buttons"
+                [selectable]="true"
+                [filter]="true"
+                [debug]="true"
                 (buttonClick)="onButtonClicked($event)">
                     <example-paginated-query #query></example-paginated-query>
             </paginated-general-table>

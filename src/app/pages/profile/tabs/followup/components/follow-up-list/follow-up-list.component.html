@@ -1,1 +1,12 @@
-<p>follow-up-list works!</p>
+<div class="md:p-8  flex-1" fuseScrollbar>
+
+    <!-- CONTENT -->
+    <paginated-general-table
+        [columns]="columns"
+        [buttons]="buttons"
+        [debug]="true"
+        (buttonClick)="onButtonClicked($event)">
+            <profile-follow-up-list-query #query></profile-follow-up-list-query >
+    </paginated-general-table>
+
+</div>

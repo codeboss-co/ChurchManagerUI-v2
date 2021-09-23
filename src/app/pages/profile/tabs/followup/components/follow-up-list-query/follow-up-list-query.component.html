@@ -1,1 +1,52 @@
-<p>follow-up-list-query works!</p>
+<!-- Search -->
+<form [formGroup]="searchForm">
+    <div class="flex flex-wrap justify-between items-baseline">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Types</mat-label>
+            <mat-select formControlName="types" multiple>
+                <mat-option *ngFor="let type of followUpTypes" [value]="type">{{type}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Severity</mat-label>
+            <mat-select formControlName="severity" multiple>
+                <mat-option *ngFor="let severity of severityList" [value]="severity">{{severity}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="assignedToMe">
+            Assigned To Me
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="withAction">
+            With Action
+        </mat-checkbox>
+
+        <mat-form-field appearance="outline" style='width: 280px'>
+            <mat-label>Date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="from" placeholder="Start date">
+                <input matEndDate formControlName="to" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error *ngIf="searchForm.controls.from.hasError('matStartDateInvalid')">Invalid
+                start date
+            </mat-error>
+            <mat-error *ngIf="searchForm.controls.to.hasError('matEndDateInvalid')">Invalid end
+                date
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary"
+                [disabled]="!searchForm.valid"
+                (click)="searchBtnClicked.next()">
+            <mat-icon>search</mat-icon>
+            Search
+        </button>
+
+    </div>
+</form>

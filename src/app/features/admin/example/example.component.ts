@@ -57,10 +57,10 @@ export class ExampleComponent
             { columnDef: 'attendanceDate',     header: 'Attendance Date',    cell: (element: GroupAttendanceRecord) => {
                const dateString = element.attendanceDate as string;
                const date = new Date(dateString);
-                return `${date.toLocaleString("en-ZA", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
+                return `${date.toLocaleString('en-ZA', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
                 })}`;
             } },
             { columnDef: 'groupName',     header: 'Group',     cell: (element: GroupAttendanceRecord) => `${element.groupName}` },
