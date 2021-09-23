@@ -43,6 +43,20 @@ const routes: Routes = [
         ]
     },
     {
+        path     : 'attendance-reports-group/:groupId',
+        component: CellAttendanceReportsComponent,
+        children : [
+            {
+                path         : ':id',
+                component    : AttendanceReportFeedbackComponent,
+                canDeactivate: [CanDeactivateAttendanceReportFeedback],
+                resolve: {
+                    attendanceRecord: CellMinistryAttendanceReportResolver
+                }
+            }
+        ]
+    },
+    {
         path     : '**',
         component: CellMinistryComponent
     }
