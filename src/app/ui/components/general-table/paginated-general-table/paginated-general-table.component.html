@@ -68,7 +68,7 @@
 
                     <mat-menu #moreMenu="matMenu">
                         <div *ngFor="let button of buttons">
-                            <button mat-menu-item (click)="this.buttonClick.emit([button.action, button.payload(row)])">
+                            <button mat-menu-item (click)="this.buttonClick.emit([button.action, button.payload(row)])" disabled>
                                 <mat-icon>{{ button.icon }}</mat-icon>
                                 <span *ngIf="button.text">{{ button.text }}</span>
                             </button>
