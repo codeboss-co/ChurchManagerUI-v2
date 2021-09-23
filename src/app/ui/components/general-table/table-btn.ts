@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 export interface TableBtn {
-  styleClass: string;
+  styleClass?: string;
   icon: string;
   payload: (any) => string;
   action: string;

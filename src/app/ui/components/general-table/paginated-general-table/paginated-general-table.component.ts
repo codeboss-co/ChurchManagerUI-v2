@@ -1,6 +1,7 @@
 import {
     AfterContentInit,
-    AfterViewInit, ChangeDetectionStrategy,
+    AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ContentChild,
     EventEmitter,
@@ -9,12 +10,12 @@ import {
     OnChanges,
     Output,
     SimpleChanges,
-    ViewChild, ViewEncapsulation
+    ViewChild
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PAGING_SERVICE, TableBtn, TableColumn, TableQuery } from '..';
-import { PagedResult, Sort } from '@shared/data/pagination.models';
+import { PagedResult } from '@shared/data/pagination.models';
 import { takeUntil, tap } from 'rxjs/operators';
 import { IPaginatedTableService } from '@ui/components/general-table/paginated-general-table/paginated-general-table.service';
 import { fuseAnimations } from '@fuse/animations';
@@ -33,13 +34,13 @@ import { Subject } from 'rxjs';
 } )
 export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit, AfterContentInit
 {
-    @Input() debug: boolean = true;
+    @Input() debug: boolean = false;
 
     @Input() columns: TableColumn[] = [];
     @Input() buttons: TableBtn[] = [];
-    @Input() selectable: boolean = true;
+    @Input() selectable: boolean = false;
     @Input() filter: boolean = false;
-    @Input() filterPlaceholder: string = 'Filter';
+    @Input() filterPlaceholder: string = 'Filter results';
     @Input() footer: string = null;
     @Input() pagination: number[] = [];
     @Input() pageSize: number = 10;
@@ -65,6 +66,11 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
 
     constructor(@Inject(PAGING_SERVICE) public service: IPaginatedTableService)
     {
+        if ( !service )
+        {
+            throw new Error('PAGING_SERVICE has not been defined. Configure provider with injection token: PAGING_SERVICE');
+        }
+
         this.service.page$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(page => this.page = page);

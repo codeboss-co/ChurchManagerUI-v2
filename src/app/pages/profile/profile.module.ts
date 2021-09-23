@@ -49,6 +49,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { ProfileFollowUpComponent } from './tabs/followup/follow-up.component';
 import { FollowUpListComponent } from './tabs/followup/components/follow-up-list/follow-up-list.component';
 import { FollowUpListQueryComponent } from './tabs/followup/components/follow-up-list-query/follow-up-list-query.component';
+import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 
 
 @NgModule({
@@ -103,11 +104,11 @@ import { FollowUpListQueryComponent } from './tabs/followup/components/follow-up
         GenderControlModule,
         BirthDateEditorModule,
         ChurchesSelectControlModule,
+        GeneralTableModule,
 
         // Extensions
         AgePluralizeModule,
         UploadImagesModule
-        //ImageCropperModule
     ],
     providers: [
         ProfileResolver, ProfileDiscipleshipResolver,
