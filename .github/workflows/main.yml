@@ -51,14 +51,16 @@ jobs:
           cat ./buildinfo.json # just some logging
       working-directory: ./src/assets
 
-    - name: 🛠️ Use Node 14.x
+    - name: ⚙️ Use Node 14.x
       uses: actions/setup-node@v1
       with:
           node-version: '14.x'
-    - name: Install dependencies
+    - name: 📥 Install dependencies
       run: npm ci --quiet
-    - name: Build
-      run: npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
+    - name: 🛠️ Build
+      run: |
+          npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
+          cp ./scripts/_headers ./dist/_headers # headers file for Netlify
 
     - name: ⏭ Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.2
@@ -73,7 +75,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ env.NETLIFY_SITE_ID }}
           timeout-minutes: 1
 
-    - name: Archive Artifacts
+    - name: 🗳️ Archive Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dist-files
