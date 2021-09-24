@@ -118,6 +118,10 @@ export class CellAttendanceReportsComponent implements OnInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._activatedRoute.params
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({groupId}) => console.log('groupId', groupId));
     }
 
     /**
