@@ -7,9 +7,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { BehaviorSubject, merge, Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
@@ -18,6 +18,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector     : 'cell-ministry-attendance-reports',
@@ -33,15 +34,22 @@ export class CellAttendanceReportsComponent implements OnInit
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
     drawerMode: 'over' | 'side';
-    groupIdParam$: Observable<any>; // When viewing a groups records
+
+    // View Variables
+    groupId: number | undefined;
+    viewMode: 'all' | 'group' = 'all';
+    ngClasses = 'cursor-pointer';
 
     displayedColumns: string[] = ['attendanceDate', 'groupName', 'didNotOccur', 'attendanceCount',
-        'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos'
+        'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos', 'actions'
     ];
     dataSource: PaginatedDataSource<GroupAttendanceRecord, GroupAttendanceQuery> | null;
 
+
     // Private
     private _unsubscribeAll = new Subject();
+    private _deleteAttendanceRecordTrigger = new Subject<GroupAttendanceRecord>();
+
     /**
      * Constructor
      */
@@ -51,7 +59,8 @@ export class CellAttendanceReportsComponent implements OnInit
         private _changeDetectorRef: ChangeDetectorRef,
         private _data: CellMinistryDataService,
         private _router: Router,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _fuseConfirmationService: FuseConfirmationService
     )
     {
         this.searchForm = this._formBuilder.group({
@@ -64,14 +73,17 @@ export class CellAttendanceReportsComponent implements OnInit
 
     ngOnInit(): void {
         // Try extract groupId from URL path (can be undefined)
-        this.groupIdParam$ = this._activatedRoute.params
-            .pipe(map(({groupId}) => groupId));
+        const groupIdParam$ = this._activatedRoute.params
+            .pipe(map(({groupId}) => groupId))
+            .pipe(filter(groupId => groupId)); // skips when not present
 
         // Update controls based on mode
-        this.groupIdParam$
-            .pipe(filter(groupId => groupId)) // skips when not present
+        groupIdParam$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((groupId) => {
+                this.viewMode = 'group';
+                this.groupId = groupId;
+                this.ngClasses = ''; // remove cursor so its not clickable
                 const control = this.searchForm.get('churchGroup');
                 control.setValidators([]);
                 control.updateValueAndValidity();
@@ -87,21 +99,20 @@ export class CellAttendanceReportsComponent implements OnInit
             .pipe(
                 filter( () =>  this.searchForm.valid),
                 takeUntil(this._unsubscribeAll),
-                withLatestFrom(this.groupIdParam$), // Add the groupId
-                map( ([_, groupIdParam]) => {
+                map( (_) => {
 
                     const {churchGroup, withFeedBack, from, to} = this.searchForm.value;
 
-                    if (churchGroup) {
+                    if (this.viewMode === 'all') {
                         const {churchId, groupId} = churchGroup;
                         return {churchId, groupId, withFeedBack, from, to};
                     }
 
-                    if (groupIdParam) {
-                        return {churchId: null, groupId: groupIdParam, withFeedBack, from, to};
+                    if (this.viewMode === 'group') {
+                        return {churchId: null, groupId: this.groupId, withFeedBack, from, to};
                     }
 
-                    console.error('CodeBoss: Error processing query$', this.searchForm.value, 'groupIdParam:', groupIdParam);
+                    console.error('CodeBoss: Error processing query$', this.searchForm.value, 'groupIdParam:', this.groupId);
                 })
             );
 
@@ -145,6 +156,13 @@ export class CellAttendanceReportsComponent implements OnInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._deleteAttendanceRecordTrigger
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap(record => this._data.deleteAttendanceRecord$(record.id))
+            )
+            .subscribe();
     }
 
     /**
@@ -180,5 +198,19 @@ export class CellAttendanceReportsComponent implements OnInit
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
+    }
+
+    delete(record: GroupAttendanceRecord ) {
+        const confirmation = this._fuseConfirmationService.delete();
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if ( result === 'confirmed' )
+            {
+                console.log('delete confirmed');
+                this._deleteAttendanceRecordTrigger.next(record);
+            }
+        });
     }
 }
