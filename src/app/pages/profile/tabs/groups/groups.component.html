@@ -49,7 +49,7 @@
                                 <mat-icon>check_box</mat-icon>
                                 <span>Take Attendance</span>
                             </button>
-                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="view attendance" [routerLink]="['/apps/groups/cell-ministry/attendance-reports-group', group.groupId]">
+                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="view attendance" [routerLink]="['/apps/groups/cell-ministry/group-attendance-reports', group.groupId]">
                                 <mat-icon>list</mat-icon>
                                 <span>View Attendance Records</span>
                             </button>

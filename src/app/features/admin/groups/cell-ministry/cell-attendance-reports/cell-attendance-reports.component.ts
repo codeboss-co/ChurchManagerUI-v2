@@ -7,9 +7,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { merge, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
 import { GroupAttendanceQuery, GroupAttendanceRecord } from '../cell-ministry.model';
 import { PaginatedDataSource } from '@shared/data/paginated.data-source';
@@ -33,6 +33,7 @@ export class CellAttendanceReportsComponent implements OnInit
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
     drawerMode: 'over' | 'side';
+    groupIdParam$: Observable<any>; // When viewing a groups records
 
     displayedColumns: string[] = ['attendanceDate', 'groupName', 'didNotOccur', 'attendanceCount',
         'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos'
@@ -41,7 +42,6 @@ export class CellAttendanceReportsComponent implements OnInit
 
     // Private
     private _unsubscribeAll = new Subject();
-
     /**
      * Constructor
      */
@@ -63,18 +63,45 @@ export class CellAttendanceReportsComponent implements OnInit
     }
 
     ngOnInit(): void {
+        // Try extract groupId from URL path (can be undefined)
+        this.groupIdParam$ = this._activatedRoute.params
+            .pipe(map(({groupId}) => groupId));
+
+        // Update controls based on mode
+        this.groupIdParam$
+            .pipe(filter(groupId => groupId)) // skips when not present
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((groupId) => {
+                const control = this.searchForm.get('churchGroup');
+                control.setValidators([]);
+                control.updateValueAndValidity();
+                // Hide these columns
+                this.displayedColumns = this.displayedColumns
+                    .filter(x =>
+                        x !== 'groupName' &&
+                        x !== 'hasNotes' &&
+                        x !== 'hasPhotos');
+            });
 
         const query$: Observable<GroupAttendanceQuery> =  this.searchBtnClicked
             .pipe(
                 filter( () =>  this.searchForm.valid),
                 takeUntil(this._unsubscribeAll),
-                map( () => {
+                withLatestFrom(this.groupIdParam$), // Add the groupId
+                map( ([_, groupIdParam]) => {
 
                     const {churchGroup, withFeedBack, from, to} = this.searchForm.value;
 
-                    const {churchId, groupId} = churchGroup;
+                    if (churchGroup) {
+                        const {churchId, groupId} = churchGroup;
+                        return {churchId, groupId, withFeedBack, from, to};
+                    }
 
-                    return {churchId, groupId, withFeedBack, from, to};
+                    if (groupIdParam) {
+                        return {churchId: null, groupId: groupIdParam, withFeedBack, from, to};
+                    }
+
+                    console.error('CodeBoss: Error processing query$', this.searchForm.value, 'groupIdParam:', groupIdParam);
                 })
             );
 
@@ -118,10 +145,6 @@ export class CellAttendanceReportsComponent implements OnInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        this._activatedRoute.params
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({groupId}) => console.log('groupId', groupId));
     }
 
     /**
