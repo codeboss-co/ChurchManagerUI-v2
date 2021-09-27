@@ -103,8 +103,7 @@ export class CellMinistryDataService extends HttpBaseService
         return super.post<GroupAttendanceRecordDetail>(`${this._apiUrl}/v1/cellministry/attendance/feedback`, body);
     }
 
-    deleteAttendanceRecord$( id: number ): Observable<any> {
-        console.log('success test');
-        return of('success test');
+    deleteAttendanceRecord$( attendanceRecordId: number ): Observable<any> {
+        return super.delete<any>(`${this._apiUrl}/v1/groupattendance/${attendanceRecordId}`, null);
     }
 }

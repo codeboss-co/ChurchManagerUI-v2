@@ -38,7 +38,6 @@ export class CellAttendanceReportsComponent implements OnInit
     // View Variables
     groupId: number | undefined;
     viewMode: 'all' | 'group' = 'all';
-    ngClasses = 'cursor-pointer';
 
     displayedColumns: string[] = ['attendanceDate', 'groupName', 'didNotOccur', 'attendanceCount',
         'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos', 'actions'
@@ -72,8 +71,8 @@ export class CellAttendanceReportsComponent implements OnInit
     }
 
     ngOnInit(): void {
-        // Try extract groupId from URL path (can be undefined)
-        const groupIdParam$ = this._activatedRoute.params
+        // Try extract groupId from query string (can be undefined)
+        const groupIdParam$ = this._activatedRoute.queryParams
             .pipe(map(({groupId}) => groupId))
             .pipe(filter(groupId => groupId)); // skips when not present
 
@@ -83,7 +82,6 @@ export class CellAttendanceReportsComponent implements OnInit
             .subscribe((groupId) => {
                 this.viewMode = 'group';
                 this.groupId = groupId;
-                this.ngClasses = ''; // remove cursor so its not clickable
                 const control = this.searchForm.get('churchGroup');
                 control.setValidators([]);
                 control.updateValueAndValidity();
@@ -112,7 +110,7 @@ export class CellAttendanceReportsComponent implements OnInit
                         return {churchId: null, groupId: this.groupId, withFeedBack, from, to};
                     }
 
-                    console.error('CodeBoss: Error processing query$', this.searchForm.value, 'groupIdParam:', this.groupId);
+                    console.error('CodeBoss: Error processing query$', this.searchForm.value, 'groupId:', this.groupId);
                 })
             );
 
@@ -162,7 +160,7 @@ export class CellAttendanceReportsComponent implements OnInit
             .pipe(
                 switchMap(record => this._data.deleteAttendanceRecord$(record.id))
             )
-            .subscribe();
+            .subscribe(_ => this.searchBtnClicked.next());
     }
 
     /**
