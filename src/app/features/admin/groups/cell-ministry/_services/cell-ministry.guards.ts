@@ -22,9 +22,9 @@ export class CanDeactivateAttendanceReportFeedback implements CanDeactivate<Atte
             nextRoute = nextRoute.firstChild;
         }
 
-        // If the next state doesn't contain '/contacts'
+        // If the next state doesn't contain '/cell-ministry'
         // it means we are navigating away from the
-        // contacts app
+        // cell-ministry
         if ( !nextState.url.includes('/cell-ministry') )
         {
             // Let it navigate

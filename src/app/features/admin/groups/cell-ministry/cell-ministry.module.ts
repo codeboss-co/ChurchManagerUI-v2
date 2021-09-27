@@ -26,6 +26,8 @@ import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/ce
 import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
+import { UserRolesModule } from '@shared/directives/user-roles';
+import { UserRolesPipeModule } from '@shared/pipes/user-roles/user-roles-pipe.module';
 
 const routes: Routes = [
     {
@@ -94,7 +96,11 @@ const routes: Routes = [
         FuseAutogrowModule,
 
         // Controls
-        ChurchGroupsSelectControlModule
+        ChurchGroupsSelectControlModule,
+
+        // Pipes & Directives
+        UserRolesModule,
+        UserRolesPipeModule
     ],
     providers: [CellMinistryDataService, CellMinistryAttendanceReportResolver]
 })
