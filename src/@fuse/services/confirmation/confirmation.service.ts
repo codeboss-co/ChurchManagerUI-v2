@@ -55,4 +55,20 @@ export class FuseConfirmationService
             panelClass  : 'fuse-confirmation-dialog-panel'
         });
     }
+
+    delete(): MatDialogRef<FuseConfirmationDialogComponent>
+    {
+        const config: FuseConfirmationConfig = {
+            title  : 'Confirm Deletion',
+            message: 'Are you sure you want to delete this?',
+            actions    : {
+                confirm: {
+                    label: 'Delete',
+                    color: 'warn'
+                }
+            }
+        };
+
+        return this.open(config);
+    }
 }

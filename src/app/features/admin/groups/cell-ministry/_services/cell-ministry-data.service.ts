@@ -13,7 +13,7 @@ import {
 } from '../cell-ministry.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { ApiResponse } from '@shared/shared.models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable()
 export class CellMinistryDataService extends HttpBaseService
@@ -101,5 +101,9 @@ export class CellMinistryDataService extends HttpBaseService
     updateAttendanceFeedback$( attendanceId: number, feedback: string ): Observable<any> {
         const body = { attendanceId, feedback };
         return super.post<GroupAttendanceRecordDetail>(`${this._apiUrl}/v1/cellministry/attendance/feedback`, body);
+    }
+
+    deleteAttendanceRecord$( attendanceRecordId: number ): Observable<any> {
+        return super.delete<any>(`${this._apiUrl}/v1/groupattendance/${attendanceRecordId}`, null);
     }
 }

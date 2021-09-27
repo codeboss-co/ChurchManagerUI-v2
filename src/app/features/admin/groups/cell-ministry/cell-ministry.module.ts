@@ -43,7 +43,7 @@ const routes: Routes = [
         ]
     },
     {
-        path     : 'attendance-reports-group/:groupId',
+        path     : 'group-attendance-reports/:groupId',
         component: CellAttendanceReportsComponent,
         children : [
             {
