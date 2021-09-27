@@ -187,10 +187,10 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <!--Group view does not allow viewing right now-->
-                        <ng-container *ngIf="viewMode === 'all'">
+                        <ng-container *ngIf="['Admin'] | userRoles">
                             <tr mat-row [ngClass]="'cursor-pointer'" *matRowDef="let row; columns: displayedColumns;" (click)="goToRecord(row.id)"></tr>
                         </ng-container>
-                        <ng-container *ngIf="viewMode === 'group'">
+                        <ng-container *ngIf="(['Admin'] | userRoles) == false">
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </ng-container>
 

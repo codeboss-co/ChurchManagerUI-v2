@@ -118,11 +118,6 @@ export class ProfileGroupsComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    delete( item: any ): void
-    {
-
-    }
-
     takeAttendance( group: Group ): void
     {
         this.dialogRef = this._matDialog.open(GroupAttendanceFormDialogComponent, {

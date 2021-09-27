@@ -19,6 +19,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { AuthService } from '@core/auth/auth.service';
 
 @Component({
     selector     : 'cell-ministry-attendance-reports',
@@ -59,7 +60,8 @@ export class CellAttendanceReportsComponent implements OnInit
         private _data: CellMinistryDataService,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseConfirmationService: FuseConfirmationService
+        private _fuseConfirmationService: FuseConfirmationService,
+        public auth: AuthService
     )
     {
         this.searchForm = this._formBuilder.group({
@@ -179,7 +181,11 @@ export class CellAttendanceReportsComponent implements OnInit
 
     onBackdropClicked(): void {
         // Go back to the list
-        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
+        this._router.navigate(['./'],
+            {
+                relativeTo: this._activatedRoute,
+                queryParams: { groupId: this.groupId }
+            });
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
@@ -192,7 +198,9 @@ export class CellAttendanceReportsComponent implements OnInit
     goToRecord( id: number ): void {
         console.log( 'id', id, '' );
         // Go to contact
-        this._router.navigate(['/apps/groups/cell-ministry/attendance-reports/', id]);
+        this._router.navigate(
+            ['/apps/groups/cell-ministry/attendance-reports/', id],
+            { queryParams: { groupId: this.groupId } });
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -206,7 +214,6 @@ export class CellAttendanceReportsComponent implements OnInit
             // If the confirm button pressed...
             if ( result === 'confirmed' )
             {
-                console.log('delete confirmed');
                 this._deleteAttendanceRecordTrigger.next(record);
             }
         });

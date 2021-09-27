@@ -48,8 +48,7 @@ export class AuthService
     get roles(): string[] {
         const token: string = this.accessToken;
         if (token && !this._jwtHelper.isTokenExpired(token)) {
-            return this._jwtHelper.decodeToken(this.accessToken)[ClaimType.Roles]
-
+            return [this._jwtHelper.decodeToken(this.accessToken)[ClaimType.Roles]];
         }
 
         return [];
@@ -152,4 +151,17 @@ export class AuthService
     {
         return this._httpClient.get(`${this._apiUrl}/v1/tenants`);
     }
+
+    hasRoles(roles: string[]) {
+        for (const userRole of this.roles) {
+            for (const role of roles) {
+                if (userRole === role) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }
