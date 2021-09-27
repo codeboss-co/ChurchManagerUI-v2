@@ -134,7 +134,7 @@ export class ProfileGroupsComponent implements OnInit, OnDestroy
 
         this.dialogRef.afterClosed()
             .pipe(
-                filter((response) => !!response),
+                filter(response => !!response),
                 switchMap((response: GroupAttendanceForm) => {
                     console.log('takeAttendance response', response);
                     return this._groupData.registerAttendance$(response);
