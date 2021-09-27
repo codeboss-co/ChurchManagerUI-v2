@@ -23,6 +23,9 @@ jobs:
 
     steps:
 
+    - name: 🛒 Checkout
+      uses: actions/checkout@v2
+
     -   name: ⚙️ Set env to Test
         if: endsWith(github.ref, '/develop')
         run: |
@@ -34,9 +37,6 @@ jobs:
         run: |
             echo "ENVIRONMENT=production" >> $GITHUB_ENV
             echo "NETLIFY_SITE_ID=6b92198d-66b1-4dac-9466-74cf906d305d" >> $GITHUB_ENV  #  API ID is NETLIFY_SITE_ID
-
-    - name: 🛒 Checkout
-      uses: actions/checkout@v2
 
     - name: ⚙️ Set current date
       id: date
@@ -60,7 +60,7 @@ jobs:
     - name: 🛠️ Build
       run: |
           npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
-          # cp ./scripts/_headers ./dist/_headers # headers file for Netlify
+          cp ./scripts/_headers ./dist/_headers # headers file for Netlify
 
     - name: ⏭ Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.2
