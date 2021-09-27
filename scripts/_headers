@@ -1,0 +1,9 @@
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+
+/ngsw-worker.js
+  cache-control: max-age=0,no-cache,no-store,must-revalidate
+
+/assets/buildinfo.json
+  cache-control: max-age=0,no-cache,no-store,must-revalidate

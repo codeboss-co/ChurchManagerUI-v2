@@ -41,13 +41,19 @@
                         </button>
 
                         <mat-menu #moreMenu="matMenu">
-                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="attendance" (click)="takeAttendance(group)">
-                                <mat-icon>check_box</mat-icon>
-                                <span>Take attendance</span>
-                            </button>
                             <button mat-menu-item aria-label="manage" [routerLink]="['/apps/groups', group.groupId]">
                                 <mat-icon>settings</mat-icon>
                                 <span>Manage</span>
+                            </button>
+                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="attendance" (click)="takeAttendance(group)">
+                                <mat-icon>check_box</mat-icon>
+                                <span>Take Attendance</span>
+                            </button>
+                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="view attendance"
+                                    [routerLink]="['/apps/groups/cell-ministry/attendance-reports']"
+                                    [queryParams]="{groupId: group.groupId}">
+                                <mat-icon>list</mat-icon>
+                                <span>View Attendance Records</span>
                             </button>
                             <button mat-menu-item aria-label="remove" (click)="delete(group)">
                                 <mat-icon>delete</mat-icon>
