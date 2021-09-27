@@ -6,6 +6,7 @@ import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import {
+    CellGroupsDashboardData,
     CellGroupsWeeklyBreakdown,
     GroupAttendanceQuery,
     GroupAttendanceRecord,
@@ -13,7 +14,7 @@ import {
 } from '../cell-ministry.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { ApiResponse } from '@shared/shared.models';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CellMinistryDataService extends HttpBaseService
@@ -22,6 +23,7 @@ export class CellMinistryDataService extends HttpBaseService
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecordDetail>(null);
+    private _dashboardData = new BehaviorSubject<CellGroupsDashboardData>(null);
     private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
     constructor(
@@ -41,6 +43,14 @@ export class CellMinistryDataService extends HttpBaseService
     get attendanceRecord$(): Observable<GroupAttendanceRecordDetail>
     {
         return this._attendanceRecord.asObservable();
+    }
+
+    /**
+     * Getter for dashboard data
+     */
+    get dashboardData$(): Observable<CellGroupsDashboardData>
+    {
+        return this._dashboardData.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,6 +95,19 @@ export class CellMinistryDataService extends HttpBaseService
                 shareReplay(1),
                 map(response => response.data),
                 tap(chartData => this._weeklyChartData.next(chartData))
+            );
+    }
+
+    /**
+     * Fetch data for cell ministry dashboard page
+     */
+    getDashboardData$(): Observable<CellGroupsDashboardData>
+    {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/cellministry/dashboard`)
+            .pipe(
+                shareReplay(1),
+                map(response => response.data),
+                tap(data => this._dashboardData.next(data))
             );
     }
 
