@@ -39,7 +39,9 @@
                 <button mat-icon-button matTooltip="Split group" disabled>
                     <mat-icon>call_split</mat-icon>
                 </button>
-                <button *ngIf="group.groupType.takesAttendance" mat-icon-button matTooltip="View attendance records" disabled>
+                <button *ngIf="group.groupType.takesAttendance" mat-icon-button matTooltip="View attendance records"
+                        [routerLink]="['/apps/groups/cell-ministry/attendance-reports']"
+                        [queryParams]="{groupId: group.id}">
                     <mat-icon>assignment</mat-icon>
                 </button>
             </div>

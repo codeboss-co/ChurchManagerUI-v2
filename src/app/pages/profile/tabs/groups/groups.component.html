@@ -52,7 +52,7 @@
                             <button *ngIf="group.takesAttendance" mat-menu-item aria-label="view attendance"
                                     [routerLink]="['/apps/groups/cell-ministry/attendance-reports']"
                                     [queryParams]="{groupId: group.groupId}">
-                                <mat-icon>list</mat-icon>
+                                <mat-icon>assignment</mat-icon>
                                 <span>View Attendance Records</span>
                             </button>
                             <button mat-menu-item aria-label="remove" (click)="delete(group)">
