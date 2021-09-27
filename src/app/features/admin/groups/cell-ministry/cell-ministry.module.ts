@@ -23,13 +23,23 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-ministry/attendance-report-feedback/attendance-report-feedback';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
-import { CellMinistryAttendanceReportResolver } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
+import {
+    CellMinistryAttendanceReportResolver,
+    CellMinistryDashboardResolver
+} from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { UserRolesModule } from '@shared/directives/user-roles';
 import { UserRolesPipeModule } from '@shared/pipes/user-roles/user-roles-pipe.module';
 
 const routes: Routes = [
+    {
+        path     : '',
+        component: CellMinistryComponent,
+        resolve: {
+            dashboardData: CellMinistryDashboardResolver
+        }
+    },
     {
         path     : 'attendance-reports',
         component: CellAttendanceReportsComponent,
@@ -57,10 +67,6 @@ const routes: Routes = [
                 }
             }
         ]
-    },
-    {
-        path     : '**',
-        component: CellMinistryComponent
     }
 ];
 
@@ -102,7 +108,11 @@ const routes: Routes = [
         UserRolesModule,
         UserRolesPipeModule
     ],
-    providers: [CellMinistryDataService, CellMinistryAttendanceReportResolver]
+    providers: [
+        CellMinistryDataService,
+        CellMinistryAttendanceReportResolver,
+        CellMinistryDashboardResolver
+    ]
 })
 export class CellMinistryModule
 {

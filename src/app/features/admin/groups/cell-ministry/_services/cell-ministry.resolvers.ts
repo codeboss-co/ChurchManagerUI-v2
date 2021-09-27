@@ -25,3 +25,25 @@ export class CellMinistryAttendanceReportResolver implements Resolve<any>
         return this._data.getAttendanceRecordById$(+route.paramMap.get('id'));
     }
 }
+
+@Injectable()
+export class CellMinistryDashboardResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _data: CellMinistryDataService)
+    {
+    }
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
+    {
+        return this._data.getDashboardData$();
+    }
+}

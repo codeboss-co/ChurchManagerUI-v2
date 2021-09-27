@@ -101,3 +101,15 @@ export interface CellGroupsWeeklyBreakdown
     totalFirstTimers?: number;
     totalHolySpirit?: number;
 }
+
+export interface CellGroupsDashboardData
+{
+    totalCellsCount: number;
+    activeCellsCount: number;
+    inActiveCellsCount: number;
+    onlineCellsCount: number;
+    peopleCount: number;
+    leadersCount: number;
+    openedCells: number;
+    closedCells: number;
+}

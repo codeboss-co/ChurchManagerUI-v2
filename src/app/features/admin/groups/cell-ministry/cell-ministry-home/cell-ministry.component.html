@@ -57,18 +57,23 @@
         <!-- CONTENT GOES HERE -->
         <div class="w-full max-w-screen-xl mx-auto">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+            <div *ngIf="dashboardData$ | async as data"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <!-- Active Cells -->
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Cells</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
-                        <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Active Cells</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{data.totalCellsCount}}</div>
+                        <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Total Cells</div>
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
-                            <div class="text-md font-medium truncate">Online Cells:</div>
-                            <div class="ml-1.5 text-lg font-semibold">13</div>
+                            <div class="text-md font-medium truncate">Active Cells:</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{data.activeCellsCount}}</div>
+                        </div>
+                        <div class="flex items-center justify-center w-full text-secondary">
+                            <div class="text-md font-medium truncate">Inactive Cells:</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{data.inActiveCellsCount}}</div>
                         </div>
                     </div>
                 </div>
@@ -78,11 +83,11 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">People in Cells</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">500</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{data.peopleCount}}</div>
                         <div class="text-lg font-medium text-red-600 dark:text-red-500">People</div>
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
                             <div class="text-md font-medium truncate">Cell leaders:</div>
-                            <div class="ml-1.5 text-lg font-semibold">100</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{data.leadersCount}}</div>
                         </div>
                     </div>
                 </div>
@@ -99,18 +104,18 @@
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #newCellsMenu="matMenu">
-                                <button mat-menu-item>Month</button>
+                                <!--<button mat-menu-item>Month</button>-->
                                 <button mat-menu-item>Last 6 Months</button>
-                                <button mat-menu-item>Last Year</button>
+                                <!--<button mat-menu-item>Last Year</button>-->
                             </mat-menu>
                         </div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{data.openedCells}}</div>
                         <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Opened</div>
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
                             <div class="text-md font-medium truncate">Closed:</div>
-                            <div class="ml-1.5 text-lg font-semibold">19</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{data.closedCells}}</div>
                         </div>
                     </div>
                 </div>
@@ -127,10 +132,10 @@
                                     [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #featuresMenu="matMenu">
-                                <button mat-menu-item>Week</button>
-                                <button mat-menu-item>Month</button>
+                                <!--<button mat-menu-item>Week</button>-->
+                                <!--<button mat-menu-item>Month</button>-->
                                 <button mat-menu-item>Last 6 Months</button>
-                                <button mat-menu-item>Last Year</button>
+                                <!--<button mat-menu-item>Last Year</button>-->
                             </mat-menu>
                         </div>
                     </div>

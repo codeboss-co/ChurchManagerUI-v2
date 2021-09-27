@@ -1,9 +1,9 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { CellMinistryDataService } from '../_services/cell-ministry-data.service';
-import { map, takeUntil } from 'rxjs/operators';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
+import { CellGroupsDashboardData } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 @Component({
     selector     : 'cell-ministry',
@@ -13,6 +13,8 @@ import { ApexOptions } from 'ng-apexcharts';
 })
 export class CellMinistryComponent implements OnDestroy
 {
+    dashboardData$: Observable<CellGroupsDashboardData>;
+
     chartGithubIssues: ApexOptions = {};
 
     totalAttendance$ = new BehaviorSubject(0);
@@ -45,7 +47,9 @@ export class CellMinistryComponent implements OnDestroy
 
     constructor(private _data: CellMinistryDataService)
     {
-        _data.getChartData$()
+        this.dashboardData$ = this._data.dashboardData$;
+
+        /*_data.getChartData$()
             .pipe(takeUntil(this._unsubscribeAll))
             .pipe(
                 map(x => x.map( chart => {
@@ -95,7 +99,7 @@ export class CellMinistryComponent implements OnDestroy
                     this.totalFirstTimers$.next(totalFirstTimers);
                     this.totalNewConverts$.next(totalNewConverts);
                 }
-            );
+            );*/
     }
 
     /**
