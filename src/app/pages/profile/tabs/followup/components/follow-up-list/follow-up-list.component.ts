@@ -42,6 +42,10 @@ export class FollowUpListComponent implements OnInit {
 
     onButtonClicked( action: string[] ) {
         console.log('button clicked: ',  action);
+
+        if (action[0] === 'add') {
+
+        }
     }
 
 

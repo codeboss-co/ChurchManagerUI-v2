@@ -23,8 +23,28 @@
     </mat-form-field>
 </div>
 
+    <!--<a mat-mini-fab class="bg-primary custom-button"><mat-icon>add</mat-icon></a>-->
+
+<div class="flex justify-end">
+
+    <!-- Actions -->
+    <div class="p-2 md:p-2 space-x-2">
+        <button
+            mat-mini-fab color="primary"
+            matTooltip="Add item"
+            (click)="this.buttonClick.emit(['add' ])">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" matTooltip="Export to csv" disabled>
+            <mat-icon>cloud_download</mat-icon>
+        </button>
+    </div>
+
+
+</div>
+
     <!-- Table -->
-    <mat-table class="mat-elevation-z4 w-full"
+    <mat-table class="w-full"
         mat-table
         matSort
         [dataSource]="service.dataSource"
