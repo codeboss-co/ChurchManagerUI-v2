@@ -112,4 +112,8 @@ export interface CellGroupsDashboardData
     leadersCount: number;
     openedCells: number;
     closedCells: number;
+
+    newConvertsCount: number;
+    firstTimersCount: number;
+    holySpiritCount: number;
 }
