@@ -37,8 +37,6 @@ export class InitialDataResolver implements Resolve<any> {
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InitialData> {
-        console.log('claims', this._auth.roles);
-
         // Fork join multiple API endpoint calls to wait all of them to finish
         return forkJoin([
             this._httpClient.get<any>('api/common/messages'),
