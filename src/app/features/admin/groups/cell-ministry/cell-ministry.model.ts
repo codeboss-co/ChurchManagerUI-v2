@@ -81,6 +81,7 @@ export class GroupAttendanceReportGridRow
     FirstTimers: number;
     NewConverts: number;
     ReceivedHolySpirit: number;
+    Offering: number;
 
     constructor(model: any) {
         this.Date = model.attendanceDate;
@@ -90,6 +91,7 @@ export class GroupAttendanceReportGridRow
         this.FirstTimers = model.firstTimerCount;
         this.NewConverts = model.newConvertCount;
         this.ReceivedHolySpirit = model.receivedHolySpiritCount;
+        this.Offering = model.offering?.amount ?? 0;
     }
 }
 

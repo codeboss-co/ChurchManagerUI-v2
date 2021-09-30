@@ -47,8 +47,6 @@ import { UploadImagesModule } from '@ui/components/upload-images/upload-images.m
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { ProfileFollowUpComponent } from './tabs/followup/follow-up.component';
-import { FollowUpListComponent } from './tabs/followup/components/follow-up-list/follow-up-list.component';
-import { FollowUpListQueryComponent } from './tabs/followup/components/follow-up-list-query/follow-up-list-query.component';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 
 
@@ -59,7 +57,6 @@ import { GeneralTableModule } from '@ui/components/general-table/general-table.m
         ProfileAboutComponent,
         ProfileGroupsComponent,
         ProfileDiscipleshipComponent,
-        ProfileFollowUpComponent,
         // Dialogs
         GroupAttendanceFormDialogComponent,
         // Edit Dialogs
@@ -68,9 +65,7 @@ import { GeneralTableModule } from '@ui/components/general-table/general-table.m
         ProfilePersonalInfoFormDialogComponent,
         ProfileDiscipleshipInfoFormDialogComponent,
         ProfilePhotoFormDialogComponent,
-        ProfileMyDashboardComponent,
-        FollowUpListComponent,
-        FollowUpListQueryComponent
+        ProfileMyDashboardComponent
     ],
     imports     : [
         RouterModule.forChild(profileRoutes),

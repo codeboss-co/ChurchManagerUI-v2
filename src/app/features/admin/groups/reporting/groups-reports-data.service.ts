@@ -28,7 +28,7 @@ export class GroupsReportsDataService extends HttpBaseService
     /**
      * Get group attendance grid records
      */
-    getAttendanceReportGrid$(groupTypeId: number, groupId: number[], from: Moment, to: Moment) : Observable<GroupAttendanceReportGridRow[]>
+    getAttendanceReportGrid$(groupTypeId: number, groupId: number[], from: Moment, to: Moment): Observable<GroupAttendanceReportGridRow[]>
     {
         const body = {
             groupTypeId,
@@ -37,7 +37,7 @@ export class GroupsReportsDataService extends HttpBaseService
             to: to.toDate()
         };
 
-        return super.post<ApiResponse>(`${this._apiUrl}/v1/groups/attendance-report-grid`, body)
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groupattendance/attendance-report-grid`, body)
             .pipe(
                 map(response => response.data.map(x => new GroupAttendanceReportGridRow(x)))
             );

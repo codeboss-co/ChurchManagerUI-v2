@@ -5,7 +5,6 @@ import { ProfileAboutComponent } from '../tabs/about/profile-about.component';
 import { ProfileGroupsComponent } from '../tabs/groups/groups.component';
 import { ProfileDiscipleshipComponent } from '../tabs/discipleship/profile-discipleship.component';
 import { ProfileMyDashboardComponent } from '../components/my-dashboard/my-dashboard.component';
-import { ProfileFollowUpComponent } from '../tabs/followup/follow-up.component';
 
 const children: Routes = [
     {path: '', component: ProfileAboutComponent },
@@ -15,7 +14,7 @@ const children: Routes = [
             programs: ProfileDiscipleshipResolver
         }
     },
-    {path: 'follow-up', component: ProfileFollowUpComponent }
+    {path: 'follow-up', loadChildren: () => import('../tabs/followup/follow-up.module').then( m => m.FollowUpModule)}
 ];
 
 export const profileRoutes: Route[] = [
