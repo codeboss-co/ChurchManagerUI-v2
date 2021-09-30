@@ -23,8 +23,14 @@ export class ReportGridComponent implements OnChanges {
             this.pivot.flexmonster.updateData({ data: changes['data'].currentValue });
         }*/
 
+        console.log('report', changes['report']);
+
         if (changes['report']?.currentValue) {
             this.pivot.webDataRocks.setReport(changes['report'].currentValue);
+        }
+
+        if (changes['report']?.currentValue?.length) {
+            this.pivot.webDataRocks.updateData({ data: changes['report'].currentValue.dataSource.data });
         }
     }
 
