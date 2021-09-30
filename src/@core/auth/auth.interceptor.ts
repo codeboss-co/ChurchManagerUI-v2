@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor
             return this._authService.getToken$().pipe(
                 mergeMap(token => {
 
-                    console.log('Auth Interceptor token called');
+                    // console.log('Auth Interceptor token called');
 
                     const tokenReq = request.clone({
                         setHeaders: { Authorization: `Bearer ${token}` }
