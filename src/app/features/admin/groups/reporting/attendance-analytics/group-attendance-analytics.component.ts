@@ -46,10 +46,12 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
             .pipe(takeUntil( this._unsubscribeAll))
             .subscribe(
                 ( [data, report ]) => {
+                    // create new reference so its picked up
+                    const _report = {...report};
                     // add the data to the report definition 'mock-api/common/reports/data.ts'
-                    report.dataSource.data.push(...data);
+                    _report.dataSource.data = data;
                     // notify the report change
-                    this.report$.next(report);
+                    this.report$.next(_report);
                 }
             );
     }
