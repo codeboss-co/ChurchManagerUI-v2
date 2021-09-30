@@ -30,6 +30,7 @@
         "@microsoft/signalr": "5.0.4",
         "apexcharts": "3.27.2",
         "crypto-js": "3.3.0",
+        "highcharts": "^9.2.2",
         "lodash-es": "4.17.21",
         "logrocket": "^1.2.1",
         "moment": "2.29.1",

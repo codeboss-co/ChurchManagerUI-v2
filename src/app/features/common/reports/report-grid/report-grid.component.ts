@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { WebdatarocksComponent } from '@shared/webdatarocks/webdatarocks.component';
 import * as WebDataRocks from 'webdatarocks';
+import * as Highcharts from 'highcharts';
 
 @Component( {
     selector: 'report-grid',
@@ -22,15 +23,8 @@ export class ReportGridComponent implements OnChanges {
        /* if (changes['data']?.currentValue?.length) {
             this.pivot.flexmonster.updateData({ data: changes['data'].currentValue });
         }*/
-
-        console.log('report', changes['report']);
-
         if (changes['report']?.currentValue) {
             this.pivot.webDataRocks.setReport(changes['report'].currentValue);
-        }
-
-        if (changes['report']?.currentValue?.length) {
-            this.pivot.webDataRocks.updateData({ data: changes['report'].currentValue.dataSource.data });
         }
     }
 
@@ -57,5 +51,19 @@ export class ReportGridComponent implements OnChanges {
                 data: []
             }
         } );
+
+        this.createChart();
     }
+
+
+    createChart() {
+        this.pivot.webDataRocks.highcharts.getData({
+            type: 'column'
+        }, (data) => {
+            Highcharts.chart('highchartsContainer', data);
+        }, (data) => {
+            Highcharts.chart('highchartsContainer', data);
+        } );
+    }
+
 }
