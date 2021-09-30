@@ -4,6 +4,13 @@ import * as WebDataRocks from 'webdatarocks';
 export const reportsData: Map<string, WebDataRocks.Report> = new Map([
 
         ['group-attendance-report',  {
+            formats: [
+                {
+                    name: "offeringFormat",
+                    decimalPlaces: 2,
+                    currencySymbol: "R"
+                }
+            ],
             dataSource: {
                 data: [{
                     Date: {
@@ -34,6 +41,10 @@ export const reportsData: Map<string, WebDataRocks.Report> = new Map([
                     ReceivedHolySpirit: {
                         type: "number",
                         caption: "HS"
+                    },
+                    Offering: {
+                        type: "number",
+                        caption: "Offering"
                     }
                 }],
             },
@@ -70,6 +81,11 @@ export const reportsData: Map<string, WebDataRocks.Report> = new Map([
                     {
                         uniqueName: "ReceivedHolySpirit",
                         aggregation: "sum"
+                    },
+                    {
+                        uniqueName: "Offering",
+                        aggregation: "sum",
+                        format: "offeringFormat"
                     }
                 ]
             }

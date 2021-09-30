@@ -11,6 +11,7 @@ import { PaginatedGeneralTableComponent } from '@ui/components/general-table/pag
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 /**
  * @credit JamesDepret
@@ -31,6 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatSelectModule,
         MatSortModule,
         MatTableModule,
+        MatTooltipModule,
         MatMenuModule,
 
         SharedModule

@@ -49,7 +49,7 @@ export class GroupAttendanceAnalyticsComponent implements OnInit
                     // add the data to the report definition 'mock-api/common/reports/data.ts'
                     report.dataSource.data.push(...data);
                     // notify the report change
-                    this.report$.next(report)
+                    this.report$.next(report);
                 }
             );
     }
