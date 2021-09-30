@@ -43,7 +43,7 @@ export class NotificationsSignalRService {
         private messenger: ToastrService,
         @Inject(ENV) private environment: Environment ) {
 
-        console.log( `${HubSettings.Name} Hub URL`, `${this.environment.baseUrls.signalRHub}${HubSettings.Path}` );
+        //console.log( `${HubSettings.Name} Hub URL`, `${this.environment.baseUrls.signalRHub}${HubSettings.Path}` );
 
         // Returns the token or empty of not authenticated
         auth.getToken$()
@@ -60,8 +60,7 @@ export class NotificationsSignalRService {
         }
 
     private createConnection() {
-      console.log( `${HubSettings.Name} Hub URL`, `${this.environment.baseUrls.signalRHub}${HubSettings.Path}` );
-
+      //console.log( `${HubSettings.Name} Hub URL`, `${this.environment.baseUrls.signalRHub}${HubSettings.Path}` );
       if ( !this._hubConnection || this._hubConnection.state === HubConnectionState.Disconnected) {
             this._hubConnection = new HubConnectionBuilder()
                 .withUrl( `${this.environment.baseUrls.signalRHub}${HubSettings.Path}`, {accessTokenFactory: () => this.loginToken} )
