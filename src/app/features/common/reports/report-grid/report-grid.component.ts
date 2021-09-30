@@ -15,6 +15,12 @@ export class ReportGridComponent implements OnChanges {
 
     @ViewChild( 'pivot1' ) pivot: WebdatarocksComponent;
 
+    /**
+     * If the report has be initialized or not.
+     * This determines if we have to create it or just refresh the data
+     */
+    private _isInitialized = false;
+
     ngOnChanges(changes: SimpleChanges): void
     {
         // Grid is not ready when initial empty data is passed
@@ -23,13 +29,25 @@ export class ReportGridComponent implements OnChanges {
        /* if (changes['data']?.currentValue?.length) {
             this.pivot.flexmonster.updateData({ data: changes['data'].currentValue });
         }*/
-        if (changes['report']?.currentValue) {
-            this.pivot.webDataRocks.setReport(changes['report'].currentValue);
+
+        if (changes['report']?.currentValue)
+        {
+            if (!this._isInitialized)
+            {
+                this.pivot.webDataRocks.setReport(changes['report'].currentValue);
+                this._isInitialized = true;
+            } else
+            {
+                // Connects to a new data source whereas filtering, sorting, etc. remain the same.
+                this.pivot.webDataRocks.updateData({ data: changes['report'].currentValue.dataSource.data });
+            }
         }
+
+
     }
 
     onPivotReady( pivot: any ): void {
-        console.log( '[ready] WebdatarocksComponent', this.pivot );
+        // console.log( '[ready] WebdatarocksComponent', this.pivot );
     }
 
     onCustomizeCell(cell: WebDataRocks.CellBuilder, data: WebDataRocks.CellData): void {
@@ -60,6 +78,7 @@ export class ReportGridComponent implements OnChanges {
         this.pivot.webDataRocks.highcharts.getData({
             type: 'column'
         }, (data) => {
+            console.log(data);
             Highcharts.chart('highchartsContainer', data);
         }, (data) => {
             Highcharts.chart('highchartsContainer', data);
