@@ -53,7 +53,7 @@
                                 <span *ngIf="profile.birthDate?.birthYear">/{{profile.birthDate?.birthYear}}</span>
                                 <span class="mat-caption" *ngIf="profile.birthDate?.age">
                                       ({{profile.birthDate | agePluralize }})
-                                    </span>
+                                </span>
                             </span>
                         </div>
                         <hr class="w-full border-t my-6">
@@ -113,12 +113,18 @@
                 </div>
                 <div class="flex flex-col">
                     <div class="flex justify-between mt-6">
-                        <img *ngFor="let member of profile.familyMembers"
-                             [routerLink]="['/pages/profile', member.personId]"
-                             matTooltip="{{member.fullName.firstName}} ({{member.ageClassification}})"
-                             class="w-14 h-14 rounded-full cursor-pointer"
-                             [src]="member.photoUrl"
-                             alt="Family member">
+                        <div class="flex flex-col" *ngFor="let member of profile.familyMembers">
+                            <img
+                                 [routerLink]="['/pages/profile', member.personId]"
+                                 matTooltip="{{member.fullName.firstName}} ({{member.ageClassification}})"
+                                 class="w-14 h-14 rounded-full cursor-pointer"
+                                 [src]="member.photoUrl"
+                                 alt="Family member">
+                            <div class="text-secondary">{{member.fullName.firstName}}</div>
+                            <div class="mat-caption" *ngIf="member.birthDate?.age">
+                                ({{member.birthDate | agePluralize }})
+                            </div>
+                        </div>
                     </div>
                 </div>
             </fuse-card>

@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { UserRolesModule } from '@shared/directives/user-roles';
 import { UserRolesPipeModule } from '@shared/pipes/user-roles/user-roles-pipe.module';
+import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
 
 const routes: Routes = [
     {
@@ -89,6 +90,7 @@ const routes: Routes = [
         MatListModule,
         MatMenuModule,
         MatPaginatorModule,
+        MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
         MatSortModule,

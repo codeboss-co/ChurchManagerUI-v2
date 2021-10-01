@@ -104,6 +104,9 @@
                     </form>
                     <!-- Search -->
 
+                    <!-- Loader -->
+                    <mat-progress-bar *ngIf="dataSource?.loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
+
                     <!-- Table -->
                     <mat-table class="mat-elevation-z4 w-full"
                            [dataSource]="dataSource"

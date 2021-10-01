@@ -117,7 +117,7 @@
                     <ng-container matColumnDef="groupMemberRole">
                         <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
                         <td mat-cell *matCellDef="let element">
-                            <span class="px-1.5 rounded text-md font-medium leading-5  text-white"
+                            <span class="px-1.5 py-0.5 rounded text-md font-medium leading-5  text-white"
                                       [class.bg-amber-600]="element.isLeader"
                                       [class.bg-gray-600]="!element.isLeader">
                                         {{element.groupMemberRole}}
@@ -128,7 +128,15 @@
                     <!-- Record Status Column -->
                     <ng-container matColumnDef="recordStatus">
                         <th class="w-12" mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-                        <td mat-cell *matCellDef="let element"> {{element.recordStatus}} </td>
+                        <td mat-cell *matCellDef="let element">
+                            <span  class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded tracking-wide uppercase"
+                                      [ngClass]="{
+                                                'bg-amber-200 text-red-800 dark:bg-amber-600 dark:text-red-50': element.recordStatus === 'Pending',
+                                                'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': element.recordStatus === 'Inactive',
+                                                'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element.recordStatus === 'Active'}">
+                                <span class="leading-relaxed whitespace-nowrap">{{element.recordStatus}}</span>
+                            </span>
+                        </td>
                     </ng-container>
 
                     <!-- Buttons Column -->
