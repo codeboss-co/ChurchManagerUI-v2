@@ -14,6 +14,7 @@ export class PaginatedGeneralTableService<TModel, TQuery> implements IPaginatedT
     public readonly dataSource: PaginatedDataSource<TModel, TQuery> | null;
 
     page$: Observable<PagedResult<TModel>>;
+    loading$: Observable<boolean>;
 
     constructor(
         private endpoint: PaginatedEndpoint<TModel, TQuery>,
@@ -24,7 +25,9 @@ export class PaginatedGeneralTableService<TModel, TQuery> implements IPaginatedT
             endpoint, initialSort, initialQuery
         );
 
+        // Configure public streams
         this.page$ = this.dataSource.page$;
+        this.loading$ = this.dataSource.loading$;
     }
 
     queryBy(query: Partial<TQuery>): void

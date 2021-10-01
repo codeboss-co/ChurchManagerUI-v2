@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 /**
  * @credit JamesDepret
@@ -29,6 +30,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatInputModule,
         MatIconModule,
         MatPaginatorModule,
+        MatProgressBarModule,
         MatSelectModule,
         MatSortModule,
         MatTableModule,
