@@ -24,7 +24,7 @@ export class CellMinistryDataService extends HttpBaseService
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecordDetail>(null);
-    private _attendanceReportSubmissions = new BehaviorSubject<AttendanceReportSubmissions>([]);
+    private _attendanceReportSubmissions = new BehaviorSubject<AttendanceReportSubmissions>(null);
     private _dashboardData = new BehaviorSubject<CellGroupsDashboardData>(null);
     private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
