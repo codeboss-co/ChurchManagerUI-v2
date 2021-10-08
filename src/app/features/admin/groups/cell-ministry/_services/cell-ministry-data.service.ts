@@ -6,6 +6,7 @@ import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import {
+    AttendanceReportSubmissions,
     CellGroupsDashboardData,
     CellGroupsWeeklyBreakdown,
     GroupAttendanceQuery,
@@ -13,7 +14,7 @@ import {
     GroupAttendanceRecordDetail
 } from '../cell-ministry.model';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
-import { ApiResponse } from '@shared/shared.models';
+import { ApiResponse, PeriodTypes } from '@shared/shared.models';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -23,6 +24,7 @@ export class CellMinistryDataService extends HttpBaseService
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecordDetail>(null);
+    private _attendanceReportSubmissions = new BehaviorSubject<AttendanceReportSubmissions>([]);
     private _dashboardData = new BehaviorSubject<CellGroupsDashboardData>(null);
     private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
@@ -52,6 +54,15 @@ export class CellMinistryDataService extends HttpBaseService
     {
         return this._dashboardData.asObservable();
     }
+
+    /**
+     * Getter for attendance record submission data
+     */
+    get attendanceReportSubmissions$(): Observable<AttendanceReportSubmissions>
+    {
+        return this._attendanceReportSubmissions.asObservable();
+    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -83,6 +94,19 @@ export class CellMinistryDataService extends HttpBaseService
 
         return super.post<PagedResult<GroupAttendanceRecord>>(
             `${this._apiUrl}/v1/cellministry/attendance/browse`, body);
+    }
+
+    /**
+     * Fetch chart data for cell ministry dashboard page
+     */
+    getAttendanceReportSubmissions$(churchId: number, periodType: PeriodTypes): Observable<AttendanceReportSubmissions>
+    {
+        const body = { churchId, periodType };
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/groupattendance/report-submissions`, body)
+            .pipe(
+                map(response => response.data),
+                tap(submissions => this._attendanceReportSubmissions.next(submissions.groupsWithoutReports))
+            );
     }
 
     /**

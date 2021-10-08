@@ -72,3 +72,13 @@ export enum FormActions
 }
 
 
+export enum PeriodTypes
+{
+    Today = 10,
+    Yesterday = 20,
+    ThisWeek = 30,
+    LastWeek = 40,
+    ThisMonth = 50,
+    LastMonth = 60
+}
+

@@ -31,7 +31,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { UserRolesModule } from '@shared/directives/user-roles';
 import { UserRolesPipeModule } from '@shared/pipes/user-roles/user-roles-pipe.module';
-import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CellAttendanceReportSubmissionsComponent } from '@features/admin/groups/cell-ministry/cell-attendance-report-submissions/cell-attendance-report-submissions.component';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 
 const routes: Routes = [
     {
@@ -68,13 +71,18 @@ const routes: Routes = [
                 }
             }
         ]
-    }
+    },
+    {
+        path     : 'attendance-report-submissions',
+        component: CellAttendanceReportSubmissionsComponent
+    },
 ];
 
 @NgModule({
     declarations: [
         CellMinistryComponent,
         CellAttendanceReportsComponent,
+        CellAttendanceReportSubmissionsComponent,
         AttendanceReportFeedbackComponent
     ],
     imports: [
@@ -105,6 +113,8 @@ const routes: Routes = [
 
         // Controls
         ChurchGroupsSelectControlModule,
+        ChurchesSelectControlModule,
+        GeneralTableModule,
 
         // Pipes & Directives
         UserRolesModule,
