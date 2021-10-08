@@ -45,7 +45,6 @@ export class CellAttendanceReportsComponent implements OnInit
     ];
     dataSource: PaginatedDataSource<GroupAttendanceRecord, GroupAttendanceQuery> | null;
 
-
     // Private
     private _unsubscribeAll = new Subject();
     private _deleteAttendanceRecordTrigger = new Subject<GroupAttendanceRecord>();

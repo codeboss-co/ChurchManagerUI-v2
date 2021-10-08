@@ -1,10 +1,14 @@
 
-  <mat-form-field *ngIf="filter">
+  <mat-form-field *ngIf="filter" class="w-1/2">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{filterPlaceholder}}">
   </mat-form-field>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{ 'min-width': + tableMinWidth + 'px' }">
+    <mat-table class="w-full"
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+       [@zoomIn]="true">
 
         <!-- Columns -->
       <ng-container *ngFor="let column of columns" >
@@ -76,9 +80,13 @@
       <ng-container *ngIf="footer"> <!-- Make footer nullable -->
         <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"></tr>
       </ng-container>
-    </table>
+    </mat-table>
 
-    <mat-paginator [pageSizeOptions]="pagination" [pageSize]="pageSize"
-  [ngStyle]="{ 'min-width': + tableMinWidth + 'px' }"></mat-paginator>
+      <mat-paginator
+          class="flex justify-end"
+          [pageSizeOptions]="pagination"
+          [pageSize]="pageSize">
+      </mat-paginator>
+
   </div>
 
