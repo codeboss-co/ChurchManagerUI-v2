@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
-import { UserData } from '@features/admin/example/mock/interfaces/user-data';
 import { TableColumn } from '@ui/components/general-table';
 import { AttendanceReportSubmission } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { indicate } from '@shared/data/paginated.data-source';
 
 @Component({
     selector     : 'cell-attendance-report-submissions',
@@ -15,13 +15,14 @@ import { AttendanceReportSubmission } from '@features/admin/groups/cell-ministry
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations   : fuseAnimations
 })
-export class CellAttendanceReportSubmissionsComponent implements OnInit
+export class CellAttendanceReportSubmissionsComponent implements OnInit, OnDestroy
 {
     searchForm: FormGroup;
     searchBtnClicked = new Subject();
 
     // View data
     attendanceReportSubmissions$ = this._data.attendanceReportSubmissions$;
+    loading$ = new Subject<boolean>();
     columns: TableColumn[];
 
     // Private
@@ -43,7 +44,6 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit
             // { columnDef: 'id',    header: 'Id',    cell: (element: AttendanceReportSubmission) => `${element.id}` },
             { columnDef: 'name',     header: 'Name',     cell: (element: AttendanceReportSubmission) => `${element.name}` }
         ];
-
     }
 
     ngOnInit(): void
@@ -62,11 +62,23 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit
 
         const fetchDataOnQueryChange$ = query$
             .pipe(
-                switchMap(query => this._data.getAttendanceReportSubmissions$(query.church, query.period))
+                switchMap(query => this._data.getAttendanceReportSubmissions$(query.church, query.period)
+                    .pipe(indicate(this.loading$))
+                )
             );
 
         fetchDataOnQueryChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe();
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 }

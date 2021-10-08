@@ -79,9 +79,13 @@
             </form>
             <!-- Search -->
 
+            <!-- Loader -->
+            <mat-progress-bar *ngIf="loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
+
+
             <!-- Table -->
             <div *ngIf="attendanceReportSubmissions$ | async as data">
-                <h2 class="text-xl md:text-1xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-xl md:text-1xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
                     Groups Without Reports
                 </h2>
                 <general-table  [columns]="columns"
