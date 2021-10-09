@@ -46,7 +46,9 @@
         <div class="w-full max-w-screen-xl mx-auto">
 
             <!-- Search -->
-            <form [formGroup]="searchForm">
+            <form
+                class="p-6 rounded-2xl shadow overflow-hidden bg-card"
+                [formGroup]="searchForm">
                 <div class="flex flex-wrap items-baseline">
 
                     <churches-select-control formControlName="church"></churches-select-control>
@@ -84,7 +86,7 @@
 
 
             <!-- Table -->
-            <div *ngIf="attendanceReportSubmissions$ | async as data">
+            <div *ngIf="attendanceReportSubmissions$ | async as data" class="mt-2">
                 <h2 class="text-xl md:text-1xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
                     Groups Without Reports
                 </h2>
