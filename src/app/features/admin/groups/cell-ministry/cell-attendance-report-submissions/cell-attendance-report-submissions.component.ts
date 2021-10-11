@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { CellMinistryDataService } from '@features/admin/groups/cell-ministry/_services/cell-ministry-data.service';
 import { TableColumn } from '@ui/components/general-table';
@@ -94,7 +93,7 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit, OnDestr
                 }, {emitEvent: false});
 
                 // Trigger search if the form is completely valid
-                if (this.searchForm.valid && this.searchForm.touched) {
+                if (this.searchForm.valid) {
                     this.searchBtnClicked.next();
                 }
             });
