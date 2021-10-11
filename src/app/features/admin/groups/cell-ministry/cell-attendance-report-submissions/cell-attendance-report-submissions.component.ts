@@ -93,7 +93,7 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit, OnDestr
                 }, {emitEvent: false});
 
                 // Trigger search if the form is completely valid
-                if (this.searchForm.valid) {
+                if (this.searchForm.valid && queryParams?.church && queryParams?.period) {
                     this.searchBtnClicked.next();
                 }
             });
