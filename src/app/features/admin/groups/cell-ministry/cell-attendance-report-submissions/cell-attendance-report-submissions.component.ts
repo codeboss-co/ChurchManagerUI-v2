@@ -45,7 +45,7 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit, OnDestr
         this.columns = [
             // { columnDef: 'id',    header: 'Id',    cell: (element: AttendanceReportSubmission) => `${element.id}` },
             { columnDef: 'name',     header: 'Name',     cell: (element: AttendanceReportSubmission) => `${element.name}` },
-            { columnDef: 'leader',     header: 'Leader',     cell: (element: AttendanceReportSubmission) => `${element.leader}` },
+            { columnDef: 'leader',     header: 'Leader',     cell: (element: AttendanceReportSubmission) => `${element.leader.personName}` },
         ];
     }
 
@@ -94,7 +94,7 @@ export class CellAttendanceReportSubmissionsComponent implements OnInit, OnDestr
                 }, {emitEvent: false});
 
                 // Trigger search if the form is completely valid
-                if (this.searchForm.valid) {
+                if (this.searchForm.valid && this.searchForm.touched) {
                     this.searchBtnClicked.next();
                 }
             });

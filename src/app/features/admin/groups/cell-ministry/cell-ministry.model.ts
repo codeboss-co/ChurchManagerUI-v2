@@ -124,7 +124,7 @@ export interface AttendanceReportSubmission
 {
   id: number;
   name: string;
-  leader: string;
+  leader: { personId: number; personName: string };
 }
 
 export type AttendanceReportSubmissions = AttendanceReportSubmission[];

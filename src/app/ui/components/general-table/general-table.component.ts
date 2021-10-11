@@ -20,6 +20,7 @@ export class GeneralTableComponent implements OnChanges {
   @Input() data: any[] = [];
   @Input() filter: boolean = false;
   @Input() filterPlaceholder: string = 'Filter';
+  @Input() title: string = null;
   @Input() footer: string = null;
   @Input() pagination: number[] = [];
   @Input() pageSize: number;

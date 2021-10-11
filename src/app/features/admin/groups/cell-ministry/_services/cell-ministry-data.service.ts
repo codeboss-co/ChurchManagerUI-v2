@@ -6,7 +6,7 @@ import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import {
-    AttendanceReportSubmissions,
+    AttendanceReportSubmissions, AttendanceReportSubmissionSummary,
     CellGroupsDashboardData,
     CellGroupsWeeklyBreakdown,
     GroupAttendanceQuery,
@@ -24,7 +24,7 @@ export class CellMinistryDataService extends HttpBaseService
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     private _attendanceRecord = new BehaviorSubject<GroupAttendanceRecordDetail>(null);
-    private _attendanceReportSubmissions = new BehaviorSubject<AttendanceReportSubmissions>(null);
+    private _attendanceReportSubmissions = new BehaviorSubject<AttendanceReportSubmissionSummary>(null);
     private _dashboardData = new BehaviorSubject<CellGroupsDashboardData>(null);
     private _weeklyChartData = new BehaviorSubject<CellGroupsWeeklyBreakdown[]>(null);
 
@@ -58,7 +58,7 @@ export class CellMinistryDataService extends HttpBaseService
     /**
      * Getter for attendance record submission data
      */
-    get attendanceReportSubmissions$(): Observable<AttendanceReportSubmissions>
+    get attendanceReportSubmissions$(): Observable<AttendanceReportSubmissionSummary>
     {
         return this._attendanceReportSubmissions.asObservable();
     }
@@ -99,13 +99,13 @@ export class CellMinistryDataService extends HttpBaseService
     /**
      * Fetch chart data for cell ministry dashboard page
      */
-    getAttendanceReportSubmissions$(churchId: number, periodType: PeriodTypes): Observable<AttendanceReportSubmissions>
+    getAttendanceReportSubmissions$(churchId: number, periodType: PeriodTypes): Observable<AttendanceReportSubmissionSummary>
     {
         const body = { churchId, periodType };
         return super.post<ApiResponse>(`${this._apiUrl}/v1/groupattendance/report-submissions`, body)
             .pipe(
                 map(response => response.data),
-                tap(submissions => this._attendanceReportSubmissions.next(submissions.groupsWithoutReports))
+                tap(submissions => this._attendanceReportSubmissions.next(submissions))
             );
     }
 
