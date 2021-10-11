@@ -39,7 +39,7 @@
         <!-- Actions -->
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button
-                class="ml-3"
+                class="hidden sm:inline-flex"
                 mat-flat-button
                 [routerLink]="'/apps/groups/cell-ministry/attendance-reports'"
                 [color]="'accent'">
@@ -48,6 +48,28 @@
                     [svgIcon]="'heroicons_solid:clipboard-check'"></mat-icon>
                 View Attendance Reports
             </button>
+            <button
+                class="hidden sm:inline-flex ml-3"
+                mat-stroked-button
+                [routerLink]="'/apps/groups/cell-ministry/attendance-report-submissions'">
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:clipboard-copy'"></mat-icon>
+                <span class="ml-2">View Submissions</span>
+            </button>
+
+            <!-- Actions menu (visible on xs) -->
+            <div class="sm:hidden">
+                <button
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                </button>
+                <mat-menu #actionsMenu="matMenu">
+                    <button mat-menu-item [routerLink]="'/apps/groups/cell-ministry/attendance-reports'">View Attendance Reports</button>
+                    <button mat-menu-item [routerLink]="'/apps/groups/cell-ministry/attendance-report-submissions'">View Submissions</button>
+                </mat-menu>
+            </div>
         </div>
     </div>
 

@@ -92,7 +92,7 @@ export interface GroupWithChildren
     createdDate?: Date;
     groups?: GroupWithChildren[];
     level?: number;
-    schedule?: ScheduleViewModel
+    schedule?: ScheduleViewModel;
 }
 
 export interface GroupTypeRole

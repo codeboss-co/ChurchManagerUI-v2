@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
+    OnInit, OnDestroy,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -28,7 +28,7 @@ import { AuthService } from '@core/auth/auth.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations   : fuseAnimations
 })
-export class CellAttendanceReportsComponent implements OnInit
+export class CellAttendanceReportsComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
@@ -44,7 +44,6 @@ export class CellAttendanceReportsComponent implements OnInit
         'firstTimerCount', 'newConvertCount', 'receivedHolySpiritCount', 'hasNotes', 'hasPhotos', 'actions'
     ];
     dataSource: PaginatedDataSource<GroupAttendanceRecord, GroupAttendanceQuery> | null;
-
 
     // Private
     private _unsubscribeAll = new Subject();

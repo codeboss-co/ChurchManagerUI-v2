@@ -68,6 +68,7 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
     disconnect(): void {  }
 }
 
+// https://nils-mehlhorn.de/posts/indicating-loading-the-right-way-in-angular
 export function prepare<T>(callback: () => void): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>): Observable<T> => defer(() => {
         callback();
@@ -85,6 +86,8 @@ export function indicate<T>(indicator: Subject<boolean>): (source: Observable<T>
 export interface IPaginatedDataSource
 {
     page$: Observable<PagedResult<any>>;
+
+    loading$: Observable<boolean>;
     //endpoint: PaginatedEndpoint<any, any>;
     //pageSize: number;
 

@@ -119,3 +119,18 @@ export interface CellGroupsDashboardData
     firstTimersCount: number;
     holySpiritCount: number;
 }
+
+export interface AttendanceReportSubmission
+{
+  id: number;
+  name: string;
+  leader: { personId: number; personName: string };
+}
+
+export type AttendanceReportSubmissions = AttendanceReportSubmission[];
+
+export interface AttendanceReportSubmissionSummary
+{
+    groupsWithReports: AttendanceReportSubmissions;
+    groupsWithoutReports: AttendanceReportSubmissions;
+}

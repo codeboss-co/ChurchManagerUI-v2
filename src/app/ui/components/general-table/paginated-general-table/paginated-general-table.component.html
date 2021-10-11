@@ -42,6 +42,8 @@
 
 
 </div>
+    <!-- Loader -->
+    <mat-progress-bar *ngIf="service.dataSource.loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
 
     <!-- Table -->
     <mat-table class="w-full"
