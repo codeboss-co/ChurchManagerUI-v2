@@ -1,8 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {TableColumn, TableBtn} from '.';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { TableBtn, TableColumn } from '.';
+import { fuseAnimations } from '@fuse/animations';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -11,6 +12,7 @@ import {TableColumn, TableBtn} from '.';
   selector: 'general-table',
   //styleUrls: ['general-table.component.css'],
   templateUrl: 'general-table.component.html',
+  animations   : fuseAnimations
 })
 export class GeneralTableComponent implements OnChanges {
   @Input() columns: TableColumn[] = [];
