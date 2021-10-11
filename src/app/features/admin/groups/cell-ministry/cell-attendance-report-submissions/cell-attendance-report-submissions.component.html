@@ -87,16 +87,28 @@
 
             <!-- Table -->
             <div *ngIf="attendanceReportSubmissions$ | async as data" class="mt-2">
-                <h2 class="text-xl md:text-1xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
-                    Groups Without Reports
-                </h2>
-                <general-table  [columns]="columns"
-                                [data]="data"
-                                [filter]="true"
-                                [filterPlaceholder]="'Filter any value'"
-                                [pagination]="[5, 25, 100]"
-                                [pageSize]="10">
+                <general-table
+                    [columns]="columns"
+                    [title]="'Groups Without Reports'"
+                    [data]="data['groupsWithoutReports']"
+                    [filter]="true"
+                    [filterPlaceholder]="'Filter any value'"
+                    [pagination]="[5, 25, 100]"
+                    [pageSize]="10">
                 </general-table>
+
+                <div class="mt-2">
+                    <general-table
+                        [columns]="columns"
+                        [title]="'Groups With Reports'"
+                        [data]="data['groupsWithReports']"
+                        [filter]="true"
+                        [filterPlaceholder]="'Filter any value'"
+                        [pagination]="[5, 25, 100]"
+                        [pageSize]="10">
+                    </general-table>
+                </div>
+
             </div>
 
             <!-- Table -->
