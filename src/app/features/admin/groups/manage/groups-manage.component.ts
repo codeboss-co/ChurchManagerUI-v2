@@ -66,9 +66,9 @@ export class GroupsManageComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // groupId from the route
-        const groupId$: Observable<number> = this._activatedRoute.params.pipe(map(({groupId})=> +groupId))
+        const groupId$: Observable<number> = this._activatedRoute.params.pipe(map(({groupId})=> +groupId));
 
-        this.groups$ = this._service.groups$
+        this.groups$ = this._service.groups$;
 
         // when group Id changes display the selected group
         // means we are coming from Profile page to view a specific group

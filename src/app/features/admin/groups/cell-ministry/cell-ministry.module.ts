@@ -35,6 +35,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CellAttendanceReportSubmissionsComponent } from '@features/admin/groups/cell-ministry/cell-attendance-report-submissions/cell-attendance-report-submissions.component';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
+import { CellGroupPerformanceComponent } from '@features/admin/groups/cell-ministry/cell-group-performance/cell-group-performance.component';
 
 const routes: Routes = [
     {
@@ -76,6 +77,10 @@ const routes: Routes = [
         path     : 'attendance-report-submissions',
         component: CellAttendanceReportSubmissionsComponent
     },
+    {
+        path     : 'group-performance/:groupId',
+        component: CellGroupPerformanceComponent
+    },
 ];
 
 @NgModule({
@@ -83,7 +88,9 @@ const routes: Routes = [
         CellMinistryComponent,
         CellAttendanceReportsComponent,
         CellAttendanceReportSubmissionsComponent,
-        AttendanceReportFeedbackComponent
+        AttendanceReportFeedbackComponent,
+
+        CellGroupPerformanceComponent
     ],
     imports: [
         RouterModule.forChild(routes),

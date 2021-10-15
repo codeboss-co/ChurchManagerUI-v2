@@ -1,0 +1,59 @@
+<!-- Group member Attendance -->
+<!--<div class="flex flex-col flex-auto">
+    <div class="font-medium text-secondary">Attendance</div>
+    <div class="flex flex-col flex-auto">
+
+    </div>
+</div>-->
+
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full max-w-screen-xl mx-auto sm:px-4">
+
+            <div
+                class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Group Member Attendance</div>
+                    <div class="mt-3 sm:mt-0 sm:ml-2">
+                        <mat-button-toggle-group
+                            value="this-week"
+                            #githubIssuesWeekSelector="matButtonToggleGroup">
+                            <mat-button-toggle value="last-week">Last Week</mat-button-toggle>
+                            <mat-button-toggle value="this-week">This Week</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                    <!-- New vs. Closed -->
+                    <div class="flex flex-col flex-auto">
+                        <div class="font-medium text-secondary">Dillan Cagnetta</div>
+                        <div class="flex flex-col flex-auto">
+                            <apx-chart
+                                class="flex-auto w-1/2 h-80"
+                                [chart]="chartOptions.chart"
+                                [colors]="chartOptions.colors"
+                                [dataLabels]="chartOptions.dataLabels"
+                                [grid]="chartOptions.grid"
+                                [labels]="chartOptions.labels"
+                                [legend]="chartOptions.legend"
+                                [plotOptions]="chartOptions.plotOptions"
+                                [series]="chartOptions.series"
+                                [states]="chartOptions.states"
+                                [stroke]="chartOptions.stroke"
+                                [tooltip]="chartOptions.tooltip"
+                                [xaxis]="chartOptions.xaxis"
+                                [yaxis]="chartOptions.yaxis">
+                            </apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
