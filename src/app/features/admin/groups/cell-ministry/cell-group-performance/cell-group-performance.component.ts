@@ -3,6 +3,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { Subject } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 
+export type GroupMemberAttendanceRecord = { groupMemberId: number; groupMemberName: string; attendanceRecords: boolean[] };
+
 @Component({
     selector     : 'cell-group-performance',
     templateUrl  : './cell-group-performance.component.html',
@@ -14,6 +16,16 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
 {
     @ViewChild('chart') chart: ChartComponent;
     public chartOptions:  ApexOptions = {};
+
+    public groupMembers: GroupMemberAttendanceRecord[] = [
+        {
+            groupMemberId: 1,
+            groupMemberName: 'Dillan Cagnetta',
+            attendanceRecords: [true, true, false, true, false, true, true, true, false]
+        }
+    ];
+
+    tableColumns: string[] = ['name', 'attendance']; // , '2', '3', '4', '5', '6', '7', '8'
 
     // Private
     private _unsubscribeAll = new Subject();
@@ -104,12 +116,22 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle methods
     // -----------------------------------------------------------------------------------------------------
+
     ngOnDestroy(): void
     {
     }
 
     ngOnInit(): void
     {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    trackByFn(index: number, item: GroupMemberAttendanceRecord): any
+    {
+        return item.groupMemberId || index;
     }
 
 }

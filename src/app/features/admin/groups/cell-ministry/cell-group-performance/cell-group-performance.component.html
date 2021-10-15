@@ -12,48 +12,175 @@
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
         <div class="w-full max-w-screen-xl mx-auto sm:px-4">
 
-            <div
-                class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Group Member Attendance</div>
-                    <div class="mt-3 sm:mt-0 sm:ml-2">
-                        <mat-button-toggle-group
-                            value="this-week"
-                            #githubIssuesWeekSelector="matButtonToggleGroup">
-                            <mat-button-toggle value="last-week">Last Week</mat-button-toggle>
-                            <mat-button-toggle value="this-week">This Week</mat-button-toggle>
-                        </mat-button-toggle-group>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
-                    <!-- New vs. Closed -->
-                    <div class="flex flex-col flex-auto">
-                        <div class="font-medium text-secondary">Dillan Cagnetta</div>
-                        <div class="flex flex-col flex-auto">
-                            <apx-chart
-                                class="flex-auto w-1/2 h-80"
-                                [chart]="chartOptions.chart"
-                                [colors]="chartOptions.colors"
-                                [dataLabels]="chartOptions.dataLabels"
-                                [grid]="chartOptions.grid"
-                                [labels]="chartOptions.labels"
-                                [legend]="chartOptions.legend"
-                                [plotOptions]="chartOptions.plotOptions"
-                                [series]="chartOptions.series"
-                                [states]="chartOptions.states"
-                                [stroke]="chartOptions.stroke"
-                                [tooltip]="chartOptions.tooltip"
-                                [xaxis]="chartOptions.xaxis"
-                                [yaxis]="chartOptions.yaxis">
-                            </apx-chart>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 
+
+                <!-- Github issues summary -->
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Group Performance Summary</div>
+                        <div class="mt-3 sm:mt-0 sm:ml-2">
+                            <mat-button-toggle-group
+                                value="month"
+                                #githubIssuesWeekSelector="matButtonToggleGroup">
+                                <mat-button-toggle value="month">This Month</mat-button-toggle>
+                                <mat-button-toggle value="year">This Year</mat-button-toggle>
+                                <mat-button-toggle value="all">Show All</mat-button-toggle>
+                            </mat-button-toggle-group>
                         </div>
                     </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+
+                        <!-- Overview -->
+                        <div class="flex flex-col">
+                            <div class="font-medium text-secondary">Overview</div>
+                            <div class="flex-auto grid grid-cols-4 gap-4 mt-6">
+                                <!-- New issues -->
+                                <div
+                                    class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-indigo-50 text-indigo-800 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
+                                    <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                        {{14}}
+                                    </div>
+                                    <div class="mt-1 text-sm sm:text-lg font-medium">Members</div>
+                                </div>
+                                <!-- Closed -->
+                                <div
+                                    class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
+                                    <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
+                                        {{75}}
+                                    </div>
+                                    <div class="mt-1 text-sm sm:text-lg font-medium">New Converts</div>
+                                </div>
+                                <!-- Fixed -->
+                                <div
+                                    class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        {{3}}
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">New Converts</div>
+                                </div>
+                                <!-- Won't fix -->
+                                <div
+                                    class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        {{4}}
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">Holy Spirit</div>
+                                </div>
+                                <!-- Re-opened -->
+                                <div
+                                    class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        {{ 80 }}%
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">Rentention Rate</div>
+                                </div>
+                                <!-- Needs triage -->
+                                <div
+                                    class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
+                                    <div class="text-5xl font-semibold leading-none tracking-tight">
+                                        {{60}}%
+                                    </div>
+                                    <div class="mt-1 text-sm font-medium text-center">Attendance Rate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New vs. Closed -->
+                        <div class="flex flex-col flex-auto">
+                            <div class="font-medium text-secondary">Member Attendance History</div>
+                            <div class="flex flex-col flex-auto">
+
+                                <!-- Table wrapper -->
+                                <div
+                                    class="overflow-x-auto sm:overflow-y-auto"
+                                    cdkScrollable>
+
+                                    <!-- Table -->
+                                    <table
+                                        class="w-full table-fixed bg-transparent"
+                                        [ngClass]="{'pointer-events-none': false}"
+                                        mat-table
+                                        matSort
+                                        [matSortActive]="'name'"
+                                        [matSortDisableClear]="true"
+                                        [matSortDirection]="'asc'"
+                                        [multiTemplateDataRows]="true"
+                                        [dataSource]="groupMembers"
+                                        [trackBy]="trackByFn">
+
+                                        <!-- Name -->
+                                        <ng-container matColumnDef="name">
+                                            <th
+                                                class="w-30 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                                mat-header-cell
+                                                *matHeaderCellDef
+                                                mat-sort-header
+                                                disableClear>
+                                                Member
+                                            </th>
+                                            <td
+                                                class=""
+                                                mat-cell
+                                                sticky
+                                                *matCellDef="let product">
+                                                {{product.groupMemberName}}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Attendance History Column -->
+                                        <ng-container matColumnDef="attendance">
+                                            <th
+                                                class="w-14 bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                                mat-header-cell
+                                                *matHeaderCellDef
+                                                disableClear>
+                                                Attendance
+                                                <mat-icon
+                                                    class="ml-1.5 icon-size-4 text-hint"
+                                                    [svgIcon]="'heroicons_solid:information-circle'"
+                                                    [matTooltip]="'Last 10 meetings - Latest showing first'">
+                                                </mat-icon>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                            <span *ngFor="let didAttend of element.attendanceRecords;let i = index">
+                                <mat-icon
+                                    class="text-green-400 icon-size-5"
+                                    *ngIf="didAttend"
+                                    [svgIcon]="'heroicons_solid:check'">
+                                </mat-icon>
+                                <mat-icon
+                                    class="text-gray-400 icon-size-5"
+                                    *ngIf="!didAttend"
+                                    [svgIcon]="'heroicons_solid:x'">
+                                </mat-icon>
+                            </span>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr
+                                            class="shadow"
+                                            mat-header-row
+                                            *matHeaderRowDef="tableColumns; sticky: true"></tr>
+                                        <tr
+                                            class="h-8 hover:bg-hover"
+                                            mat-row
+                                            *matRowDef="let product; columns: tableColumns;"></tr>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
+
             </div>
 
         </div>
 
     </div>
-
 </div>
