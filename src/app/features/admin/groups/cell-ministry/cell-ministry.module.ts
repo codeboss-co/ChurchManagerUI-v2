@@ -24,6 +24,7 @@ import { AttendanceReportFeedbackComponent } from '@features/admin/groups/cell-m
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CanDeactivateAttendanceReportFeedback } from '@features/admin/groups/cell-ministry/_services/cell-ministry.guards';
 import {
+    CellGroupPerformanceResolver,
     CellMinistryAttendanceReportResolver,
     CellMinistryDashboardResolver
 } from '@features/admin/groups/cell-ministry/_services/cell-ministry.resolvers';
@@ -36,6 +37,7 @@ import { CellAttendanceReportSubmissionsComponent } from '@features/admin/groups
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 import { CellGroupPerformanceComponent } from '@features/admin/groups/cell-ministry/cell-group-performance/cell-group-performance.component';
+import { CellGroupPerformanceDataService } from '@features/admin/groups/cell-ministry/_services/cell-group-performance-data.service';
 
 const routes: Routes = [
     {
@@ -79,7 +81,10 @@ const routes: Routes = [
     },
     {
         path     : 'group-performance/:groupId',
-        component: CellGroupPerformanceComponent
+        component: CellGroupPerformanceComponent,
+        resolve: {
+            performanceRecord: CellGroupPerformanceResolver
+        }
     },
 ];
 
@@ -129,8 +134,10 @@ const routes: Routes = [
     ],
     providers: [
         CellMinistryDataService,
+        CellGroupPerformanceDataService,
         CellMinistryAttendanceReportResolver,
-        CellMinistryDashboardResolver
+        CellMinistryDashboardResolver,
+        CellGroupPerformanceResolver
     ]
 })
 export class CellMinistryModule

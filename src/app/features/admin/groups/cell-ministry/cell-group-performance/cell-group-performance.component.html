@@ -16,7 +16,7 @@
 
 
                 <!-- Github issues summary -->
-                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div *ngIf="record$ | async as performance" class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Group Performance Summary</div>
                         <div class="mt-3 sm:mt-0 sm:ml-2">
@@ -39,7 +39,7 @@
                                 <div
                                     class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-indigo-50 text-indigo-800 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
                                     <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
-                                        {{14}}
+                                        {{performance['metrics'].membersCount}}
                                     </div>
                                     <div class="mt-1 text-sm sm:text-lg font-medium">Members</div>
                                 </div>
@@ -47,15 +47,15 @@
                                 <div
                                     class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
                                     <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
-                                        {{75}}
+                                        {{performance['metrics'].firstTimerCount}}
                                     </div>
-                                    <div class="mt-1 text-sm sm:text-lg font-medium">New Converts</div>
+                                    <div class="mt-1 text-sm sm:text-lg font-medium">First Timers</div>
                                 </div>
                                 <!-- Fixed -->
                                 <div
                                     class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
                                     <div class="text-5xl font-semibold leading-none tracking-tight">
-                                        {{3}}
+                                        {{performance['metrics'].newConvertCount}}
                                     </div>
                                     <div class="mt-1 text-sm font-medium text-center">New Converts</div>
                                 </div>
@@ -106,7 +106,7 @@
                                         [matSortDisableClear]="true"
                                         [matSortDirection]="'asc'"
                                         [multiTemplateDataRows]="true"
-                                        [dataSource]="groupMembers"
+                                        [dataSource]="performance.attendanceRecords.membersAttendance"
                                         [trackBy]="trackByFn">
 
                                         <!-- Name -->
@@ -123,8 +123,8 @@
                                                 class=""
                                                 mat-cell
                                                 sticky
-                                                *matCellDef="let product">
-                                                {{product.groupMemberName}}
+                                                *matCellDef="let element">
+                                                {{element.personName}}
                                             </td>
                                         </ng-container>
 

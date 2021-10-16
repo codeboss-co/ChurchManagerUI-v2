@@ -134,3 +134,31 @@ export interface AttendanceReportSubmissionSummary
     groupsWithReports: AttendanceReportSubmissions;
     groupsWithoutReports: AttendanceReportSubmissions;
 }
+
+/**
+ * Cell Group Performance
+ */
+
+export interface CellGroupPerformance {
+    metrics: CellGroupMetrics;
+    attendanceRecords: CellGroupAttendanceRecords;
+}
+
+export interface CellGroupMetrics {
+    firstTimerCount: number;
+    newConvertCount: number;
+    membersCount: number;
+}
+
+export interface GroupMemberAttendance {
+    groupMemberId: number;
+    personId: number;
+    personName: string;
+    attendanceRecords: boolean[];
+}
+
+export interface CellGroupAttendanceRecords {
+    membersAttendance: GroupMemberAttendance[];
+    attendanceDates: Date[];
+}
+

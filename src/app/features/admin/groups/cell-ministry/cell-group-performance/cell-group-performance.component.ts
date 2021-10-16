@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewE
 import { fuseAnimations } from '@fuse/animations';
 import { Subject } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
+import { CellGroupPerformanceDataService } from '@features/admin/groups/cell-ministry/_services/cell-group-performance-data.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { CellGroupPerformance } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 export type GroupMemberAttendanceRecord = { groupMemberId: number; groupMemberName: string; attendanceRecords: boolean[] };
 
@@ -27,6 +30,8 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
 
     tableColumns: string[] = ['name', 'attendance']; // , '2', '3', '4', '5', '6', '7', '8'
 
+    record$: Observable<CellGroupPerformance>;
+
     // Private
     private _unsubscribeAll = new Subject();
 
@@ -34,8 +39,9 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
     /**
      * Constructor
      */
-    constructor()
+    constructor(private _data: CellGroupPerformanceDataService)
     {
+        this.record$ = _data.groupPerformanceRecord$;
         this.chartOptions = {
             chart      : {
                 fontFamily: 'inherit',
