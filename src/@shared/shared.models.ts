@@ -79,6 +79,8 @@ export enum PeriodTypes
     ThisWeek = 30,
     LastWeek = 40,
     ThisMonth = 50,
-    LastMonth = 60
+    LastMonth = 60,
+    ThisYear = 70,
+    AllTime = 100
 }
 

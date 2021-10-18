@@ -6,7 +6,7 @@ import { Environment } from '@shared/environment.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import {
-    AttendanceReportSubmissions, AttendanceReportSubmissionSummary,
+    AttendanceReportSubmissionSummary,
     CellGroupsDashboardData,
     CellGroupsWeeklyBreakdown,
     GroupAttendanceQuery,

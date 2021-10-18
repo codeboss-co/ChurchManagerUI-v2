@@ -58,6 +58,11 @@
                                 <mat-icon>assignment</mat-icon>
                                 <span>View Attendance Records</span>
                             </button>
+                            <button *ngIf="group.takesAttendance" mat-menu-item aria-label="view attendance"
+                                    [routerLink]="['/apps/groups/cell-ministry/group-performance', group.groupId]">
+                                <mat-icon>assessment</mat-icon>
+                                <span>Performance</span>
+                            </button>
                         </mat-menu>
                     </div>
 
