@@ -44,6 +44,10 @@
                         [queryParams]="{groupId: group.id}">
                     <mat-icon>assignment</mat-icon>
                 </button>
+                <button *ngIf="group.groupType.takesAttendance" mat-icon-button matTooltip="Performance"
+                        [routerLink]="['/apps/groups/cell-ministry/group-performance', group.id]">
+                    <mat-icon>assessment</mat-icon>
+                </button>
             </div>
         </div>
 

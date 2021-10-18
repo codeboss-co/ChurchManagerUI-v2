@@ -160,5 +160,6 @@ export interface GroupMemberAttendance {
 export interface CellGroupAttendanceRecords {
     membersAttendance: GroupMemberAttendance[];
     attendanceDates: Date[];
+    avgAttendanceRate: number;
 }
 

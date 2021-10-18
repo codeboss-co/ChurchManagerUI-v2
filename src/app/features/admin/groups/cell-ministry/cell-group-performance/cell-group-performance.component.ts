@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { CellGroupPerformanceDataService } from '@features/admin/groups/cell-ministry/_services/cell-group-performance-data.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { CellGroupPerformance } from '@features/admin/groups/cell-ministry/cell-ministry.model';
+import { CellGroupPerformance, GroupMemberAttendance } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 export type GroupMemberAttendanceRecord = { groupMemberId: number; groupMemberName: string; attendanceRecords: boolean[] };
 
@@ -19,14 +19,6 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
 {
     @ViewChild('chart') chart: ChartComponent;
     public chartOptions:  ApexOptions = {};
-
-    public groupMembers: GroupMemberAttendanceRecord[] = [
-        {
-            groupMemberId: 1,
-            groupMemberName: 'Dillan Cagnetta',
-            attendanceRecords: [true, true, false, true, false, true, true, true, false]
-        }
-    ];
 
     tableColumns: string[] = ['name', 'attendance']; // , '2', '3', '4', '5', '6', '7', '8'
 
@@ -135,7 +127,7 @@ export class CellGroupPerformanceComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    trackByFn(index: number, item: GroupMemberAttendanceRecord): any
+    trackByFn(index: number, item: GroupMemberAttendance): any
     {
         return item.groupMemberId || index;
     }
