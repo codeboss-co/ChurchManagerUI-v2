@@ -72,6 +72,6 @@ export class CellGroupPerformanceResolver implements Resolve<any>
         // Try extract groupId from route
         const { groupId } = route.params;
 
-        return this._data.getGroupPerformanceRecord$(+groupId, PeriodTypes.ThisMonth);
+        return this._data.getGroupPerformanceRecord$(+groupId, PeriodTypes.ThisYear);
     }
 }
