@@ -49,7 +49,7 @@ export class PeopleAdvancedSearchComponent implements OnInit {
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
     readonly connectionStatusMap = ['Member',  'First Timer',  'New Convert'];
-    readonly ageClassificationMap = ['Adult', 'Child'];
+    readonly ageClassificationMap = ['Adult', 'Teen', 'Child'];
     readonly genderMap = ['Male', 'Female', 'Unknown'];
     readonly recordStatusMap = ['Active', 'Pending', 'Inactive'];
 
