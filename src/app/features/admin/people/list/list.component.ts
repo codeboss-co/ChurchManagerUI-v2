@@ -12,7 +12,7 @@ import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
-import { fromEvent, Subject } from 'rxjs';
+import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ContactsService } from '../_services/contacts.service';
@@ -38,6 +38,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
     drawerOpened: boolean = false;
     searchInputControl: FormControl = new FormControl();
     selectedContact: Person;
+
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     private _searchQuery$ = new Subject<PeopleAdvancedSearchQuery>();

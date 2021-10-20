@@ -95,8 +95,12 @@
                     </div>
                 </div>
 
+                <!-- Loader -->
+                <mat-progress-bar *ngIf="this.dataSource?.loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
+
                 <!-- Contacts list -->
                 <div class="relative">
+
                     <ng-container *ngIf="(dataSource.page$ | async )?.data as contacts">
                         <ng-container *ngIf="contacts.length; else noContacts">
                             <ng-container *ngFor="let contact of contacts; let i = index; trackBy: trackByFn">
