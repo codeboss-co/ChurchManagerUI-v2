@@ -3,7 +3,7 @@
     <!-- CONTENT -->
     <div>
         <!-- Loader -->
-        <mat-progress-bar *ngIf="dataSource.loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
+        <mat-progress-bar *ngIf="dataSource?.loading$ | async" [mode]="'indeterminate'"></mat-progress-bar>
 
         <mat-table
                    [dataSource]="dataSource"
