@@ -110,6 +110,32 @@ export const compactNavigation: FuseNavigationItem[] = [
         exactMatch: true
     },
     {
+        id   : 'apps.missions',
+        title: 'Missions',
+        type : 'aside',
+        icon : 'heroicons_outline:support',
+        children: [
+            {
+                id   : 'missions.dashboard',
+                title: 'Dashboard',
+                subtitle: 'Missions overview',
+                type : 'basic',
+                icon : 'heroicons_outline:users',
+                link : '/apps/missions',
+                exactMatch: true
+            },
+            {
+                id      : 'missions.new-mission',
+                title   : 'New Family',
+                subtitle: 'Add a new family',
+                type    : 'basic',
+                icon    : 'heroicons_outline:user-group',
+                link    : '/apps/people/new-family',
+                exactMatch: true
+            },
+        ]
+    },
+    {
         id   : 'example',
         title: 'Example',
         type : 'basic',
