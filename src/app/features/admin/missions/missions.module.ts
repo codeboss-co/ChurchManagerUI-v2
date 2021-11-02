@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { missionsRoutes } from '@features/admin/missions/missions.routing';
 import { MissionsDataService } from '@features/admin/missions/_services/missions-data.service';
-import { MissionsResolvers } from '@features/admin/missions/_services/missions.resolvers';
+import { MissionResolver, MissionsResolver } from '@features/admin/missions/_services/missions.resolvers';
 import { MissionsComponent } from '@features/admin/missions/missions.component';
 import { MissionsService } from '@features/admin/missions/_services/missions.service';
 import { SharedModule } from '@shared/shared.module';
@@ -24,10 +24,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
+import { MissionDetailComponent } from '@features/admin/missions/_components/detail/mission-detail.component';
+import { MissionsListComponent } from '@features/admin/missions/_components/list/missions-list.component';
 
 @NgModule({
     declarations: [
-        MissionsComponent
+        MissionsComponent,
+        MissionsListComponent,
+        MissionDetailComponent
     ],
     imports:[
         RouterModule.forChild(missionsRoutes),
@@ -56,7 +60,8 @@ import { FuseAutogrowModule } from '@fuse/directives/autogrow';
     ],
     providers: [
         MissionsDataService,
-        MissionsResolvers,
+        MissionsResolver,
+        MissionResolver,
         MissionsService
     ]
 })

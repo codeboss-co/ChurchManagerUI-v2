@@ -27,7 +27,21 @@ export class MissionsDataService extends HttpBaseService {
      */
     getMissions$(groupId: number): Observable<any[]>
     {
-        return super.get<ApiResponse>(`${this._apiUrl}/v1/missions/${groupId}/members`, null)
+        const params = {
+            groupId
+        };
+
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/missions`, params)
+            .pipe(
+                map(response => response.data)
+            );
+    }
+
+    /**
+     * Get mission
+     */
+    getMissionById$(missionId: number) {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/missions/${missionId}`, null)
             .pipe(
                 map(response => response.data)
             );

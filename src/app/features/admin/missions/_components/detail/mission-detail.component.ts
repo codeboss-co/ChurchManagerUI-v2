@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'missions',
-    templateUrl    : './missions-list.component.html',
+    selector       : 'mission',
+    templateUrl    : './mission-detail.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MissionsListComponent
+export class MissionDetailComponent
 {
 
 }
