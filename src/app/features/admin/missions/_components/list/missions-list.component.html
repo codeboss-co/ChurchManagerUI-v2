@@ -1,0 +1,8 @@
+<!-- CONTENT -->
+<paginated-general-table
+    [columns]="columns"
+    [buttons]="buttons"
+    [debug]="false"
+    (buttonClick)="onButtonClicked($event)">
+    <missions-list-query #query></missions-list-query >
+</paginated-general-table>

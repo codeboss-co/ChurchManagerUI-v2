@@ -5,23 +5,6 @@ import { MissionsService } from '@features/admin/missions/_services/missions.ser
 import { GroupAttendanceRecord } from '@features/admin/groups/cell-ministry/cell-ministry.model';
 
 /**
- * Missions Resolvers
- */
-@Injectable()
-export class MissionsResolver implements Resolve<any>
-{
-
-    constructor(private _service: MissionsService)
-    {
-    }
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
-    {
-        return this._service.getMissions$(1);
-    }
-}
-
-/**
  * Single Mission by id Resolvers
  */
 @Injectable()

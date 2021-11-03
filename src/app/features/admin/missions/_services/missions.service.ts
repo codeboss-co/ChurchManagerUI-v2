@@ -38,17 +38,6 @@ export class MissionsService
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Get missions
-     */
-    getMissions$(groupId: number): Observable<any[]>
-    {
-        return this._data.getMissions$(groupId)
-            .pipe(
-                tap(missions => this._missions.next(missions))
-            );
-    }
-
-    /**
      * Get mission by id
      */
     getMissionById$(missionId: number) {

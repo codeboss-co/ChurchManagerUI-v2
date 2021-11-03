@@ -15,7 +15,8 @@ export class FollowUpListComponent implements OnInit {
     columns: TableColumn[];
     buttons: TableBtn[] = [];
 
-    constructor() {
+    constructor()
+    {
         this.columns = [
             { columnDef: 'assignedDate',     header: 'Assigned Date',    cell: (element: FollowUpRecord) => {
                     return parseLocalDate(element.assignedDate);
@@ -37,16 +38,17 @@ export class FollowUpListComponent implements OnInit {
         ];
     }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
   }
 
-    onButtonClicked( action: string[] ) {
+    onButtonClicked(action: string[])
+    {
         console.log('button clicked: ',  action);
 
         if (action[0] === 'add') {
 
         }
     }
-
 
 }

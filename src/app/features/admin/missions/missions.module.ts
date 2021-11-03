@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { missionsRoutes } from '@features/admin/missions/missions.routing';
-import { MissionsDataService } from '@features/admin/missions/_services/missions-data.service';
-import { MissionResolver, MissionsResolver } from '@features/admin/missions/_services/missions.resolvers';
+import { MissionResolver } from '@features/admin/missions/_services/missions.resolvers';
 import { MissionsComponent } from '@features/admin/missions/missions.component';
 import { MissionsService } from '@features/admin/missions/_services/missions.service';
 import { SharedModule } from '@shared/shared.module';
@@ -26,11 +25,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { MissionDetailComponent } from '@features/admin/missions/_components/detail/mission-detail.component';
 import { MissionsListComponent } from '@features/admin/missions/_components/list/missions-list.component';
+import { MissionsListQueryComponent } from '@features/admin/missions/_components/list-query/missions-list-query.component';
+import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
 
 @NgModule({
     declarations: [
         MissionsComponent,
         MissionsListComponent,
+        MissionsListQueryComponent,
         MissionDetailComponent
     ],
     imports:[
@@ -57,10 +59,11 @@ import { MissionsListComponent } from '@features/admin/missions/_components/list
 
         // Fuse
         FuseAutogrowModule,
+
+        // UI Controls
+        GeneralTableModule
     ],
     providers: [
-        MissionsDataService,
-        MissionsResolver,
         MissionResolver,
         MissionsService
     ]
