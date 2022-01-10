@@ -18,7 +18,7 @@ export const missionsRoutes: Route[] = [
         children : [
             {
                 path         : ':id',
-                component    : MissionDetailComponent,
+                component    : MissionDetailComponent, // Drawer component
                 canDeactivate: [CanDeactivateMissionDetail],
                 resolve: {
                     mission: MissionResolver
