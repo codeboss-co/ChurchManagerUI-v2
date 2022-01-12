@@ -23,7 +23,7 @@ export class AuthSignInComponent implements OnInit
     signInForm: FormGroup;
     showAlert: boolean = false;
 
-    tenants$: Observable<any> = this._authService.tenants$();
+    tenants$: Observable<any>;
 
     /**
      * Constructor
@@ -53,6 +53,8 @@ export class AuthSignInComponent implements OnInit
             tenant  : ['', Validators.required],
             rememberMe: ['']
         });
+
+        this.tenants$ = this._authService.tenants$();
     }
 
     // -----------------------------------------------------------------------------------------------------
