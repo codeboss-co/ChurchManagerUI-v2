@@ -1,5 +1,6 @@
 {
   "name": "Church Manager",
+  "description": "Church management made easy",
   "short_name": "Church Manager",
   "theme_color": "#4f46e5",
   "background_color": "#e0e7ff",
@@ -90,5 +91,43 @@
          "type": "image/png",
          "sizes": "16x16"
         }
-  ]
+  ],
+   "screenshots": [
+      {
+        "src": "/images/screenshots/login.png",
+        "type": "image/png",
+        "sizes": "602x551",
+        "platform": "wide"
+      },
+      {
+        "src": "/images/screenshots/login_mobile.png",
+        "type": "image/png",
+        "sizes": "412x735",
+        "platform": "narrow"
+      },
+        {
+          "src": "/images/screenshots/profile.png",
+          "type": "image/png",
+          "sizes": "602x488",
+          "platform": "wide"
+        },
+        {
+          "src": "/images/screenshots/search_mobile.png",
+          "type": "image/png",
+          "sizes": "407x731",
+          "platform": "narrow"
+        },
+         {
+           "src": "/images/screenshots/group_detail_mobile.png",
+           "type": "image/png",
+           "sizes": "531x900",
+           "platform": "narrow"
+         },
+         {
+           "src": "/images/screenshots/stats_dark.png",
+           "type": "image/png",
+           "sizes": "602x526",
+           "platform": "wide"
+         }
+    ]
 }

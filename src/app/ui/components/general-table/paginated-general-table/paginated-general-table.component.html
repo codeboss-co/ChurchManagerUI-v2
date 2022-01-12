@@ -109,9 +109,14 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [@fadeIn]="true">
-        </tr>
+        <ng-container *ngIf="drawerEnabled">
+            <tr mat-row [ngClass]="'cursor-pointer'" *matRowDef="let row; columns: displayedColumns;"
+                [@fadeIn]="true"
+                (click)="this.buttonClick.emit(['drawer', row.id])"></tr>
+        </ng-container>
+        <ng-container *ngIf="!drawerEnabled">
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [@fadeIn]="true"></tr>
+        </ng-container>
 
         <ng-container *ngIf="footer"> <!-- Make footer nullable -->
             <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"></tr>

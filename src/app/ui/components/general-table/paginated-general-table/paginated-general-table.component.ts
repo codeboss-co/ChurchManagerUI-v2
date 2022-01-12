@@ -39,6 +39,7 @@ export class PaginatedGeneralTableComponent implements OnChanges, AfterViewInit,
     @Input() columns: TableColumn[] = [];
     @Input() buttons: TableBtn[] = [];
     @Input() selectable: boolean = false;
+    @Input() drawerEnabled: boolean = false;
     @Input() filter: boolean = false;
     @Input() filterPlaceholder: string = 'Filter results';
     @Input() footer: string = null;

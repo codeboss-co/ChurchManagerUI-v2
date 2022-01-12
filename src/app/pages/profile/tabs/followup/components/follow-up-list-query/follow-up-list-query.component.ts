@@ -4,7 +4,7 @@ import { FollowUpQuery } from '../../follow-up.models';
 import { FormBuilder } from '@angular/forms';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 
 @Component({
@@ -16,10 +16,6 @@ export class FollowUpListQueryComponent extends QueryBase<FollowUpQuery> impleme
 {
     followUpTypes: string[] = ['New Convert', 'General Well Being', 'Home Visitation', 'Death'];
     severityList: string[] = ['Normal' , 'Urgent'];
-
-    // Private
-    private _unsubscribeAll = new Subject<any>();
-    private _personId: number;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -78,8 +74,7 @@ export class FollowUpListQueryComponent extends QueryBase<FollowUpQuery> impleme
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
-
 }
