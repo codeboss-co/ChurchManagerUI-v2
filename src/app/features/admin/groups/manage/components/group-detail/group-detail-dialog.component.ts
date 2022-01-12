@@ -115,7 +115,9 @@ export class GroupDetailDialogComponent implements OnInit, OnDestroy
             .pipe(
                 switchMap(groupTypeId => this._data.getGroupType$(groupTypeId)),
                 map(data => this.groupType = data)
-            ).subscribe();
+            )
+            // Force changes to the UI refreshes to show the meeting time form controls
+            .subscribe(_ => this._changeDetectorRef.detectChanges());
 
         // Subscribe to 'recurrence' field changes
         this.form.get('recurrence').valueChanges.subscribe((value) => {
