@@ -132,8 +132,13 @@ export class GroupsManageComponent implements OnInit, OnDestroy
         // once that is done - expand the tree to the new group
         addGroupAndReloadGroupWithChildren$
             .pipe(
-                switchMap(({ groupId, parentGroupId}) => this._data.getGroupTree$(parentGroupId)
-                    .pipe(map(groups => ({groupId, groups}) ))
+                switchMap(({ groupId, parentGroupId}) => {
+                    const viewer = this.viewer;
+                    console.log('data 1', viewer.dataSource.data);
+
+                    return this._data.getGroupTree$(parentGroupId)
+                            .pipe(map(groups => ({groupId, groups}) ));
+                    }
                 )
             )
             .subscribe(({groupId, groups}) => {
@@ -146,8 +151,15 @@ export class GroupsManageComponent implements OnInit, OnDestroy
                 parentNode.item.groups = parent.groups;
 
                 // Reload the group data
-                const updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
-                viewer.dataSource.data = updatedGroups;
+                let updatedGroups: GroupWithChildren[] = viewer.treeControl.dataNodes.map(x => x.item);
+                /*
+                * Remove the root node, so we are left with the children only
+                *   Fixes issue of multiple children on the root node
+                * */
+                updatedGroups = updatedGroups.splice(0,1);
+
+                viewer.reload(updatedGroups);
+
                 // Expand the tree from the new node
                 viewer.expandTree(viewer.treeControl.dataNodes, groupId);
                 // Show the new groups details
