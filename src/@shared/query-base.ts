@@ -8,4 +8,6 @@ export abstract class QueryBase<TQuery>
     searchBtnClicked = new Subject();
 
     query$: Observable<TQuery>;
+
+    protected unsubscribeAll = new Subject<any>();
 }

@@ -20,7 +20,8 @@ export class GroupsManageService
         return this._groups.asObservable();
     }
 
-    constructor( private _data: GroupsDataService ) {
+    constructor( private _data: GroupsDataService )
+    {
     }
 
     // -----------------------------------------------------------------------------------------------------

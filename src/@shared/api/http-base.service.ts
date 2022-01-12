@@ -69,7 +69,7 @@ export function createHttpParams( params: {} ): HttpParams {
     let httpParams: HttpParams = new HttpParams();
 
     if ( params ) {
-        Object.keys( params ).forEach( param => {
+        Object.keys( params ).forEach( (param) => {
             if ( params[param] ) {
                 console.log(param, params[param]);
                 httpParams = httpParams.set( param, params[param] );
