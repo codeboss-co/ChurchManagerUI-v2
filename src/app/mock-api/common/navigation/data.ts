@@ -34,6 +34,15 @@ export const compactNavigation: FuseNavigationItem[] = [
                 exactMatch: true
             },
             {
+                id      : 'people.families',
+                title   : 'Families',
+                subtitle: 'Families Directory',
+                type    : 'basic',
+                icon    : 'heroicons_outline:table',
+                link    : '/apps/people/families/list',
+                exactMatch: true
+            },
+            {
                 id   : 'people.contacts',
                 title: 'People',
                 subtitle: 'People directory',

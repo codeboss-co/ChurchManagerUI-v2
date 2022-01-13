@@ -1,0 +1,57 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container
+        class="flex-auto h-full bg-card dark:bg-transparent"
+        (backdropClick)="onBackdropClicked()">
+
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-full md:w-160 dark:bg-gray-900"
+            [mode]="drawerMode"
+            [opened]="false"
+            [position]="'end'"
+            [disableClose]="true"
+            #matDrawer>
+            <router-outlet></router-outlet>
+        </mat-drawer>
+
+        <mat-drawer-content class="flex flex-col">
+
+            <!-- Header -->
+            <div
+                class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+                <div class="flex-1 min-w-0">
+                    <!-- Title -->
+                    <div class="mt-2">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                            Families Directory
+                        </h2>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Main -->
+            <div class="flex-auto p-6 sm:p-10 overflow-y-auto" cdkScrollable>
+
+                <!-- Content -->
+                <div class="w-full max-w-screen-xl mx-auto">
+
+                    <!-- CONTENT -->
+                    <paginated-general-table
+                        [columns]="columns"
+                        [buttons]="buttons"
+                        [debug]="false"
+                        (buttonClick)="onButtonClicked($event)">
+                        <families-list-query #query></families-list-query>
+                    </paginated-general-table>
+
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

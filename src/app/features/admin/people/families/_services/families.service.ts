@@ -4,10 +4,10 @@ import { MissionsDataService } from '@features/admin/missions';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class MissionsService
+export class FamiliesService
 {
-    private _missions: BehaviorSubject<any[]> = new BehaviorSubject([]);
-    private _mission: BehaviorSubject<any> = new BehaviorSubject(null);
+    private _families: BehaviorSubject<any[]> = new BehaviorSubject([]);
+    private _family: BehaviorSubject<any> = new BehaviorSubject(null);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -16,17 +16,17 @@ export class MissionsService
     /**
      * Getter for missions
      */
-    get missions$(): Observable<any[]>
+    get families$(): Observable<any[]>
     {
-        return this._missions.asObservable();
+        return this._families.asObservable();
     }
 
     /**
      * Getter for mission
      */
-    get mission$(): Observable<any>
+    get family$(): Observable<any>
     {
-        return this._mission.asObservable();
+        return this._family.asObservable();
     }
 
     constructor(private _data: MissionsDataService)
@@ -40,10 +40,10 @@ export class MissionsService
     /**
      * Get mission by id
      */
-    getMissionById$(missionId: number) {
+    getById$( missionId: number) {
         return this._data.getFamilyById$(missionId)
             .pipe(
-                tap(missions => this._missions.next(missions))
+                tap(missions => this._families.next(missions))
             );
     }
 }
