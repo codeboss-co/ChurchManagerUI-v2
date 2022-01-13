@@ -8,13 +8,12 @@ import {
 } from '@angular/core';
 import { TableBtn, TableColumn } from '@ui/components/general-table';
 import { parseLocalDate } from '@core/date-utils';
-import { Mission } from '@features/admin/missions';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { pagingServiceProvider } from '@features/admin/people/families';
+import { Family, pagingServiceProvider } from '@features/admin/people/families';
 
 @Component({
     selector       : 'families',
@@ -51,17 +50,15 @@ export class FamiliesListComponent implements OnInit
     )
     {
         this.columns = [
-            { columnDef: 'startDateTime',     header: 'Assigned Date',    cell: (element: Mission) => {
-                    return parseLocalDate(element.startDateTime);
-                } },
-            { columnDef: 'type',     header: 'Type',     cell: (element: Mission) => `${element.type}` },
-            { columnDef: 'category',   header: 'Category',   cell: (element: Mission) => `${element.category}` }
+            { columnDef: 'name',     header: 'Name',     cell: (element: Family) => `${element.name}` },
+            { columnDef: 'city',     header: 'City',     cell: (element: Family) => `${element.city}` },
+            { columnDef: 'country',   header: 'Country',   cell: (element: Family) => `${element.country}` }
         ];
 
         this.buttons = [
-            { icon: 'note_add',    payload: (element: Mission) => `${element.id}`, action: 'add', text: 'Add' },
-            { icon: 'build',    payload: (element: Mission) => `${element.id}`, action: 'edit', text: 'Edit' },
-            { icon: 'delete',    payload: (element: Mission) => `${element.id}`, action: 'delete', text: 'Remove' },
+            { icon: 'note_add',    payload: (element: Family) => `${element.id}`, action: 'add', text: 'Add Person' },
+        // { icon: 'build',    payload: (element: Family) => `${element.id}`, action: 'edit', text: 'Edit' },
+            { icon: 'delete',    payload: (element: Family) => `${element.id}`, action: 'delete', text: 'Remove' },
         ];
     }
 
@@ -127,7 +124,7 @@ export class FamiliesListComponent implements OnInit
             console.log('drawer click', 'id', id);
             // Go to detail
             this._router.navigate(
-                ['/apps/missions/list/', id],
+                ['/apps/people/families/list/', id],
                 { queryParams: { groupId: this.groupId } });
 
             // Mark for check

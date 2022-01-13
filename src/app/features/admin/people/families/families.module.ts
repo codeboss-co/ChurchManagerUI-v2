@@ -20,7 +20,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAutogrowModule } from '@fuse/directives/autogrow';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
-import { FamiliesHomeComponent } from '@features/admin/people/families/families.component';
 import { familiesRoutes } from '@features/admin/people/families/families.routing';
 import { FamiliesListComponent } from '@features/admin/people/families/_components/list/families-list.component';
 import { FamiliesListQueryComponent } from '@features/admin/people/families/_components/list-query/families-list-query.component';
@@ -30,7 +29,6 @@ import { FamiliesService } from '@features/admin/people/families/_services/famil
 
 @NgModule({
     declarations: [
-        FamiliesHomeComponent,
         FamiliesListComponent,
         FamiliesListQueryComponent,
         FamilyDetailComponent
