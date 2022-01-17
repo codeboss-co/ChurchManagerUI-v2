@@ -26,6 +26,7 @@ import { FamiliesListQueryComponent } from '@features/admin/people/families/_com
 import { FamilyDetailComponent } from '@features/admin/people/families/_components/detail/family-detail.component';
 import { FamilyResolver } from '@features/admin/people/families/_services/families.resolvers';
 import { FamiliesService } from '@features/admin/people/families/_services/families.service';
+import { FamiliesDataService } from '@features/admin/people/families/_services/families-data.service';
 
 @NgModule({
     declarations: [
@@ -63,7 +64,8 @@ import { FamiliesService } from '@features/admin/people/families/_services/famil
     ],
     providers: [
         FamilyResolver,
-        FamiliesService
+        FamiliesService,
+        FamiliesDataService
     ]
 })
 export class FamiliesModule

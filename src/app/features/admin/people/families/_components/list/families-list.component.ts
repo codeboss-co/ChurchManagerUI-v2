@@ -7,7 +7,6 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { TableBtn, TableColumn } from '@ui/components/general-table';
-import { parseLocalDate } from '@core/date-utils';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, takeUntil } from 'rxjs/operators';
@@ -56,9 +55,9 @@ export class FamiliesListComponent implements OnInit
         ];
 
         this.buttons = [
-            { icon: 'note_add',    payload: (element: Family) => `${element.id}`, action: 'add', text: 'Add Person' },
+            { icon: 'note_add',    payload: (element: Family) => `${element.id}`, action: 'add', text: 'Add Person', disabled: false },
         // { icon: 'build',    payload: (element: Family) => `${element.id}`, action: 'edit', text: 'Edit' },
-            { icon: 'delete',    payload: (element: Family) => `${element.id}`, action: 'delete', text: 'Remove' },
+            { icon: 'delete',    payload: (element: Family) => `${element.id}`, action: 'delete', text: 'Remove', disabled: true },
         ];
     }
 

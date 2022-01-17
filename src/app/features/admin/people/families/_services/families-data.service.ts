@@ -53,7 +53,7 @@ export class FamiliesDataService extends HttpBaseService {
     /**
      * Get mission
      */
-    getMissionById$(familyId: number) {
+    getFamilyById$(familyId: number) {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/families/${familyId}`, null)
             .pipe(
                 map(response => response.data)

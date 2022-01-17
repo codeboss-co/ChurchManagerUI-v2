@@ -7,6 +7,7 @@ export interface TableBtn {
   payload: (any) => string;
   action: string;
   text?: string;
+  disabled?: boolean;
 }
 
 

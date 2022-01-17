@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MissionsDataService } from '@features/admin/missions';
 import { tap } from 'rxjs/operators';
+import { FamiliesDataService } from '@features/admin/people/families';
 
 @Injectable()
 export class FamiliesService
@@ -29,7 +29,7 @@ export class FamiliesService
         return this._family.asObservable();
     }
 
-    constructor(private _data: MissionsDataService)
+    constructor(private _data: FamiliesDataService)
     {
     }
 
@@ -43,7 +43,7 @@ export class FamiliesService
     getById$( missionId: number) {
         return this._data.getFamilyById$(missionId)
             .pipe(
-                tap(missions => this._families.next(missions))
+                tap(family => this._family.next(family))
             );
     }
 }
