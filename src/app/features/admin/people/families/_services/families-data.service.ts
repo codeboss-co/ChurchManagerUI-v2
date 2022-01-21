@@ -51,7 +51,7 @@ export class FamiliesDataService extends HttpBaseService {
     }
 
     /**
-     * Get mission
+     * Get family
      */
     getFamilyById$(familyId: number) {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/families/${familyId}`, null)

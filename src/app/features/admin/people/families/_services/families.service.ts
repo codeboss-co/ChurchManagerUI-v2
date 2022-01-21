@@ -38,9 +38,9 @@ export class FamiliesService
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Get mission by id
+     * Get family by id
      */
-    getById$( missionId: number) {
+    getById$(missionId: number) {
         return this._data.getFamilyById$(missionId)
             .pipe(
                 tap(family => this._family.next(family))

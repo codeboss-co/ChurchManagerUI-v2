@@ -9,10 +9,14 @@ import {
 import { TableBtn, TableColumn } from '@ui/components/general-table';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Family, pagingServiceProvider } from '@features/admin/people/families';
+import { FamiliesDataService, Family, pagingServiceProvider } from '@features/admin/people/families';
+import { PersonFormDialogComponent } from '@features/admin/people/new-family-form/person-form/person-form-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FamilyMember } from '@features/admin/people/new-family-form/person-form/person-form.model';
+import { FamiliesService } from '@features/admin/people/families/_services/families.service';
 
 @Component({
     selector       : 'families',
@@ -35,17 +39,24 @@ export class FamiliesListComponent implements OnInit
     columns: TableColumn[];
     buttons: TableBtn[] = [];
 
+    dialogRef: any;
+
+
     // Private
     private _unsubscribeAll = new Subject();
+    private _fetchFamilyTrigger = new Subject<number>();
+    private _family$: Observable<Family>;
 
     /**
      * Constructor
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
+        private _matDialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _service: FamiliesService,
     )
     {
         this.columns = [
@@ -90,6 +101,13 @@ export class FamiliesListComponent implements OnInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._fetchFamilyTrigger
+            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                switchMap(familyId => this._service.getById$(familyId))
+            )
+            .subscribe();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -113,6 +131,40 @@ export class FamiliesListComponent implements OnInit
 
         if (action[0] === 'add') {
 
+            const familyId = +action[1];
+            this._fetchFamilyTrigger.next(familyId);
+
+            this._service.family$
+                .pipe(filter(family => !!family))
+                .subscribe((family: Family) => {
+                    console.log('family', family);
+
+                    this.dialogRef = this._matDialog.open(PersonFormDialogComponent, {
+                        panelClass: 'person-form-dialog',
+                        data      : {
+                            action: 'add_person',
+                            familyName: family.name,
+                            familyId: family.id
+                        }
+                    });
+
+                    this.dialogRef.afterClosed()
+                        .subscribe((response: FamilyMember) => {
+                            if (!response )
+                            {
+                                return;
+                            }
+
+                            // Do something here
+                            console.log(response);
+                        });
+
+                });
+
+
+
+
+           /* */
         }
 
         /**

@@ -27,6 +27,7 @@ import { FamilyDetailComponent } from '@features/admin/people/families/_componen
 import { FamilyResolver } from '@features/admin/people/families/_services/families.resolvers';
 import { FamiliesService } from '@features/admin/people/families/_services/families.service';
 import { FamiliesDataService } from '@features/admin/people/families/_services/families-data.service';
+import { PersonFormModule } from '@features/admin/people/new-family-form/person-form/person-form.module';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,8 @@ import { FamiliesDataService } from '@features/admin/people/families/_services/f
         MatTabsModule,
         MatTableModule,
         MatTooltipModule,
+
+        PersonFormModule,
 
         // Fuse
         FuseAutogrowModule,

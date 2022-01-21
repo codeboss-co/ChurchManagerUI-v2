@@ -14,6 +14,7 @@ export class PersonFormDialogComponent implements OnInit
 {
     action: string;
     familyName: string;
+    familyId?: number;
     person: Person;
     form: FormGroup;
     dialogTitle: string;
@@ -40,6 +41,10 @@ export class PersonFormDialogComponent implements OnInit
             this.dialogTitle = 'New Person';
             this.familyName = _data['familyName'];
             this.person = new PersonModel( {} );
+
+            if (_data['familyId']){
+                this.familyId = _data['familyId'];
+            }
         }
 
         this.form = this.createForm();
@@ -83,13 +88,14 @@ export class PersonFormDialogComponent implements OnInit
 
         const model: FamilyMember = {
             churchId,
+            familyId: this.familyId,
             connectionStatus,
             source,
             firstVisitDate,
             person,
             assignedFollowUpPerson
         };
-
+        console.log(model);
         this.matDialogRef.close( model );
     }
 }
