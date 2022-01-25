@@ -8,6 +8,7 @@ import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
 import { FamiliesQuery, Family } from '@features/admin/people/families';
+import { FamilyMember } from '@features/admin/people/new-family-form/person-form/person-form.model';
 
 
 @Injectable()
@@ -58,5 +59,12 @@ export class FamiliesDataService extends HttpBaseService {
             .pipe(
                 map(response => response.data)
             );
+    }
+
+    /**
+     * Add Person
+     */
+    addPerson(familyMember: FamilyMember) {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/families/add-person`, { familyMember });
     }
 }

@@ -10,7 +10,7 @@ import { TableBtn, TableColumn } from '@ui/components/general-table';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FamiliesDataService, Family, pagingServiceProvider } from '@features/admin/people/families';
 import { PersonFormDialogComponent } from '@features/admin/people/new-family-form/person-form/person-form-dialog.component';
@@ -44,7 +44,7 @@ export class FamiliesListComponent implements OnInit
 
     // Private
     private _unsubscribeAll = new Subject();
-    private _fetchFamilyTrigger = new Subject<number>();
+    private _fetchFamilyTrigger = new BehaviorSubject<number>(null);
     private _family$: Observable<Family>;
 
     /**
@@ -57,6 +57,7 @@ export class FamiliesListComponent implements OnInit
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _service: FamiliesService,
+        private _data: FamiliesDataService,
     )
     {
         this.columns = [
@@ -102,12 +103,12 @@ export class FamiliesListComponent implements OnInit
                 this._changeDetectorRef.markForCheck();
             });
 
-        this._fetchFamilyTrigger
+        this._family$ = this._fetchFamilyTrigger
             .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(filter(familyId => !!familyId))
             .pipe(
                 switchMap(familyId => this._service.getById$(familyId))
-            )
-            .subscribe();
+            );
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -129,16 +130,21 @@ export class FamiliesListComponent implements OnInit
     {
         console.log('button clicked: ',  action);
 
+        /**
+         * Add Person to Family
+         */
         if (action[0] === 'add') {
 
             const familyId = +action[1];
             this._fetchFamilyTrigger.next(familyId);
 
-            this._service.family$
+            // Unsubscribes so we dont have multiple dialogs opening
+            const doneAdding = new Subject();
+
+            this._family$
+                .pipe(takeUntil(doneAdding))
                 .pipe(filter(family => !!family))
                 .subscribe((family: Family) => {
-                    console.log('family', family);
-
                     this.dialogRef = this._matDialog.open(PersonFormDialogComponent, {
                         panelClass: 'person-form-dialog',
                         data      : {
@@ -152,19 +158,19 @@ export class FamiliesListComponent implements OnInit
                         .subscribe((response: FamilyMember) => {
                             if (!response )
                             {
+                                doneAdding.next();
                                 return;
                             }
 
                             // Do something here
                             console.log(response);
+
+                            this._data.addPerson(response).subscribe(_ => {
+                                doneAdding.next();
+                            });
                         });
 
                 });
-
-
-
-
-           /* */
         }
 
         /**

@@ -34,15 +34,25 @@ export class PersonFormDialogComponent implements OnInit
         // Set the defaults
         this.action = _data.action;
 
-        if ( this.action === 'edit' ) {
+        if ( this.action === 'edit' )
+        {
             this.dialogTitle = 'Edit Person';
             this.person = _data.person;
-        } else {
+        } else
+        {
             this.dialogTitle = 'New Person';
             this.familyName = _data['familyName'];
             this.person = new PersonModel( {} );
 
-            if (_data['familyId']){
+            // Adding a Person to the Family
+            if (this.action === 'add_person')
+            {
+                if(!_data['familyId'])
+                {
+                    throw new Error('familyId is required to add a person');
+                }
+
+
                 this.familyId = _data['familyId'];
             }
         }
