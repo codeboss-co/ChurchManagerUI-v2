@@ -2,6 +2,7 @@ import { Identifiable } from '@shared/shared.models';
 
 export interface FamilyMember {
     churchId: number;
+    familyId?: number;
     connectionStatus: string;
     source: string;
     firstVisitDate?: Date;

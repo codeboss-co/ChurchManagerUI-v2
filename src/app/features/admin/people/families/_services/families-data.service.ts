@@ -7,10 +7,12 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '@shared/shared.models';
 import { map } from 'rxjs/operators';
 import { PagedRequest, PagedResult } from '@shared/data/pagination.models';
-import { Mission, MissionsQuery } from '@features/admin/missions';
+import { FamiliesQuery, Family } from '@features/admin/people/families';
+import { FamilyMember } from '@features/admin/people/new-family-form/person-form/person-form.model';
+
 
 @Injectable()
-export class MissionsDataService extends HttpBaseService {
+export class FamiliesDataService extends HttpBaseService {
     private _apiUrl = this._environment.baseUrls.apiUrl;
 
     constructor(
@@ -24,18 +26,18 @@ export class MissionsDataService extends HttpBaseService {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    pageRecords$( request: PagedRequest<Mission>, query: MissionsQuery ): Observable<PagedResult<Mission>>
+    pageRecords$( request: PagedRequest<Family>, query: FamiliesQuery ): Observable<PagedResult<Family>>
     {
         return this.browseRecords$(request, query)
             .pipe(
-                map((pagedResult: PagedResult<Mission>) => {
+                map((pagedResult: PagedResult<Family>) => {
                     console.log('page', pagedResult);
                     return pagedResult;
                 })
             );
     }
 
-    browseRecords$(paging: PagedRequest<Mission>, query: MissionsQuery): Observable<PagedResult<Mission>>
+    browseRecords$(paging: PagedRequest<Family>, query: FamiliesQuery): Observable<PagedResult<Family>>
     {
         const body = {
             ...query,
@@ -46,16 +48,23 @@ export class MissionsDataService extends HttpBaseService {
             sortOrder: paging.sort.order
         };
 
-        return super.post<PagedResult<Mission>>(`${this._apiUrl}/v1/missions/browse`, body);
+        return super.post<PagedResult<Family>>(`${this._apiUrl}/v1/families/browse`, body);
     }
 
     /**
-     * Get mission
+     * Get family
      */
-    getFamilyById$( missionId: number) {
-        return super.get<ApiResponse>(`${this._apiUrl}/v1/missions/${missionId}`, null)
+    getFamilyById$(familyId: number) {
+        return super.get<ApiResponse>(`${this._apiUrl}/v1/families/${familyId}`, null)
             .pipe(
                 map(response => response.data)
             );
+    }
+
+    /**
+     * Add Person
+     */
+    addPerson(familyMember: FamilyMember) {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/families/add-person`, { familyMember });
     }
 }
