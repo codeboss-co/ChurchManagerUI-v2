@@ -9,8 +9,8 @@ import {
 import { TableBtn, TableColumn } from '@ui/components/general-table';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, first, map, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FamiliesDataService, Family, pagingServiceProvider } from '@features/admin/people/families';
 import { PersonFormDialogComponent } from '@features/admin/people/new-family-form/person-form/person-form-dialog.component';
@@ -138,39 +138,36 @@ export class FamiliesListComponent implements OnInit
             const familyId = +action[1];
             this._fetchFamilyTrigger.next(familyId);
 
-            // Unsubscribes so we dont have multiple dialogs opening
-            const doneAdding = new Subject();
-
             this._family$
-                .pipe(takeUntil(doneAdding))
                 .pipe(filter(family => !!family))
-                .subscribe((family: Family) => {
-                    this.dialogRef = this._matDialog.open(PersonFormDialogComponent, {
-                        panelClass: 'person-form-dialog',
-                        data      : {
-                            action: 'add_person',
-                            familyName: family.name,
-                            familyId: family.id
-                        }
-                    });
-
-                    this.dialogRef.afterClosed()
-                        .subscribe((response: FamilyMember) => {
-                            if (!response )
-                            {
-                                doneAdding.next();
-                                return;
+                .pipe(first()) // <-- completes the observable and unsubscribes,
+                .pipe(
+                    switchMap((family: Family)  => {
+                        this.dialogRef = this._matDialog.open(PersonFormDialogComponent, {
+                            panelClass: 'person-form-dialog',
+                            data      : {
+                                action: 'add_person',
+                                familyName: family.name,
+                                familyId: family.id
                             }
-
-                            // Do something here
-                            console.log(response);
-
-                            this._data.addPerson(response).subscribe(_ => {
-                                doneAdding.next();
-                            });
                         });
 
-                });
+                        return  this.dialogRef.afterClosed()
+                            .pipe(
+                                switchMap((response: FamilyMember) => {
+                                    if (!response )
+                                    {
+                                        return EMPTY;
+                                    }
+
+                                     // Do something here
+                                    console.log(response);
+
+                                    return this._data.addPerson(response);
+                                })
+                            );
+                    })
+                ).subscribe();
         }
 
         /**
