@@ -44,6 +44,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
+import { PersonFormModule } from '@features/admin/people/new-family-form/person-form/person-form.module';
 
 @NgModule({
     declarations: [
@@ -53,7 +54,7 @@ import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplet
 
         // People
         NewFamilyFormComponent,
-        PersonFormDialogComponent,
+        //PersonFormDialogComponent,
         FamilyMembersListComponent,
         PeopleAdvancedSearchComponent
     ],
@@ -84,6 +85,8 @@ import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplet
         MatButtonToggleModule,
         MatToolbarModule,
         MatTooltipModule,
+
+        PersonFormModule,
 
         // Fuse
         FuseAutogrowModule,

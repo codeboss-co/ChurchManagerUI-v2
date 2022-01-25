@@ -39,5 +39,10 @@ export const contactsRoutes: Route[] = [
                 ]
             }
         ]
-    }
+    },
+
+    /**
+    * Sub modules
+    */
+    { path     : 'families', loadChildren: () => import('../people/families/families.module').then(m => m.FamiliesModule) },
 ];

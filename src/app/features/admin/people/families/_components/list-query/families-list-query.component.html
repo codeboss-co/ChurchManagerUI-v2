@@ -1,0 +1,23 @@
+<!-- Search -->
+<form [formGroup]="searchForm">
+    <div class="flex flex-wrap justify-between items-baseline">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary"
+                [disabled]="!searchForm.valid"
+                (click)="searchBtnClicked.next()">
+            <mat-icon>search</mat-icon>
+            Search
+        </button>
+
+    </div>
+</form>
