@@ -55,7 +55,9 @@ export class MissionsCreateDialogComponent implements OnInit
             {
                 type: [null, Validators.required],
                 category: [null, Validators.required],
-                groupId: [null],
+                church: [null],
+                churchGroup: [null],
+                person: [null],
                 communicationPreference: [null],
                 startDate: [null],
                 endDate: [null]

@@ -31,6 +31,9 @@ import { MissionsCreateDialogComponent } from '@features/admin/missions/_compone
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
+import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
+import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
 
 @NgModule({
     declarations: [
@@ -69,7 +72,10 @@ import { MatDialogModule } from '@angular/material/dialog';
         FuseScrollbarModule,
 
         // UI Controls
-        GeneralTableModule
+        GeneralTableModule,
+        ChurchGroupsSelectControlModule,
+        PersonAutocompleteControlModule,
+        ChurchesSelectControlModule
     ],
     providers: [
         MissionResolver,

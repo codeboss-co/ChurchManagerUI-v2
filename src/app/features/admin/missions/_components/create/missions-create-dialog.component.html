@@ -16,13 +16,29 @@
 
         <form [formGroup]="form" class="flex flex-col">
 
+            <cm-church-groups-control
+                *ngIf="missionStreamCtrl.value === 'Group'"
+                formControlName="churchGroup"
+                [allowAllGroupsSelect]="false">
+            </cm-church-groups-control>
+
+            <churches-select-control
+                *ngIf="missionStreamCtrl.value === 'Church'"
+                formControlName="church">
+            </churches-select-control>
+
+            <person-autocomplete-control
+                *ngIf="missionStreamCtrl.value === 'Person'"
+                formControlName="person">
+            </person-autocomplete-control>
+
             <!-- Mission Stream -->
             <div class="flex flex-col mb-6">
                 <mat-label>Mission Stream</mat-label>
                 <mat-button-toggle-group  [formControl]="missionStreamCtrl">
-                    <mat-button-toggle value="Person" disabled >Person</mat-button-toggle>
-                    <mat-button-toggle value="Church" disabled >Church</mat-button-toggle>
                     <mat-button-toggle value="Group">Group</mat-button-toggle>
+                    <mat-button-toggle value="Church">Church</mat-button-toggle>
+                    <mat-button-toggle value="Person">Person</mat-button-toggle>
                 </mat-button-toggle-group>
             </div>
 

@@ -22,6 +22,7 @@ import { SelectItem } from '@shared/shared.models';
 } )
 export class ChurchGroupsSelectControlComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
+    @Input() allowAllGroupsSelect = true;
     @Input() noSelectionLabel = '-- All Groups --';
 
     public form = new FormGroup( {
