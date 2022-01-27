@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash-es';
-import { MissionsQuery } from '@features/admin/missions';
+import { MissionsQuery, missionTypes, missionCategoryList } from '@features/admin/missions';
 import { FollowUpQuery } from '../../../../../pages/profile/tabs/followup/follow-up.models';
 
 @Component({
@@ -14,8 +14,8 @@ import { FollowUpQuery } from '../../../../../pages/profile/tabs/followup/follow
 })
 export class MissionsListQueryComponent extends QueryBase<MissionsQuery> implements OnInit, OnDestroy
 {
-    missionTypes: string[] = ['InReach', 'OutReach'];
-    categoryList: string[] = ['ROSA' , 'Healing Streams'];
+    missionTypes = missionTypes;
+    categoryList = missionCategoryList;
 
     constructor(
         private _formBuilder: FormBuilder,

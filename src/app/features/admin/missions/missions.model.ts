@@ -18,3 +18,5 @@ export interface Mission
 }
 
 
+export const missionTypes: string[] = ['InReach', 'OutReach'];
+export const missionCategoryList: string[] = ['ROSA' , 'Healing Streams'];

@@ -1,0 +1,26 @@
+.missions-create-dialog {
+
+    .mat-dialog-container {
+        padding: 0;
+
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+    }
+
+    .dialog-content-wrapper {
+        max-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mat-dialog-content {
+        padding: 5px !important;
+    }
+
+    .mat-expansion-panel-body {
+        padding: 0 10px 16px;
+    }
+}
+

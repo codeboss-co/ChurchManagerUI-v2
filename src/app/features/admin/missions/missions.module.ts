@@ -27,13 +27,18 @@ import { MissionDetailComponent } from '@features/admin/missions/_components/det
 import { MissionsListComponent } from '@features/admin/missions/_components/list/missions-list.component';
 import { MissionsListQueryComponent } from '@features/admin/missions/_components/list-query/missions-list-query.component';
 import { GeneralTableModule } from '@ui/components/general-table/general-table.module';
+import { MissionsCreateDialogComponent } from '@features/admin/missions/_components/create/missions-create-dialog.component';
+import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
         MissionsComponent,
         MissionsListComponent,
         MissionsListQueryComponent,
-        MissionDetailComponent
+        MissionDetailComponent,
+        MissionsCreateDialogComponent
     ],
     imports:[
         RouterModule.forChild(missionsRoutes),
@@ -43,6 +48,8 @@ import { GeneralTableModule } from '@ui/components/general-table/general-table.m
         MatButtonToggleModule,
         MatCheckboxModule,
         MatDatepickerModule,
+        MatDialogModule,
+        MatFormFieldModule,
         MatInputModule,
         MatIconModule,
         MatListModule,
@@ -59,6 +66,7 @@ import { GeneralTableModule } from '@ui/components/general-table/general-table.m
 
         // Fuse
         FuseAutogrowModule,
+        FuseScrollbarModule,
 
         // UI Controls
         GeneralTableModule
