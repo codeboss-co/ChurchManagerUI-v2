@@ -30,7 +30,7 @@ export class MissionsCreateDialogComponent implements OnInit
 
         if ( this.action === FormActions.New)
         {
-            this.dialogTitle = 'New Mission';
+            this.dialogTitle = 'New Mission: ' + this.missionStreamCtrl.value;
         }
 
         this.form = this.createForm();
@@ -58,14 +58,13 @@ export class MissionsCreateDialogComponent implements OnInit
                 church: [null],
                 churchGroup: [null],
                 person: [null],
-                communicationPreference: [null],
-                startDate: [null],
+                startDate: [new Date(), Validators.required],
                 endDate: [null]
             } );
     }
 
     add()
     {
-      console.log('create mission')
+      console.log('create mission', this.form.value);
     }
 }

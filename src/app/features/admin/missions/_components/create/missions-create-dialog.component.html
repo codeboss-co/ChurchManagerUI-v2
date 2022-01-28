@@ -16,6 +16,16 @@
 
         <form [formGroup]="form" class="flex flex-col">
 
+            <!-- Mission Level -->
+            <div class="flex flex-col mb-6">
+                <mat-label>Mission level</mat-label>
+                <mat-button-toggle-group  [formControl]="missionStreamCtrl">
+                    <mat-button-toggle value="Group">Group</mat-button-toggle>
+                    <mat-button-toggle value="Church">Church</mat-button-toggle>
+                    <mat-button-toggle value="Person">Person</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
             <cm-church-groups-control
                 *ngIf="missionStreamCtrl.value === 'Group'"
                 formControlName="churchGroup"
@@ -32,27 +42,19 @@
                 formControlName="person">
             </person-autocomplete-control>
 
-            <!-- Mission Stream -->
-            <div class="flex flex-col mb-6">
-                <mat-label>Mission Stream</mat-label>
-                <mat-button-toggle-group  [formControl]="missionStreamCtrl">
-                    <mat-button-toggle value="Group">Group</mat-button-toggle>
-                    <mat-button-toggle value="Church">Church</mat-button-toggle>
-                    <mat-button-toggle value="Person">Person</mat-button-toggle>
-                </mat-button-toggle-group>
-            </div>
+
 
             <div class="flex flex-wrap justify-around">
                 <mat-form-field appearance="outline">
-                    <mat-label>Types</mat-label>
-                    <mat-select formControlName="type" multiple>
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type">
                         <mat-option *ngFor="let type of missionTypes" [value]="type">{{type}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Category</mat-label>
-                    <mat-select formControlName="category" multiple>
+                    <mat-select formControlName="category">
                         <mat-option *ngFor="let category of categoryList" [value]="category">{{category}}</mat-option>
                     </mat-select>
                 </mat-form-field>
