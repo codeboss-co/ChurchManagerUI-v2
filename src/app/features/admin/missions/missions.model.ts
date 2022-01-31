@@ -13,6 +13,7 @@ export interface Mission
     name: string;
     type: string;
     category: string;
+    stream?: string;
     startDateTime?: Date | string;
     endDateTime?: Date | string;
     attendance?: Attendance;

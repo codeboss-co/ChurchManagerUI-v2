@@ -56,6 +56,7 @@ export class MissionsListComponent implements OnInit
                 } },
             { columnDef: 'type',     header: 'Type',     cell: (element: Mission) => `${element.type}` },
             { columnDef: 'category',   header: 'Category',   cell: (element: Mission) => `${element.category}` },
+            { columnDef: 'stream',   header: 'Stream',   cell: (element: Mission) => `${element.stream}` },
             { columnDef: 'attendanceCount',   header: 'Attendance',   cell: (element: Mission) => `${element.attendance?.attendanceCount}` },
             { columnDef: 'firstTimerCount',   header: 'First Timers',   cell: (element: Mission) => `${element.attendance?.firstTimerCount}` },
             { columnDef: 'newConvertCount',   header: 'New Converts',   cell: (element: Mission) => `${element.attendance?.newConvertCount}` },
