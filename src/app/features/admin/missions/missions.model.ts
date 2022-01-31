@@ -15,6 +15,7 @@ export interface Mission
     category: string;
     startDateTime?: Date | string;
     endDateTime?: Date | string;
+    attendance?: Attendance;
 }
 
 export interface Attendance {
