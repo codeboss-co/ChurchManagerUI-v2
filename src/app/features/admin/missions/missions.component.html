@@ -60,8 +60,8 @@
                     <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
                 </button>
                 <mat-menu #actionsMenu="matMenu">
-                    <button mat-menu-item [routerLink]="'/apps/groups/cell-ministry/attendance-reports'">View Missions</button>
-                    <button mat-menu-item [routerLink]="'/apps/groups/cell-ministry/attendance-report-submissions'">New Mission</button>
+                    <button mat-menu-item [routerLink]="'/apps/missions/list'">View Missions</button>
+                    <button mat-menu-item (click)="createMission()">New Mission</button>
                 </mat-menu>
             </div>
         </div>
