@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Person, PersonModel } from '../../people.model';
 import { FamilyMember } from './person-form.model';
+import { FormAction, FormActions } from '@shared/shared.models';
 
 @Component( {
     selector: 'people-person-form-dialog',
@@ -10,9 +11,9 @@ import { FamilyMember } from './person-form.model';
     styleUrls: ['./person-form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None
 } )
-export class PersonFormDialogComponent implements OnInit
+export class PersonFormDialogComponent
 {
-    action: string;
+    action: FormAction | 'add_person';
     familyName: string;
     familyId?: number;
     person: Person;
@@ -34,7 +35,7 @@ export class PersonFormDialogComponent implements OnInit
         // Set the defaults
         this.action = _data.action;
 
-        if ( this.action === 'edit' )
+        if ( this.action === FormActions.Edit )
         {
             this.dialogTitle = 'Edit Person';
             this.person = _data.person;
@@ -58,10 +59,6 @@ export class PersonFormDialogComponent implements OnInit
         }
 
         this.form = this.createForm();
-    }
-
-    ngOnInit(): void
-    {
     }
 
     // -----------------------------------------------------------------------------------------------------

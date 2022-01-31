@@ -1,0 +1,167 @@
+<div class="dialog-content-wrapper">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 p-4  mb-4 bg-primary text-on-primary">
+        <div class="text-lg">{{dialogTitle}}</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fuseScrollbar>
+
+        <form [formGroup]="form" class="flex flex-col">
+
+            <div class="flex flex-wrap justify-around mb-6">
+                <!-- Start Date -->
+                <mat-form-field class="fuse-mat-no-subscript flex-auto">
+                    <mat-label>Start Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="startDatepicker"
+                        formControlName="startDate"
+                        [placeholder]="'Start Date'"
+                        required>
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="startDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #startDatepicker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- End Date -->
+                <mat-form-field class="fuse-mat-no-subscript flex-auto">
+                    <mat-label>End Date (Optional)</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="endDatepicker"
+                        formControlName="endDate"
+                        [placeholder]="'End Date'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="endDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #endDatepicker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+
+            <!-- Name & Description -->
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Description (Optional)</mat-label>
+                <input matInput formControlName="description">
+            </mat-form-field>
+
+            <!-- Types -->
+            <div class="flex flex-wrap justify-around">
+                <mat-form-field appearance="outline">
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type" required>
+                        <mat-option *ngFor="let type of missionTypes" [value]="type">{{type}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="category" required>
+                        <mat-option *ngFor="let category of categoryList" [value]="category">{{category}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+
+            <!-- Mission Level -->
+            <div class="flex flex-col mb-6">
+                <mat-label>Mission level</mat-label>
+                <mat-button-toggle-group  [formControl]="missionStreamCtrl">
+                    <mat-button-toggle value="Group">Group</mat-button-toggle>
+                    <mat-button-toggle value="Church">Church</mat-button-toggle>
+                    <mat-button-toggle value="Person">Person</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <cm-church-groups-control
+                *ngIf="missionStreamCtrl.value === 'Group'"
+                formControlName="churchGroup"
+                [allowAllGroupsSelect]="false"
+                [required]="false">
+            </cm-church-groups-control>
+
+            <churches-select-control
+                *ngIf="missionStreamCtrl.value === 'Church'"
+                formControlName="church">
+            </churches-select-control>
+
+            <person-autocomplete-control
+                *ngIf="missionStreamCtrl.value === 'Person'"
+                formControlName="person">
+            </person-autocomplete-control>
+
+
+            <!-- Attendance Records -->
+            <div  class="font-medium">Attendance Record</div>
+
+            <div  formGroupName="attendance">
+                <div class="flex flex-wrap justify-around mt-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Total Attendance</mat-label>
+                        <input matInput formControlName="attendanceCount">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>First Timers</mat-label>
+                        <input matInput formControlName="firstTimerCount">
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-wrap justify-around">
+                    <mat-form-field appearance="outline">
+                        <mat-label>New Converts</mat-label>
+                        <input matInput formControlName="newConvertCount">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Received Holy Spirit</mat-label>
+                        <input matInput formControlName="receivedHolySpiritCount">
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center mt-10 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+
+        <!-- Cancel -->
+        <button
+            class="ml-auto"
+            mat-button
+            [matTooltip]="'Cancel'"
+            (click)="matDialogRef.close()">
+            Cancel
+        </button>
+        <!-- Save -->
+        <button
+            class="ml-2"
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="form.invalid"
+            [matTooltip]="'Save'"
+            (click)="add()">
+            Add
+        </button>
+    </div>
+</div>

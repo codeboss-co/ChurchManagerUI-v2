@@ -13,8 +13,20 @@ export interface Mission
     name: string;
     type: string;
     category: string;
+    stream?: string;
     startDateTime?: Date | string;
     endDateTime?: Date | string;
+    attendance?: Attendance;
+}
+
+export interface Attendance {
+    attendanceCount?: number;
+    firstTimerCount?: number;
+    newConvertCount?: number;
+    receivedHolySpiritCount?: number;
 }
 
 
+export const missionTypes: string[] = ['InReach', 'OutReach'];
+export const missionCategoryList: string[] = ['ROSA' , 'Healing Streams'];
+export const missionStreams: string[] = ['Person' , 'Group', 'Church'];
