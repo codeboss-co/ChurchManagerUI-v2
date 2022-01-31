@@ -10,7 +10,7 @@
         <mat-form-field appearance="outline">
             <mat-label>Select Group</mat-label>
             <mat-select formControlName="groupId" required>
-                <mat-option value="0">{{noSelectionLabel}}</mat-option>
+                <mat-option *ngIf="allowAllGroupsSelect" value="0">{{noSelectionLabel}}</mat-option>
                 <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
             </mat-select>
         </mat-form-field>

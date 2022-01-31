@@ -11,8 +11,8 @@
 
         <mat-form-field appearance="outline">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="severity" multiple>
-                <mat-option *ngFor="let severity of categoryList" [value]="severity">{{severity}}</mat-option>
+            <mat-select formControlName="categories" multiple>
+                <mat-option *ngFor="let category of categoryList" [value]="category">{{category}}</mat-option>
             </mat-select>
         </mat-form-field>
 

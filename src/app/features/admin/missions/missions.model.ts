@@ -17,4 +17,13 @@ export interface Mission
     endDateTime?: Date | string;
 }
 
+export interface Attendance {
+    attendanceCount?: number;
+    firstTimerCount?: number;
+    newConvertCount?: number;
+    receivedHolySpiritCount?: number;
+}
 
+
+export const missionTypes: string[] = ['InReach', 'OutReach'];
+export const missionCategoryList: string[] = ['ROSA' , 'Healing Streams'];
