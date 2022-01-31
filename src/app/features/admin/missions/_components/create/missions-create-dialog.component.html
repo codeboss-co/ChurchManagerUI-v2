@@ -93,7 +93,8 @@
             <cm-church-groups-control
                 *ngIf="missionStreamCtrl.value === 'Group'"
                 formControlName="churchGroup"
-                [allowAllGroupsSelect]="false">
+                [allowAllGroupsSelect]="false"
+                [required]="false">
             </cm-church-groups-control>
 
             <churches-select-control

@@ -4,8 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash-es';
-import { MissionsQuery, missionTypes, missionCategoryList } from '@features/admin/missions';
-import { FollowUpQuery } from '../../../../../pages/profile/tabs/followup/follow-up.models';
+import { MissionsQuery, missionTypes, missionCategoryList, missionStreams } from '@features/admin/missions';
 
 @Component({
   selector: 'missions-list-query',
@@ -16,6 +15,7 @@ export class MissionsListQueryComponent extends QueryBase<MissionsQuery> impleme
 {
     missionTypes = missionTypes;
     categoryList = missionCategoryList;
+    missionStreams = missionStreams;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -27,7 +27,8 @@ export class MissionsListQueryComponent extends QueryBase<MissionsQuery> impleme
       this.searchForm = this._formBuilder.group({
           types: [],
           categories: [],
-          groupId: [null],
+          streams: [],
+          churchGroup: [null],
           from: [null],
           to: [null]
       });
@@ -47,11 +48,20 @@ export class MissionsListQueryComponent extends QueryBase<MissionsQuery> impleme
               filter( () =>  this.searchForm.valid),
               map( (_) => {
 
-                  const query: FollowUpQuery = cloneDeep(this.searchForm.value);
+                  const query = cloneDeep(this.searchForm.value);
 
-                  console.log('FollowUpQuery', query);
+                  const {types, categories, streams, churchGroup, from, to} = query;
 
-                  return query;
+                  console.log('MissionsQuery', query);
+
+                  return {
+                      types,
+                      categories,
+                      streams,
+                      groupId: churchGroup?.groupId,
+                      from,
+                      to
+                  };
               })
           );
   }

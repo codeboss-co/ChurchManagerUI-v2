@@ -24,6 +24,7 @@ export class ChurchGroupsSelectControlComponent implements ControlValueAccessor,
 
     @Input() allowAllGroupsSelect = true;
     @Input() noSelectionLabel = '-- All Groups --';
+    @Input() required = true;
 
     public form = new FormGroup( {
         churchId: new FormControl( null, [Validators.required] ),

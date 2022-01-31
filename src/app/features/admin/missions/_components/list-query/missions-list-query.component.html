@@ -10,11 +10,23 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
+            <mat-label>Categories</mat-label>
             <mat-select formControlName="categories" multiple>
                 <mat-option *ngFor="let category of categoryList" [value]="category">{{category}}</mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Streams</mat-label>
+            <mat-select formControlName="streams" multiple>
+                <mat-option *ngFor="let stream of missionStreams" [value]="stream">{{stream}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <cm-church-groups-control
+            formControlName="churchGroup"
+            [required]="false">
+        </cm-church-groups-control>
 
         <mat-form-field appearance="outline" style='width: 280px'>
             <mat-label>Date range</mat-label>
