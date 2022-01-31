@@ -5,6 +5,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { ENV } from '@shared/constants';
 import { Environment } from '@shared/environment.model';
 import { ToastrService } from '@core/notifications/toastr.service';
+import { CmHttpErrorResponse } from '@shared/shared.models';
 
 
 @Injectable()
@@ -21,10 +22,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         return next.handle(req).pipe(
             retry(2),
-            catchError((error: HttpErrorResponse) => {
+            catchError((error: HttpErrorResponse | CmHttpErrorResponse) => {
                 // 401 handled in auth.interceptor
                 if (error && error.status !== 401) {
-                    console.log('Error Interceptor');
+                    console.log('Error Interceptor', error);
 
                     if (this.environment.production) {
                         this.messenger.error( 'Something has gone wrong.', 'OK', this.toastConfig );

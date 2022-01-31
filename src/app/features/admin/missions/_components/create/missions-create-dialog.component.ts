@@ -3,6 +3,9 @@ import { FormAction, FormActions } from '@shared/shared.models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { missionCategoryList , missionTypes} from '@features/admin/missions';
+import moment from 'moment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component( {
     selector: 'missions-add-dialog',
@@ -19,6 +22,9 @@ export class MissionsCreateDialogComponent implements OnInit
 
     missionTypes = missionTypes;
     categoryList = missionCategoryList;
+
+    private readonly _destroyed$: Subject<void> = new Subject();
+    private readonly _numbersOnlyPattern = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
 
     constructor(
         public matDialogRef: MatDialogRef<MissionsCreateDialogComponent>,
@@ -38,6 +44,10 @@ export class MissionsCreateDialogComponent implements OnInit
 
     ngOnInit(): void
     {
+        this.missionStreamCtrl
+            .valueChanges
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe(value => this.dialogTitle = 'New Mission: ' + value);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -53,18 +63,43 @@ export class MissionsCreateDialogComponent implements OnInit
     {
         return this._formBuilder.group(
             {
+                name: [null, Validators.required],
+                description: [null],
                 type: [null, Validators.required],
                 category: [null, Validators.required],
                 church: [null],
-                churchGroup: [null],
+                churchGroup: [null], // Group selection
                 person: [null],
-                startDate: [new Date(), Validators.required],
-                endDate: [null]
+                startDate: [moment(), Validators.required],
+                endDate: [null],
+
+                attendance:  this._formBuilder.group({
+                    attendanceCount: [null, Validators.pattern(this._numbersOnlyPattern)],
+                    firstTimerCount: [null, Validators.pattern(this._numbersOnlyPattern)],
+                    newConvertCount: [null, Validators.pattern(this._numbersOnlyPattern)],
+                    receivedHolySpiritCount: [null, Validators.pattern(this._numbersOnlyPattern)],
+                })
             } );
     }
 
     add()
     {
-      console.log('create mission', this.form.value);
+        const {name, description, type, category, church: churchId, churchGroup, person, startDate: startDateTime, endDate: endDateTime, attendance }  = this.form.value;
+
+        const model = {
+            name,
+            description,
+            type,
+            category,
+            churchId,
+            groupId: churchGroup?.groupId,
+            personId: person?.id,
+            startDateTime,
+            endDateTime,
+            attendance
+        };
+
+        console.log('create mission', model);
+        this.matDialogRef.close(model);
     }
 }

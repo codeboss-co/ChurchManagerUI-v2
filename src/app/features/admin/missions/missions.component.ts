@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { MissionsCreateDialogComponent } from '@features/admin/missions/_components/create/missions-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormActions } from '@shared/shared.models';
+import { filter, first, switchMap, tap } from 'rxjs/operators';
+import { MissionsDataService } from '@features/admin/missions/_services/missions-data.service';
+import { EMPTY } from 'rxjs';
 
 @Component({
     selector       : 'missions',
@@ -17,7 +20,9 @@ export class MissionsComponent
     /**
      * Constructor
      */
-    constructor(private _matDialog: MatDialog)
+    constructor(
+        private _matDialog: MatDialog,
+        private _data: MissionsDataService)
     {
     }
 
@@ -31,13 +36,14 @@ export class MissionsComponent
         });
 
         this.dialogRef.afterClosed()
-            .subscribe((response) => {
-                if ( !response )
-                {
-                    return;
+            .pipe(first())
+            .pipe(switchMap((response) => {
+                if (!response){
+                    return EMPTY;
                 }
 
-                // Do something here
-            });
+                return this._data.createMission(response);
+            }))
+            .subscribe();
     }
 }

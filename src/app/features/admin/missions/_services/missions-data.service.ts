@@ -52,10 +52,19 @@ export class MissionsDataService extends HttpBaseService {
     /**
      * Get mission
      */
-    getFamilyById$( missionId: number) {
+    getFamilyById$( missionId: number)
+    {
         return super.get<ApiResponse>(`${this._apiUrl}/v1/missions/${missionId}`, null)
             .pipe(
                 map(response => response.data)
             );
+    }
+
+    /**
+     * Add mission
+     */
+    createMission( model: any ): Observable<ApiResponse>
+    {
+        return super.post<ApiResponse>(`${this._apiUrl}/v1/missions`, model);
     }
 }

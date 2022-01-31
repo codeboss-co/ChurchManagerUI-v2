@@ -34,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ChurchGroupsSelectControlModule } from '@ui/controls/church-groups-select-control/church-groups-select-control.module';
 import { PersonAutocompleteControlModule } from '@ui/controls/person-autocomplete-control/person-autocomplete-control.module';
 import { ChurchesSelectControlModule } from '@ui/controls/churches-select-control/churches-select-control.module';
+import { MissionsDataService } from '@features/admin/missions/_services/missions-data.service';
 
 @NgModule({
     declarations: [
@@ -79,7 +80,8 @@ import { ChurchesSelectControlModule } from '@ui/controls/churches-select-contro
     ],
     providers: [
         MissionResolver,
-        MissionsService
+        MissionsService,
+        MissionsDataService
     ]
 })
 export class MissionsModule

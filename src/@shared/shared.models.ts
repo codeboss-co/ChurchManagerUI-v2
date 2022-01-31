@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+
 export interface ApiResponse
 {
     succeeded: boolean;
@@ -82,5 +84,33 @@ export enum PeriodTypes
     LastMonth = 60,
     ThisYear = 70,
     AllTime = 100
+}
+
+
+/**
+* Errors
+*/
+
+export interface Errors {
+    name?: string[];
+}
+
+export interface Error {
+    type?: string;
+    title?: string;
+    status?: number;
+    traceId?: string;
+    errors?: Errors;
+}
+
+export interface CmHttpErrorResponse
+{
+    headers: HttpHeaders;
+    status?: number;
+    statusText?: string;
+    url?: string;
+    ok?: boolean;
+    message?: string;
+    error?: Error;
 }
 
