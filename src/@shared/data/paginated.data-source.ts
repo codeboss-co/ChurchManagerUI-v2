@@ -20,7 +20,6 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
         initialSort: Sort<TModel>,
         initialQuery: TQuery,
         public pageSize = 10) {
-
         this._query = new BehaviorSubject<TQuery>(initialQuery);
         this._sort = new BehaviorSubject<Sort<TModel>>(initialSort);
 
@@ -48,7 +47,7 @@ export class PaginatedDataSource<TModel, TQuery> implements SimpleDataSource<TMo
     queryBy( query: Partial<TQuery> ): void {
         const lastQuery = this._query.getValue();
         const nextQuery = { ...lastQuery, ...query };
-        this._pageNumber.next(0);
+        //this._pageNumber.next(0);  CAUSING 2 calls as it was updating stream 2 times
         this._query.next( nextQuery );
     }
 
