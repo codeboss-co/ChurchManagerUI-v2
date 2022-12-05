@@ -61,7 +61,7 @@ jobs:
       run: |
           npm run ng build -- --configuration ${{ env.ENVIRONMENT }} --output-path=dist
           cp ./scripts/_headers ./dist/_headers # headers file for Netlify
-          cp ./src/assets/pushalert/* ./dist
+          cp ./src/assets/pushalert/* ./dist 
 
     - name: ⏭ Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.2
